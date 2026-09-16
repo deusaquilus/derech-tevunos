@@ -56,9 +56,14 @@ const hintHtml = sugya.hint === undefined ? undefined : markupToHtml(sugya.hint)
       aria-controls="railPanel"
       title="Show the passages and the key to the drawing"
     >
-      <span class="cite">{cite}</span>
-      <span class="title">{sugya.title}</span>
-      <span class="meta">{sugya.units.length} sentences · {movements} movements</span>
+      {/* One group, so the three sit on a shared baseline and the group as a
+          whole is centred in the strip. Flattening these back into `.line`
+          puts them back at its top edge — see `.line-text` below. */}
+      <span class="line-text">
+        <span class="cite">{cite}</span>
+        <span class="title">{sugya.title}</span>
+        <span class="meta">{sugya.units.length} sentences · {movements} movements</span>
+      </span>
       <span class="more" aria-hidden="true">
         passages &amp; key
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
@@ -153,17 +158,37 @@ const hintHtml = sugya.hint === undefined ? undefined : markupToHtml(sugya.hint)
 
   .line {
     display: flex;
-    align-items: baseline;
+    align-items: center;
     gap: 0.9rem;
     width: 100%;
     height: 40px;
-    padding: 0 1.25rem;
+    /* `2rem`, the site nav's gutter and the sheet's `--sheet-gutter`: the
+       nav's brand, this cite, the state-of-play bar, the rows and the foot
+       control all begin on one left edge. Do not tune this alone. */
+    padding: 0 2rem;
     background: none;
     border: 0;
     color: inherit;
     font: inherit;
     text-align: left;
     cursor: pointer;
+  }
+
+  /* The cite, the title and the counts are three sizes on one line, so they
+     have to share a baseline — centring each of them separately leaves the
+     11px caps riding high against the 15px title. But `align-items: baseline`
+     on a fixed-height flex line parks the whole baseline group at the TOP of
+     the cross axis: measured 2026-09-16, the title's ink sat 8px above the
+     40px strip's centre with all the slack under it. So the baseline group is
+     its own flex box, and `.line` centres that box. `flex: 1 1 auto` with
+     `min-width: 0` is what keeps the title's ellipsis working when the strip
+     is narrower than the three of them. */
+  .line-text {
+    display: flex;
+    align-items: baseline;
+    gap: 0.9rem;
+    flex: 1 1 auto;
+    min-width: 0;
   }
 
   .cite {
@@ -234,7 +259,7 @@ const hintHtml = sugya.hint === undefined ? undefined : markupToHtml(sugya.hint)
     top: 100%;
     left: 0;
     right: 0;
-    padding: 1rem 1.25rem 1.25rem;
+    padding: 1rem 2rem 1.25rem;
     /* The page is clamped, so a panel taller than what is left of the
        viewport would simply be cut off. Cap it and let it scroll inside
        itself — with the scrollbar hidden, like the sheet. The 90px is the
@@ -334,18 +359,27 @@ const hintHtml = sugya.hint === undefined ? undefined : markupToHtml(sugya.hint)
     display: none;
   }
 
-  @media (max-width: 720px) {
+  /* The nav's breakpoint and the nav's narrow gutter, matching
+     `--sheet-gutter`'s own 640px rule. Kept separate from the 720px rule
+     below, which is about the counts not fitting, not about the margin. */
+  @media (max-width: 640px) {
     .line {
+      padding: 0 1rem;
+    }
+
+    .panel {
+      padding: 0.85rem 1rem 1rem;
+    }
+  }
+
+  @media (max-width: 720px) {
+    .line,
+    .line-text {
       gap: 0.6rem;
-      padding: 0 0.85rem;
     }
 
     .meta {
       display: none;
-    }
-
-    .panel {
-      padding: 0.85rem 0.85rem 1rem;
     }
   }
 </style>

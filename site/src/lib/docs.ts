@@ -9,13 +9,13 @@ export type Doc = CollectionEntry<'docs'>;
  */
 const CATEGORY_RANK: ReadonlyMap<string, number> = new Map([
   ['The text', 0],
-  ['The rail', 1],
+  ['Sugyascade', 1],
   ['Reference', 2],
 ]);
 
 export const CATEGORY_BLURB: ReadonlyMap<string, string> = new Map([
   ['The text', "Derech Tevunos itself — the 1742 Hebrew and an English translation of it, chapter by chapter."],
-  ['The rail', 'How the visualization reads a sugya, and what its parts mean.'],
+  ['Sugyascade', 'How the visualization reads a sugya, and what its parts mean.'],
   ['Reference', 'The sugya file format and the label vocabularies.'],
 ]);
 

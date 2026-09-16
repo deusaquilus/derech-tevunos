@@ -193,7 +193,8 @@ collected more than one name. Pin them.
 
 | Term | What it means | Not |
 |---|---|---|
-| **waterfall** | The layout `site/src/rail/` draws: a staircase of rows, one per labelled sentence, plus rails and folds. The preferred name for the drawing as a whole. | Any *computed* construction |
+| **Sugyascade** | The user-facing proper noun for the drawing this site ships — settled 2026-09-16. A coinage on *sugya* + *cascade*: a cascade descends over a series of ledges, which is the shape, and it already means a chain where each stage is triggered by the last, which is the dialectic. Capitalized, never "the sugyascade". | The generic layout; anything `web/` draws |
+| **waterfall** | The layout `site/src/rail/` draws: a staircase of rows, one per labelled sentence, plus rails and folds. The common noun for the genre, and the preferred name for the drawing as a whole in agent-facing prose. | Any *computed* construction |
 | **glyph lattice** | An earlier name for the same waterfall, from when it was a standalone app called `sugya-lattice`. Do not use it in new prose. | A concept lattice |
 | **concept lattice** | The FCA construction in `derech-tevunos-visualization-spec.md`, implemented in `web/`. A genuinely different visualization that *computes* something. | The waterfall |
 | **rail** | The connector drawn for one relation that reaches back many rows. | The whole drawing; a row |
@@ -487,6 +488,25 @@ drag meant for the sheet moved the document instead. So on every rail route
   row geometry, so a header that changed the sheet's height would re-measure
   every rail and elbow on every hover. Engaging the sheet (wheel, pointer,
   touch) closes the panel.
+- **The strip's three texts are one baseline group, centred as a unit.** The
+  cite, the title and the counts are three sizes on one line, so they share a
+  baseline — but `align-items: baseline` on a fixed-height flex line parks the
+  whole group at the *top* of the cross axis, which is where they sat until
+  2026-09-16 (measured: the title's ink 8px above the 40px strip's centre,
+  every pixel of slack beneath it). So they live in a `.line-text` flex box
+  that keeps the shared baseline, and `.line` centres that box. Do not flatten
+  the wrapper away, and do not "fix" it by centring each span separately: at
+  11px caps against a 15px title that leaves the cite riding high.
+- **One left edge for the whole page, `2rem`.** `--sheet-gutter` on `.sheet`
+  feeds the state-of-play bar, the rows and the foot control; the strip and
+  the panel are set to the same literal, as is the nav (`Navigation.astro`).
+  It drops to `1rem` at 640px, the nav's own breakpoint and value, so the two
+  agree at every width — the strip's other media query, at 720px, is about the
+  counts not fitting and must not acquire a padding rule. Measured before this
+  existed: the nav's brand at 32px, the strip's cite at 20px, the bar, rows
+  and foot at 28px — three ragged edges in one vertical stack. Verified after,
+  at six widths from 1280 to 390: nav, cite, bar and foot all on the gutter,
+  and the strip, the panel and the reveal rail all ending on it.
 - **Scrollbars are hidden, not removed.** The rows and the panel scroll with
   `scrollbar-width: none`; the switcher is a wrapping grid so it has nothing
   to scroll. On a 390px phone the grid must be two columns — one column put the
@@ -498,7 +518,8 @@ drag meant for the sheet moved the document instead. So on every rail route
   drawing that must own the screen left the drawing nothing.
 
 Verified 2026-09-16 (re-cut) by 21 automated checks on the 77-sentence
-passage and 9 on the 4-sentence homepage at 1280×800, plus 8 at 390×844:
+passage and 9 on the 4-sentence homepage at 1280×800, plus 8 at 390×844, and
+24 more across six widths for the strip's centring and the gutter:
 window and `.stage-sheet` scroll stay 0 under wheel while `.stage-rows` moves;
 the panel opens without changing the sheet's geometry; the legend's tooltip
 stays inside the panel; a switch clicked in the panel toggles and a wheel over
@@ -592,6 +613,10 @@ caption.
   bound is honest.
 - Use "lattice" for the waterfall in new prose, or "concept lattice" for
   anything `src/rail/` draws. See "Terminology".
+- Name the whole drawing after one of its parts in user-facing chrome. The nav
+  item and the 404 button said "The rail" until 2026-09-16, which is the exact
+  synecdoche the "rail" row of the terminology table forbids; they say
+  **Sugyascade** now. See "Terminology".
 - Remove, shorten, or reword code comments when moving or refactoring code.
   Comments travel verbatim with the code they describe.
 - Disable, skip, or delete a failing test to make a build pass.
@@ -607,6 +632,10 @@ caption.
   foot or the legend conditionally so that the sheet's column changes height
   mid-passage. The three are pinned flex children and the legend is in the
   panel; each was measured. See "The rail owns the viewport".
+- Write a side padding on a rail route that is not `--sheet-gutter` (or, in
+  `RailStage.astro`, the same `2rem`), or flatten the strip's `.line-text`
+  wrapper back into `.line`. The first gives the page a second left edge; the
+  second puts the strip's text back at its top edge.
 - Hand-edit anything under `src/content/docs/text/` — it is generated by
   `npm run build-text` from the bilingual source and gitignored.
 - Lighten the site's brass toward the rail's `--doubt` amber, emit a

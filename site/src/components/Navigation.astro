@@ -7,7 +7,7 @@ const path = Astro.url.pathname;
 const isHome = path === '/' || path.startsWith('/sugya');
 
 const links = [
-  { href: '/', label: 'The rail', active: isHome },
+  { href: '/', label: 'Sugyascade', active: isHome },
   { href: '/docs', label: 'Docs', active: path.startsWith('/docs') },
   { href: '/blog', label: 'Notes', active: path.startsWith('/blog') },
 ];

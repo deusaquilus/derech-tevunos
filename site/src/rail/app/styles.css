@@ -86,6 +86,24 @@
   flex-direction: column;
   min-height: 0;
   background: var(--surface);
+  /* ONE left edge for the whole page. The state-of-play bar, the rows and the
+     foot control all take their side padding from this, and the site's strip
+     and panel (`RailStage.astro`) are set to the same figure, as is the site
+     nav above them (`Navigation.astro`, `padding: 0 2rem`). Measured before
+     this was introduced, 2026-09-16: the nav's brand started at 32px, the
+     strip's cite at 20px and the bar, rows and foot at 28px — three ragged
+     left edges in one vertical stack. The property is declared here rather
+     than on `:root` so it stays inside the rail's article and cannot collide
+     with the site's `--dt-*` tokens. */
+  --sheet-gutter: 2rem;
+}
+
+/* The nav's own narrow-screen gutter, at the nav's own breakpoint, so the two
+   never disagree at any width. */
+@media (max-width: 640px) {
+  .sheet {
+    --sheet-gutter: 1rem;
+  }
 }
 
 .sheet-head h2 {
@@ -452,7 +470,7 @@
   flex-wrap: wrap;
   align-items: center;
   gap: 8px 14px;
-  padding: 8px 28px;
+  padding: 8px var(--sheet-gutter);
   border-bottom: 1px solid var(--border);
 }
 
@@ -516,7 +534,9 @@
   min-height: 0;
   overflow-y: auto;
   overflow-x: hidden;
-  padding: 6px 12px 16px 28px;
+  /* The right side is the gap to the dock, not a page margin: the dock
+     carries the gutter on that edge. */
+  padding: 6px 12px 16px var(--sheet-gutter);
   scrollbar-width: none;
 }
 
@@ -1374,7 +1394,7 @@
   gap: 8px;
   width: max-content;
   max-width: 100%;
-  padding: 7px 28px 9px;
+  padding: 7px var(--sheet-gutter) 9px;
 }
 
 .sheet-foot-count {
@@ -1460,7 +1480,10 @@
   display: flex;
   flex: none;
   flex-direction: column;
-  padding: 8px 14px 8px 0;
+  /* The dock is the rightmost thing on the page, so it carries the gutter on
+     that edge: the thumb's count ends where the strip's "passages & key"
+     does. */
+  padding: 8px var(--sheet-gutter) 8px 0;
 }
 
 .rail-map {
