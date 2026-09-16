@@ -1,0 +1,590 @@
+{
+  "$schema": "./sugya.schema.json",
+  "format": "derech-tevunos/sugya",
+  "version": 1,
+  "id": "bk-2a-toldos",
+  "title": "Are the derivatives like their primaries?",
+  "tractate": "Bava Kamma",
+  "folio": "2a-3b",
+  "discussedAt": "Not discussed in Derech Tevunos; labelled from stock phrases for the nested-rail study",
+  "party": "party-talmud",
+  "collection": "research",
+  "about": [
+    "Bava Kamma 2a–3b — `אבות ותולדות`: the opening sugya of the tractate.",
+    "The longest passage in the corpus and the one that nests deepest. Rav Pappa's `יש מהן לאו כיוצא בהן` is asked `אהייא` — about which category? — and six candidates are tried in turn, each killed by a `מאי שנא`. Every `אלא` reaches back to the question, so five closers extend one frame; opened, it is the elimination itself, six candidates as rows with their objections folded beside them."
+  ],
+  "hint": "Where to look: walk **50 → 69** with the slider and watch the band under *אהייא* grow as each *אלא* lands, the page staying put. At 69 click the band: the six candidates as rows, each with its objection folded beside it, and the rail from the question to the last *אלא* with the other four as teeth. Click the first candidate’s thread for a rail inside the rail.",
+  "units": [
+    {
+      "id": "mishnah",
+      "speaker": "Mishnah",
+      "short": "Mishnah: four primary categories of damage",
+      "he": "ארבעה אבות נזיקין",
+      "en": "Mishnah: four primary categories of damage",
+      "move": { "element": "statement", "subtype": "firsthand", "attested": false }
+    },
+    {
+      "id": "inf-toldos",
+      "short": "Since it says primaries, there are derivatives",
+      "he": "מדקתני אבות מכלל דאיכא תולדות",
+      "en": "Since it says primaries, there are derivatives",
+      "move": { "element": "statement", "subtype": "inference", "target": "mishnah", "marker": "מדקתני … מכלל ד", "attested": false }
+    },
+    {
+      "id": "q-kayotze",
+      "short": "Are the derivatives like their primaries or not?",
+      "he": "תולדותיהן כיוצא בהן או לאו כיוצא בהן?",
+      "en": "Are the derivatives like their primaries or not?",
+      "move": { "element": "question", "subtype": "principle", "target": "inf-toldos", "attested": false }
+    },
+    {
+      "id": "shabbos",
+      "short": "For Shabbos: thirty-nine primaries, and…",
+      "he": "גבי שבת תנן… תולדותיהן כיוצא בהן",
+      "en": "For Shabbos: thirty-nine primaries, and derivatives are like them",
+      "move": { "element": "statement", "subtype": "reported", "target": "q-kayotze", "marker": "גבי … תנן", "attested": false }
+    },
+    {
+      "id": "q-diff",
+      "short": "Then what distinguishes primary from…",
+      "he": "ומאי איכא בין אב לתולדה?",
+      "en": "Then what distinguishes primary from derivative there?",
+      "move": { "element": "question", "subtype": "query", "target": "shabbos", "marker": "מאי איכא בין … ל…?", "attested": false }
+    },
+    {
+      "id": "a-diff",
+      "short": "Two primaries together are two liabilities; a…",
+      "he": "נפקא מינה",
+      "en": "Two primaries together are two liabilities; a primary and its derivative are one",
+      "move": { "element": "answer", "subtype": "answer", "target": "q-diff", "marker": "נפקא מינה", "attested": false }
+    },
+    {
+      "id": "q-r-eliezer",
+      "short": "For R. Eliezer, who counts them separately,…",
+      "he": "ולרבי אליעזר דמחייב אתולדה במקום אב",
+      "en": "For R. Eliezer, who counts them separately, why call one primary and one derivative?",
+      "move": { "element": "difficulty", "subtype": "objection", "target": "a-diff", "marker": "ולרבי פלוני ד…", "attested": false }
+    },
+    {
+      "id": "a-r-eliezer",
+      "short": "What was significant in the Tabernacle is…",
+      "he": "הך דהוה במשכן חשיבא",
+      "en": "What was significant in the Tabernacle is called primary",
+      "move": { "element": "resolution", "subtype": "settlement", "target": "q-r-eliezer", "attested": false }
+    },
+    {
+      "id": "tumos",
+      "short": "For impurity: primaries defile people and…",
+      "he": "גבי טומאות תנן… תולדותיהן לאו כיוצא בהן",
+      "en": "For impurity: primaries defile people and vessels, derivatives only food and drink",
+      "move": { "element": "statement", "subtype": "reported", "target": "q-kayotze", "marker": "גבי … תנן", "attested": false }
+    },
+    {
+      "id": "q-here",
+      "short": "And here, in damages?",
+      "he": "הכא מאי?",
+      "en": "And here, in damages?",
+      "move": { "element": "question", "subtype": "query", "target": "q-kayotze", "marker": "הכא מאי?", "attested": false }
+    },
+    {
+      "id": "a-rav-pappa",
+      "speaker": "Rav Pappa",
+      "short": "Rav Pappa: some are like their primaries and…",
+      "he": "אמר רב פפא: יש מהן כיוצא בהן ויש מהן לאו כיוצא בהן",
+      "en": "Rav Pappa: some are like their primaries and some are not",
+      "move": { "element": "answer", "subtype": "answer", "target": "q-here", "attested": false }
+    },
+    {
+      "id": "baraisa-shor",
+      "short": "Baraisa: three primaries in the ox — horn,…",
+      "he": "תנו רבנן: שלשה אבות נאמרו בשור",
+      "en": "Baraisa: three primaries in the ox — horn, tooth, foot",
+      "move": { "element": "statement", "subtype": "reported", "target": "a-rav-pappa", "marker": "תנו רבנן", "attested": false }
+    },
+    {
+      "id": "q-keren",
+      "short": "Whence horn?",
+      "he": "קרן מנלן?",
+      "en": "Whence horn?",
+      "move": { "element": "question", "subtype": "query", "target": "baraisa-shor", "marker": "מנלן?", "attested": false }
+    },
+    {
+      "id": "a-keren",
+      "short": "'If it gores' — goring is with the horn, as in…",
+      "he": "דתנו רבנן: כי יגח — אין נגיחה אלא קרן",
+      "en": "'If it gores' — goring is with the horn, as in Zedekiah's iron horns, and 'his firstborn bull… the horns of the wild ox'",
+      "move": { "element": "answer", "subtype": "answer", "target": "q-keren", "marker": "דתנו רבנן", "attested": false }
+    },
+    {
+      "id": "q-veomer",
+      "short": "Why the second verse?",
+      "he": "מאי ואומר?",
+      "en": "Why the second verse?",
+      "move": { "element": "question", "subtype": "query", "target": "a-keren", "marker": "מאי ואומר?", "attested": false }
+    },
+    {
+      "id": "a-veomer",
+      "short": "Lest you say Torah is not derived from the…",
+      "he": "וכי תימא דברי תורה מדברי קבלה לא ילפינן",
+      "en": "Lest you say Torah is not derived from the Prophets — the second verse is Torah",
+      "move": { "element": "answer", "subtype": "answer", "target": "q-veomer", "marker": "וכי תימא", "attested": false }
+    },
+    {
+      "id": "q-gilui",
+      "short": "Is that a derivation? It merely reveals a…",
+      "he": "והאי מילף הוא?! גילוי מילתא בעלמא הוא",
+      "en": "Is that a derivation? It merely reveals a meaning",
+      "move": { "element": "difficulty", "subtype": "objection", "target": "a-veomer", "marker": "גילוי מילתא בעלמא הוא", "attested": false }
+    },
+    {
+      "id": "a-tam-muad",
+      "short": "Rather: lest you say the tam/muad distinction…",
+      "he": "אלא מהו דתימא… בתלושה",
+      "en": "Rather: lest you say the tam/muad distinction applies only to a detached horn",
+      "move": { "element": "answer", "subtype": "answer", "target": "q-veomer", "marker": "אלא מהו דתימא", "attested": false }
+    },
+    {
+      "id": "q-toldah-keren",
+      "short": "What is a derivative of horn?",
+      "he": "תולדה דקרן מאי היא?",
+      "en": "What is a derivative of horn?",
+      "move": { "element": "question", "subtype": "query", "target": "baraisa-shor", "marker": "… מאי היא?", "attested": false }
+    },
+    {
+      "id": "a-toldah-keren",
+      "short": "Pushing, biting, crouching, kicking",
+      "he": "נגיפה, נשיכה, רביצה ובעיטה",
+      "en": "Pushing, biting, crouching, kicking",
+      "move": { "element": "answer", "subtype": "answer", "target": "q-toldah-keren", "attested": false }
+    },
+    {
+      "id": "q-negifa",
+      "short": "Pushing is written too — why is it a derivative?",
+      "he": "נגיפה נמי כתיב כי יגף!",
+      "en": "Pushing is written too — why is it a derivative?",
+      "move": { "element": "difficulty", "subtype": "objection", "target": "a-toldah-keren", "attested": false }
+    },
+    {
+      "id": "a-negifa",
+      "short": "That 'pushing' is goring: the verse opens with…",
+      "he": "האי נגיפה נגיחה היא",
+      "en": "That 'pushing' is goring: the verse opens with one and closes with the other",
+      "move": { "element": "resolution", "subtype": "settlement", "target": "q-negifa", "attested": false }
+    },
+    {
+      "id": "q-adam-behema",
+      "short": "Why 'gore' for a person and 'push' for an…",
+      "he": "מאי שנא גבי אדם דכתיב כי יגח",
+      "en": "Why 'gore' for a person and 'push' for an animal?",
+      "move": { "element": "question", "subtype": "query", "target": "a-negifa", "marker": "מאי שנא … ומאי שנא", "attested": false }
+    },
+    {
+      "id": "a-mazla",
+      "short": "A person has fortune, so the ox must gore; an…",
+      "he": "אדם דאית ליה מזלא",
+      "en": "A person has fortune, so the ox must gore; an animal does not",
+      "move": { "element": "answer", "subtype": "answer", "target": "q-adam-behema", "attested": false }
+    },
+    {
+      "id": "agav-orchei",
+      "short": "Incidentally: forewarned for people is…",
+      "he": "ומלתא אגב אורחיה קא משמע לן",
+      "en": "Incidentally: forewarned for people is forewarned for animals, not the reverse",
+      "move": { "element": "statement", "subtype": "inference", "target": "a-mazla", "marker": "מלתא אגב אורחיה קא משמע לן", "attested": false }
+    },
+    {
+      "id": "q-neshicha",
+      "short": "Biting is a derivative of tooth!",
+      "he": "נשיכה — תולדה דשן היא!",
+      "en": "Biting is a derivative of tooth!",
+      "move": { "element": "difficulty", "subtype": "objection", "target": "a-toldah-keren", "attested": false }
+    },
+    {
+      "id": "a-neshicha",
+      "short": "No: tooth damages for pleasure, biting does not",
+      "he": "לא; שן יש הנאה להזיקה",
+      "en": "No: tooth damages for pleasure, biting does not",
+      "move": { "element": "resolution", "subtype": "settlement", "target": "q-neshicha", "attested": false }
+    },
+    {
+      "id": "q-revitza",
+      "short": "Crouching and kicking are derivatives of foot!",
+      "he": "רביצה ובעיטה — תולדה דרגל היא!",
+      "en": "Crouching and kicking are derivatives of foot!",
+      "move": { "element": "difficulty", "subtype": "objection", "target": "a-toldah-keren", "attested": false }
+    },
+    {
+      "id": "a-revitza",
+      "short": "No: foot damage is common, these are not",
+      "he": "לא; רגל הזיקה מצוי",
+      "en": "No: foot damage is common, these are not",
+      "move": { "element": "resolution", "subtype": "settlement", "target": "q-revitza", "attested": false }
+    },
+    {
+      "id": "q-ahaya",
+      "short": "Then Rav Pappa's 'some are not like their…",
+      "he": "אלא תולדותיהן לאו כיוצא בהן דאמר רב פפא, אהייא?",
+      "en": "Then Rav Pappa's 'some are not like their primaries' — about which?",
+      "move": { "element": "question", "subtype": "query", "target": "a-rav-pappa", "marker": "אהייא?", "attested": false }
+    },
+    {
+      "id": "q-ilema-hanei",
+      "short": "If about these horn derivatives — they too…",
+      "he": "אילימא אהני",
+      "en": "If about these horn derivatives — they too intend harm and are your property",
+      "move": { "element": "difficulty", "subtype": "objection", "target": "q-ahaya", "marker": "אילימא", "attested": false }
+    },
+    {
+      "id": "a-shen-regel",
+      "short": "Rather horn's derivatives are like horn; Rav…",
+      "he": "אלא תולדה דקרן כקרן, וכי קאמר רב פפא — אשן ורגל",
+      "en": "Rather horn's derivatives are like horn; Rav Pappa meant tooth and foot",
+      "move": { "element": "answer", "subtype": "answer", "target": "q-ahaya", "marker": "אלא … וכי קאמר", "attested": false }
+    },
+    {
+      "id": "q-shen-regel-source",
+      "short": "Where are tooth and foot written?",
+      "he": "שן ורגל היכא כתיבי?",
+      "en": "Where are tooth and foot written?",
+      "move": { "element": "question", "subtype": "query", "target": "a-shen-regel", "marker": "היכא כתיבי?", "attested": false }
+    },
+    {
+      "id": "a-shen-regel-source",
+      "short": "'And he sends' is foot; 'and it consumes' is…",
+      "he": "דתניא: ושלח — זה הרגל… ובער — זו השן",
+      "en": "'And he sends' is foot; 'and it consumes' is tooth",
+      "move": { "element": "answer", "subtype": "answer", "target": "q-shen-regel-source", "marker": "דתניא", "attested": false }
+    },
+    {
+      "id": "amar-mar-regel",
+      "short": "The master said 'sends' is foot — without the…",
+      "he": "אמר מר: ושלח זו הרגל… הא לאו הכי במאי מוקמת לה?",
+      "en": "The master said 'sends' is foot — without the proof-verse, what else could it be?",
+      "move": {
+        "element": "difficulty",
+        "subtype": "objection",
+        "target": "a-shen-regel-source",
+        "marker": "אמר מר … הא לאו הכי",
+        "attested": false
+      }
+    },
+    {
+      "id": "q-keren-shen-written",
+      "short": "Horn is written; tooth is written",
+      "he": "אי קרן — כתיב! אי שן — כתיב!",
+      "en": "Horn is written; tooth is written",
+      "move": { "element": "statement", "subtype": "explanation", "target": "amar-mar-regel", "marker": "אי … כתיב! אי … כתיב!", "attested": false }
+    },
+    {
+      "id": "a-itztrich",
+      "short": "Needed: one might have read both verses as tooth",
+      "he": "אצטריך; סלקא דעתך אמינא אידי ואידי אשן",
+      "en": "Needed: one might have read both verses as tooth",
+      "move": {
+        "element": "resolution",
+        "subtype": "settlement",
+        "target": "amar-mar-regel",
+        "marker": "איצטריך, סלקא דעתך אמינא",
+        "attested": false
+      }
+    },
+    {
+      "id": "q-shen-lo-machlya",
+      "short": "Now that one is foot, whence tooth that does…",
+      "he": "והשתא דאוקימנא ארגל, שן דלא מכליא קרנא מנלן?",
+      "en": "Now that one is foot, whence tooth that does not destroy the principal?",
+      "move": { "element": "question", "subtype": "query", "target": "a-itztrich", "marker": "והשתא ד… מנלן?", "attested": false }
+    },
+    {
+      "id": "a-dumya-regel",
+      "short": "By likeness to foot",
+      "he": "דומיא דרגל",
+      "en": "By likeness to foot",
+      "move": { "element": "answer", "subtype": "answer", "target": "q-shen-lo-machlya", "marker": "דומיא ד", "attested": false }
+    },
+    {
+      "id": "amar-mar-shen",
+      "short": "The master said 'consumes' is tooth — without…",
+      "he": "אמר מר: ובער זו השן… הא לאו הכי במאי אוקימנא לה?",
+      "en": "The master said 'consumes' is tooth — without the proof-verse, what else?",
+      "move": {
+        "element": "difficulty",
+        "subtype": "objection",
+        "target": "a-shen-regel-source",
+        "marker": "אמר מר … הא לאו הכי",
+        "attested": false
+      }
+    },
+    {
+      "id": "q-keren-regel-written",
+      "short": "Horn is written; foot is written",
+      "he": "אי קרן — כתיב! אי רגל — כתיב!",
+      "en": "Horn is written; foot is written",
+      "move": { "element": "statement", "subtype": "explanation", "target": "amar-mar-shen", "marker": "אי … כתיב! אי … כתיב!", "attested": false }
+    },
+    {
+      "id": "a-itztrich-2",
+      "short": "Needed: one might have read both as foot",
+      "he": "איצטריך; סלקא דעתך אמינא אידי ואידי ארגל",
+      "en": "Needed: one might have read both as foot",
+      "move": {
+        "element": "resolution",
+        "subtype": "settlement",
+        "target": "amar-mar-shen",
+        "marker": "איצטריך, סלקא דעתך אמינא",
+        "attested": false
+      }
+    },
+    {
+      "id": "q-regel-memeila",
+      "short": "Now that one is tooth, whence foot that walks…",
+      "he": "והשתא דאוקי אשן, רגל דאזלה ממילא מנלן?",
+      "en": "Now that one is tooth, whence foot that walks of itself?",
+      "move": { "element": "question", "subtype": "query", "target": "a-itztrich-2", "marker": "והשתא ד… מנלן?", "attested": false }
+    },
+    {
+      "id": "a-dumya-shen",
+      "short": "By likeness to tooth",
+      "he": "דומיא דשן",
+      "en": "By likeness to tooth",
+      "move": { "element": "answer", "subtype": "answer", "target": "q-regel-memeila", "marker": "דומיא ד", "attested": false }
+    },
+    {
+      "id": "q-just-veshalach",
+      "short": "Let it write only 'sends', which implies both…",
+      "he": "ולכתוב רחמנא ושלח ולא בעי ובער",
+      "en": "Let it write only 'sends', which implies both foot and tooth",
+      "move": {
+        "element": "difficulty",
+        "subtype": "objection",
+        "target": "a-shen-regel-source",
+        "marker": "ולכתוב רחמנא … ולא בעי",
+        "attested": false
+      }
+    },
+    {
+      "id": "a-o-ha",
+      "short": "Without the extra verse one might take either…",
+      "he": "אי לאו קרא יתירה הוה אמינא או הא או הא",
+      "en": "Without the extra verse one might take either one, not both",
+      "move": { "element": "resolution", "subtype": "settlement", "target": "q-just-veshalach", "marker": "אי לאו … הוה אמינא", "attested": false }
+    },
+    {
+      "id": "q-shkulin",
+      "short": "They are equal; let both come — which would…",
+      "he": "מכדי שקולין הן ויבאו שניהם",
+      "en": "They are equal; let both come — which would you exclude?",
+      "move": { "element": "difficulty", "subtype": "objection", "target": "a-o-ha", "marker": "מכדי שקולין הן ויבאו שניהם", "attested": false }
+    },
+    {
+      "id": "a-itztrich-3",
+      "short": "Needed: one might limit it to the owner…",
+      "he": "איצטריך; סלקא דעתך אמינא הני מילי היכי דשלח שלוחי",
+      "en": "Needed: one might limit it to the owner sending the animal",
+      "move": { "element": "resolution", "subtype": "settlement", "target": "q-shkulin", "marker": "איצטריך, סלקא דעתך אמינא", "attested": false }
+    },
+    {
+      "id": "q-toldah-shen",
+      "short": "What is a derivative of tooth? Rubbing against…",
+      "he": "תולדה דשן מאי היא?",
+      "en": "What is a derivative of tooth? Rubbing against a wall for pleasure, soiling produce for pleasure",
+      "move": { "element": "question", "subtype": "query", "target": "a-shen-regel", "marker": "… מאי היא?", "attested": false }
+    },
+    {
+      "id": "q-ma-shna-shen",
+      "short": "These too damage for pleasure and are your…",
+      "he": "מאי שנא שן דיש הנאה להזיקו… הני נמי!",
+      "en": "These too damage for pleasure and are your property — so they are like tooth",
+      "move": { "element": "difficulty", "subtype": "objection", "target": "q-toldah-shen", "marker": "מאי שנא … הני נמי!", "attested": false }
+    },
+    {
+      "id": "a-toldah-regel",
+      "short": "Rather tooth's derivatives are like tooth; Rav…",
+      "he": "אלא תולדה דשן כשן, וכי קאמר רב פפא — אתולדה דרגל",
+      "en": "Rather tooth's derivatives are like tooth; Rav Pappa meant foot's",
+      "move": { "element": "answer", "subtype": "answer", "target": "q-ahaya", "marker": "אלא … וכי קאמר", "attested": false }
+    },
+    {
+      "id": "q-toldah-regel",
+      "short": "What is a derivative of foot? Damage with its…",
+      "he": "תולדה דרגל מאי היא?",
+      "en": "What is a derivative of foot? Damage with its body, hair, load, bridle, bell while walking",
+      "move": { "element": "question", "subtype": "query", "target": "a-toldah-regel", "marker": "… מאי היא?", "attested": false }
+    },
+    {
+      "id": "q-ma-shna-regel",
+      "short": "These too are common and your property — so…",
+      "he": "מאי שנא רגל דהזיקו מצוי… הני נמי!",
+      "en": "These too are common and your property — so they are like foot",
+      "move": { "element": "difficulty", "subtype": "objection", "target": "q-toldah-regel", "marker": "מאי שנא … הני נמי!", "attested": false }
+    },
+    {
+      "id": "a-toldah-bor",
+      "short": "Rather foot's derivatives are like foot; Rav…",
+      "he": "אלא תולדה דרגל כרגל, וכי קאמר רב פפא — אתולדה דבור",
+      "en": "Rather foot's derivatives are like foot; Rav Pappa meant the pit's",
+      "move": { "element": "answer", "subtype": "answer", "target": "q-ahaya", "marker": "אלא … וכי קאמר", "attested": false }
+    },
+    {
+      "id": "q-toldah-bor",
+      "short": "What is a derivative of pit? If ten…",
+      "he": "תולדה דבור מאי ניהו? אילימא אב עשרה ותולדה תשעה",
+      "en": "What is a derivative of pit? If ten handbreadths is primary and nine derivative — neither is written",
+      "move": { "element": "difficulty", "subtype": "objection", "target": "a-toldah-bor", "marker": "מאי ניהו? אילימא", "attested": false }
+    },
+    {
+      "id": "a-vehames",
+      "short": "'The dead shall be his': ten kills, nine only…",
+      "he": "הא לא קשיא; והמת יהיה לו",
+      "en": "'The dead shall be his': ten kills, nine only injures",
+      "move": { "element": "resolution", "subtype": "settlement", "target": "q-toldah-bor", "marker": "הא לא קשיא", "attested": false }
+    },
+    {
+      "id": "q-sof-sof",
+      "short": "Still, one is primary for death and the other…",
+      "he": "סוף סוף, זה אב למיתה וזה אב לנזקין!",
+      "en": "Still, one is primary for death and the other primary for injury",
+      "move": { "element": "difficulty", "subtype": "objection", "target": "a-vehames", "marker": "סוף סוף", "attested": false }
+    },
+    {
+      "id": "a-avno",
+      "short": "Rather: his stone, knife or load left in the…",
+      "he": "אלא אאבנו סכינו ומשאו שהניחן ברשות הרבים",
+      "en": "Rather: his stone, knife or load left in the public way",
+      "move": { "element": "resolution", "subtype": "alternative", "target": "q-toldah-bor", "marker": "אלא", "attested": false }
+    },
+    {
+      "id": "q-heichi-dami",
+      "short": "How so? Abandoned, it is a pit for Rav and…",
+      "he": "היכי דמי? אי דאפקרינהו… היינו בור",
+      "en": "How so? Abandoned, it is a pit for Rav and Shmuel alike; not abandoned, it is pit or ox",
+      "move": { "element": "difficulty", "subtype": "objection", "target": "a-avno", "marker": "היכי דמי? אי … אי …", "attested": false }
+    },
+    {
+      "id": "q-ma-shna-bor",
+      "short": "These too are made for damage and your…",
+      "he": "מאי שנא בור שכן תחלת עשייתו לנזק… הני נמי!",
+      "en": "These too are made for damage and your property — so they are like pit",
+      "move": { "element": "difficulty", "subtype": "objection", "target": "a-avno", "marker": "מאי שנא … הני נמי!", "attested": false }
+    },
+    {
+      "id": "a-toldah-maveh",
+      "short": "Rather pit's derivatives are like pit; Rav…",
+      "he": "אלא תולדה דבור כבור, וכי קאמר רב פפא — אתולדה דמבעה",
+      "en": "Rather pit's derivatives are like pit; Rav Pappa meant mav'eh's",
+      "move": { "element": "answer", "subtype": "answer", "target": "q-ahaya", "marker": "אלא … וכי קאמר", "attested": false }
+    },
+    {
+      "id": "q-mai-nihu",
+      "short": "Which? For Shmuel mav'eh is tooth, already…",
+      "he": "מאי ניהו? אי לשמואל… אי לרב",
+      "en": "Which? For Shmuel mav'eh is tooth, already settled; for Rav it is man — what derivatives has man?",
+      "move": { "element": "difficulty", "subtype": "objection", "target": "a-toldah-maveh", "marker": "מאי ניהו? אי … אי …", "attested": false }
+    },
+    {
+      "id": "q-vechi-teima",
+      "short": "Awake primary, asleep derivative? Man is…",
+      "he": "וכי תימא אב ניעור תולדה ישן; והתנן אדם מועד לעולם",
+      "en": "Awake primary, asleep derivative? Man is always forewarned, awake or asleep",
+      "move": { "element": "difficulty", "subtype": "objection", "target": "q-mai-nihu", "marker": "וכי תימא … והתנן", "attested": false }
+    },
+    {
+      "id": "a-kicho",
+      "short": "Rather: his spittle and phlegm",
+      "he": "אלא אכיחו וניעו",
+      "en": "Rather: his spittle and phlegm",
+      "move": { "element": "resolution", "subtype": "alternative", "target": "q-mai-nihu", "marker": "אלא", "attested": false }
+    },
+    {
+      "id": "q-heichi-dami-2",
+      "short": "In flight it is his force; at rest it is a pit",
+      "he": "היכי דמי? אי בהדי דאזלי קמזקי — כחו הוה",
+      "en": "In flight it is his force; at rest it is a pit",
+      "move": { "element": "difficulty", "subtype": "objection", "target": "a-kicho", "marker": "היכי דמי? אי … אי …", "attested": false }
+    },
+    {
+      "id": "a-toldah-esh",
+      "short": "Rather mav'eh's derivatives are like mav'eh;…",
+      "he": "אלא תולדה דמבעה כמבעה, וכי קאמר רב פפא אתולדה דאש",
+      "en": "Rather mav'eh's derivatives are like mav'eh; Rav Pappa meant fire's",
+      "move": { "element": "answer", "subtype": "answer", "target": "q-ahaya", "marker": "אלא … וכי קאמר", "attested": false }
+    },
+    {
+      "id": "q-toldah-esh",
+      "short": "A stone, knife or load on his roof blown down…",
+      "he": "תולדה דאש מאי ניהו? אילימא אבנו סכינו ומשאו שהניחן בראש גגו",
+      "en": "A stone, knife or load on his roof blown down by a common wind — in flight it is fire itself",
+      "move": { "element": "difficulty", "subtype": "objection", "target": "a-toldah-esh", "marker": "מאי ניהו? אילימא", "attested": false }
+    },
+    {
+      "id": "q-ma-shna-esh",
+      "short": "These too have another force mixed in and are…",
+      "he": "מאי שנא אש דכח אחר מעורב בהן… הני נמי!",
+      "en": "These too have another force mixed in and are your property — so they are like fire",
+      "move": { "element": "difficulty", "subtype": "objection", "target": "q-toldah-esh", "marker": "מאי שנא … הני נמי!", "attested": false }
+    },
+    {
+      "id": "a-toldah-regel-2",
+      "short": "Rather fire's derivatives are like fire; Rav…",
+      "he": "אלא תולדה דאש כאש, וכי קאמר רב פפא — אתולדה דרגל",
+      "en": "Rather fire's derivatives are like fire; Rav Pappa meant foot's",
+      "move": { "element": "answer", "subtype": "answer", "target": "q-ahaya", "marker": "אלא … וכי קאמר", "attested": false }
+    },
+    {
+      "id": "q-regel-again",
+      "short": "Foot? We settled that foot's derivatives are…",
+      "he": "רגל?! הא אוקימנא תולדה דרגל כרגל!",
+      "en": "Foot? We settled that foot's derivatives are like foot!",
+      "move": { "element": "difficulty", "subtype": "objection", "target": "a-toldah-regel-2", "marker": "הא אוקימנא", "attested": false }
+    },
+    {
+      "id": "a-tzroros",
+      "short": "Pebbles — half damage, a received law",
+      "he": "בחצי נזק צרורות, דהלכתא גמירי לה",
+      "en": "Pebbles — half damage, a received law",
+      "move": { "element": "resolution", "subtype": "settlement", "target": "q-regel-again", "marker": "הלכתא גמירי לה", "attested": false }
+    },
+    {
+      "id": "q-why-regel",
+      "short": "Why call it a derivative of foot?",
+      "he": "ואמאי קרי לה תולדה דרגל?",
+      "en": "Why call it a derivative of foot?",
+      "move": { "element": "question", "subtype": "query", "target": "a-tzroros", "marker": "ואמאי קרי לה", "attested": false }
+    },
+    {
+      "id": "a-aliyah",
+      "short": "To pay from the best property",
+      "he": "לשלם מן העלייה",
+      "en": "To pay from the best property",
+      "move": { "element": "answer", "subtype": "answer", "target": "q-why-regel", "attested": false }
+    },
+    {
+      "id": "q-rava",
+      "short": "But Rava asked whether pebbles pay from the…",
+      "he": "והא מבעיא בעי רבא",
+      "en": "But Rava asked whether pebbles pay from the body or the best property",
+      "move": { "element": "difficulty", "subtype": "objection", "target": "a-aliyah", "marker": "והא מבעיא בעי", "attested": false }
+    },
+    {
+      "id": "a-rava-pappa",
+      "short": "For Rava it is a question, for Rav Pappa it is…",
+      "he": "לרבא מבעיא ליה, לרב פפא פשיטא ליה",
+      "en": "For Rava it is a question, for Rav Pappa it is settled",
+      "move": { "element": "resolution", "subtype": "settlement", "target": "q-rava", "marker": "ל… מבעיא ליה, ל… פשיטא ליה", "attested": false }
+    },
+    {
+      "id": "q-lerava",
+      "short": "For Rava, why call it a derivative of foot?",
+      "he": "לרבא דמבעיא ליה, אמאי קרי לה תולדה דרגל?",
+      "en": "For Rava, why call it a derivative of foot?",
+      "move": { "element": "question", "subtype": "query", "target": "a-rava-pappa", "marker": "אמאי קרי לה", "attested": false }
+    },
+    {
+      "id": "a-lefotra",
+      "short": "To exempt it in the public domain",
+      "he": "לפוטרה ברשות הרבים",
+      "en": "To exempt it in the public domain",
+      "move": { "element": "answer", "subtype": "answer", "target": "q-lerava", "attested": false }
+    }
+  ]
+}

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="-12 -12 24 24" role="img" aria-label="ground-axiom">
+  <title>ground-axiom: the mind dictates it, no training needed (מושכלות ראשונים)</title>
+  <defs><linearGradient id="fade-axiom" x1="0" y1="-0.6" x2="0" y2="10.4" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#c026d3" stop-opacity="0.35"/><stop offset="0.42" stop-color="#c026d3" stop-opacity="0.95"/><stop offset="1" stop-color="#c026d3" stop-opacity="1"/></linearGradient></defs>
+  <path d="M -6.4 -0.6 H 6.4 L 9.6 10.4 H -9.6 Z" fill="url(#fade-axiom)"/>
+  <path d="M -11.2 -0.6 H 11.2" fill="none" stroke="#c026d3" stroke-width="0.9" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M -6.6 -6.4 L 0 -11.6 L 6.6 -6.4 Z" fill="#c026d3"/>
+  <rect x="-4.8" y="-6.8" width="9.6" height="6.20" fill="#c026d3"/>
+  <path d="M 1.924 4.600 C 2.035 5.537 1.179 6.379 -0.000 6.379 C -1.179 6.379 -2.035 5.537 -1.924 4.600 C -1.824 3.760 -0.967 3.141 -0.000 3.141 C 0.967 3.141 1.824 3.760 1.924 4.600 Z" fill="#ffffff"/>
+  <path d="M 3.341 4.600 L 4.860 4.600" fill="none" stroke="#ffffff" stroke-width="1.30" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M 2.689 6.841 L 4.174 8.079" fill="none" stroke="#ffffff" stroke-width="1.30" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M -0.000 7.962 L -0.000 10.000" fill="none" stroke="#ffffff" stroke-width="1.30" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M -2.689 6.841 L -4.174 8.079" fill="none" stroke="#ffffff" stroke-width="1.30" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M -3.341 4.600 L -4.860 4.600" fill="none" stroke="#ffffff" stroke-width="1.30" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M -2.107 2.845 L -2.920 2.166" fill="none" stroke="#ffffff" stroke-width="1.30" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M -0.000 2.224 L -0.000 1.360" fill="none" stroke="#ffffff" stroke-width="1.30" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M 2.107 2.845 L 2.920 2.166" fill="none" stroke="#ffffff" stroke-width="1.30" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

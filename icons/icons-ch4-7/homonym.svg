@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="-12 -12 24 24" role="img" aria-label="homonym">
+  <title>homonym: not opposed: one word, two meanings</title>
+  <rect x="-7.2" y="-7.2" width="14.4" height="14.4" rx="1.6" fill="#7c3aed" fill-opacity="0.15" stroke="#7c3aed" stroke-width="1.45" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M -6.4 -7.2 H 5.6 L -7.2 5.6 V -6.4 Q -7.2 -7.2 -6.4 -7.2 Z" fill="#7c3aed"/>
+</svg>

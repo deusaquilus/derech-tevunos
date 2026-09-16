@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="-12 -12 24 24" role="img" aria-label="party-individual">
+  <title>party-individual: one person arguing both sides with himself</title>
+  <circle cx="0" cy="0.2" r="3.0" fill="#475569" fill-opacity="0.15" stroke="#475569" stroke-width="1.45" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M -4.25 9.7 C -4.25 4.5, 4.25 4.5, 4.25 9.7" fill="#475569" fill-opacity="0.15" stroke="#475569" stroke-width="1.45" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M -6.6 -8.2 H 6.6" fill="none" stroke="#475569" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M 5.48 -6.76 L 7.40 -8.20 L 5.48 -9.64" fill="none" stroke="#475569" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M -5.48 -9.64 L -7.40 -8.20 L -5.48 -6.76" fill="none" stroke="#475569" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

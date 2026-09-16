@@ -1,0 +1,140 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://derech-tevunos.local/sugya.schema.json",
+  "title": "Sugya",
+  "description": "One Talmudic passage, sentence by sentence, labelled with the move each sentence makes (Derech Tevunos ch. 9) and, optionally, what each sentence is and how it stands to the one it acts on (ch. 1–7). Everything the page renders and nothing it derives: depth, standing, status, folds and rails are all computed from `units`. Reference: SUGYA_JSON_FORMAT.md at the repository root; implementation: viz/src/format.ts.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["format", "version", "id", "title", "tractate", "folio", "discussedAt", "units"],
+  "properties": {
+    "$schema": { "type": "string", "description": "Path or URL of this schema, for editors." },
+    "format": { "const": "derech-tevunos/sugya", "description": "What kind of file this is." },
+    "version": { "const": 1, "description": "Format version. Steps when a key changes meaning or a new one gains a renderer." },
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9-]*$",
+      "description": "Stable, URL-safe. The page is #/sugya/<id>."
+    },
+    "title": { "type": "string", "minLength": 1, "description": "The passage's name in the gallery and the tab: what it is about, in a few words." },
+    "tractate": { "type": "string", "minLength": 1, "description": "e.g. \"Bava Metzia\"." },
+    "folio": { "type": "string", "minLength": 1, "description": "e.g. \"21b-22b\". Free text; an editorial remark may follow." },
+    "discussedAt": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Where Ramchal discusses the passage, or the sentence that says he does not and how it was labelled instead."
+    },
+    "party": {
+      "$ref": "#/$defs/party",
+      "description": "Ch. 1: what kind of sugya this is as a whole. Declared, not derived from the speakers."
+    },
+    "collection": {
+      "type": "string",
+      "enum": ["ramchal", "research"],
+      "description": "Gallery shelf. `ramchal`: discussed in the book or labelled from its markers. `research`: brought in for the nested-rail study. Absent: shown under its own heading."
+    },
+    "about": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "The editor's preface, one paragraph per entry: why the passage is here, how it was labelled, where the taxonomy was stretched. Not printed on the page."
+    },
+    "hint": {
+      "type": "string",
+      "description": "Replaces the header's standard copy with where to look on this page. Plain text; `**bold**` and `*italic*` are the only markup."
+    },
+    "units": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/unit" },
+      "description": "The sentences, in the order they are said. A unit's `move.target` must name an earlier unit's `id`."
+    },
+    "ext": { "$ref": "#/$defs/ext" }
+  },
+  "$defs": {
+    "party": { "type": "string", "enum": ["party-group", "party-individual", "party-talmud"] },
+    "basis": {
+      "type": "string",
+      "enum": ["attested", "marked", "inferred"],
+      "description": "How a label was arrived at: Ramchal's own for this passage; the type's stock word is in the text; ours alone. Absent, it is inferred."
+    },
+    "provenance": {
+      "type": "string",
+      "enum": ["sense", "axiom", "endoxa", "tradition", "derivation", "asserted"],
+      "description": "Ch. 8: where the sentence's authority comes from. The first four enter accepted; `derivation` and `asserted` start in doubt. Absent, `asserted`."
+    },
+    "ext": {
+      "type": "object",
+      "description": "Room for what the format does not yet name. Carried through, validated as an object only, read by nothing. When a key here earns a renderer it moves into the schema and `version` steps.",
+      "additionalProperties": true
+    },
+    "move": {
+      "type": "object",
+      "description": "Ch. 9: what the sentence does. `element/subtype` is the leaf; `target` is the earlier unit it acts on (absent only when it opens: a first statement, a fresh question); `marker` is the stock phrase in the sentence that licensed the label; `attested` says whether Ramchal himself gives the label for this passage.",
+      "additionalProperties": false,
+      "required": ["element", "subtype"],
+      "properties": {
+        "element": { "type": "string", "enum": ["statement", "question", "answer", "proof", "contradiction", "difficulty", "resolution"] },
+        "subtype": { "type": "string" },
+        "target": { "type": "string", "description": "The `id` of an earlier unit." },
+        "marker": { "type": "string", "description": "As it appears in the Hebrew, with … for content and פלוני for a name." },
+        "attested": { "type": "boolean" }
+      },
+      "allOf": [
+        { "if": { "properties": { "element": { "const": "statement" } } }, "then": { "properties": { "subtype": { "enum": ["firsthand", "explanation", "forcedExplanation", "presumption", "inference", "reported"] } } } },
+        { "if": { "properties": { "element": { "const": "question" } } }, "then": { "properties": { "subtype": { "enum": ["query", "principle"] } } } },
+        { "if": { "properties": { "element": { "const": "answer" } } }, "then": { "properties": { "subtype": { "enum": ["answer", "determination"] } } } },
+        { "if": { "properties": { "element": { "const": "proof" } } }, "then": { "properties": { "subtype": { "enum": ["demonstration", "validation"] } } } },
+        { "if": { "properties": { "element": { "const": "contradiction" } } }, "then": { "properties": { "subtype": { "enum": ["direct", "opposition"] } } } },
+        { "if": { "properties": { "element": { "const": "difficulty" } } }, "then": { "properties": { "subtype": { "enum": ["objection", "apparentContradiction", "refutation"] } } } },
+        { "if": { "properties": { "element": { "const": "resolution" } } }, "then": { "properties": { "subtype": { "enum": ["settlement", "alternative"] } } } }
+      ]
+    },
+    "annotation": {
+      "type": "object",
+      "description": "One ch. 1–7 label. Row-level kinds describe the sentence alone; edge-level kinds (relations, deductions) describe its move on `target` and need one.",
+      "additionalProperties": false,
+      "required": ["kind"],
+      "properties": {
+        "kind": {
+          "type": "string",
+          "enum": [
+            "party-group", "party-individual", "party-talmud",
+            "categorical", "partial", "particular", "unqualified",
+            "simple", "qualified-certain", "qualified-possible", "qualified-doubtful", "qualified-impossible",
+            "exclusion", "exception", "conditional", "hypothetical",
+            "compound", "compound-not-only", "compound-needless", "disjunction",
+            "preclusive", "discrepancy", "comparative", "consequent",
+            "equivalent", "variant", "diametrically-opposed", "contradictory",
+            "converse", "converse-limited", "contrapositive", "obverse", "incongruent",
+            "differs-in-time", "differs-in-place", "differs-in-context", "homonym",
+            "no-middle", "has-middle",
+            "inference-necessary", "inference-loose", "absolute-opposite",
+            "figurative",
+            "syllogism", "classical-syllogism", "analogism", "a-fortiori",
+            "hypothetical-syllogism", "hypothetical-syllogism-tollens", "disjunctive-syllogism",
+            "fallacy-not-similar", "fallacy-not-greater", "fallacy-counterexample"
+          ]
+        },
+        "basis": { "$ref": "#/$defs/basis" },
+        "note": { "type": "string", "description": "Why this label: the words in the text that carry it, or the reading." }
+      }
+    },
+    "unit": {
+      "type": "object",
+      "description": "One sentence: its text, who says it, the move it makes, where its authority comes from, its ch. 1–7 labels.",
+      "additionalProperties": false,
+      "required": ["id", "en", "move"],
+      "properties": {
+        "id": { "type": "string", "minLength": 1, "description": "Unique within the file. Referenced by later units' `move.target`." },
+        "speaker": { "type": "string", "description": "Who says it, when the sentence names someone. Absent: the Talmud's own voice." },
+        "short": { "type": "string", "description": "A few words naming the sentence, for bands, handles and the minimap. Editorial." },
+        "he": { "type": "string", "description": "The original, or its incipit." },
+        "en": { "type": "string", "minLength": 1, "description": "The sentence in English, as one move." },
+        "move": { "$ref": "#/$defs/move" },
+        "provenance": { "$ref": "#/$defs/provenance" },
+        "anatomy": { "type": "array", "items": { "$ref": "#/$defs/annotation" } },
+        "note": { "type": "string", "description": "Why the label; doubts; where the taxonomy was stretched." },
+        "ext": { "$ref": "#/$defs/ext" }
+      }
+    }
+  }
+}

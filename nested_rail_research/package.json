@@ -1,0 +1,10 @@
+{
+  "name": "nested-rail-research",
+  "private": true,
+  "type": "module",
+  "description": "Research only: do real sugyot nest long-reaching moves (rails within rails)? Imports viz/src read-only.",
+  "scripts": {
+    "analyze": "node analyze.ts",
+    "simulate": "node simulate.ts"
+  }
+}

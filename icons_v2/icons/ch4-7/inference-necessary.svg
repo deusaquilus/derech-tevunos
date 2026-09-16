@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="192" height="128" viewBox="-18 -12 36 24" role="img" aria-label="inference-necessary">
+  <title>inference-necessary: stated on the left, implied on the right (dashed: nobody said it), wired straight through (מוכרח)</title>
+  <rect x="-17.2" y="-4.8" width="8.60" height="9.60" rx="1.0" fill="#7c3aed" fill-opacity="0.15" stroke="#7c3aed" stroke-width="0.9" stroke-linejoin="round" stroke-linecap="round"/>
+  <rect x="-14.65" y="-1.75" width="3.50" height="3.50" rx="0.63" fill="#7c3aed"/>
+  <path d="M -8.6 0 H 8.20" fill="none" stroke="#7c3aed" stroke-width="1.0" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M 5.80 -2.40 L 8.20 0 L 5.80 2.40" fill="none" stroke="#7c3aed" stroke-width="1.0" stroke-linecap="round" stroke-linejoin="round"/>
+  <rect x="8.6" y="-4.8" width="8.60" height="9.60" rx="1.0" fill="#7c3aed" fill-opacity="0.15" stroke="#7c3aed" stroke-width="0.9" stroke-linejoin="round" stroke-linecap="round" stroke-dasharray="1.8 1.4"/>
+  <path d="M 12.90 -2.20 L 15.10 1.70 H 10.70 Z" fill="#7c3aed" stroke="#7c3aed" stroke-width="0.6" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

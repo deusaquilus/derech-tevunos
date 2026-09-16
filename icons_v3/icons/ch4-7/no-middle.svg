@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="-12 -12 24 24" role="img" aria-label="no-middle">
+  <title>no-middle: clean or unclean: nothing in between</title>
+  <rect x="-8.6" y="-3.6" width="8.2" height="7.2" rx="1.1" fill="#7c3aed"/>
+  <rect x="0.4" y="-3.6" width="8.2" height="7.2" rx="1.1" fill="#7c3aed" fill-opacity="0.15" stroke="#7c3aed" stroke-width="1.45" stroke-linejoin="round"/>
+</svg>

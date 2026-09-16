@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="-12 -12 24 24" role="img" aria-label="difficulty">
+  <title>difficulty — raises a problem</title>
+  <path d="M 0 -8.6 L 8.2 6.5 C 8.7 7.5, 8.1 8.4, 7.1 8.4 L -7.1 8.4 C -8.1 8.4, -8.7 7.5, -8.2 6.5 Z" fill="#ea580c" fill-opacity="0.15" stroke="#ea580c" stroke-width="1.45" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M 0 -2.6 V 2.6" fill="none" stroke="#ea580c" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="0" cy="5.7" r="1.15" fill="#ea580c"/>
+</svg>

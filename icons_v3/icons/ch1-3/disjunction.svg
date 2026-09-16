@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="-12 -12 24 24" role="img" aria-label="disjunction">
+  <title>disjunction: one or the other (או... או)</title>
+  <path d="M 0 8.5 V 0.5 M 0 0.5 L -6.2 -6 M 0 0.5 L 6.2 -6" fill="none" stroke="#7c3aed" stroke-width="2.0" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="-6.2" cy="-6" r="2.1" fill="#ffffff" stroke="#7c3aed" stroke-width="1.45"/>
+  <circle cx="6.2" cy="-6" r="2.1" fill="#ffffff" stroke="#7c3aed" stroke-width="1.45"/>
+  <circle cx="0" cy="8.5" r="1.5" fill="#7c3aed"/>
+</svg>

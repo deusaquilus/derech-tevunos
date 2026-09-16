@@ -1,0 +1,30 @@
+{
+  "name": "derech-tevunos-web",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Visualizations 5.1 (lattice interval under doubt) and 5.2 (circumscription diff) of derech-tevunos-visualization-spec.md.",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc --noEmit && vite build",
+    "preview": "vite preview",
+    "typecheck": "tsc --noEmit",
+    "test": "node --test \"src/**/*.test.ts\"",
+    "check": "npm run typecheck && npm run test"
+  },
+  "dependencies": {
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0"
+  },
+  "devDependencies": {
+    "@types/node": "^24.10.1",
+    "@types/react": "^19.2.2",
+    "@types/react-dom": "^19.2.1",
+    "@vitejs/plugin-react": "^5.1.0",
+    "typescript": "^5.9.3",
+    "vite": "^7.1.11"
+  },
+  "allowScripts": {
+    "esbuild@0.28.2": true
+  }
+}

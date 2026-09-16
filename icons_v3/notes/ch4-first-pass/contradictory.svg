@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="-12 -12 24 24" role="img" aria-label="contradictory">
+  <title>contradictory: a general claim against a particular one (מתנגדים)</title>
+  <path d="M -9.4 0 H -2.8" fill="none" stroke="#7c3aed" stroke-width="3.1" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M -3.96 1.92 L -1.40 0.00 L -3.96 -1.92" fill="none" stroke="#7c3aed" stroke-width="3.1" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M 6.4 0 H 2.9" fill="none" stroke="#7c3aed" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M 3.30 -1.20 L 1.70 0.00 L 3.30 1.20" fill="none" stroke="#7c3aed" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

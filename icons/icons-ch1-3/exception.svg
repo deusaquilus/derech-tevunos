@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="-12 -12 24 24" role="img" aria-label="exception">
+  <title>exception: all of it, except this piece (מוציא)</title>
+  <path d="M 0 0 L 6.93 4.00 A 8.0 8.0 0 1 1 6.93 -4.00 Z" fill="#7c3aed" fill-opacity="0.15" stroke="#7c3aed" stroke-width="1.45" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M 0 0 L 6.93 -4.00 A 8.0 8.0 0 0 1 6.93 4.00 Z" transform="translate(2.9 0)" fill="#ffffff" stroke="#7c3aed" stroke-width="1.45" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

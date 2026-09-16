@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="-12 -12 24 24" role="img" aria-label="contradiction">
+  <title>contradiction — knocks it down</title>
+  <circle cx="0" cy="0" r="8.5" fill="#dc2626" fill-opacity="0.15" stroke="#dc2626" stroke-width="1.45" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M -3.8 -3.8 L 3.8 3.8 M 3.8 -3.8 L -3.8 3.8" fill="none" stroke="#dc2626" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

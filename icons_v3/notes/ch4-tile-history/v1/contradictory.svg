@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="-12 -12 24 24" role="img" aria-label="contradictory">
+  <title>contradictory: all say is, some say is not: same terms, different scope (מתנגדים)</title>
+  <path d="M -0.6000000000000001 -9.4 H 6.20 L 9.6 0 L 6.20 9.4 H -0.6000000000000001 Z" fill="#7c3aed" fill-opacity="0.15" stroke="#7c3aed" stroke-width="1.45" stroke-linejoin="round" stroke-linecap="round"/>
+  <path d="M -9.6 -9.4 H -0.6000000000000001 V -2.4 H -9.6 Z" fill="#7c3aed" fill-opacity="0.15" stroke="#7c3aed" stroke-width="1.45" stroke-linejoin="round" stroke-linecap="round"/>
+  <path d="M -9.6 2.4 H -0.6000000000000001 V 9.4 H -9.6 Z" fill="#7c3aed" fill-opacity="0.15" stroke="#7c3aed" stroke-width="1.45" stroke-linejoin="round" stroke-linecap="round"/>
+  <circle cx="-5.60" cy="-5.90" r="1.50" fill="#7c3aed"/>
+  <circle cx="-5.60" cy="5.90" r="1.50" fill="none" stroke="#7c3aed" stroke-width="1.1"/>
+  <path d="M -5.60 4.40 A 1.50 1.50 0 0 0 -5.60 7.40 Z" fill="#7c3aed"/>
+  <rect x="1.60" y="-1.80" width="3.6" height="3.6" rx="0.6" fill="#7c3aed"/>
+  <path d="M -0.6000000000000001 -8.50 V -3.30" fill="none" stroke="#7c3aed" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M -2.10 4.40 L 0.90 7.40 M 0.90 4.40 L -2.10 7.40" fill="none" stroke="#7c3aed" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

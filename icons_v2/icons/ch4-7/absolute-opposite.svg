@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="192" height="128" viewBox="-18 -12 36 24" role="img" aria-label="absolute-opposite">
+  <title>absolute-opposite: some do, therefore some do not: the implied box half present, half faded (הפך)</title>
+  <rect x="-17.2" y="-4.8" width="8.60" height="9.60" rx="1.0" fill="#7c3aed" fill-opacity="0.15" stroke="#7c3aed" stroke-width="0.9" stroke-linejoin="round" stroke-linecap="round"/>
+  <rect x="-14.65" y="-1.75" width="3.50" height="3.50" rx="0.63" fill="#7c3aed"/>
+  <path d="M -8.6 -1.30 H 5.80" fill="none" stroke="#7c3aed" stroke-width="1.0" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M -8.6 1.30 H 5.80" fill="none" stroke="#7c3aed" stroke-width="1.0" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M 5.60 -2.60 L 8.20 0 L 5.60 2.60" fill="none" stroke="#7c3aed" stroke-width="1.0" stroke-linecap="round" stroke-linejoin="round"/>
+  <clipPath id="abs-a"><path d="M 7.6 -5.8 H 18.2 L 7.6 5.8 Z"/></clipPath>
+  <clipPath id="abs-b"><path d="M 18.2 -5.8 V 5.8 H 7.6 Z"/></clipPath>
+  <g clip-path="url(#abs-a)">
+  <rect x="8.6" y="-4.8" width="8.60" height="9.60" rx="1.0" fill="#7c3aed" fill-opacity="0.15" stroke="#7c3aed" stroke-width="0.9" stroke-linejoin="round" stroke-linecap="round" stroke-dasharray="1.8 1.4"/>
+  <rect x="11.00" y="-1.90" width="3.80" height="3.80" rx="0.68" fill="#7c3aed"/>
+  </g>
+  <g clip-path="url(#abs-b)" opacity="0.22">
+  <rect x="8.6" y="-4.8" width="8.60" height="9.60" rx="1.0" fill="#7c3aed" fill-opacity="0.15" stroke="#7c3aed" stroke-width="0.9" stroke-linejoin="round" stroke-linecap="round" stroke-dasharray="1.8 1.4"/>
+  <rect x="11.00" y="-1.90" width="3.80" height="3.80" rx="0.68" fill="#7c3aed"/>
+  </g>
+</svg>

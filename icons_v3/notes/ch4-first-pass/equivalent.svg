@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="-12 -12 24 24" role="img" aria-label="equivalent">
+  <title>equivalent: the same thing, said twice (דומים)</title>
+  <rect x="-3.2" y="-8.6" width="11.8" height="11.8" rx="1.9" fill="#7c3aed" fill-opacity="0.15" stroke="#7c3aed" stroke-width="1.45" stroke-linecap="round" stroke-linejoin="round"/>
+  <rect x="-8.6" y="-3.2" width="11.8" height="11.8" rx="1.9" fill="#ffffff" stroke="#7c3aed" stroke-width="1.45" stroke-linejoin="round"/>
+  <circle cx="-2.7" cy="2.7" r="2.0" fill="#7c3aed"/>
+  <circle cx="2.7" cy="-2.7" r="2.0" fill="#7c3aed" fill-opacity="0.5"/>
+</svg>

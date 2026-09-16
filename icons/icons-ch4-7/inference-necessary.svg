@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="-12 -12 24 24" role="img" aria-label="inference-necessary">
+  <title>inference-necessary: cannot accept the one and reject the other (מוכרח)</title>
+  <rect x="-5.6" y="-2.9000000000000004" width="6.2" height="10.8" rx="3.1" fill="none" stroke="#7c3aed" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" transform="rotate(-45 -2.5 2.5)"/>
+  <rect x="-0.6000000000000001" y="-7.9" width="6.2" height="10.8" rx="3.1" fill="none" stroke="#7c3aed" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" transform="rotate(-45 2.5 -2.5)"/>
+</svg>

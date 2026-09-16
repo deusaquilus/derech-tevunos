@@ -1,0 +1,1841 @@
+:root {
+  --fg: #1c1917;
+  --muted: #78716c;
+  --border: #d6d3d1;
+  --surface: #ffffff;
+  --page: #fafaf9;
+  --accepted: #15803d;
+  --doubt: #a16207;
+  --rejected: #b91c1c;
+  --focus: #2563eb;
+  /* The rail. A hue no verdict uses, so a long one can be followed up the
+     page without being mistaken for the red of a refutation or the amber of a
+     doubt. */
+  --rail: #4338ca;
+  /* The chapter 1–7 layer, one hue per family (see anatomy.ts). Violet for
+     chapters 3–6, teal for chapter 7, slate — the statement icon's grey — for
+     chapter 1. None is a verdict colour; none but slate is an element colour. */
+  --violet: #7c3aed;
+  --teal: #0d9488;
+  --slate: #475569;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--page);
+  color: var(--fg);
+  font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+.app {
+  max-width: 1040px;
+  margin: 0 auto;
+  padding: 32px 24px 72px;
+}
+
+.app:has(.sheet-long) {
+  max-width: 1220px;
+}
+
+.app-head h1 {
+  margin: 0 0 6px;
+  font-size: 22px;
+  font-weight: 600;
+}
+
+.app-head p {
+  margin: 0 0 22px;
+  max-width: 64ch;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+/* --- passage picker ------------------------------------------------------ */
+
+.tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.tab {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  align-items: flex-start;
+  padding: 8px 12px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--surface);
+  color: var(--fg);
+  font: inherit;
+  text-align: left;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.tab:hover {
+  border-color: var(--muted);
+}
+
+.tab-on {
+  border-color: var(--fg);
+  box-shadow: inset 0 0 0 1px var(--fg);
+}
+
+.tab-cite {
+  font-size: 12.5px;
+  font-weight: 500;
+}
+
+.tab-title {
+  font-size: 11.5px;
+  color: var(--muted);
+}
+
+/* The title doubles as the home link. */
+.app-home {
+  color: inherit;
+  text-decoration: none;
+}
+
+.app-home:hover {
+  text-decoration: underline;
+}
+
+/* --- gallery (the index page) -------------------------------------------- */
+
+.gallery-lead {
+  margin: 0 0 18px;
+  max-width: 70ch;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.gallery-heading {
+  margin: 28px 0 8px;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 12px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  height: 100%;
+  padding: 16px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--surface);
+  color: var(--fg);
+  text-decoration: none;
+  transition:
+    border-color 120ms ease,
+    box-shadow 120ms ease;
+}
+
+.card:hover {
+  border-color: var(--fg);
+  box-shadow: 0 1px 0 var(--border);
+}
+
+.card:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+}
+
+.card-cite {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.card-title {
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.card-meta {
+  margin-top: 2px;
+  color: var(--muted);
+  font-size: 11.5px;
+  font-variant-numeric: tabular-nums;
+}
+
+/* The way through to the loader page. */
+.gallery-open {
+  margin-top: 28px;
+  padding-top: 4px;
+  border-top: 1px solid var(--border);
+}
+
+.gallery-open .gallery-lead code {
+  font-size: 12px;
+  color: var(--fg);
+}
+
+.gallery-open-link {
+  text-decoration: none;
+}
+
+.gallery-open-count {
+  margin-left: 10px;
+  color: var(--muted);
+  font-size: 11.5px;
+}
+
+.missing {
+  padding: 24px;
+  border: 1px dashed var(--border);
+  border-radius: 12px;
+  color: var(--muted);
+}
+
+.missing code {
+  color: var(--fg);
+}
+
+.missing .advance {
+  margin-top: 12px;
+  text-decoration: none;
+}
+
+/* --- open a file (a page of its own) ------------------------------------- */
+
+.open-app .app-head p {
+  max-width: 70ch;
+}
+
+.open-back {
+  margin: 0 0 14px !important;
+  font-size: 12.5px;
+}
+
+.open-back a {
+  color: var(--muted);
+}
+
+.open-back a:hover {
+  color: var(--fg);
+}
+
+.open-lost {
+  margin: 0 0 16px;
+  color: var(--doubt);
+  font-size: 12.5px;
+}
+
+.open-lost code,
+.open-strip code {
+  color: var(--fg);
+}
+
+/* The drop target. Dashed while empty, like `.missing`: a place something is
+   meant to go rather than a thing in its own right. */
+.open-drop {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 40px 24px;
+  border: 2px dashed var(--border);
+  border-radius: 12px;
+  background: var(--surface);
+}
+
+.open-drop-over {
+  border-color: var(--focus);
+  background: color-mix(in srgb, var(--focus) 5%, var(--surface));
+}
+
+.open-drop-lead {
+  margin: 0;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+/* A file input dressed as a button: the input covers the label and is
+   invisible, so the label's own styling is what shows. */
+.file-pick {
+  position: relative;
+  overflow: hidden;
+  text-decoration: none;
+}
+
+.file-pick input {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.file-pick:has(input:focus-visible) {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+}
+
+.open-paste {
+  margin-top: 16px;
+  font-size: 12.5px;
+}
+
+.open-paste summary {
+  color: var(--muted);
+  cursor: pointer;
+}
+
+.open-paste-box {
+  display: block;
+  width: 100%;
+  margin-top: 10px;
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--surface);
+  color: var(--fg);
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 12px;
+  line-height: 1.5;
+  resize: vertical;
+}
+
+.open-paste-box:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 1px;
+}
+
+.open-paste-acts {
+  display: flex;
+  gap: 8px;
+  margin: 10px 0 0;
+}
+
+.open-paste-acts .advance:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+
+/* Every fault the reader found, each with the path it sits at. */
+.open-faults {
+  margin: 16px 0 0;
+  padding: 12px 16px;
+  border: 1px solid var(--rejected);
+  border-radius: 8px;
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.open-faults-head {
+  margin: 0 0 8px;
+  color: var(--rejected);
+}
+
+.open-faults ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.open-faults code {
+  color: var(--fg);
+}
+
+.open-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: 12.5px;
+}
+
+.open-list li {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  padding: 8px 0;
+  border-top: 1px solid var(--border);
+}
+
+.open-list-name {
+  color: var(--fg);
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 12px;
+}
+
+.open-list-meta {
+  flex: 1;
+  color: var(--muted);
+  font-size: 11.5px;
+}
+
+/* What sits above the sheet once a file is drawn: which file, and what can be
+   done with it. Deliberately plain, so the passage below it leads. */
+.open-strip {
+  margin-bottom: 16px;
+}
+
+.open-strip-line {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 0 0 10px;
+}
+
+.open-strip-file {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 12.5px;
+}
+
+.open-strip-meta {
+  color: var(--muted);
+  font-size: 11.5px;
+  font-variant-numeric: tabular-nums;
+}
+
+.open-strip-acts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0;
+}
+
+.open-strip-acts .advance {
+  text-decoration: none;
+}
+
+.open-about {
+  margin-top: 14px;
+  padding: 0 0 2px;
+  font-size: 12.5px;
+}
+
+.open-about summary {
+  color: var(--muted);
+  cursor: pointer;
+}
+
+.open-about p {
+  max-width: 70ch;
+  margin: 10px 0 0;
+  color: var(--muted);
+  line-height: 1.55;
+}
+
+/* --- sheet --------------------------------------------------------------- */
+
+.sheet {
+  padding: 20px 22px 26px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--surface);
+}
+
+.sheet-head h2 {
+  margin: 0 0 4px;
+  font-size: 17px;
+  font-weight: 600;
+}
+
+.sheet-title {
+  font-weight: 400;
+}
+
+.sheet-cite {
+  margin: 0 0 8px;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.sheet-hint {
+  margin: 0;
+  max-width: 74ch;
+  font-size: 12.5px;
+  line-height: 1.5;
+  color: var(--muted);
+}
+
+/* --- legend -------------------------------------------------------------- */
+
+.legend-block {
+  margin: 16px 0 0;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+
+.legend-bar {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px 18px;
+  padding: 14px 0;
+}
+
+.legend {
+  display: grid;
+  flex: 1;
+  grid-template-columns: repeat(auto-fit, minmax(196px, 1fr));
+  gap: 7px 16px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  font-size: 11.5px;
+}
+
+.legend-entry {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  border-radius: 4px;
+  cursor: help;
+}
+
+.legend-entry:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+}
+
+.legend-name {
+  font-weight: 500;
+}
+
+.legend-gloss {
+  color: var(--muted);
+}
+
+/* The switches — the fold policy's and the chapter 1–7 layer's — at the right
+   end of the legend, where a reader looking up what the icons mean will find
+   them. */
+.legend-switches {
+  display: flex;
+  flex: none;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 6px;
+  margin-left: auto;
+}
+
+.legend-switch-tip {
+  flex: none;
+}
+
+/* The fold switch takes the rail's colour when on: it is the rail's rule. */
+.legend-switch-fold.legend-switch-on {
+  border-color: var(--rail);
+  color: var(--rail);
+  background: color-mix(in srgb, var(--rail) 7%, transparent);
+}
+
+.legend-switch-fold input {
+  accent-color: var(--rail);
+}
+
+.legend-switch-fold.legend-switch-on .legend-switch-ch {
+  color: color-mix(in srgb, var(--rail) 70%, var(--muted));
+}
+
+.legend-switch {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 3px 10px 3px 7px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  font-size: 11.5px;
+  font-weight: 500;
+  white-space: nowrap;
+  cursor: pointer;
+  user-select: none;
+}
+
+.legend-switch:hover {
+  border-color: var(--fg);
+}
+
+.legend-switch-on {
+  border-color: var(--violet);
+  color: var(--violet);
+  background: color-mix(in srgb, var(--violet) 7%, transparent);
+}
+
+.legend-switch input {
+  margin: 0;
+  accent-color: var(--violet);
+}
+
+.legend-switch:has(input:focus-visible) {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+}
+
+.legend-switch-ch {
+  color: var(--muted);
+  font-weight: 400;
+  font-size: 10.5px;
+}
+
+.legend-switch-on .legend-switch-ch {
+  color: color-mix(in srgb, var(--violet) 70%, var(--muted));
+}
+
+/* Tooltip bodies used by the legend, the icons and the handles. */
+.legend-tip {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.legend-tip-leaves {
+  color: var(--muted);
+}
+
+/* --- lenses: one pill per family of the layer ----------------------------- */
+
+.lenses {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 8px;
+  margin: 0;
+  padding: 0 0 12px;
+  list-style: none;
+}
+
+.lenses-label,
+.lenses-note {
+  color: var(--muted);
+  font-size: 10.5px;
+}
+
+.lenses-note {
+  margin-left: auto;
+}
+
+.lens {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 2px 9px 2px 7px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: none;
+  color: var(--muted);
+  font: inherit;
+  font-size: 11px;
+  cursor: pointer;
+}
+
+.lens:hover {
+  border-color: var(--fg);
+  color: var(--fg);
+}
+
+.lens:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+}
+
+.lens-dot {
+  width: 8px;
+  height: 8px;
+  border: 1.5px solid currentColor;
+  border-radius: 50%;
+}
+
+.lens-ch {
+  font-size: 10px;
+  opacity: 0.75;
+}
+
+.lens-on {
+  color: var(--fg);
+}
+
+.lens-on.lens-violet {
+  border-color: var(--violet);
+  background: color-mix(in srgb, var(--violet) 8%, transparent);
+}
+
+.lens-on.lens-teal {
+  border-color: var(--teal);
+  background: color-mix(in srgb, var(--teal) 8%, transparent);
+}
+
+.lens-on.lens-slate {
+  border-color: var(--slate);
+  background: color-mix(in srgb, var(--slate) 8%, transparent);
+}
+
+.lens-violet .lens-dot {
+  color: var(--violet);
+}
+
+.lens-teal .lens-dot {
+  color: var(--teal);
+}
+
+.lens-slate .lens-dot {
+  color: var(--slate);
+}
+
+.lens-on .lens-dot {
+  background: currentColor;
+}
+
+/* --- tooltips ------------------------------------------------------------ */
+
+.tip {
+  position: relative;
+  display: inline-flex;
+}
+
+.tip-pop {
+  position: absolute;
+  z-index: 6;
+  max-width: min(320px, 80vw);
+  padding: 8px 10px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--surface);
+  color: var(--fg);
+  box-shadow: 0 4px 14px rgb(0 0 0 / 10%);
+  font-size: 11.5px;
+  font-weight: 400;
+  line-height: 1.45;
+  text-align: left;
+  text-transform: none;
+  letter-spacing: normal;
+  white-space: normal;
+  pointer-events: none;
+}
+
+/* Not asked for: something else on the page is pointing at this anchor's twin,
+   and this says the words are here. Quieter and smaller than the real popup,
+   so it reads as a signpost rather than as the explanation. */
+.tip-pop-hint {
+  padding: 5px 8px;
+  border-style: dashed;
+  box-shadow: none;
+  color: var(--muted);
+  font-size: 10.5px;
+  font-style: italic;
+}
+
+.tip-pop-left {
+  left: 0;
+}
+
+.tip-pop-right {
+  right: 0;
+}
+
+.tip-pop-below {
+  top: calc(100% + 6px);
+}
+
+.tip-pop-above {
+  bottom: calc(100% + 6px);
+}
+
+/* Rows are siblings at the same z-index, so a popup in one would be painted
+   under the text of the next. The row with an open popup rises above them,
+   and above the sticky strip, for as long as it is open. */
+.row:has(.tip-pop) {
+  z-index: 5;
+}
+
+.icon {
+  display: block;
+  flex: none;
+}
+
+/* --- where it stands ----------------------------------------------------- */
+
+.state {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px 14px;
+  padding: 13px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+/* Over fifty sentences the opening claim scrolls away long before the argument
+   about it does, and it is the one thing worth keeping in view. */
+.state-sticky {
+  position: sticky;
+  top: 0;
+  z-index: 3;
+  padding: 11px 4px;
+  border-bottom: 1px solid var(--border);
+  background: color-mix(in srgb, var(--surface) 92%, transparent);
+  backdrop-filter: blur(6px);
+}
+
+.state-open {
+  padding: 1px 7px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--doubt) 14%, transparent);
+  color: var(--doubt);
+  font-size: 10.5px;
+  font-variant-numeric: tabular-nums;
+}
+
+.state-label {
+  font-size: 11px;
+  color: var(--muted);
+}
+
+.state-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 16px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.state-item {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 12px;
+}
+
+/* --- stage --------------------------------------------------------------- */
+
+.stage {
+  display: flex;
+  align-items: stretch;
+  gap: 4px;
+  margin-top: 4px;
+}
+
+.stage-rows {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+}
+
+.rows {
+  position: relative;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.connectors {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* --- the rails -------------------------------------------------------------
+   The attention's relation is drawn in full: a thick bracket in the left
+   margin from the sentence acted upon down to the move, in lane 0 nearest the
+   text. Around it, the long-reaching relations that contain it are drawn as
+   thin context, one lane further out each. The layer sits above the rows so a
+   rail visibly runs beside the bands standing in for folded runs, and so lane
+   0 can be clicked. Only lane 0's strokes take the pointer. */
+
+.rails {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 2;
+  overflow: visible;
+  pointer-events: none;
+}
+
+.rail-line {
+  stroke: var(--rail);
+  transition: stroke-width 120ms ease;
+}
+
+/* Outer lanes: a hairline at less than half strength, no cap, no branches
+   beyond a tick at each tooth, and no pointer. Knobs for the evaluation: the
+   opacity and width here, or `display: none` to see the page with lane 0 alone. */
+.rail-frame-line {
+  stroke: var(--rail);
+  stroke-width: 1.5;
+  stroke-opacity: 0.45;
+}
+
+.rail-cap {
+  fill: var(--rail);
+}
+
+.rail-cap-stroke {
+  stroke: var(--rail);
+}
+
+.rail-hit {
+  pointer-events: stroke;
+  cursor: pointer;
+  outline: none;
+}
+
+.rails:has(.rail-hit:hover) .rail-line,
+.rails:has(.rail-hit:focus-visible) .rail-line {
+  stroke-width: 4.5;
+}
+
+.rails:has(.rail-hit:focus-visible) .rail-line {
+  filter: drop-shadow(0 0 3px color-mix(in srgb, var(--focus) 60%, transparent));
+}
+
+/* Rows the rail joins: its target and the moves in the landing. */
+.row-on-rail .row-icon {
+  box-shadow: 0 0 0 2px var(--surface), 0 0 0 3.5px var(--rail);
+  border-radius: 50%;
+}
+
+/* --- row ----------------------------------------------------------------- */
+
+.row {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: var(--lattice-w) minmax(0, 1fr) 88px;
+  align-items: start;
+  padding: 11px 0 13px;
+}
+
+.row + .row {
+  border-top: 1px solid color-mix(in srgb, var(--border) 45%, transparent);
+}
+
+.row-lattice {
+  position: relative;
+  height: 100%;
+}
+
+.row-icon {
+  position: absolute;
+  top: 0;
+  display: grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+}
+
+.row-body {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding: 0 8px 0 0;
+}
+
+.row-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px 7px;
+  font-size: 11.5px;
+  line-height: 1.35;
+}
+
+.row-plain {
+  font-weight: 500;
+  color: var(--fg);
+}
+
+.row-detail,
+.row-marker {
+  color: var(--muted);
+}
+
+.row-marker {
+  margin-left: auto;
+}
+
+.row-text {
+  font-size: 14px;
+  line-height: 1.45;
+}
+
+.row-hebrew {
+  font-size: 13.5px;
+  line-height: 1.5;
+  color: var(--muted);
+  text-align: right;
+}
+
+.row-verdict {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 5px;
+  padding-top: 2px;
+}
+
+/* --- folding back up ------------------------------------------------------ */
+
+/* Quiet until pointed at: every revealed row carries one, and fifty visible
+   chevrons would be louder than the argument. */
+.row-collapse {
+  display: grid;
+  place-items: center;
+  width: 20px;
+  height: 20px;
+  padding: 0;
+  border: 1px solid transparent;
+  border-radius: 50%;
+  background: none;
+  color: var(--muted);
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 120ms ease;
+}
+
+/* `:focus`, not `:focus-visible`: a control that has taken focus must be
+   visible whether or not the browser thinks the focus ring is warranted. */
+.row:hover .row-collapse,
+.row-collapse:focus {
+  opacity: 1;
+}
+
+.row-collapse:hover {
+  border-color: var(--border);
+  background: var(--page);
+  color: var(--fg);
+}
+
+.row-collapse:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 1px;
+}
+
+/* --- unfolding ------------------------------------------------------------ */
+
+.row-advance {
+  display: flex;
+  grid-column: 2 / -1;
+  align-items: stretch;
+  padding-top: 9px;
+}
+
+/* The advance control is a two-segment pill: "what happens next" on the left,
+   a fold-back-up chevron on the right, sitting flush. Each segment rounds only
+   its outer edge; a lone segment is a full pill. The right-segment rule has to
+   out-specify `.row-advance .advance` (0,2,0) or it rounds the wrong side and
+   reads as a deformed, detached box. */
+.row-advance .advance {
+  border-radius: 999px 0 0 999px;
+}
+
+.row-advance .advance.advance-up:not(:only-child) {
+  border-left: 0;
+  border-radius: 0 999px 999px 0;
+}
+
+.row-advance .advance:only-child {
+  border-radius: 999px;
+  border-left: 1px solid var(--border);
+}
+
+.advance-up {
+  padding: 5px 9px;
+}
+
+.advance {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 11px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--surface);
+  color: var(--muted);
+  font: inherit;
+  font-size: 11.5px;
+  cursor: pointer;
+}
+
+.advance:hover {
+  border-color: var(--fg);
+  color: var(--fg);
+}
+
+.advance:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+}
+
+.advance-lead {
+  border-color: var(--fg);
+  color: var(--fg);
+}
+
+.advance-count {
+  padding-left: 4px;
+  border-left: 1px solid var(--border);
+  font-variant-numeric: tabular-nums;
+  font-size: 10.5px;
+}
+
+/* Any row scrolled to needs room above it for the sticky strip and its
+   movement heading. The frontier also needs room beneath, so the control
+   lands inside the viewport. */
+.row {
+  scroll-margin-top: 88px;
+}
+
+.row-frontier {
+  scroll-margin-bottom: 96px;
+}
+
+/* --- a move whose line was too long to draw ------------------------------- */
+
+/* The handle on a long-reaching move. Dashed and grey while the move is not
+   the open one; solid and in the rail's colour while it is, when it becomes
+   the rail's second grip. */
+.row-handle {
+  display: inline-flex;
+  gap: 6px;
+  align-items: baseline;
+  align-self: flex-start;
+  padding: 1px 8px 1px 6px;
+  border: 1px dashed var(--border);
+  border-radius: 999px;
+  background: none;
+  color: var(--muted);
+  font: inherit;
+  font-size: 10.5px;
+  cursor: pointer;
+}
+
+.row-handle:hover,
+.row-handle:focus-visible {
+  border-color: var(--fg);
+  color: var(--fg);
+}
+
+.row-handle-open {
+  border-style: solid;
+  border-color: var(--rail);
+  color: var(--rail);
+  background: color-mix(in srgb, var(--rail) 6%, transparent);
+}
+
+.row-handle-open:hover,
+.row-handle-open:focus-visible {
+  border-color: var(--rail);
+  color: var(--rail);
+  background: color-mix(in srgb, var(--rail) 12%, transparent);
+}
+
+.row-handle-state {
+  padding-left: 6px;
+  border-left: 1px solid color-mix(in srgb, var(--rail) 40%, transparent);
+  font-variant-numeric: tabular-nums;
+}
+
+.row-peeked {
+  background: color-mix(in srgb, var(--rail) 7%, transparent);
+  box-shadow: inset 3px 0 0 var(--rail);
+}
+
+/* A handle with an edge badge attached: the two sit flush, the handle squared
+   on the side the badge joins, so they read as one control with two parts —
+   *that* it acts on 2, and *how*. */
+.row-handle-group {
+  display: inline-flex;
+  align-items: stretch;
+  align-self: flex-start;
+}
+
+/* The handle's own `align-self: flex-start` is for a handle standing alone in
+   the row's column; here it would defeat the group's stretch and leave the two
+   halves a pixel apart, stepped at the seam and lopsided at the right cap. */
+.row-handle-group-badged .row-handle {
+  align-self: stretch;
+  border-radius: 999px 0 0 999px;
+}
+
+.row-handle-badges {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  /* No vertical padding: the glyph is taller than the handle's line box, so
+     the text side sets the height and this side stretches to it. */
+  padding: 0 9px 0 7px;
+  border: 1px dashed var(--border);
+  border-left: 0;
+  border-radius: 0 999px 999px 0;
+  font-size: 10.5px;
+}
+
+.row-handle-badges-open {
+  border-style: solid;
+  border-color: var(--rail);
+  background: color-mix(in srgb, var(--rail) 6%, transparent);
+}
+
+/* --- the chapter 1–7 layer: badges ------------------------------------------
+   Hue is the family; shape is the type; a dashed outline is an inferred label,
+   as "inferred" in the meta line is for the ch. 9 move. Every badge explains
+   itself on hover or focus. */
+
+.glyph {
+  display: block;
+  flex: none;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  border: 1px solid;
+  border-radius: 999px;
+  font-size: 10.5px;
+  font-weight: 500;
+  line-height: 1.4;
+  white-space: nowrap;
+  cursor: help;
+  transition:
+    box-shadow 120ms ease,
+    background-color 120ms ease;
+}
+
+.badge-chip {
+  padding: 1px 8px 1px 5px;
+}
+
+.badge-bare {
+  padding: 2px;
+  border-radius: 50%;
+}
+
+/* Inside another control (the handle): no pill of its own. */
+.badge-inline {
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+}
+
+/* The speaker badge. It stands where the name would, on every anonymous row,
+   so it is set like the rest of the meta line — no pill, no fill — and only
+   its hue and glyph say it is a badge. */
+.badge.badge-quiet {
+  padding: 0 2px;
+  border-color: transparent;
+  background: none;
+  font-weight: 400;
+}
+
+.badge.badge-quiet:hover {
+  border-color: color-mix(in srgb, currentColor 45%, transparent);
+}
+
+.badge[role="button"] {
+  cursor: pointer;
+}
+
+.badge:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+}
+
+.badge-violet {
+  color: var(--violet);
+  border-color: color-mix(in srgb, var(--violet) 55%, transparent);
+  background: color-mix(in srgb, var(--violet) 6%, transparent);
+}
+
+.badge-teal {
+  color: var(--teal);
+  border-color: color-mix(in srgb, var(--teal) 55%, transparent);
+  background: color-mix(in srgb, var(--teal) 6%, transparent);
+}
+
+.badge-slate {
+  color: var(--slate);
+  border-color: color-mix(in srgb, var(--slate) 45%, transparent);
+  background: color-mix(in srgb, var(--slate) 5%, transparent);
+}
+
+.badge-inferred {
+  border-style: dashed;
+}
+
+.badge-inline.badge-violet,
+.badge-inline.badge-teal,
+.badge-inline.badge-slate {
+  background: none;
+}
+
+/* Its twin on the elbow is under the pointer, or it is itself. */
+.badge-hot {
+  background: color-mix(in srgb, currentColor 16%, transparent);
+  box-shadow: 0 0 0 2px color-mix(in srgb, currentColor 35%, transparent);
+}
+
+.badge-inline.badge-hot {
+  box-shadow: none;
+  background: none;
+  text-decoration: underline;
+  text-decoration-style: dotted;
+  text-underline-offset: 3px;
+}
+
+.badge-word {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Edge badges on a local move, when there is no handle to ride in. */
+.row-badges {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 5px 6px;
+  align-self: flex-start;
+}
+
+.row-badges-label {
+  color: var(--muted);
+  font-size: 10.5px;
+}
+
+.row-icon-tip {
+  display: grid;
+  place-items: center;
+}
+
+/* The badge tooltip's body. */
+.badge-tip {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.badge-tip-head {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.badge-tip-name {
+  font-weight: 600;
+}
+
+.badge-tip-he {
+  color: var(--muted);
+}
+
+.badge-tip-reads {
+  font-weight: 500;
+}
+
+.badge-tip-violet {
+  color: var(--violet);
+}
+
+.badge-tip-teal {
+  color: var(--teal);
+}
+
+.badge-tip-slate {
+  color: var(--slate);
+}
+
+.badge-tip-word {
+  color: var(--muted);
+  font-weight: 400;
+}
+
+.badge-tip-note {
+  color: var(--muted);
+  font-style: italic;
+}
+
+.badge-tip-where {
+  color: var(--muted);
+}
+
+.badge-tip-foot {
+  padding-top: 5px;
+  border-top: 1px solid color-mix(in srgb, var(--border) 70%, transparent);
+  color: var(--muted);
+  font-size: 10.5px;
+}
+
+/* The party badge in the state-of-play strip. */
+.state-party {
+  display: inline-flex;
+}
+
+/* On the strip the chip stands among the verdict pills rather than in a row's
+   meta line, so it takes their vertical metrics and the line reads as one set
+   of pills. */
+.state-party .badge {
+  padding: 2px 9px 2px 6px;
+}
+
+/* --- beads: edge badges on the elbows they describe ------------------------
+   Above the rows, like the rail, so they can take the pointer; the SVG itself
+   takes none. */
+
+.beads {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 2;
+  overflow: visible;
+  pointer-events: none;
+}
+
+.bead {
+  pointer-events: auto;
+  cursor: help;
+  outline: none;
+}
+
+.bead-disc {
+  fill: var(--surface);
+  stroke: currentColor;
+  stroke-width: 1.25;
+  transition: stroke-width 120ms ease;
+}
+
+.bead-hot .bead-disc {
+  fill: color-mix(in srgb, currentColor 12%, var(--surface));
+  stroke-width: 2;
+}
+
+.bead-ring {
+  fill: none;
+  stroke: currentColor;
+  stroke-opacity: 0.3;
+  stroke-width: 1.5;
+}
+
+.bead-dot {
+  fill: currentColor;
+}
+
+.bead:focus-visible .bead-disc {
+  stroke: var(--focus);
+  stroke-width: 2;
+}
+
+/* The elbow whose badge is hot, chip or bead. */
+.connector {
+  transition: stroke-width 120ms ease;
+}
+
+.connector-hot {
+  stroke: var(--rail);
+}
+
+/* --- the band ----------------------------------------------------------------
+   Stands in for a folded run. Its left edge is set inline to where its
+   anchor's children's icons sit, so a band inside a band starts one step
+   further in and the nesting is read from the indentation, not from a hue;
+   it runs to the right edge from there. The rails run in the margin beside
+   it. */
+
+.fold {
+  position: relative;
+  z-index: 1;
+  padding: 6px 0;
+}
+
+.fold-button {
+  display: flex;
+  gap: 10px;
+  align-items: baseline;
+  width: 100%;
+  min-height: 34px;
+  padding: 7px 14px 7px 12px;
+  border: 0;
+  border-left: 3px solid color-mix(in srgb, var(--rail) 45%, transparent);
+  border-top: 1px dashed color-mix(in srgb, var(--rail) 45%, transparent);
+  border-bottom: 1px dashed color-mix(in srgb, var(--rail) 45%, transparent);
+  background:
+    repeating-linear-gradient(
+      -45deg,
+      transparent 0 6px,
+      color-mix(in srgb, var(--rail) 4%, transparent) 6px 7px
+    ),
+    color-mix(in srgb, var(--rail) 3%, var(--surface));
+  color: var(--muted);
+  font: inherit;
+  font-size: 11.5px;
+  text-align: left;
+  cursor: pointer;
+}
+
+.fold-button:hover {
+  color: var(--fg);
+  background:
+    repeating-linear-gradient(
+      -45deg,
+      transparent 0 6px,
+      color-mix(in srgb, var(--rail) 7%, transparent) 6px 7px
+    ),
+    color-mix(in srgb, var(--rail) 6%, var(--surface));
+}
+
+.fold-button:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: -2px;
+}
+
+.fold-count {
+  flex: none;
+  color: var(--rail);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+/* A thread is finished business under one sentence; a frame is a closer's
+   fold. The count is quieter on a thread, so a page of many small threads
+   does not shout. */
+.fold-thread .fold-count {
+  font-weight: 500;
+  color: color-mix(in srgb, var(--rail) 75%, var(--muted));
+}
+
+.fold-thread .fold-button {
+  border-left-color: color-mix(in srgb, var(--rail) 25%, transparent);
+}
+
+/* The relation a frame puts away, or the anchor a thread hangs under. */
+.fold-caption {
+  flex: none;
+  max-width: 46ch;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--fg);
+}
+
+.fold-names {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+
+.fold-standing {
+  flex: none;
+  font-variant-numeric: tabular-nums;
+}
+
+/* At the right edge whether or not there are movement names to fill the middle:
+   the names take the free space when present, the auto margin when not. */
+.fold-hint {
+  flex: none;
+  margin-left: auto;
+  color: var(--rail);
+  text-transform: lowercase;
+  letter-spacing: 0.02em;
+}
+
+.fold-hint::before {
+  content: "▾ ";
+}
+
+/* --- movements ------------------------------------------------------------ */
+
+.movement {
+  position: relative;
+  /* Below the rail, which runs through the margin the heading now clears. */
+  z-index: 1;
+  /* Start at the icon column, not the margin lane the rail runs in. */
+  padding: 16px 0 3px var(--lattice-margin, 0);
+}
+
+.movement-pending {
+  opacity: 0.4;
+}
+
+.movement-button {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 8px;
+  padding: 2px 4px 2px 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  cursor: pointer;
+}
+
+.movement-name {
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.movement-button:hover .movement-name {
+  color: var(--fg);
+}
+
+.movement-size {
+  color: var(--border);
+  font-size: 10px;
+  font-variant-numeric: tabular-nums;
+}
+
+.movement-button:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+.movement + .row {
+  border-top: 0;
+}
+
+/* --- the horizon ---------------------------------------------------------- */
+
+.horizon {
+  padding: 18px 0 4px;
+}
+
+.horizon-button {
+  padding: 6px 12px;
+  border: 1px dashed var(--border);
+  border-radius: 8px;
+  background: none;
+  color: var(--muted);
+  font: inherit;
+  font-size: 11.5px;
+  cursor: pointer;
+}
+
+.horizon-button:hover {
+  border-color: var(--muted);
+  color: var(--fg);
+}
+
+/* --- foot control --------------------------------------------------------- */
+
+.sheet-foot {
+  position: sticky;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 6px;
+  padding: 10px 4px;
+  border-top: 1px solid var(--border);
+  background: color-mix(in srgb, var(--surface) 92%, transparent);
+  backdrop-filter: blur(6px);
+}
+
+.sheet-foot-count {
+  margin-left: auto;
+  color: var(--muted);
+  font-size: 11px;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Not yet revealed: legible as structure, unreadable as text. */
+.row-pending .row-meta,
+.row-pending .row-text,
+.row-pending .row-hebrew {
+  filter: blur(3.5px);
+  opacity: 0.3;
+  user-select: none;
+}
+
+.row-meta,
+.row-text,
+.row-hebrew {
+  transition:
+    filter 200ms ease,
+    opacity 200ms ease;
+}
+
+/* --- verdict pill -------------------------------------------------------- */
+
+.pill {
+  display: inline-block;
+  padding: 2px 9px;
+  border: 1px solid;
+  border-radius: 999px;
+  font-size: 10.5px;
+  line-height: 1.5;
+  white-space: nowrap;
+}
+
+.pill-good {
+  color: var(--accepted);
+  border-color: var(--accepted);
+  background: color-mix(in srgb, var(--accepted) 12%, transparent);
+}
+
+.pill-neutral {
+  color: var(--doubt);
+  border-color: var(--doubt);
+}
+
+.pill-bad {
+  color: var(--rejected);
+  border-color: var(--rejected);
+}
+
+.pill-dashed {
+  border-style: dashed;
+}
+
+/* --- reveal rail --------------------------------------------------------- */
+
+.rail {
+  position: relative;
+  flex: none;
+  width: 68px;
+  cursor: ns-resize;
+  touch-action: none;
+}
+
+/* A rail as tall as a fifty-seven sentence passage puts its thumb thousands of
+   pixels off screen and cannot be dragged end to end at all. Sticking it to the
+   viewport costs the alignment between ticks and rows and buys back reach. */
+.rail-dock {
+  flex: none;
+  align-self: flex-start;
+  position: sticky;
+  top: 64px;
+  height: calc(100vh - 140px);
+}
+
+.rail-map {
+  height: 100%;
+}
+
+.rail-track,
+.rail-fill {
+  position: absolute;
+  left: 22px;
+  width: 3px;
+  border-radius: 2px;
+}
+
+.rail-track {
+  background: var(--border);
+}
+
+.rail-fill {
+  background: var(--fg);
+  opacity: 0.5;
+}
+
+.rail-tick {
+  position: absolute;
+  left: 23.5px;
+  width: 8px;
+  height: 8px;
+  border: 1.5px solid var(--border);
+  border-radius: 50%;
+  background: var(--surface);
+  transform: translate(-50%, -50%);
+}
+
+.rail-tick-on {
+  border-color: var(--fg);
+  background: var(--fg);
+}
+
+/* Must follow `.rail-tick`: same specificity, so order decides. Fifty-seven
+   ticks in a viewport-height rail sit a few pixels apart, where a circle with a
+   border reads as a chain and a flat dash reads as a ruler. */
+.rail-tick-dense {
+  left: 20px;
+  width: 7px;
+  height: 1.5px;
+  border: 0;
+  border-radius: 0;
+  background: var(--border);
+  transform: translateY(-50%);
+}
+
+.rail-tick-dense.rail-tick-on {
+  background: var(--fg);
+}
+
+.rail-tick-dense.rail-tick-start {
+  left: 15px;
+  width: 17px;
+  background: var(--muted);
+}
+
+.rail-thumb {
+  position: absolute;
+  right: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  transform: translateY(-50%);
+  cursor: grab;
+}
+
+.rail-dragging .rail-thumb {
+  cursor: grabbing;
+}
+
+.rail-thumb:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+
+.rail-thumb-grip {
+  width: 19px;
+  height: 19px;
+  margin-left: 14px;
+  border: 2px solid var(--fg);
+  border-radius: 50%;
+  background: var(--surface);
+  box-shadow: 0 1px 3px rgb(0 0 0 / 18%);
+}
+
+.rail-thumb-count {
+  font-size: 10px;
+  font-variant-numeric: tabular-nums;
+  color: var(--muted);
+}
+
+.rail-track,
+.rail-fill,
+.rail-thumb {
+  transition: top 160ms ease, height 160ms ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition: none !important;
+  }
+}

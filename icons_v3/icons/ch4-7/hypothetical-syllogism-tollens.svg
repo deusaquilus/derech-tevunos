@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="-12 -12 24 24" role="img" aria-label="hypothetical-syllogism-tollens">
+  <title>hypothetical-syllogism-tollens: that did not follow, so this was never so (הקש תלוי, on the denial)</title>
+  <rect x="-8.6" y="-1.4" width="4.6" height="10.2" rx="1.1" fill="#0d9488" fill-opacity="0.15" stroke="#0d9488" stroke-width="1.45" stroke-linecap="round" stroke-linejoin="round"/>
+  <rect x="1.6" y="-1.4" width="4.6" height="10.2" rx="1.1" fill="#0d9488" fill-opacity="0.15" stroke="#0d9488" stroke-width="1.45" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M 2.4 2.0 L 6.4 6.0 M 6.4 2.0 L 2.4 6.0" fill="none" stroke="#0d9488" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M -7.8 2.0 L -3.8 6.0 M -3.8 2.0 L -7.8 6.0" fill="none" stroke="#0d9488" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M 4.6 -6.4 H -5.0" fill="none" stroke="#0d9488" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M -3.84 -8.02 L -6.00 -6.40 L -3.84 -4.78" fill="none" stroke="#0d9488" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

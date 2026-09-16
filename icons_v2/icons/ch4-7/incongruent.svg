@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="-12 -12 24 24" role="img" aria-label="incongruent">
+  <title>incongruent: different subject, different predicate (נבדלים)</title>
+  <path d="M -9.60 -9.00 H 6.00 V -10.00 L 9.60 -5.20 L 6.00 -0.40 V -1.40 H -9.60 Z" fill="#7c3aed" fill-opacity="0.15" stroke="#7c3aed" stroke-width="1.45" stroke-linejoin="round" stroke-linecap="round"/>
+  <rect x="-3.64" y="-7.40" width="4.40" height="4.40" rx="0.79" fill="#7c3aed"/>
+  <path d="M -9.60 1.40 H 6.00 V 0.40 L 9.60 5.20 L 6.00 10.00 V 9.00 H -9.60 Z" fill="#7c3aed" fill-opacity="0.15" stroke="#7c3aed" stroke-width="1.45" stroke-linejoin="round" stroke-linecap="round"/>
+  <path d="M -1.44 2.70 L 1.06 7.20 H -3.94 Z" fill="#7c3aed" stroke="#7c3aed" stroke-width="0.6" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

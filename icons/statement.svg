@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="-12 -12 24 24" role="img" aria-label="statement">
+  <title>statement — someone speaks</title>
+  <rect x="-6.6" y="-8.6" width="13.2" height="17.2" rx="1.8" fill="#ffffff" stroke="#475569" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M -3.7 -4.7 H 3.7 M -3.7 -1.6 H 3.7 M -3.7 1.5 H 3.7 M -3.7 4.6 H 1.2" fill="none" stroke="#475569" stroke-width="1.15" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

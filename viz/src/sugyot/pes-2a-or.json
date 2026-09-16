@@ -1,0 +1,345 @@
+{
+  "$schema": "./sugya.schema.json",
+  "format": "derech-tevunos/sugya",
+  "version": 1,
+  "id": "pes-2a-or",
+  "title": "What is 'or'?",
+  "tractate": "Pesachim",
+  "folio": "2a-3a",
+  "discussedAt": "Not discussed in Derech Tevunos; labelled from stock phrases for the nested-rail study",
+  "party": "party-group",
+  "collection": "research",
+  "about": [
+    "Pesachim 2a–3a — `מאי אור`: the opening sugya of the tractate.",
+    "Rav Huna says daybreak, Rav Yehuda says night, and fifteen proof-texts are brought against one side or the other before the `אלא` declares that both agree and each used his own town's word. The `אלא` formally rejects the assumption (`קא סלקא דעתך`) but its band holds both sides' proof-texts, so its anchor is Rav Huna; then `ותנא דידן` returns to the mishnah over the whole discussion without releasing any of it."
+  ],
+  "hint": "Where to look: **43**, fifteen proof-texts as teeth on one rail; **44**, the *אלא* folds them all and the assumption it lands on comes back out of its band; **45**, *ותנא דידן* returns to the mishnah with the whole discussion one band under the question, nothing released. Open that band twice, then the *אלא* frame: two rails.",
+  "units": [
+    {
+      "id": "mishnah",
+      "speaker": "Mishnah",
+      "short": "Mishnah: on the 'or' of the fourteenth one…",
+      "he": "אור לארבעה עשר בודקין את החמץ לאור הנר",
+      "en": "Mishnah: on the 'or' of the fourteenth one searches for leaven by lamplight",
+      "move": { "element": "statement", "subtype": "firsthand", "attested": false }
+    },
+    {
+      "id": "q-mai-or",
+      "short": "What is 'or'?",
+      "he": "מאי אור?",
+      "en": "What is 'or'?",
+      "move": { "element": "question", "subtype": "query", "target": "mishnah", "marker": "מאי …?", "attested": false }
+    },
+    {
+      "id": "rav-huna",
+      "speaker": "Rav Huna",
+      "short": "Rav Huna: daybreak",
+      "he": "רב הונא אמר: נגהי",
+      "en": "Rav Huna: daybreak",
+      "move": { "element": "answer", "subtype": "answer", "target": "q-mai-or", "attested": false }
+    },
+    {
+      "id": "rav-yehuda",
+      "speaker": "Rav Yehuda",
+      "short": "Rav Yehuda: night",
+      "he": "ורב יהודה אמר: לילי",
+      "en": "Rav Yehuda: night",
+      "move": { "element": "contradiction", "subtype": "opposition", "target": "rav-huna", "attested": false }
+    },
+    {
+      "id": "ka-salka",
+      "short": "The assumption: daybreak means actual day and…",
+      "he": "קא סלקא דעתך דמאן דאמר נגהי — נגהי ממש",
+      "en": "The assumption: daybreak means actual day and night means actual night",
+      "move": { "element": "statement", "subtype": "explanation", "target": "rav-yehuda", "marker": "קא סלקא דעתך", "attested": false }
+    },
+    {
+      "id": "m1",
+      "short": "'The morning was light' — so 'or' is day",
+      "he": "מיתיבי: הבקר אור — אלמא אור יממא הוא!",
+      "en": "'The morning was light' — so 'or' is day",
+      "move": { "element": "difficulty", "subtype": "objection", "target": "rav-yehuda", "marker": "מיתיבי", "attested": false }
+    },
+    {
+      "id": "a1",
+      "short": "It says 'the morning lit up', not 'the light…",
+      "he": "מי כתיב האור בקר?",
+      "en": "It says 'the morning lit up', not 'the light was morning'",
+      "move": { "element": "resolution", "subtype": "settlement", "target": "m1", "marker": "מי כתיב …?", "attested": false }
+    },
+    {
+      "id": "m2",
+      "short": "'As the light of morning the sun rises' — so…",
+      "he": "מיתיבי: וכאור בקר יזרח שמש",
+      "en": "'As the light of morning the sun rises' — so 'or' is day",
+      "move": { "element": "difficulty", "subtype": "objection", "target": "rav-yehuda", "marker": "מיתיבי", "attested": false }
+    },
+    {
+      "id": "a2",
+      "short": "It says 'like the light of morning' — the…",
+      "he": "מי כתיב אור בקר?",
+      "en": "It says 'like the light of morning' — the world to come",
+      "move": { "element": "resolution", "subtype": "settlement", "target": "m2", "marker": "מי כתיב …?", "attested": false }
+    },
+    {
+      "id": "m3",
+      "short": "'God called the light day' — so 'or' is day",
+      "he": "מיתיבי: ויקרא אלהים לאור יום",
+      "en": "'God called the light day' — so 'or' is day",
+      "move": { "element": "difficulty", "subtype": "objection", "target": "rav-yehuda", "marker": "מיתיבי", "attested": false }
+    },
+    {
+      "id": "a3",
+      "short": "It means: the brightening he called day",
+      "he": "הכי קאמר: למאיר ובא קראו יום",
+      "en": "It means: the brightening he called day",
+      "move": { "element": "resolution", "subtype": "settlement", "target": "m3", "marker": "הכי קאמר", "attested": false }
+    },
+    {
+      "id": "q3",
+      "short": "Then 'the darkness he called night' would be…",
+      "he": "אלא מעתה, ולחשך קרא לילה — למחשיך ובא קרא לילה?!",
+      "en": "Then 'the darkness he called night' would be dusk — but until the stars it is day",
+      "move": { "element": "difficulty", "subtype": "objection", "target": "a3", "marker": "אלא מעתה", "attested": false }
+    },
+    {
+      "id": "a3b",
+      "short": "Rather: He summoned the light and charged it…",
+      "he": "אלא הכי קאמר: קרייה רחמנא לנהורא ופקדיה אמצותא דיממא",
+      "en": "Rather: He summoned the light and charged it with the day's duties",
+      "move": { "element": "resolution", "subtype": "settlement", "target": "m3", "marker": "אלא הכי קאמר", "attested": false }
+    },
+    {
+      "id": "m4",
+      "short": "'Praise Him, all stars of light' — so 'or' is…",
+      "he": "מיתיבי: הללוהו כל כוכבי אור — אלמא אור אורתא הוא",
+      "en": "'Praise Him, all stars of light' — so 'or' is night",
+      "move": { "element": "difficulty", "subtype": "objection", "target": "rav-huna", "marker": "מיתיבי", "attested": false }
+    },
+    {
+      "id": "a4",
+      "short": "It means: all shining stars",
+      "he": "הכי קאמר: הללוהו כל כוכבים המאירים",
+      "en": "It means: all shining stars",
+      "move": { "element": "resolution", "subtype": "settlement", "target": "m4", "marker": "הכי קאמר", "attested": false }
+    },
+    {
+      "id": "q4",
+      "short": "Then only shining stars praise? 'Praise Him,…",
+      "he": "אלא מעתה, כוכבים המאירים הוא דבעו שבוחי",
+      "en": "Then only shining stars praise? 'Praise Him, all His hosts'",
+      "move": { "element": "difficulty", "subtype": "objection", "target": "a4", "marker": "אלא מעתה", "attested": false }
+    },
+    {
+      "id": "a4b",
+      "short": "It teaches that starlight is light — for one…",
+      "he": "אלא הא קא משמע לן דאור דכוכבים נמי אור הוא",
+      "en": "It teaches that starlight is light — for one who vows off light",
+      "move": { "element": "resolution", "subtype": "settlement", "target": "q4", "marker": "הא קא משמע לן", "attested": false }
+    },
+    {
+      "id": "m5",
+      "short": "'At light the murderer rises… at night he is…",
+      "he": "מיתיבי: לאור יקום רוצח… ובלילה יהי כגנב",
+      "en": "'At light the murderer rises… at night he is as a thief' — so 'or' is day",
+      "move": { "element": "difficulty", "subtype": "objection", "target": "rav-yehuda", "marker": "מיתיבי", "attested": false }
+    },
+    {
+      "id": "a5",
+      "short": "There: if it is clear as light he is a…",
+      "he": "התם הכי קאמר",
+      "en": "There: if it is clear as light he is a murderer; if doubtful as night, a thief",
+      "move": { "element": "resolution", "subtype": "settlement", "target": "m5", "marker": "התם הכי קאמר", "attested": false }
+    },
+    {
+      "id": "m6",
+      "short": "'Let it hope for light and have none' — so…",
+      "he": "מיתיבי: יקו לאור ואין",
+      "en": "'Let it hope for light and have none' — so 'or' is day",
+      "move": { "element": "difficulty", "subtype": "objection", "target": "rav-yehuda", "marker": "מיתיבי", "attested": false }
+    },
+    {
+      "id": "a6",
+      "short": "There Job curses his fortune",
+      "he": "התם מילט הוא דקא לייט ליה איוב למזליה",
+      "en": "There Job curses his fortune",
+      "move": { "element": "resolution", "subtype": "settlement", "target": "m6", "marker": "התם", "attested": false }
+    },
+    {
+      "id": "m7",
+      "short": "'Night is light about me' — so 'or' is day",
+      "he": "מיתיבי: ולילה אור בעדני",
+      "en": "'Night is light about me' — so 'or' is day",
+      "move": { "element": "difficulty", "subtype": "objection", "target": "rav-yehuda", "marker": "מיתיבי", "attested": false }
+    },
+    {
+      "id": "a7",
+      "short": "There David speaks of this world and the next",
+      "he": "התם הכי קאמר דוד",
+      "en": "There David speaks of this world and the next",
+      "move": { "element": "resolution", "subtype": "settlement", "target": "m7", "marker": "התם הכי קאמר", "attested": false }
+    },
+    {
+      "id": "m8",
+      "short": "R. Yehuda: search on the 'or' of the…",
+      "he": "מיתיבי, רבי יהודה אומר: בודקין אור ארבעה עשר ובארבעה עשר שחרית",
+      "en": "R. Yehuda: search on the 'or' of the fourteenth and on the fourteenth morning — so 'or' is night. Conclude so",
+      "move": { "element": "difficulty", "subtype": "objection", "target": "rav-huna", "marker": "מיתיבי", "attested": false }
+    },
+    {
+      "id": "m9",
+      "short": "R. Eliezer b. Yaakov: from the 'or'; R.…",
+      "he": "מיתיבי: מאימתי ארבעה עשר אסור בעשיית מלאכה?",
+      "en": "R. Eliezer b. Yaakov: from the 'or'; R. Yehuda: from sunrise",
+      "move": { "element": "difficulty", "subtype": "objection", "target": "rav-huna", "marker": "מיתיבי", "attested": false }
+    },
+    {
+      "id": "m9-baraisa",
+      "short": "Their exchange: where is a day part forbidden…",
+      "he": "אמר ליה ראב״י לרבי יהודה: וכי היכן מצינו יום שמקצתו אסור",
+      "en": "Their exchange: where is a day part forbidden and part permitted? The day itself proves it, for leaven",
+      "move": { "element": "statement", "subtype": "reported", "target": "m9", "attested": false }
+    },
+    {
+      "id": "m9-inference",
+      "short": "Since R. Yehuda says sunrise, R. Eliezer's…",
+      "he": "מדקאמר רבי יהודה משעת הנץ החמה, אלמא אור דקאמר ראב״י — אורתא הוא!",
+      "en": "Since R. Yehuda says sunrise, R. Eliezer's 'or' is night",
+      "move": { "element": "statement", "subtype": "explanation", "target": "m9", "marker": "מדקאמר … אלמא", "attested": false }
+    },
+    {
+      "id": "a9",
+      "short": "No: 'or' is dawn",
+      "he": "לא, מאי אור — עמוד השחר",
+      "en": "No: 'or' is dawn",
+      "move": { "element": "resolution", "subtype": "settlement", "target": "m9", "attested": false }
+    },
+    {
+      "id": "q9",
+      "short": "Then R. Eliezer's own night is a…",
+      "he": "אי הכי… נימא איהו לנפשיה: הא איכא לילה",
+      "en": "Then R. Eliezer's own night is a part-permitted day",
+      "move": { "element": "difficulty", "subtype": "objection", "target": "a9", "marker": "אי הכי", "attested": false }
+    },
+    {
+      "id": "a9b",
+      "short": "He meant: the rabbis divide day from night,…",
+      "he": "הכי קאמר: בשלמא לדידי אשכחנא דקא פלגי רבנן בין יממא לליליא",
+      "en": "He meant: the rabbis divide day from night, not a day within itself",
+      "move": { "element": "resolution", "subtype": "settlement", "target": "q9", "marker": "הכי קאמר", "attested": false }
+    },
+    {
+      "id": "q9c",
+      "short": "Did R. Yehuda's leaven answer hold?",
+      "he": "שפיר קאמר ליה רבי יהודה לרבי אליעזר?",
+      "en": "Did R. Yehuda's leaven answer hold?",
+      "move": { "element": "difficulty", "subtype": "objection", "target": "a9b", "marker": "שפיר קאמר ליה …?", "attested": false }
+    },
+    {
+      "id": "a9c",
+      "short": "R. Eliezer: I speak of rabbinic labour, you…",
+      "he": "הכי קאמר ליה רבי אליעזר: אמינא לך אנא מלאכה דרבנן",
+      "en": "R. Eliezer: I speak of rabbinic labour, you answer with Torah leaven",
+      "move": { "element": "resolution", "subtype": "settlement", "target": "q9c", "marker": "הכי קאמר ליה", "attested": false }
+    },
+    {
+      "id": "q9d",
+      "short": "And R. Yehuda?",
+      "he": "ואידך?",
+      "en": "And R. Yehuda?",
+      "move": { "element": "question", "subtype": "query", "target": "a9c", "marker": "ואידך?", "attested": false }
+    },
+    {
+      "id": "a9d",
+      "short": "The hours are rabbinic",
+      "he": "שעות דרבנן",
+      "en": "The hours are rabbinic",
+      "move": { "element": "answer", "subtype": "answer", "target": "q9d", "attested": false }
+    },
+    {
+      "id": "q9e",
+      "short": "And R. Eliezer?",
+      "he": "ואידך?",
+      "en": "And R. Eliezer?",
+      "move": { "element": "question", "subtype": "query", "target": "a9d", "marker": "ואידך?", "attested": false }
+    },
+    {
+      "id": "a9e",
+      "short": "A rabbinic fence around Torah law",
+      "he": "הרחקה הוא דעבוד רבנן לדאורייתא",
+      "en": "A rabbinic fence around Torah law",
+      "move": { "element": "answer", "subtype": "answer", "target": "q9e", "attested": false }
+    },
+    {
+      "id": "m10",
+      "short": "Beacons are lit on the 'or' of the…",
+      "he": "מיתיבי: אין משיאין משואות… לאור עבורו",
+      "en": "Beacons are lit on the 'or' of the intercalated day — so 'or' is night. Conclude so",
+      "move": { "element": "difficulty", "subtype": "objection", "target": "rav-huna", "marker": "מיתיבי", "attested": false }
+    },
+    {
+      "id": "m11",
+      "short": "One who offers all night must wash at 'orah' —…",
+      "he": "מיתיבי: היה עומד כל הלילה ומקריב… לאורה טעון קידוש",
+      "en": "One who offers all night must wash at 'orah' — so 'or' is night",
+      "move": { "element": "difficulty", "subtype": "objection", "target": "rav-huna", "marker": "מיתיבי", "attested": false }
+    },
+    {
+      "id": "a11",
+      "short": "'Orah' is different",
+      "he": "אורה שאני",
+      "en": "'Orah' is different",
+      "move": { "element": "resolution", "subtype": "settlement", "target": "m11", "marker": "… שאני", "attested": false }
+    },
+    {
+      "id": "m12",
+      "speaker": "Mar Zutra",
+      "short": "Mar Zutra: miscarrying on the 'or' of the…",
+      "he": "מיתיבי מר זוטרא: המפלת אור לשמונים ואחד",
+      "en": "Mar Zutra: miscarrying on the 'or' of the eighty-first — Beis Hillel's reply shows 'or' is night. Conclude so",
+      "move": { "element": "difficulty", "subtype": "objection", "target": "rav-huna", "marker": "מיתיבי", "attested": false }
+    },
+    {
+      "id": "m13",
+      "short": "'It might be eaten on the or of the third day'…",
+      "he": "מיתיבי: יכול יהא נאכל אור לשלישי",
+      "en": "'It might be eaten on the or of the third day' — so 'or' is night. Conclude so",
+      "move": { "element": "difficulty", "subtype": "objection", "target": "rav-huna", "marker": "מיתיבי", "attested": false }
+    },
+    {
+      "id": "m14",
+      "short": "On the 'or' of Yom Kippur one prays seven and…",
+      "he": "תא שמע: אור של יום הכפורים מתפלל שבע ומתודה",
+      "en": "On the 'or' of Yom Kippur one prays seven and confesses — so 'or' is night. Conclude so",
+      "move": { "element": "difficulty", "subtype": "objection", "target": "rav-huna", "marker": "תא שמע", "attested": false }
+    },
+    {
+      "id": "m15",
+      "short": "Shmuel's school: on the night of the…",
+      "he": "תא שמע דתני דבי שמואל: לילי ארבעה עשר בודקין את החמץ",
+      "en": "Shmuel's school: on the night of the fourteenth one searches — so 'or' is night",
+      "move": { "element": "difficulty", "subtype": "objection", "target": "rav-huna", "marker": "תא שמע", "attested": false }
+    },
+    {
+      "id": "ela",
+      "short": "Rather: both agree 'or' is night; each used…",
+      "he": "אלא: בין רב הונא ובין רב יהודה דכולי עלמא אור אורתא הוא",
+      "en": "Rather: both agree 'or' is night; each used his own town's word",
+      "move": { "element": "contradiction", "subtype": "direct", "target": "ka-salka", "marker": "אלא", "attested": false }
+    },
+    {
+      "id": "q-tanna",
+      "short": "Why does our mishnah not say 'night'?",
+      "he": "ותנא דידן מאי טעמא לא קתני לילי?",
+      "en": "Why does our mishnah not say 'night'?",
+      "move": { "element": "question", "subtype": "query", "target": "mishnah", "marker": "ותנא דידן מאי טעמא", "attested": false }
+    },
+    {
+      "id": "a-lishna",
+      "short": "It chose refined speech, as R. Yehoshua b.…",
+      "he": "לישנא מעליא הוא דנקט",
+      "en": "It chose refined speech, as R. Yehoshua b. Levi taught",
+      "move": { "element": "answer", "subtype": "answer", "target": "q-tanna", "marker": "לישנא מעליא הוא דנקט", "attested": false }
+    }
+  ]
+}

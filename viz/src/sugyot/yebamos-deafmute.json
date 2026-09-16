@@ -1,0 +1,37 @@
+{
+  "$schema": "./sugya.schema.json",
+  "format": "derech-tevunos/sugya",
+  "version": 1,
+  "id": "yebamos-deafmute",
+  "title": "Why a deaf-mute may marry and the insane may not",
+  "tractate": "Yebamos",
+  "folio": "112b",
+  "discussedAt": "Derech Tevunos ch. 9, pp. 170-172",
+  "party": "party-talmud",
+  "collection": "ramchal",
+  "about": [
+    "Ramchal's own illustration of `שאלה` and its `תשובה`, Heb pp169/171, Eng pp170/172. Both labels are his, and the question carries one of the stock markers he cites, `מאי שנא … ומאי שנא`.",
+    "A question opens a thread rather than acting on an earlier sentence, so it sits at depth 0 with no target."
+  ],
+  "units": [
+    {
+      "id": "question",
+      "speaker": "The Gemara",
+      "he": "מאי שנא חרש וחרשת דתקינו להו רבנן נשואין, ומאי שנא דשוטה ושוטה דלא תקינו להו רבנן נשואין?",
+      "en": "What is the difference between deaf-mutes, for whom the rabbis ordained that a marriage is valid, and the insane, for whom a marriage is invalid?",
+      "move": { "element": "question", "subtype": "query", "marker": "מאי שנא … ומאי שנא", "attested": true },
+      "provenance": "asserted"
+    },
+    {
+      "id": "answer",
+      "speaker": "The Gemara",
+      "he": "חרש וחרשת דקימא תקנתא דרבנן – תקינו להו רבנן נשואין, שוטה ושוטה דלא קימא תקנתא דרבנן – לא תקינו רבנן נשואין",
+      "en": "Since deaf-mutes are capable of fulfilling rabbinical ordinances, the rabbis validated their marriage. The insane are incapable, so the rabbis did not.",
+      "move": { "element": "answer", "subtype": "answer", "target": "question", "attested": true },
+      "provenance": "derivation",
+      "anatomy": [
+        { "kind": "consequent", "note": "Since they can keep rabbinic ordinances, the rabbis validated their marriage: this, so that." }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="-12 -12 24 24" role="img" aria-label="syllogism">
+  <title>syllogism: premises added up give a conclusion (הקש)</title>
+  <path d="M -4.4 -6.8 H 4.6 M -4.4 -2.8 H 4.6" fill="none" stroke="#0d9488" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M -8.6 -2.8 H -6.6 M -7.6 -3.8 V -1.8" fill="none" stroke="#0d9488" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M -8.6 1.3 H 8.6" fill="none" stroke="#0d9488" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M -4.4 5.6 H 4.6" fill="none" stroke="#0d9488" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

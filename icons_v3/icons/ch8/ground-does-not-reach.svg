@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="-12 -12 24 24" role="img" aria-label="ground-does-not-reach">
+  <title>ground-does-not-reach: the ground is real but does not reach the statement</title>
+  <defs><linearGradient id="fade-reach" x1="0" y1="3.4" x2="0" y2="10.4" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#c026d3" stop-opacity="0.35"/><stop offset="0.42" stop-color="#c026d3" stop-opacity="0.95"/><stop offset="1" stop-color="#c026d3" stop-opacity="1"/></linearGradient></defs>
+  <path d="M -6.4 -0.6 H 6.4 L 9.6 10.4 H -9.6 Z" fill="none" stroke="#c026d3" stroke-width="0.9" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray='0.1 1.7'/>
+  <path d="M -7.56 3.4 H 7.56 L 9.6 10.4 H -9.6 Z" fill="url(#fade-reach)"/>
+  <path d="M -11.2 -0.6 H 11.2" fill="none" stroke="#c026d3" stroke-width="0.9" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M -6.60 -6.40 L 0.00 -11.60 L 6.60 -6.40 Z" fill="#c026d3"/>
+  <rect x="-4.80" y="-6.80" width="9.60" height="6.20" fill="#c026d3"/>
+</svg>

@@ -1,0 +1,285 @@
+{
+  "$schema": "./sugya.schema.json",
+  "format": "derech-tevunos/sugya",
+  "version": 1,
+  "id": "bm-2a-ochazin",
+  "title": "Two holding a garment",
+  "tractate": "Bava Metzia",
+  "folio": "2a-3a",
+  "discussedAt": "Not discussed in Derech Tevunos; labelled from stock phrases for the nested-rail study",
+  "party": "party-talmud",
+  "collection": "research",
+  "about": [
+    "Bava Metzia 2a–3a — `שנים אוחזין`: the opening sugya of the tractate.",
+    "Four challenges to the mishnah in turn (the double clause, Ben Nannas, Sumchos, R. Yose), each answered under itself; Rav Pappa's answer to the first reaches back over the whole exchange it settles. Frames inside threads, and the one page in the corpus where opening a band puts a second rail in a second lane."
+  ],
+  "hint": "Where to look: at **26** R. Yose’s challenge arrives open over four earlier challenges, each with its answers folded and Rav Pappa’s and Sumchos’ frames intact. Click the Sumchos band (*7 sentences folded · between …*) and a second rail appears one lane inside the mishnah’s — the only way a nested rail ever does. Open Rav Pappa’s band too and attention moves there: its rail takes the inner lane and Sumchos’, no longer enclosing it, drops out.",
+  "units": [
+    {
+      "id": "mishnah",
+      "speaker": "Mishnah",
+      "short": "Mishnah: two hold a garment, each says I found…",
+      "he": "שנים אוחזין בטלית… ויחלוקו",
+      "en": "Mishnah: two hold a garment, each says I found it, each says it is all mine",
+      "move": { "element": "statement", "subtype": "firsthand", "attested": false }
+    },
+    {
+      "id": "q-two-clauses",
+      "short": "Why teach both 'I found it' and 'it is all…",
+      "he": "למה לי למתנא… ליתני חדא!",
+      "en": "Why teach both 'I found it' and 'it is all mine'?",
+      "move": { "element": "difficulty", "subtype": "objection", "target": "mishnah", "marker": "למה לי … ליתני", "attested": false }
+    },
+    {
+      "id": "a-chada",
+      "short": "It teaches one case: I found it and it is all…",
+      "he": "חדא קתני",
+      "en": "It teaches one case: I found it and it is all mine",
+      "move": { "element": "resolution", "subtype": "settlement", "target": "q-two-clauses", "marker": "חדא קתני", "attested": false }
+    },
+    {
+      "id": "q-metzasiha",
+      "short": "Then teach only 'I found it'",
+      "he": "וליתני אני מצאתיה ואנא ידענא דכולה שלי",
+      "en": "Then teach only 'I found it'",
+      "move": { "element": "difficulty", "subtype": "objection", "target": "a-chada", "marker": "וליתני", "attested": false }
+    },
+    {
+      "id": "a-reisiha",
+      "short": "'Found' alone could mean 'saw'; 'all mine'…",
+      "he": "אי תנא אני מצאתיה הוה אמינא ראיתיה",
+      "en": "'Found' alone could mean 'saw'; 'all mine' rules that out",
+      "move": { "element": "resolution", "subtype": "settlement", "target": "q-metzasiha", "marker": "אי תנא … הוה אמינא", "attested": false }
+    },
+    {
+      "id": "q-rabbanai",
+      "short": "But Rabbanai: 'found' in Scripture means it…",
+      "he": "והא אמר רבנאי ומצאתה דאתאי לידיה משמע",
+      "en": "But Rabbanai: 'found' in Scripture means it came to hand",
+      "move": { "element": "difficulty", "subtype": "objection", "target": "a-reisiha", "marker": "והא אמר", "attested": false }
+    },
+    {
+      "id": "a-lishna",
+      "short": "The tanna uses everyday speech, where seeing…",
+      "he": "תנא לישנא דעלמא נקט",
+      "en": "The tanna uses everyday speech, where seeing is called finding",
+      "move": { "element": "resolution", "subtype": "settlement", "target": "q-rabbanai", "marker": "לישנא דעלמא נקט", "attested": false }
+    },
+    {
+      "id": "q-kula-sheli",
+      "short": "Then teach only 'all mine'",
+      "he": "וליתני כולה שלי ולא בעי אני מצאתיה",
+      "en": "Then teach only 'all mine'",
+      "move": { "element": "difficulty", "subtype": "objection", "target": "a-reisiha", "marker": "וליתני", "attested": false }
+    },
+    {
+      "id": "a-mishna-yeseira",
+      "short": "The extra clause teaches that seeing does not…",
+      "he": "ממשנה יתירה אשמעינן דראיה לא קני",
+      "en": "The extra clause teaches that seeing does not acquire",
+      "move": { "element": "resolution", "subtype": "settlement", "target": "q-kula-sheli", "marker": "ממשנה יתירה אשמעינן", "attested": false }
+    },
+    {
+      "id": "q-ze-veze",
+      "short": "How can it be one case? It says 'this one… and…",
+      "he": "ומי מצית אמרת חדא קתני? והא זה וזה קתני",
+      "en": "How can it be one case? It says 'this one… and this one' twice",
+      "move": { "element": "difficulty", "subtype": "objection", "target": "a-chada", "marker": "ומי מצית אמרת", "attested": false }
+    },
+    {
+      "id": "a-rav-pappa",
+      "speaker": "Rav Pappa",
+      "short": "Rav Pappa: the first clause is a find, the…",
+      "he": "אמר רב פפא: רישא במציאה וסיפא במקח וממכר",
+      "en": "Rav Pappa: the first clause is a find, the second a purchase",
+      "move": { "element": "resolution", "subtype": "settlement", "target": "q-two-clauses", "marker": "רישא ב… וסיפא ב…", "attested": false }
+    },
+    {
+      "id": "tzricha",
+      "short": "And both are needed: a find alone, or a sale…",
+      "he": "וצריכא",
+      "en": "And both are needed: a find alone, or a sale alone, would not teach the other",
+      "move": { "element": "proof", "subtype": "demonstration", "target": "a-rav-pappa", "marker": "וצריכא", "attested": false }
+    },
+    {
+      "id": "q-zuzei",
+      "short": "A sale? See whose money the seller took",
+      "he": "מקח וממכר, ולחזי זוזי ממאן נקט?",
+      "en": "A sale? See whose money the seller took",
+      "move": { "element": "difficulty", "subtype": "objection", "target": "a-rav-pappa", "marker": "ולחזי", "attested": false }
+    },
+    {
+      "id": "a-zuzei",
+      "short": "He took from both, one willingly, one not, and…",
+      "he": "לא צריכא דנקט מתרוייהו",
+      "en": "He took from both, one willingly, one not, and cannot say which",
+      "move": { "element": "resolution", "subtype": "settlement", "target": "q-zuzei", "marker": "לא צריכא ד", "attested": false }
+    },
+    {
+      "id": "q-ben-nannas",
+      "short": "Is the mishnah not Ben Nannas, who forbids…",
+      "he": "לימא מתניתין דלא כבן ננס",
+      "en": "Is the mishnah not Ben Nannas, who forbids oaths that make one side swear falsely?",
+      "move": { "element": "difficulty", "subtype": "objection", "target": "mishnah", "marker": "לימא מתניתין דלא כ", "attested": false }
+    },
+    {
+      "id": "a-ben-nannas",
+      "short": "Even Ben Nannas: here both may have lifted it…",
+      "he": "אפילו תימא בן ננס",
+      "en": "Even Ben Nannas: here both may have lifted it together, so no false oath is certain",
+      "move": { "element": "resolution", "subtype": "settlement", "target": "q-ben-nannas", "marker": "אפילו תימא", "attested": false }
+    },
+    {
+      "id": "q-sumchos",
+      "short": "Is the mishnah not Sumchos, who divides…",
+      "he": "לימא מתניתין דלא כסומכוס",
+      "en": "Is the mishnah not Sumchos, who divides doubtful money without an oath?",
+      "move": { "element": "difficulty", "subtype": "objection", "target": "mishnah", "marker": "לימא מתניתין דלא כ", "attested": false }
+    },
+    {
+      "id": "q-ela-rabbanan",
+      "short": "Then whose — the rabbis? They say the claimant…",
+      "he": "ואלא מאי, רבנן? הא אמרי המוציא מחברו עליו הראיה!",
+      "en": "Then whose — the rabbis? They say the claimant must prove",
+      "move": { "element": "difficulty", "subtype": "objection", "target": "q-sumchos", "marker": "ואלא מאי", "attested": false }
+    },
+    {
+      "id": "a-hai-mai",
+      "short": "No: for the rabbis, both holding it is…",
+      "he": "האי מאי? אי אמרת בשלמא רבנן",
+      "en": "No: for the rabbis, both holding it is different from neither holding it",
+      "move": {
+        "element": "resolution",
+        "subtype": "settlement",
+        "target": "q-ela-rabbanan",
+        "marker": "האי מאי? אי אמרת בשלמא",
+        "attested": false
+      }
+    },
+    {
+      "id": "sharpen-sumchos",
+      "short": "But for Sumchos, all the more should they…",
+      "he": "אלא אי אמרת סומכוס… לא כל שכן!",
+      "en": "But for Sumchos, all the more should they divide without an oath",
+      "move": { "element": "statement", "subtype": "explanation", "target": "q-sumchos", "marker": "אלא אי אמרת … לא כל שכן!", "attested": false }
+    },
+    {
+      "id": "a-sumchos-1",
+      "short": "Even Sumchos: he spoke of two uncertain…",
+      "he": "אפילו תימא סומכוס: כי אמר סומכוס שמא ושמא",
+      "en": "Even Sumchos: he spoke of two uncertain claims, not two certain ones",
+      "move": { "element": "resolution", "subtype": "settlement", "target": "q-sumchos", "marker": "אפילו תימא", "attested": false }
+    },
+    {
+      "id": "q-rabbah-b-huna",
+      "short": "But Rabbah bar Rav Huna has Sumchos say it…",
+      "he": "ולרבה בר רב הונא דאמר אמר סומכוס אפילו ברי וברי",
+      "en": "But Rabbah bar Rav Huna has Sumchos say it even for certain claims",
+      "move": { "element": "difficulty", "subtype": "objection", "target": "a-sumchos-1", "marker": "ולפלוני דאמר", "attested": false }
+    },
+    {
+      "id": "a-sumchos-2",
+      "short": "Even Sumchos: he spoke where there is a prior…",
+      "he": "אפילו תימא סומכוס: היכא דאיכא דררא דממונא",
+      "en": "Even Sumchos: he spoke where there is a prior monetary link",
+      "move": { "element": "resolution", "subtype": "settlement", "target": "q-sumchos", "marker": "אפילו תימא", "attested": false }
+    },
+    {
+      "id": "q-kal-vachomer",
+      "short": "Is it not a fortiori? Here, with no link, all…",
+      "he": "ולאו קל וחומר הוא?",
+      "en": "Is it not a fortiori? Here, with no link, all the more divide without an oath",
+      "move": { "element": "difficulty", "subtype": "objection", "target": "a-sumchos-2", "marker": "ולאו קל וחומר הוא?", "attested": false }
+    },
+    {
+      "id": "a-sumchos-3",
+      "short": "Even Sumchos: this oath is rabbinic, as R.…",
+      "he": "אפילו תימא סומכוס: שבועה זו מדרבנן היא כדרבי יוחנן",
+      "en": "Even Sumchos: this oath is rabbinic, as R. Yoḥanan said, against seizing another's cloak",
+      "move": { "element": "resolution", "subtype": "settlement", "target": "q-sumchos", "marker": "אפילו תימא", "attested": false }
+    },
+    {
+      "id": "q-r-yose",
+      "short": "Is the mishnah not R. Yose, who leaves…",
+      "he": "לימא מתניתין דלא כרבי יוסי",
+      "en": "Is the mishnah not R. Yose, who leaves disputed money until Elijah comes?",
+      "move": { "element": "difficulty", "subtype": "objection", "target": "mishnah", "marker": "לימא מתניתין דלא כ", "attested": false }
+    },
+    {
+      "id": "q-ela-rabbanan-2",
+      "short": "Then the rabbis? They too leave the remainder…",
+      "he": "אלא מאי רבנן… הא נמי כשאר דמי!",
+      "en": "Then the rabbis? They too leave the remainder until Elijah",
+      "move": { "element": "difficulty", "subtype": "objection", "target": "q-r-yose", "marker": "אלא מאי", "attested": false }
+    },
+    {
+      "id": "a-hai-mai-2",
+      "short": "No: for the rabbis, there one coin certainly…",
+      "he": "האי מאי? אי אמרת בשלמא רבנן",
+      "en": "No: for the rabbis, there one coin certainly belongs to one party; here both may own it",
+      "move": {
+        "element": "resolution",
+        "subtype": "settlement",
+        "target": "q-ela-rabbanan-2",
+        "marker": "האי מאי? אי אמרת בשלמא",
+        "attested": false
+      }
+    },
+    {
+      "id": "sharpen-yose",
+      "short": "But for R. Yose, all the more should it wait…",
+      "he": "אלא אי אמרת רבי יוסי היא… לא כל שכן!",
+      "en": "But for R. Yose, all the more should it wait for Elijah",
+      "move": { "element": "statement", "subtype": "explanation", "target": "q-r-yose", "marker": "אלא אי אמרת … לא כל שכן!", "attested": false }
+    },
+    {
+      "id": "a-yose-1",
+      "short": "Even R. Yose: there a cheat is certain, here…",
+      "he": "אפילו תימא רבי יוסי: התם ודאי איכא רמאי",
+      "en": "Even R. Yose: there a cheat is certain, here perhaps both lifted it",
+      "move": { "element": "resolution", "subtype": "settlement", "target": "q-r-yose", "marker": "אפילו תימא", "attested": false }
+    },
+    {
+      "id": "a-yose-2",
+      "short": "Or: there R. Yose penalises the cheat to make…",
+      "he": "אי נמי: התם קניס ליה רבי יוסי לרמאי",
+      "en": "Or: there R. Yose penalises the cheat to make him confess; here there is nothing to confess",
+      "move": { "element": "resolution", "subtype": "alternative", "target": "q-r-yose", "marker": "אי נמי", "attested": false }
+    },
+    {
+      "id": "q-tinach",
+      "short": "That works for a find; what of a sale?",
+      "he": "תינח מציאה, מקח וממכר מאי איכא למימר?",
+      "en": "That works for a find; what of a sale?",
+      "move": { "element": "difficulty", "subtype": "objection", "target": "a-yose-2", "marker": "תינח … מאי איכא למימר?", "attested": false }
+    },
+    {
+      "id": "mechavarta",
+      "short": "Rather, the first answer is the clear one",
+      "he": "אלא מחוורתא כדשנין מעיקרא",
+      "en": "Rather, the first answer is the clear one",
+      "move": { "element": "proof", "subtype": "validation", "target": "a-yose-1", "marker": "אלא מחוורתא כדשנין מעיקרא", "attested": false }
+    },
+    {
+      "id": "q-chenvani",
+      "short": "For rabbis and R. Yose alike: the shopkeeper's…",
+      "he": "בין לרבנן ובין לרבי יוסי, התם גבי חנוני על פנקסו",
+      "en": "For rabbis and R. Yose alike: the shopkeeper's ledger — both swear and collect, though a cheat is certain",
+      "move": { "element": "difficulty", "subtype": "objection", "target": "a-yose-1", "attested": false }
+    },
+    {
+      "id": "a-chenvani",
+      "short": "There the shopkeeper and the worker each have…",
+      "he": "אמרי: התם היינו טעמא",
+      "en": "There the shopkeeper and the worker each have a claim on the employer alone",
+      "move": { "element": "resolution", "subtype": "settlement", "target": "q-chenvani", "marker": "אמרי: התם היינו טעמא", "attested": false }
+    },
+    {
+      "id": "a-chenvani-2",
+      "short": "And the worker likewise, so both swear and…",
+      "he": "ושכיר נמי אמר ליה",
+      "en": "And the worker likewise, so both swear and collect from the employer",
+      "move": { "element": "statement", "subtype": "explanation", "target": "a-chenvani", "attested": false }
+    }
+  ]
+}
