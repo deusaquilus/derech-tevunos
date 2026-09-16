@@ -4,19 +4,28 @@
  * phrase that licensed the label, when the Hebrew opens with one (`marker`,
  * so the label reads *marked* rather than *inferred*), and the speaker, when
  * the sentence names one (`speaker`; a nameless row is the Talmud's own
- * voice, as everywhere else). Nothing here is attested by Ramchal, and none
- * carries the ch. 1–7 layer. Unit boundaries follow Steinsaltz's
+ * voice, as everywhere else). Nothing here is attested by Ramchal. Unit
+ * boundaries follow Steinsaltz's
  * segmentation, split where one segment holds two moves and merged where one
  * move runs across segments; where a target was genuinely ambiguous the
  * shorter reach was chosen.
+ *
+ * A row may also carry `provenance` and the ch. 1–8 layer. The study needed
+ * neither and three of the four passages still give neither; Gittin 2a–3a
+ * does, because a skeleton of a two-sided dispute is exactly where the
+ * anatomy has something to say that the move layer cannot — that Rabbah and
+ * Rava are `variant` rather than opposed, and what each objection stands on.
+ * A row that gives no `provenance` keeps the default `asserted`, so adding
+ * one to a row is a change to that unit's starting status and hence to the
+ * verdicts drawn from it.
  *
  * Text: William Davidson edition via the Sefaria v3 API. Copied from the
  * nested-rail study (`nested_rail_research/skeletons.ts`), which `viz/src`
  * must not import.
  */
 
-import type { Party } from "../../anatomy.ts";
-import type { Sugya, Unit } from "../../sugya.ts";
+import type { Annotation, Party } from "../../anatomy.ts";
+import type { Provenance, Sugya, Unit } from "../../sugya.ts";
 import type { Move } from "../../taxonomy.ts";
 
 /**
@@ -51,11 +60,14 @@ export const M = {
  * (`הך דהוה במשכן חשיבא`) has none, and its label stays inferred. `speaker` is
  * set only where the sentence names who says it; the anonymous voice, and
  * the voice that quotes a baraita or speaks for an amora (`אמר לך`), stay
- * nameless.
+ * nameless. `provenance` and `anatomy` are the ch. 8 and ch. 1–8 layers,
+ * given where a passage has been labelled past the skeleton.
  */
 export type RowTags = {
   readonly speaker?: string;
   readonly marker?: string;
+  readonly provenance?: Provenance;
+  readonly anatomy?: readonly Annotation[];
 };
 
 export type Row = readonly [
@@ -98,6 +110,8 @@ export const skeleton = (meta: SkeletonMeta, rows: readonly Row[]): Sugya => ({
       en,
       short: shorten(en),
       attested: false,
+      ...(tags?.provenance === undefined ? {} : { provenance: tags.provenance }),
+      ...(tags?.anatomy === undefined ? {} : { anatomy: tags.anatomy }),
     }),
   ),
 });

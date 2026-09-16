@@ -129,6 +129,10 @@ another field. Pesachim writes `ground-does-not-reach` on Rav Papa and
 on the analogism that knocks Rava down. The testimony's *handed down* is
 derived from `provenance: tradition` and is not in the file.
 
+Still unexercised by any shipped passage: `dilemma`, `theory`,
+`variant-subjects`, `ground-axiom`, `ground-sense`, `ground-common-sense`.
+They are in the vocabulary and the legend and on no row.
+
 ![The Relations lens, with the tile key](viz/out/lens-relations-tile.png)
 
 ![Bava Metzia 22b at the סתירה: the analogy, and *by deduction* beside it](viz/out/bm-49.png)
@@ -136,6 +140,53 @@ derived from `provenance: tradition` and is not in the file.
 ![Bava Metzia at step 12: fourteen badges, three of them magenta, two beads](viz/out/bm-12.png)
 
 ![Berachos 4a: the redrawn chapter 4 tiles](viz/out/berachos.png)
+
+---
+
+## 2.1 Gittin 2a–3a, the second worked passage
+
+The research skeletons were `id / move / target / text` and nothing else.
+Gittin 2a–3a is now labelled, because a two-sided dispute is where the
+anatomy says what chapter 9 cannot.
+
+Chapter 9 draws Rava's move on Rabbah as `דחיה` — one view set against
+another, both left merely possible. That is true about the *move* and
+misleading about the *statements*: Rabbah and Rava give two different
+reasons for one rule, neither denying what the other affirms. Chapter 4
+calls that `variant`, and the sugya proves the label by its next word,
+`מאי בינייהו` — two reasons that do not clash have to be separated by a
+case where they part. The badge and the question now say the same thing.
+
+The two threads are then the same argument run twice, once per side:
+
+| row | label | what it is |
+|---|---|---|
+| `ליבעי תרי … מידי דהוה א…` | `analogism`, marked | the declaration carried under Torah testimony (Rabbah) or ordinary ratification (Rava) |
+| `עד אחד נאמן באיסורין` | `fallacy-not-included` | the inclusion fails: this is a matter of prohibition, not of that kind |
+| `אימור דאמרינן … אבל הכא` | `differs-in-context` + `ground-does-not-reach` | the maxim is true and does not reach a matter of ervah |
+
+Both `ליבעי תרי` rows also carry a derived *handed down*, because each
+objection leans on received law and the file says so in `provenance`.
+`מידי דהוה א…` is the analogism's stock phrase, so those two labels read
+**marked** rather than inferred; the Hebrew on those rows was extended to
+the clause that carries it, which the skeleton had cut.
+
+Two icons get their first shipped row here. `אם כן ניתני בפני נחתם ותו לא`
+is a phrasing argument that concludes `שמע מינה בעינן לשמה` — the claim is
+established by the other reading's failure, so `via-opposite` sits beside
+the tollens. And Rabbah's `מי דמי?!` is Ramchal's own recognizer for
+`fallacy-not-similar`, marked.
+
+![Gittin at step 10: `variant` on Rava, the analogism and its derived ground, the inclusion that fails, and the maxim that does not reach](viz/out/git-10.png)
+
+![Gittin at step 30: `via-opposite` on the phrasing argument, `מי דמי?!` as a marked `fallacy-not-similar`, both threads folded](viz/out/git-30.png)
+
+Filling in `provenance` changed the page beyond the badges: thirteen units
+are `tradition`, so the mishnah now opens **accepted** instead of in doubt,
+and every verdict downstream of it is drawn from a truthful starting
+status. A skeleton with no `provenance` starts everything in doubt, which
+is what a skeleton looks like and not what the Talmud says. The other three
+research passages are unchanged and still read that way.
 
 ---
 
@@ -211,6 +262,9 @@ premises stay in `ext`.
 - **Not attested labels.** None of the fixtures' sentences is one Ramchal
   labels in chapters 1–8. The new chips are `inferred`, as v4's were, or
   `marked` where the Talmud's own wording names the form.
+- **Not a general re-labelling of the research passages.** Gittin was
+  labelled because its dispute needed it. Bava Metzia 2a, Bava Kamma 2a and
+  Pesachim 2a are still skeletons and still carry no `provenance`.
 - **Not every icon in `icons_v3`.** The seven chapter 9 moves stay in
   `icons.ts`. The tile is legend only. The contact-sheet decorations are
   not kinds.
@@ -237,6 +291,8 @@ premises stay in `ext`.
 | `viz/src/index.ts` | exports the new APIs |
 | `viz/src/fixtures/pesachim-liquids.ts` | Rav Papa `ground-does-not-reach`; Rav Huna `ground-deduction` |
 | `viz/src/fixtures/bava-metzia-yeush.ts` | sentence 49 `ground-deduction` |
+| `viz/src/fixtures/research/skeleton.ts` | `RowTags` carries optional `provenance` and `anatomy` |
+| `viz/src/fixtures/research/git-2a-befanai.ts` | 19 labels on 16 rows, `provenance` on 25; two rows' Hebrew extended to the `מידי דהוה א…` clause |
 | `viz/src/check.ts` | 64 types; `groundBadge` cases; fixture asserts |
 | `SUGYA_JSON_FORMAT.md` | §4.2, §4.4, §5.2, §7 |
 | `DERECH_TEVUNOS_FOR_AGENTS.md` | §0, §6, §8 visualization keys |

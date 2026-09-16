@@ -117,7 +117,7 @@ Counts are units unless stated.
 | `bm-2a-ochazin` — Bava Metzia 2a–3a | 36 | talmud | 2 | 36 | 36 | 35 | 33 | 36 false | — | — | — | 7 | yes |
 | `bk-2a-toldos` — Bava Kamma 2a–3b | 77 | talmud | 2 | 77 | 77 | 76 | 63 | 77 false | — | — | — | 10 | yes |
 | `pes-2a-or` — Pesachim 2a–3a | 46 | group | 4 | 46 | 46 | 45 | 39 | 46 false | — | — | — | 9 | yes |
-| `git-2a-befanai` — Gittin 2a–3a | 31 | group | 3 | 31 | 31 | 30 | 24 | 31 false | — | — | — | 6 | yes |
+| `git-2a-befanai` — Gittin 2a–3a | 31 | group | 3 | 31 | 31 | 30 | 24 | 31 false | — | 19 on 16 | anatomy, relations, deductions, grounds | 6 | yes |
 
 What each passage contributed to the format:
 
@@ -142,10 +142,22 @@ What each passage contributed to the format:
   stretched — which is what `about` is for.
 - **The four research passages** add the page furniture: `collection`
   (they sit on their own shelf in the gallery), `hint` (their header says which
-  step and which band produce the folds they exist to show), a `speaker` of
-  *Mishnah* on the opening unit, and units with no `provenance` at all. Their
+  step and which band produce the folds they exist to show), and a `speaker` of
+  *Mishnah* on the opening unit. Their
   `short` is a mechanical cut of `en`, materialised in the file, and every unit
-  is `attested: false` with a `marker` on most.
+  is `attested: false` with a `marker` on most. Three of the four give no
+  `provenance` on any unit, so every one of their claims starts in doubt —
+  which is what a skeleton looks like, not what the Talmud says.
+- **Gittin 2a–3a** is the one research passage labelled past the skeleton, and
+  it is the file's demonstration that the two layers are independent. Its ch. 9
+  move on Rava is `דחיה`, one view set against another; its ch. 4 label is
+  `variant`, one subject with two predicates and neither denying the other,
+  which is why the next unit has to ask `מאי בינייהו`. Both sides' threads then
+  run the same three labels — `analogism` marked by `מידי דהוה א…`,
+  `fallacy-not-included`, and `ground-does-not-reach` — so the file shows a
+  symmetry the move layer draws twice and never names. It is also where
+  `provenance` does visible work: thirteen units are `tradition`, and on the
+  objections that makes a derived ground badge.
 
 Nothing else on any page comes from anywhere but these keys. The two things
 the TypeScript originals had that the files do not are the section comments

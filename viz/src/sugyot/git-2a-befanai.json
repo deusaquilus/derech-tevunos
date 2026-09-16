@@ -11,7 +11,9 @@
   "collection": "research",
   "about": [
     "Gittin 2a–3a — `בפני נכתב ובפני נחתם`: Rabbah and Rava.",
-    "A two-sided dispute of the fixture's shape, in miniature: every long-reaching move lands on Rabbah or on Rava, and the two sides' threads alternate. Opening Rava's thread while a later move on Rabbah is the attention puts Rava's rail inside Rabbah's."
+    "A two-sided dispute of the fixture's shape, in miniature: every long-reaching move lands on Rabbah or on Rava, and the two sides' threads alternate. Opening Rava's thread while a later move on Rabbah is the attention puts Rava's rail inside Rabbah's.",
+    "The one research passage labelled past the skeleton, because the dispute needs it. Chapter 9 draws Rava's move on Rabbah as a `דחיה`, one view set against another; chapter 4 calls the two statements `variant` — one subject, two predicates, neither denying what the other affirms — which is why the sugya's next word is `מאי בינייהו`. Both sides' threads then run the same three labels, an `analogism` marked by `מידי דהוה א…`, a `fallacy-not-included`, and a `ground-does-not-reach`, so the symmetry the move layer draws twice is named once.",
+    "Where a label is a stretch: `via-opposite` on `אם כן ניתני בפני נחתם ותו לא` takes Rabbah's reason and Rava's as the only two on offer, which the sugya assumes and Ramchal's rule for the indirect route (no middle, Eng p116–118) does not strictly license. `provenance` is filled from the sentence's own authority, so the mishnah opens accepted rather than in doubt; the other three research passages give none and still open everything in doubt."
   ],
   "hint": "Where to look: at **25** a question on Rabbah arrives over both sides’ finished threads. Click the band under Rava (*under Rava: because witnesses…*) and Rava’s rail opens inside Rabbah’s.",
   "units": [
@@ -21,7 +23,14 @@
       "short": "Mishnah: one who brings a bill of divorce from…",
       "he": "המביא גט ממדינת הים צריך שיאמר בפני נכתב ובפני נחתם",
       "en": "Mishnah: one who brings a bill of divorce from abroad must declare it was written and signed before him",
-      "move": { "element": "statement", "subtype": "firsthand", "attested": false }
+      "move": { "element": "statement", "subtype": "firsthand", "attested": false },
+      "provenance": "tradition",
+      "anatomy": [
+        {
+          "kind": "unqualified",
+          "note": "`המביא` — whoever brings one. No quantity is stated, so by Ramchal's rule it carries the force of a categorical, which is what lets the whole sugya argue from single cases."
+        }
+      ]
     },
     {
       "id": "q-taama",
@@ -36,7 +45,8 @@
       "short": "Rabbah: because abroad they are not versed in…",
       "he": "רבה אמר: לפי שאין בקיאין לשמה",
       "en": "Rabbah: because abroad they are not versed in writing it for her sake",
-      "move": { "element": "answer", "subtype": "answer", "target": "q-taama", "attested": false }
+      "move": { "element": "answer", "subtype": "answer", "target": "q-taama", "attested": false },
+      "provenance": "asserted"
     },
     {
       "id": "rava",
@@ -44,7 +54,14 @@
       "short": "Rava: because witnesses are not available to…",
       "he": "רבא אמר: לפי שאין עדים מצויין לקיימו",
       "en": "Rava: because witnesses are not available to ratify it",
-      "move": { "element": "contradiction", "subtype": "opposition", "target": "rabbah", "attested": false }
+      "move": { "element": "contradiction", "subtype": "opposition", "target": "rabbah", "attested": false },
+      "provenance": "asserted",
+      "anatomy": [
+        {
+          "kind": "variant",
+          "note": "One subject — why the mishnah requires the declaration — and two predicates. Neither says לאו to what the other affirms, so this is `מתחלפים` and not opposition, which is exactly why the Gemara has to ask `מאי בינייהו`: two reasons that do not clash have to be separated by a case where they part."
+        }
+      ]
     },
     {
       "id": "q-beinaihu",
@@ -58,91 +75,168 @@
       "short": "Two bearers; province to province in the Land;…",
       "he": "איכא בינייהו דאתיוהו בי תרי",
       "en": "Two bearers; province to province in the Land; within one province abroad",
-      "move": { "element": "answer", "subtype": "answer", "target": "q-beinaihu", "marker": "איכא בינייהו", "attested": false }
+      "move": { "element": "answer", "subtype": "answer", "target": "q-beinaihu", "marker": "איכא בינייהו", "attested": false },
+      "provenance": "derivation",
+      "anatomy": [
+        {
+          "kind": "compound",
+          "note": "Three cases joined: two bearers, province to province inside the Land, one province to another abroad. Each is a case where one reason holds and the other does not."
+        }
+      ]
     },
     {
       "id": "q-rabbah-trei",
       "short": "For Rabbah, require two witnesses, as for all…",
-      "he": "ולרבה דאמר לפי שאין בקיאין לשמה — ליבעי תרי!",
-      "en": "For Rabbah, require two witnesses, as for all testimony",
-      "move": { "element": "difficulty", "subtype": "objection", "target": "rabbah", "marker": "ולפלוני דאמר … ליבעי", "attested": false }
+      "he": "ולרבה דאמר לפי שאין בקיאין לשמה — ליבעי תרי, מידי דהוה אכל עדיות שבתורה!",
+      "en": "For Rabbah, require two witnesses, as for all testimony in the Torah",
+      "move": { "element": "difficulty", "subtype": "objection", "target": "rabbah", "marker": "ולפלוני דאמר … ליבעי", "attested": false },
+      "provenance": "tradition",
+      "anatomy": [
+        {
+          "kind": "analogism",
+          "basis": "marked",
+          "note": "`מידי דהוה א…`: the declaration is carried under the rule for every testimony in the Torah, which needs two."
+        }
+      ]
     },
     {
       "id": "a-ed-echad",
       "short": "One witness is believed in matters of…",
       "he": "עד אחד נאמן באיסורין",
       "en": "One witness is believed in matters of prohibition",
-      "move": { "element": "resolution", "subtype": "settlement", "target": "q-rabbah-trei", "attested": false }
+      "move": { "element": "resolution", "subtype": "settlement", "target": "q-rabbah-trei", "attested": false },
+      "provenance": "tradition",
+      "anatomy": [
+        {
+          "kind": "fallacy-not-included",
+          "note": "The inclusion fails: the declaration is not one of the Torah's testimonies but a matter of prohibition, where one witness is believed. The objection is phrased as an analogy, but what the answer denies is the membership, not the likeness."
+        }
+      ]
     },
     {
       "id": "q-ischazek",
       "short": "Only where no prohibition is established; here…",
       "he": "אימור דאמרינן עד אחד נאמן באיסורין… אבל הכא דאיתחזק איסורא",
       "en": "Only where no prohibition is established; here she is an established married woman, a matter of two",
-      "move": { "element": "difficulty", "subtype": "objection", "target": "a-ed-echad", "marker": "אימור דאמרינן … אבל הכא", "attested": false }
+      "move": { "element": "difficulty", "subtype": "objection", "target": "a-ed-echad", "marker": "אימור דאמרינן … אבל הכא", "attested": false },
+      "provenance": "tradition",
+      "anatomy": [
+        {
+          "kind": "differs-in-context",
+          "note": "The maxim was said of the piece that may be forbidden fat or permitted suet, where no prohibition is yet established. A married woman's status is established. Two respects, so the maxim does not carry across."
+        },
+        {
+          "kind": "ground-does-not-reach",
+          "note": "`אימור דאמרינן … אבל הכא` is Ramchal's pattern exactly: the ground is not denied — one witness really is believed in prohibitions — it is shown not to reach this claim, `ואין דבר שבערוה פחות משנים` (Eng p132–136)."
+        }
+      ]
     },
     {
       "id": "a-rov",
       "short": "Most are versed; the requirement is rabbinic,…",
       "he": "רוב בקיאין הן… והכא משום עיגונא אקילו בה רבנן",
       "en": "Most are versed; the requirement is rabbinic, and they were lenient lest she be stranded",
-      "move": { "element": "resolution", "subtype": "settlement", "target": "q-ischazek", "attested": false }
+      "move": { "element": "resolution", "subtype": "settlement", "target": "q-ischazek", "attested": false },
+      "provenance": "derivation",
+      "anatomy": [
+        {
+          "kind": "partial",
+          "note": "`רוב` — most, not all. A partial statement, which is why R. Meir, who worries about the minority, has to be answered on his own terms in the next clause."
+        }
+      ]
     },
     {
       "id": "q-kula",
       "short": "Lenient? It is strict: with one witness the…",
       "he": "האי קולא הוא?! חומרא הוא!",
       "en": "Lenient? It is strict: with one witness the husband can protest and invalidate it",
-      "move": { "element": "difficulty", "subtype": "objection", "target": "a-rov", "marker": "האי קולא הוא?! חומרא הוא!", "attested": false }
+      "move": { "element": "difficulty", "subtype": "objection", "target": "a-rov", "marker": "האי קולא הוא?! חומרא הוא!", "attested": false },
+      "provenance": "derivation",
+      "anatomy": [
+        {
+          "kind": "diametrically-opposed",
+          "note": "Lenient against strict, said of the same ruling in the same respect: yes against no. The difficulty is the `אדרבה` shape — it does not deny the answer's fact, it turns the answer's own description around."
+        }
+      ]
     },
     {
       "id": "a-kula",
       "short": "Since it is given before two or three, he…",
       "he": "כיון דאמר מר: בפני כמה נותנו לה?",
       "en": "Since it is given before two or three, he checks first and will not undo himself",
-      "move": { "element": "resolution", "subtype": "settlement", "target": "q-kula", "marker": "כיון דאמר מר", "attested": false }
+      "move": { "element": "resolution", "subtype": "settlement", "target": "q-kula", "marker": "כיון דאמר מר", "attested": false },
+      "provenance": "tradition"
     },
     {
       "id": "q-rava-trei",
       "short": "For Rava, require two witnesses, as for…",
-      "he": "ולרבא דאמר לפי שאין עדים מצויין לקיימו — ליבעי תרי!",
+      "he": "ולרבא דאמר לפי שאין עדים מצויין לקיימו — ליבעי תרי, מידי דהוה אקיום שטרות דעלמא!",
       "en": "For Rava, require two witnesses, as for ratifying any document",
-      "move": { "element": "difficulty", "subtype": "objection", "target": "rava", "marker": "ולפלוני דאמר … ליבעי", "attested": false }
+      "move": { "element": "difficulty", "subtype": "objection", "target": "rava", "marker": "ולפלוני דאמר … ליבעי", "attested": false },
+      "provenance": "tradition",
+      "anatomy": [
+        {
+          "kind": "analogism",
+          "basis": "marked",
+          "note": "`מידי דהוה א…` again, from the other side: the declaration is carried under the rule for ratifying documents generally."
+        }
+      ]
     },
     {
       "id": "a-ed-echad-2",
       "short": "One witness is believed in matters of…",
       "he": "עד אחד נאמן באיסורין",
       "en": "One witness is believed in matters of prohibition",
-      "move": { "element": "resolution", "subtype": "settlement", "target": "q-rava-trei", "attested": false }
+      "move": { "element": "resolution", "subtype": "settlement", "target": "q-rava-trei", "attested": false },
+      "provenance": "tradition",
+      "anatomy": [
+        {
+          "kind": "fallacy-not-included",
+          "note": "The same answer, and the same failure of inclusion: ratification of documents is not the kind this belongs to."
+        }
+      ]
     },
     {
       "id": "q-ischazek-2",
       "short": "Only where no prohibition is established; here…",
       "he": "אימר דאמרינן עד אחד נאמן באיסורין… אבל הכא איתחזק איסורא",
       "en": "Only where no prohibition is established; here it is",
-      "move": { "element": "difficulty", "subtype": "objection", "target": "a-ed-echad-2", "marker": "אימור דאמרינן … אבל הכא", "attested": false }
+      "move": { "element": "difficulty", "subtype": "objection", "target": "a-ed-echad-2", "marker": "אימור דאמרינן … אבל הכא", "attested": false },
+      "provenance": "tradition",
+      "anatomy": [
+        { "kind": "differs-in-context", "note": "As on Rabbah's side: the maxim belongs to the case where nothing is yet established." },
+        {
+          "kind": "ground-does-not-reach",
+          "note": "The maxim stands and does not reach: the two sides' threads run the same argument, and the ch. 8 label is what shows it."
+        }
+      ]
     },
     {
       "id": "a-bedin",
       "short": "Ratification itself needs none by right, as…",
       "he": "בדין הוא דבקיום שטרות נמי לא ליבעי",
       "en": "Ratification itself needs none by right, as Reish Lakish said; the rabbis required it and were lenient here",
-      "move": { "element": "resolution", "subtype": "settlement", "target": "q-ischazek-2", "marker": "בדין הוא ד", "attested": false }
+      "move": { "element": "resolution", "subtype": "settlement", "target": "q-ischazek-2", "marker": "בדין הוא ד", "attested": false },
+      "provenance": "tradition"
     },
     {
       "id": "q-kula-2",
       "short": "Lenient? It is strict",
       "he": "האי קולא הוא?! חומרא הוא!",
       "en": "Lenient? It is strict",
-      "move": { "element": "difficulty", "subtype": "objection", "target": "a-bedin", "marker": "האי קולא הוא?! חומרא הוא!", "attested": false }
+      "move": { "element": "difficulty", "subtype": "objection", "target": "a-bedin", "marker": "האי קולא הוא?! חומרא הוא!", "attested": false },
+      "provenance": "derivation",
+      "anatomy": [
+        { "kind": "diametrically-opposed", "note": "The same turn as on Rabbah's side." }
+      ]
     },
     {
       "id": "a-kula-2",
       "short": "Since it is given before two or three, he…",
       "he": "כיון דאמר מר: בפני כמה נותנו לה?",
       "en": "Since it is given before two or three, he checks first",
-      "move": { "element": "resolution", "subtype": "settlement", "target": "q-kula-2", "marker": "כיון דאמר מר", "attested": false }
+      "move": { "element": "resolution", "subtype": "settlement", "target": "q-kula-2", "marker": "כיון דאמר מר", "attested": false },
+      "provenance": "tradition"
     },
     {
       "id": "q-rava-not-rabbah",
@@ -156,7 +250,14 @@
       "short": "The mishnah does not say 'written for her sake'",
       "he": "אמר לך: מי קתני בפני נכתב לשמה?",
       "en": "The mishnah does not say 'written for her sake'",
-      "move": { "element": "answer", "subtype": "answer", "target": "q-rava-not-rabbah", "marker": "אמר לך: מי קתני", "attested": false }
+      "move": { "element": "answer", "subtype": "answer", "target": "q-rava-not-rabbah", "marker": "אמר לך: מי קתני", "attested": false },
+      "provenance": "tradition",
+      "anatomy": [
+        {
+          "kind": "hypothetical-syllogism-tollens",
+          "note": "Had the requirement been `לשמה`, the mishnah would have said so; it does not; so it is not. A phrasing argument run on the mishnah's wording."
+        }
+      ]
     },
     {
       "id": "q-verabbah",
@@ -170,21 +271,30 @@
       "short": "It should have; but a longer formula would be…",
       "he": "בדין הוא דליתני הכי, אלא דאי מפשת ליה דיבורא אתי למגזייה",
       "en": "It should have; but a longer formula would be clipped",
-      "move": { "element": "resolution", "subtype": "settlement", "target": "q-verabbah", "marker": "בדין הוא ד… אלא ד", "attested": false }
+      "move": { "element": "resolution", "subtype": "settlement", "target": "q-verabbah", "marker": "בדין הוא ד… אלא ד", "attested": false },
+      "provenance": "derivation"
     },
     {
       "id": "q-hashta",
       "short": "Now too he may clip it",
       "he": "השתא נמי אתי למגזייה!",
       "en": "Now too he may clip it",
-      "move": { "element": "difficulty", "subtype": "objection", "target": "a-bedin-2", "marker": "השתא נמי", "attested": false }
+      "move": { "element": "difficulty", "subtype": "objection", "target": "a-bedin-2", "marker": "השתא נמי", "attested": false },
+      "provenance": "derivation"
     },
     {
       "id": "a-chada",
       "short": "One of three is clipped; one of two is not",
       "he": "חדא מתלת גאיז, חדא מתרתי לא גאיז",
       "en": "One of three is clipped; one of two is not",
-      "move": { "element": "resolution", "subtype": "settlement", "target": "q-hashta", "attested": false }
+      "move": { "element": "resolution", "subtype": "settlement", "target": "q-hashta", "attested": false },
+      "provenance": "derivation",
+      "anatomy": [
+        {
+          "kind": "differs-in-context",
+          "note": "Clipping was said of a three-word formula; the mishnah's is two. The objection's own claim is left standing and confined to where it was made."
+        }
+      ]
     },
     {
       "id": "q-rabbah-not-rava",
@@ -196,9 +306,20 @@
     {
       "id": "a-nichtav",
       "short": "Then 'signed before me' alone would do;…",
-      "he": "אם כן ניתני בפני נחתם ותו לא; בפני נכתב למה לי?",
+      "he": "אם כן ניתני בפני נחתם ותו לא; בפני נכתב למה לי? שמע מינה בעינן לשמה",
       "en": "Then 'signed before me' alone would do; 'written' shows the requirement is for her sake",
-      "move": { "element": "answer", "subtype": "answer", "target": "q-rabbah-not-rava", "marker": "אם כן … למה לי?", "attested": false }
+      "move": { "element": "answer", "subtype": "answer", "target": "q-rabbah-not-rava", "marker": "אם כן … למה לי?", "attested": false },
+      "provenance": "tradition",
+      "anatomy": [
+        {
+          "kind": "hypothetical-syllogism-tollens",
+          "note": "Had the reason been ratification, `בפני נחתם` alone would have carried it; the mishnah says `בפני נכתב` too; so that is not the reason."
+        },
+        {
+          "kind": "via-opposite",
+          "note": "`שמע מינה בעינן לשמה` — the conclusion is drawn from the other side's failure, not from anything said for this one. Ramchal allows the indirect route only where the two leave nothing between them (Eng p116–118); the sugya is treating Rabbah's reason and Rava's as the only two on offer, which is the assumption the rest of the page then tests."
+        }
+      ]
     },
     {
       "id": "q-verava",
@@ -212,28 +333,39 @@
       "short": "It should have; but it would be confused with…",
       "he": "בדין הוא דליתני הכי, אלא דאם כן אתי לאיחלופי בקיום שטרות דעלמא",
       "en": "It should have; but it would be confused with ordinary ratification by one witness",
-      "move": { "element": "resolution", "subtype": "settlement", "target": "q-verava", "marker": "בדין הוא ד… אלא ד", "attested": false }
+      "move": { "element": "resolution", "subtype": "settlement", "target": "q-verava", "marker": "בדין הוא ד… אלא ד", "attested": false },
+      "provenance": "derivation"
     },
     {
       "id": "q-mi-dami",
       "short": "Rabbah: is it alike? There 'we know', here…",
       "he": "ורבה: מי דמי?! התם ידעינן הכא בפני",
       "en": "Rabbah: is it alike? There 'we know', here 'before me'; there a woman is not believed, here she is",
-      "move": { "element": "difficulty", "subtype": "objection", "target": "a-bedin-3", "marker": "מי דמי?!", "attested": false }
+      "move": { "element": "difficulty", "subtype": "objection", "target": "a-bedin-3", "marker": "מי דמי?!", "attested": false },
+      "provenance": "tradition",
+      "anatomy": [
+        {
+          "kind": "fallacy-not-similar",
+          "basis": "marked",
+          "note": "`מי דמי?!` is Ramchal's own recognizer for the defeat. The two cases Rava says would be confused differ in what is said and in who may say it: there `ידעינן`, here `בפני`; there a woman is not believed, here she is."
+        }
+      ]
     },
     {
       "id": "a-atu",
       "short": "Rava: here too 'we know' would be believed, so…",
       "he": "ורבא אמר לך: אטו הכא כי אמרי ידעינן מי לא מהימני?!",
       "en": "Rava: here too 'we know' would be believed, so the confusion stands",
-      "move": { "element": "resolution", "subtype": "settlement", "target": "q-mi-dami", "marker": "אמר לך: אטו", "attested": false }
+      "move": { "element": "resolution", "subtype": "settlement", "target": "q-mi-dami", "marker": "אמר לך: אטו", "attested": false },
+      "provenance": "derivation"
     },
     {
       "id": "q-rabbah-tanna",
       "short": "For Rabbah, which tanna requires both writing…",
       "he": "ולרבה דאמר לפי שאין בקיאין לשמה, מאן האי תנא",
       "en": "For Rabbah, which tanna requires both writing and signing for her sake?",
-      "move": { "element": "difficulty", "subtype": "objection", "target": "rabbah", "marker": "מאן האי תנא", "attested": false }
+      "move": { "element": "difficulty", "subtype": "objection", "target": "rabbah", "marker": "מאן האי תנא", "attested": false },
+      "provenance": "derivation"
     }
   ]
 }

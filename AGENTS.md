@@ -7,7 +7,7 @@ background. Three documents, in order of authority:
 
 | Document | Role |
 |---|---|
-| [`CODE_STYLE_DOCTRINE.md`](CODE_STYLE_DOCTRINE.md) | **Authoritative.** The long-form statement, with reasoning and worked examples. Read it before arguing with a rule. |
+| [`CODE_STYLE_DOCTRINE.md`](CODE_STYLE_DOCTRINE.md) | **Authoritative.** The long-form statement, with reasoning and worked examples. Read it before arguing with a rule. Its header maps every example it cites onto the `viz/` file that demonstrates the same thing here, and records the four places this repo deliberately differs. |
 | [`.cursor/rules/minimal-fp-style.mdc`](.cursor/rules/minimal-fp-style.mdc) | Always-on summary of the same philosophy in miniature. |
 | [`.cursor/rules/typescript-domain-modeling.mdc`](.cursor/rules/typescript-domain-modeling.mdc) | Discriminated unions and exhaustive matching, applied to `.ts`/`.tsx`/`.astro`. |
 
@@ -29,8 +29,9 @@ then act on each group). A function named `parse…`, `classify…`, `build…`,
 
 ### `viz/` is the local reference implementation
 
-The doctrine's own examples live in another repo. This one has its own, and they
-are worth reading before writing new code here:
+The doctrine was written against a different codebase, so its examples are
+mapped onto local ones in its header. These are the files that mapping points
+at, and they are worth reading before writing new code here:
 
 | File | What it demonstrates |
 |---|---|
@@ -44,6 +45,170 @@ are worth reading before writing new code here:
 Verified 2026-09-16: **zero** TypeScript `any` anywhere in `viz/src`, and
 exactly one class declaration (the `Error` subclass above). Hold new code to
 that standard.
+
+Two local conventions the doctrine does not predict. **The exhaustiveness guard
+here is the inline binding**, `default: { const exhaustive: never = status;
+return exhaustive; }`, not a throwing `assertNever(x)` helper — see the three in
+`viz/src/verdict.ts`. Both give the same compile error when a variant is added,
+so match the neighbours rather than converting one to the other. And **`viz`
+tests are one acceptance oracle, not per-module unit files**: `src/check.ts`
+holds the shipped JSON passages to the TypeScript fixtures. The planned `site/`
+will use `vitest` per module as the doctrine describes.
+
+### Six patterns the long-form doctrine does not state
+
+Taken from the author's Kotlin doctrine (`kotlin-compiler-server/AGENTS.md`),
+translated to TypeScript. The first three are **already practised** in this
+codebase and in `exobench-site` but written down nowhere, which is how a
+later "simplification" removes them. The last three are new.
+
+**1. Spread an empty object to avoid repeating a conditional field.** The point
+is not immutability, which the doctrine already covers — it is that the absent
+case becomes `{}`, so a field that only sometimes appears is added once instead
+of in every branch.
+
+```typescript
+// The field is repeated in every branch, and grows with the union.
+const bad = (r: Result, alt?: Alt) =>
+  r.kind === "ok"
+    ? { status: "ok", data: r.data, alt: alt ? { url: alt.url } : undefined }
+    : { status: "err", message: r.error, alt: alt ? { url: alt.url } : undefined };
+
+// Added once. The empty object contributes nothing.
+const good = (r: Result, alt?: Alt) => {
+  const altPart = alt !== undefined ? { alt: { url: alt.url } } : {};
+  return r.kind === "ok"
+    ? { status: "ok", data: r.data, ...altPart }
+    : { status: "err", message: r.error, ...altPart };
+};
+```
+
+The array form is the same idea: `...(x !== undefined ? [x] : [])`. Both are
+already in use — see `scripts/build-blog-lastmod.ts`, `audit-plan-text.ts` and
+`src/lib/linkedin/postSegments.ts` in `exobench-site`.
+
+**2. Name a combining operation after its algebraic honesty.** Do not call
+something `plus`, `merge`, or `concat` unless it really is total and has an
+identity. If it is defined only on same-shape operands, or can throw, say so in
+the name — `absorb`, `insert`, `intoBucket`. `a + b` must not look like it can
+fail. `viz/src/folding.ts` already gets this right: the band combiner is
+`insert(bands, band)`, which promises nothing about commutativity or identity,
+and the invariant predicates (`contains`, `same`, `disjoint`, `covers`) are
+separate pure functions rather than being folded into it. A future "combine two
+analyses" operation is a **partial semigroup**, not a monoid; only the leaves
+(a nullable accumulator, a counter) are true monoids.
+
+**3. Derive, don't store — and make the derived value unstoreable.** If a value
+follows from other fields, expose it as a function or getter over the variant
+that has those fields. A stored copy is a second source of truth that goes
+stale, and a stored copy that gets *serialised* is a stale value with a long
+life. `viz` follows this — rails, handles and verdicts are derived in
+`useSugyaController`, never held — and so should anything the site persists:
+derived quantities stay out of the JSON.
+
+**4. Make the signature demand the variant.** When the caller has already
+established which variant it holds, do not write a function that accepts the
+union and pattern-matches with a dead branch. Type the parameter as the
+narrowed member and the invalid call becomes unwritable rather than merely
+handled. Push variant knowledge as far up the call chain as it will go.
+
+```typescript
+type Live = Extract<Lifecycle, { kind: "live" }>;
+
+// The `starting` branch is dead, and its dummy return is a lie.
+const bad = (l: Lifecycle): string =>
+  l.kind === "live" ? host(l.uri) : "<no uri yet>";
+
+// Only callable with what it actually needs.
+const good = (l: Live): string => host(l.uri);
+```
+
+Use the union-accepting form only when the function genuinely handles every
+variant — serialisation, logging, rendering a legend.
+
+**5. Brand a value to prove a check already ran.** The Kotlin doctrine calls
+this a *poor man's lens*: a wrapper whose factory demands proof of the variant,
+so downstream code never re-checks. In TypeScript this is a branded type with a
+smart constructor, and it is cleaner than the Kotlin because the brand can
+intersect the narrowed field type directly instead of casting inside a getter.
+
+```typescript
+declare const Validated: unique symbol;
+export type ValidatedDoc = SupplementalDoc & { readonly [Validated]: true };
+
+/** The only way to obtain a ValidatedDoc. Throws on any issue. */
+export const validate = (raw: unknown): ValidatedDoc => { /* … */ };
+```
+
+Worth reaching for when several downstream functions all depend on the same
+already-established fact. The concrete case here: a supplemental document is
+validated once at build time and then simply *trusted* everywhere after. A
+brand makes "this passed the schema" a fact the compiler knows. Not worth it
+for one or two call sites — a local narrowing is fine.
+
+**6. An `&&` ladder over two unions is not exhaustiveness-checked.** This is the
+real reason to escalate to `ts-pattern` for a two-value match, and it is
+stronger than "the nesting is ugly". `if (a.kind === "x" && b.kind === "y")`
+narrows correctly, so it compiles clean — and keeps compiling clean when a new
+variant is added, failing at runtime instead. A `ts-pattern` tuple match with
+`.exhaustive()` turns that into a compile error. Prefer `.exhaustive()` over
+`.otherwise()`; a catch-all is only for a genuinely intended default, and should
+be obviously deliberate.
+
+## Engineering discipline
+
+### A guardrail's failure is information, not an obstacle
+
+When a threshold check fails, the threshold is telling you something true. Fix
+the thing it measured; do not raise the number. This appears three times
+independently across the author's other repositories — a payload ceiling, a
+package-size budget, and a text audit — which makes it a principle rather than a
+local rule. The same applies to a strict compiler flag: do not weaken one to
+silence an error.
+
+If you believe a threshold is genuinely wrong, raising it requires **new
+evidence that the larger value actually works**, plus a dated row in the ledger
+below saying what was measured. Not an argument that it ought to be fine.
+
+### Measure, don't estimate; record the measurement and its date
+
+Estimates are not acceptable for anything a check depends on. Take the
+measurement, write it down with the date, and if a later change moves it, append
+a row rather than editing the old one — the history is the point.
+
+State uncertainty as a **bound**, not a guess. The model to copy, from the
+Kotlin doctrine: "we do not know the actual limit; it lies somewhere in
+`(95,226, 96,043]`", with the two measured data points tabulated and dated. That
+is far more useful to the next person than a confident wrong number, and it says
+plainly what experiment would narrow it.
+
+Measurements taken so far live inline in the sections below, each with its date.
+
+## Terminology
+
+Two habits of this project make drift expensive: several words name genuinely
+distinct constructs that sound interchangeable, and the same drawing has
+collected more than one name. Pin them.
+
+| Term | What it means | Not |
+|---|---|---|
+| **waterfall** | The layout `viz/` draws: a staircase of rows, one per labelled sentence, plus rails and folds. The preferred name for the drawing as a whole. | Any *computed* construction |
+| **glyph lattice** | An earlier name for the same waterfall. Survives in `viz/package.json` (`"name": "sugya-lattice"`) and `viz/README.md`. Do not rename the package; do not use it in new prose. | A concept lattice |
+| **concept lattice** | The FCA construction in `derech-tevunos-visualization-spec.md`, implemented in `web/`. A genuinely different visualization that *computes* something. | The waterfall |
+| **rail** | The connector drawn for one relation that reaches back many rows. | The whole drawing; a row |
+| **fold** | The band that puts a settled stretch of argument behind a summary the reader can open. | A collapse — the band keeps the verdict of everything inside it |
+| **status** | A statement's truth-state: `accepted` / `doubt` / `rejected`. Doubt is the resting state, not a fallback (ch. 8 p. 112). | A move's force |
+| **standing** | A move's remaining force: `live` / `weakened` / `discharged` / `defeated`. A discharged move was *answered*; a defeated one was *refuted*. | A statement's truth-state |
+
+The label layers are a second such set — **move** (ch. 9: what a sentence does),
+**form** and **relation** (chs. 1–7: what it is, and how it stands to what it
+acts on), plus **warrant** and **axis**. They are not interchangeable and a
+sentence carries them independently; `DERECH_TEVUNOS_FOR_AGENTS.md` is the
+authority on which vocabulary is closed and what each admits.
+
+When in doubt, ask which question the word answers: *what is drawn* (waterfall,
+rail, fold), *what is computed* (concept lattice), *what is claimed* (status),
+or *what is still exerting force* (standing).
 
 ## What is in this repository
 
@@ -90,8 +255,10 @@ Sampled from the PNGs rather than eyeballed:
 | Off-white | `#FDFDFD` | Beard |
 
 `mascott/just_beard_goggles.png` is already a logo mark — gold rings, cyan
-lenses, white beard, transparent background. It is the favicon and the nav
-glyph; no additional art is needed.
+lenses, white beard, transparent background. It is the nav glyph. Favicons
+are the sized set `mascott/goggles-beard-{16,24,32,48,64,96}x{same}.png`,
+copied into `viz/public/` and `web/public/` and declared in each app's
+`index.html`.
 
 **Gold and cyan are unusable as text on white** (contrast ratios about 1.7:1 and
 1.5:1). So the literal mascot colours go on dark chrome only, and the light
@@ -220,6 +387,22 @@ caption.
   `as const` string union works.
 - Call an effectful function inside an `if` / `switch` / `while` / ternary
   predicate, or hide an effect inside a `map` / `reduce`.
+- Name a partial or throwing combiner `plus` / `merge` / `concat`, as though it
+  were a monoid. See "Six patterns", item 2.
+- Store a value that can be derived, or serialise a derived value into JSON
+  where it can go stale.
+- Write a function that accepts a union and pattern-matches with a dead branch
+  when the caller already knows the variant. Narrow the *signature*.
+- Match two unions with an `&&` ladder. It is not exhaustiveness-checked, so a
+  new variant compiles clean and fails at runtime — use a `ts-pattern` tuple
+  match with `.exhaustive()`.
+- Raise a threshold, loosen an assertion, or weaken a strict compiler flag to
+  make a check pass. A failing guardrail is information. Raising one needs new
+  evidence plus a dated measurement.
+- Record an estimate where a measurement is possible, or state a guess where a
+  bound is honest.
+- Use "lattice" for the waterfall in new prose, or "concept lattice" for
+  anything `viz/` draws. See "Terminology".
 - Remove, shorten, or reword code comments when moving or refactoring code.
   Comments travel verbatim with the code they describe.
 - Disable, skip, or delete a failing test to make a build pass.

@@ -1,16 +1,58 @@
 # Code style doctrine — pragmatic functional TypeScript
 
-> **Provenance.** This is a verbatim copy of `exobench-chatbot/AGENTS.md`, the
-> author's authoritative long-form statement of his TypeScript style. It is
-> copied here rather than referenced across repositories so that this repo
-> carries its own doctrine. Everything below the line is unaltered, including
-> the original title.
->
-> Two consequences of it being a copy: the `src/…` files it cites as canonical
-> examples (`wire.ts`, `errors.ts`, `domain.ts`) live in **that** repo, not this
-> one — for local examples see the `viz/` files named in `AGENTS.md`; and the
-> Node-22 wrapper it mandates (`scripts/with-node22.mjs`) is that repo's
-> mechanism, not one this repo has.
+**Provenance.** This is a verbatim copy of the author's authoritative long-form
+statement of his TypeScript style. It is copied here, rather than referenced
+across repositories, so that this repo carries its own doctrine. Everything
+below the rule is unaltered, including the original title.
+
+## Reading its examples in this repository
+
+The doctrine cites the source repo's own `src/` files as canonical examples.
+Those files are not reproduced here — they belong to a separate, unlicensed
+codebase, and this repository is Apache-2.0. **`viz/` already demonstrates every
+pattern the doctrine cites, in this domain, and it typechecks.** Read these
+instead:
+
+| Cited as | Read instead | Which rule it demonstrates |
+|---|---|---|
+| `src/wire.ts` (`toSseFrame`, `assertNever`) | `viz/src/verdict.ts` | Exhaustive `switch` over a union with a `never` guard — three of them, deciding which of status or standing to report and in what words |
+| `src/domain.ts` (`DomainEvent`, `TokenUsage`) | `viz/src/sugya.ts`, `viz/src/folding.ts`, `viz/src/anatomy.ts` | Coproducts for the model, `readonly` products for the records. `folding.ts` carries the fold-tree invariants as types (laminar bands, `readonly` on 72 lines) |
+| `src/errors.ts` (pure classifiers, `unknown` narrowing) | `viz/src/format.ts` | The I/O boundary done properly: `parseSugya` narrows `unknown` and reports *every* fault with its path. `SugyaFormatError extends Error` is the repo's only class, and it is the blessed "throw for errors" case |
+| `src/errors.ts` (`ReadonlyArray` constant tables) | `viz/src/markers.ts`, `viz/src/taxonomy.ts` | `as const` vocabularies instead of TS `enum`s — the Aramaic trigger lexicon, and the seven elements with their nineteen leaves |
+| `src/redact.ts` (one grammar, several total interpreters) | `viz/src/render.ts` vs `viz/src/app/SugyaView.tsx` | The model is framework-free; a static-SVG interpreter and a React interpreter both fold over it, and everything they must agree on lives in a module both import |
+| `tsconfig.json` (strict flags) | `viz/tsconfig.json` | `strict`, `noUncheckedIndexedAccess`, `noFallthroughCasesInSwitch`, `noImplicitOverride`. Do not weaken these to silence an error |
+| `src/app/router.tsx` *(no counterpart cited)* | `viz/src/app/router.tsx` | The house answer to "should we add a library": a hash router in fifty lines with no dependency |
+
+## Four places this repository genuinely differs
+
+Recorded so that nobody "corrects" local code toward the source repo, or the
+reverse:
+
+- **The exhaustiveness idiom is different, and both are correct.** The doctrine
+  shows a throwing helper, `default: return assertNever(x)`. `viz` uses the
+  inline binding instead — `default: { const exhaustive: never = status; return
+  exhaustive; }` (`verdict.ts`). Both produce the same compile error when a
+  variant is added, which is the entire point; only the named helper also throws
+  at runtime. Match the neighbours in whichever file you are editing.
+- **Tests do not mirror source here.** The doctrine specifies `vitest` with one
+  `test/*.test.ts` per module. `viz` instead has a single 844-line acceptance
+  script, `src/check.ts`, run by `npm test`, which holds the shipped JSON
+  passages to the TypeScript fixtures as an oracle. The planned `site/` will use
+  `vitest` as the doctrine describes; `viz` should keep its oracle.
+- **There is no Node-22 wrapper.** The doctrine mandates routing every toolchain
+  invocation through `scripts/with-node22.mjs` because that repo's shells
+  resolve an older Node. This repo has no such wrapper and no `.npmrc`
+  `engine-strict`; it just requires Node 22 or later.
+- **`src/asyncIter.ts` has no counterpart.** Nothing in `viz` iterates
+  asynchronously, so the doctrine's carve-out permitting `for...of` for
+  streaming and `async` iteration has no local example. The carve-out still
+  stands; there is simply nothing here to point at.
+
+One further reference, `../kotlin-compiler-server/AGENTS.md`, is cited for a
+`CallLimitResult` case study on sentinel values. It has no counterpart here
+either. The lesson it carries — that "unlimited" is a *variant*, not
+`Number.MAX_SAFE_INTEGER` — is stated in full in the "No magic values /
+sentinels" rule below, so nothing is lost by not having it.
 
 ---
 
