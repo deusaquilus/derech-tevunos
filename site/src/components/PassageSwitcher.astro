@@ -13,13 +13,16 @@ const { current } = Astro.props;
  * strip, which was built on its hash router: every entry here is a real link
  * to a real page, so the passages are crawlable and the browser's back button
  * works.
+ *
+ * A wrapping grid, not a horizontal scroller. It lives inside the stage's
+ * hover panel now, and a panel that needs its own scrollbar to show nine
+ * items defeats the point of the panel.
  */
 const passages = SUGYOT.map((s) => ({
   id: s.id,
   cite: `${s.tractate} ${s.folio}`,
   title: s.title,
   sentences: s.units.length,
-  collection: s.collection ?? 'other',
 }));
 ---
 
@@ -39,32 +42,25 @@ const passages = SUGYOT.map((s) => ({
 
 <style>
   .switcher {
-    display: flex;
+    display: grid;
+    /* 160px, not 200: at a 390px phone width that yields two columns, so the
+       nine cards take five rows (~360px) instead of nine (~630px) and the
+       panel fits the clamped viewport. Measured 2026-09-16: one column put
+       the panel's bottom at 926px in an 844px viewport. */
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
     gap: 0.5rem;
-    overflow-x: auto;
-    padding: 0.75rem 0 1rem;
-    scrollbar-width: thin;
-  }
-
-  .switcher::-webkit-scrollbar { height: 6px; }
-  .switcher::-webkit-scrollbar-thumb {
-    background: rgba(253, 194, 35, 0.25);
-    border-radius: 3px;
   }
 
   a {
     display: flex;
     flex-direction: column;
     gap: 0.1rem;
-    flex: 0 0 auto;
-    min-width: 11rem;
-    max-width: 15rem;
-    padding: 0.6rem 0.85rem;
+    padding: 0.55rem 0.8rem;
     border: 1px solid rgba(253, 194, 35, 0.18);
     border-radius: 8px;
     background: rgba(255, 255, 255, 0.03);
     text-decoration: none;
-    transition: border-color 0.2s ease, background 0.2s ease;
+    transition: border-color 0.15s ease, background 0.15s ease;
   }
 
   a:hover {
@@ -86,19 +82,15 @@ const passages = SUGYOT.map((s) => ({
     color: var(--dt-champagne);
   }
 
-  a.on .cite { color: var(--dt-cyan); }
+  a.on .cite {
+    color: var(--dt-cyan);
+  }
 
   .title {
     font-size: 0.875rem;
     font-weight: 500;
     color: var(--dt-chrome-fg);
     line-height: 1.3;
-    /* Titles run to a full clause; two lines then ellipsis keeps the strip a
-       fixed height so the rail below it does not shift. */
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
   }
 
   .count {

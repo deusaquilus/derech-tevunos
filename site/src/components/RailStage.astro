@@ -1,0 +1,330 @@
+---
+import PassageSwitcher from './PassageSwitcher.astro';
+import Rail from './Rail';
+import { movementsOf, type Sugya } from '../rail/sugya.ts';
+import { markupToHtml } from '../rail/markup.ts';
+
+interface Props {
+  sugya: Sugya;
+}
+
+/**
+ * The rail, owning the viewport.
+ *
+ * Two layout facts, both load-bearing:
+ *
+ *   1. THE SHEET IS THE ONLY THING THAT SCROLLS. The page is clamped
+ *      (`body.dt-stage` in Layout.astro), this component fills `main`, and
+ *      `.stage-sheet` takes the remaining height with `overflow-y: auto`.
+ *      Wheel and drag over the drawing move the drawing; nothing under it
+ *      can move. The rail's three `position: sticky` elements — the
+ *      state-of-play strip, the foot control and the reveal dock — all attach
+ *      to this scroller, which is why it also declares `container-type: size`:
+ *      the dock's height is written in `cqh` against it.
+ *
+ *   2. THE HEADER IS A STRIP THAT EXPANDS OVER THE SHEET, NOT ABOVE IT. When
+ *      collapsed it is one 40px line — cite, title, counts. Hovering, focusing
+ *      or tapping it reveals a panel with the passage switcher. The panel is
+ *      absolutely positioned so opening it never changes the sheet's height:
+ *      the controller measures row geometry, and a header that pushed the
+ *      sheet down would re-measure every rail and elbow on every hover.
+ */
+const { sugya } = Astro.props;
+const cite = `${sugya.tractate} ${sugya.folio}`;
+const movements = movementsOf(sugya).length;
+const hintHtml = sugya.hint === undefined ? undefined : markupToHtml(sugya.hint);
+---
+
+<div class="stage">
+  <header class="strip" id="railStrip">
+    <button
+      class="line"
+      type="button"
+      aria-expanded="false"
+      aria-controls="railPanel"
+      title="Show the passages"
+    >
+      <span class="cite">{cite}</span>
+      <span class="title">{sugya.title}</span>
+      <span class="meta">{sugya.units.length} sentences · {movements} movements</span>
+      <span class="more" aria-hidden="true">
+        passages
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="m6 9 6 6 6-6" />
+        </svg>
+      </span>
+    </button>
+
+    <div class="panel" id="railPanel">
+      {hintHtml && <p class="hint" set:html={hintHtml} />}
+      <PassageSwitcher current={sugya.id} />
+      <div class="links">
+        <a href="/sugya">All passages</a>
+        <a href="/docs/text/chapter-09">The chapter 9 vocabulary</a>
+        <a href="/docs">The text</a>
+      </div>
+    </div>
+  </header>
+
+  <div class="stage-sheet sugya-sheet" id="railSheet">
+    <Rail id={sugya.id} client:only="react" />
+  </div>
+</div>
+
+<script>
+  // Hover opens the panel via CSS. This script covers what CSS cannot: a tap
+  // on a touch screen, Escape, a click elsewhere, and — the important one —
+  // the moment the reader starts using the drawing, which closes the panel so
+  // it never sits over the thing they are looking at.
+  const strip = document.getElementById('railStrip');
+  const line = strip?.querySelector<HTMLButtonElement>('.line');
+  const sheet = document.getElementById('railSheet');
+
+  if (strip && line && sheet) {
+    const set = (open: boolean): void => {
+      strip.classList.toggle('open', open);
+      line.setAttribute('aria-expanded', String(open));
+    };
+
+    line.addEventListener('click', () => set(!strip.classList.contains('open')));
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') set(false);
+    });
+
+    document.addEventListener('pointerdown', (e) => {
+      if (!strip.contains(e.target as Node)) set(false);
+    });
+
+    // Any engagement with the sheet clamps the stage: the panel goes away and
+    // the reader has the whole drawing. `passive` because we never cancel.
+    for (const type of ['wheel', 'pointerdown', 'touchstart'] as const) {
+      sheet.addEventListener(type, () => set(false), { passive: true });
+    }
+  }
+</script>
+
+<style>
+  .stage {
+    flex: 1;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    background: var(--dt-ink);
+  }
+
+  /* ── The strip ── */
+
+  .strip {
+    position: relative;
+    z-index: 20;
+    flex: none;
+    border-bottom: 1px solid var(--dt-chrome-rule);
+    background: var(--dt-ink);
+  }
+
+  .line {
+    display: flex;
+    align-items: baseline;
+    gap: 0.9rem;
+    width: 100%;
+    height: 40px;
+    padding: 0 1.25rem;
+    background: none;
+    border: 0;
+    color: inherit;
+    font: inherit;
+    text-align: left;
+    cursor: pointer;
+  }
+
+  .cite {
+    font-family: var(--dt-condensed);
+    font-size: 0.6875rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--dt-champagne);
+    white-space: nowrap;
+  }
+
+  .title {
+    font-size: 0.9375rem;
+    font-weight: 500;
+    color: var(--dt-chrome-fg);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    min-width: 0;
+  }
+
+  .meta {
+    font-family: var(--dt-condensed);
+    font-size: 0.75rem;
+    letter-spacing: 0.04em;
+    color: var(--dt-chrome-dim);
+    white-space: nowrap;
+  }
+
+  .more {
+    margin-left: auto;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    font-family: var(--dt-condensed);
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--dt-chrome-muted);
+    white-space: nowrap;
+    transition: color 0.15s ease;
+  }
+
+  .more svg {
+    width: 0.9em;
+    height: 0.9em;
+    transition: transform 0.18s ease;
+  }
+
+  .strip:hover .more,
+  .strip:focus-within .more,
+  .strip.open .more {
+    color: var(--dt-cyan);
+  }
+
+  .strip:hover .more svg,
+  .strip:focus-within .more svg,
+  .strip.open .more svg {
+    transform: rotate(180deg);
+  }
+
+  /* ── The panel: absolutely positioned so the sheet never moves ── */
+
+  .panel {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    padding: 1rem 1.25rem 1.25rem;
+    /* The page is clamped, so a panel taller than what is left of the
+       viewport would simply be cut off. Cap it and let it scroll inside
+       itself — with the scrollbar hidden, like the sheet. The 90px is the
+       nav plus this strip. */
+    max-height: calc(100dvh - 90px);
+    overflow-y: auto;
+    scrollbar-width: none;
+    background: #11151d;
+    border-bottom: 1px solid var(--dt-chrome-rule);
+    box-shadow: 0 24px 48px rgba(0, 0, 0, 0.55);
+    visibility: hidden;
+    opacity: 0;
+    transform: translateY(-6px);
+    transition:
+      opacity 0.18s ease,
+      transform 0.18s ease,
+      visibility 0s linear 0.18s;
+  }
+
+  .strip:hover .panel,
+  .strip:focus-within .panel,
+  .strip.open .panel {
+    visibility: visible;
+    opacity: 1;
+    transform: none;
+    transition-delay: 0s;
+  }
+
+  .hint {
+    margin: 0 0 0.9rem;
+    max-width: 78ch;
+    font-size: 0.9rem;
+    line-height: 1.6;
+    font-weight: 300;
+    color: var(--dt-chrome-muted);
+  }
+
+  .hint :global(b) {
+    font-weight: 500;
+    color: var(--dt-champagne);
+  }
+
+  .hint :global(i) {
+    font-style: italic;
+    color: #d6d3d1;
+  }
+
+  .links {
+    display: flex;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    margin-top: 1rem;
+    padding-top: 0.85rem;
+    border-top: 1px solid var(--dt-chrome-rule-soft);
+    font-size: 0.8125rem;
+  }
+
+  .links a {
+    color: var(--dt-chrome-muted);
+    text-decoration: none;
+  }
+
+  .links a:hover {
+    color: var(--dt-cyan);
+  }
+
+  /* ── The sheet: the one scroll container ── */
+
+  .stage-sheet {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    overflow-x: hidden;
+    /* Lets the rail dock size itself in `cqh` against this scroller. */
+    container-type: size;
+    /* `.sugya-sheet` paints the rail's stone page colour; the stage keeps the
+       ink so the drawing reads as a lit card on the dark shell, which is how
+       it has looked since the first mock. */
+    background: var(--dt-ink);
+    padding: 14px 16px 18px;
+    /* No visible scrollbar. The sheet still scrolls with wheel, trackpad and
+       touch; only the chrome is gone. */
+    scrollbar-width: none;
+  }
+
+  .stage-sheet::-webkit-scrollbar,
+  .panel::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* The rail's own card, centred at the widths its author chose for it
+     (`.app` in the old standalone shell: 1040px, 1220px for a long passage). */
+  .stage-sheet :global(article.sheet) {
+    max-width: 1040px;
+    margin: 0 auto;
+  }
+
+  .stage-sheet :global(article.sheet-long) {
+    max-width: 1220px;
+  }
+
+  @media (max-width: 720px) {
+    .line {
+      gap: 0.6rem;
+      padding: 0 0.85rem;
+    }
+
+    .meta {
+      display: none;
+    }
+
+    .panel {
+      padding: 0.85rem 0.85rem 1rem;
+    }
+
+    .stage-sheet {
+      padding: 8px 6px 10px;
+    }
+  }
+</style>

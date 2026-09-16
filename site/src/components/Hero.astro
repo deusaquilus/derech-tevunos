@@ -1,0 +1,161 @@
+---
+import { SUGYOT } from '../rail/sugyot/index.ts';
+
+/**
+ * The introduction: the wordmark at hero scale, the one-paragraph account of
+ * what the waterfall is, and the mascot.
+ *
+ * This used to open the homepage. It moved when the homepage became the rail
+ * itself, clamped to the viewport — a 400px introduction above a drawing that
+ * must own the screen left the drawing nothing. It now opens the passage
+ * index, which is the browsing page and the natural place for an introduction.
+ */
+const featured = SUGYOT[0];
+const totalSentences = SUGYOT.reduce((n, s) => n + s.units.length, 0);
+---
+
+<section class="hero">
+  <div class="inner">
+    <div class="copy">
+      <h1>Derech Tevunos</h1>
+      <p class="lede">
+        Ramchal's <em>Ways of Reason</em> gives every sentence of a sugya the
+        move it makes. This draws those moves as a <strong>waterfall</strong>:
+        a staircase of rows, a <strong>rail</strong> where a relation reaches
+        back many rows, and <strong>folds</strong> that put settled argument
+        behind a band.
+      </p>
+      <p class="meta">
+        {SUGYOT.length} passages · {totalSentences} labelled sentences · the
+        Hebrew and English of all eleven chapters
+      </p>
+      <div class="cta">
+        {featured && <a class="primary" href={`/sugya/${featured.id}`}>Read a passage</a>}
+        <a class="secondary" href="/docs">Read the text</a>
+      </div>
+    </div>
+
+    <img
+      class="bust"
+      src="/mascot/bust.webp"
+      alt=""
+      width="900"
+      height="820"
+      loading="eager"
+      decoding="async"
+    />
+  </div>
+</section>
+
+<style>
+  /* The mascot's robe is near-black and this background is ink, so the
+     silhouette would dissolve into it. The radial lift behind the figure
+     separates the two without a hard edge, leaving the gold piping, the cyan
+     lenses and the white beard to carry the shape. */
+  .hero {
+    background: radial-gradient(ellipse 70% 90% at 72% 40%, #1a2030 0%, var(--dt-ink) 68%);
+    border-bottom: 1px solid var(--dt-chrome-rule-soft);
+    overflow: hidden;
+  }
+
+  .inner {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 3rem 2rem 2.5rem;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 380px);
+    align-items: center;
+    gap: 2rem;
+  }
+
+  h1 {
+    margin: 0 0 1rem;
+    font-size: clamp(2.5rem, 6vw, 3.5rem);
+    font-weight: 400;
+    line-height: 1.05;
+    letter-spacing: -0.005em;
+    /* F1 metallic sans at hero scale: weight 400, near-zero tracking. See
+       tokens.css for why `translateZ(0)` is required. */
+    background: var(--dt-metal-lg);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    transform: translateZ(0);
+  }
+
+  .lede {
+    margin: 0 0 1rem;
+    max-width: 54ch;
+    font-size: 1.0625rem;
+    line-height: 1.7;
+    font-weight: 300;
+    color: var(--dt-chrome-muted);
+  }
+
+  .lede em { color: #d6d3d1; font-style: italic; }
+  .lede strong { color: var(--dt-champagne); font-weight: 500; }
+
+  .meta {
+    margin: 0 0 1.75rem;
+    font-family: var(--dt-condensed);
+    font-size: 0.8125rem;
+    letter-spacing: 0.04em;
+    color: var(--dt-chrome-dim);
+  }
+
+  .cta { display: flex; gap: 0.75rem; flex-wrap: wrap; }
+
+  .cta a {
+    padding: 0.65rem 1.5rem;
+    border-radius: 22px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    text-decoration: none;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  /* The solid gold is spent here and nowhere else, so the loudest gold on the
+     page is the thing to click rather than the logo. */
+  .primary {
+    background: linear-gradient(135deg, var(--dt-gold), #e0a615);
+    color: var(--dt-ink);
+    box-shadow: 0 4px 18px rgba(253, 194, 35, 0.22);
+  }
+
+  .primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 26px rgba(253, 194, 35, 0.3);
+  }
+
+  .secondary {
+    color: var(--dt-champagne);
+    border: 1px solid rgba(231, 204, 143, 0.32);
+  }
+
+  .secondary:hover { border-color: var(--dt-champagne); }
+
+  .bust {
+    width: 100%;
+    height: auto;
+    justify-self: end;
+    /* A faint warm glow reads as the lamplight the gold trim is reflecting. */
+    filter: drop-shadow(0 10px 30px rgba(253, 194, 35, 0.14));
+  }
+
+  @media (max-width: 900px) {
+    .inner {
+      grid-template-columns: minmax(0, 1fr);
+      padding: 2.5rem 1.5rem 1.5rem;
+    }
+
+    .bust { max-width: 300px; justify-self: center; }
+  }
+
+  @media (max-width: 640px) {
+    .inner { padding: 2rem 1rem 1rem; }
+    /* Decorative; below the fold on a phone it is 175 KB of nothing. */
+    .bust { display: none; }
+  }
+</style>

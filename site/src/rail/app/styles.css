@@ -1771,13 +1771,23 @@
 
 /* A rail as tall as a fifty-seven sentence passage puts its thumb thousands of
    pixels off screen and cannot be dragged end to end at all. Sticking it to the
-   viewport costs the alignment between ticks and rows and buys back reach. */
+   viewport costs the alignment between ticks and rows and buys back reach.
+
+   "The viewport" here is the sheet's SCROLL CONTAINER, not the window. The site
+   clamps the page — nothing scrolls except the sheet — so `top` is measured
+   from the sheet's top edge, and the height is in container-query units
+   against that same scroller (`.stage-sheet` in RailStage.astro declares
+   `container-type: size`). The `vh` line is only a fallback for an engine
+   without `cqh`; on one that has it, the second declaration wins. The old
+   values, `top: 64px` and `calc(100vh - 140px)`, were clearing a site nav that
+   is no longer inside the scrolling region. */
 .rail-dock {
   flex: none;
   align-self: flex-start;
   position: sticky;
-  top: 64px;
+  top: 12px;
   height: calc(100vh - 140px);
+  height: calc(100cqh - 24px);
 }
 
 .rail-map {

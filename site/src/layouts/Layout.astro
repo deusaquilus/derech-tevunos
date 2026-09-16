@@ -18,7 +18,14 @@ interface Props {
    * rather than a cartoon.
    */
   image?: string;
-  /** Suppress the light-page top padding: the rail supplies its own. */
+  /**
+   * Stage mode, for pages whose content is the rail. The body becomes a
+   * fixed-height flex column the size of the viewport, nothing on the page
+   * scrolls, and the footer is not rendered — the only scroll container is
+   * the sheet inside RailStage. A page that scrolled under the rail made the
+   * rail unusable: wheel and drag events meant for the sheet moved the
+   * document instead.
+   */
   bare?: boolean;
 }
 
@@ -46,7 +53,7 @@ const canonicalUrl = new URL(canonicalPath, site).href;
 ---
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class={bare ? 'dt-stage' : undefined}>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -81,12 +88,12 @@ const canonicalUrl = new URL(canonicalPath, site).href;
       rel="stylesheet"
     />
   </head>
-  <body class={bare ? 'dt-bare' : undefined}>
+  <body class={bare ? 'dt-stage' : undefined}>
     <Navigation />
     <main id="main">
       <slot />
     </main>
-    <Footer />
+    {!bare && <Footer />}
   </body>
 </html>
 
@@ -112,6 +119,32 @@ const canonicalUrl = new URL(canonicalPath, site).href;
   body > main {
     flex: 1;
     min-width: 0;
+  }
+
+  /* Stage mode. The body is exactly one viewport tall and clips; `main` is a
+     flex column so RailStage's sheet can take the remaining height with
+     `flex: 1; min-height: 0` and become the one thing that scrolls.
+     `100dvh` follows the mobile browser's collapsing chrome; the `vh` line is
+     the fallback where `dvh` is unknown. */
+  /* The clamp goes on BOTH elements. iOS Safari does not reliably honour
+     `overflow: hidden` on `body` alone — the document still rubber-bands when
+     an absolutely positioned child (the strip's panel) extends past the
+     viewport. Clamping `html` as well is what actually stops it. */
+  html.dt-stage {
+    height: 100%;
+    overflow: hidden;
+  }
+
+  body.dt-stage {
+    height: 100vh;
+    height: 100dvh;
+    overflow: hidden;
+  }
+
+  body.dt-stage > main {
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
   }
 
   /* Skip-link target: the sticky nav would otherwise cover the heading. */

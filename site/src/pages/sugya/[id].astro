@@ -1,10 +1,8 @@
 ---
 import Layout from '../../layouts/Layout.astro';
-import PassageSwitcher from '../../components/PassageSwitcher.astro';
-import Rail from '../../components/Rail';
+import RailStage from '../../components/RailStage.astro';
 import { SUGYOT } from '../../rail/sugyot/index.ts';
 import { movementsOf } from '../../rail/sugya.ts';
-import { markupToHtml } from '../../rail/markup.ts';
 
 export function getStaticPaths() {
   // Real pages, one per passage, generated from the same registry the
@@ -23,134 +21,12 @@ interface Props {
 const { sugya } = Astro.props as Props;
 const movements = movementsOf(sugya).length;
 const cite = `${sugya.tractate} ${sugya.folio}`;
-// The research passages author a `hint` naming the step and the band that
-// produce the folds they exist to demonstrate. Rendered here rather than inside
-// the drawing: `SugyaView` forwards `hint` only to its own header, which this
-// page switches off, and prose belongs in the first HTML response anyway.
-const hintHtml = sugya.hint === undefined ? undefined : markupToHtml(sugya.hint);
 ---
 
 <Layout
   title={`${sugya.title} — ${cite} — Derech Tevunos`}
   description={`${cite}: ${sugya.units.length} labelled sentences in ${movements} movements, drawn as a waterfall of the moves each sentence makes.`}
+  bare
 >
-  <section class="page">
-    <div class="inner">
-      <header class="head">
-        <p class="kicker">{cite}</p>
-        <h1>{sugya.title}</h1>
-        <p class="meta">
-          {sugya.units.length} sentences · {movements} movements
-        </p>
-        {hintHtml && <p class="hint" set:html={hintHtml} />}
-      </header>
-
-      <PassageSwitcher current={sugya.id} />
-
-      <div class="sheet sugya-sheet">
-        <Rail id={sugya.id} client:only="react" />
-      </div>
-
-      <footer class="foot">
-        <a href="/sugya">← All passages</a>
-        <a href="/docs/text/chapter-09">The chapter 9 vocabulary →</a>
-      </footer>
-    </div>
-  </section>
+  <RailStage sugya={sugya} />
 </Layout>
-
-<style>
-  .page {
-    background: var(--dt-ink);
-    padding: 2rem 0 3rem;
-  }
-
-  .inner {
-    max-width: 1280px;
-    margin: 0 auto;
-    padding: 0 2rem;
-  }
-
-  .head { margin-bottom: 0.5rem; }
-
-  .kicker {
-    margin: 0 0 0.3rem;
-    font-family: var(--dt-condensed);
-    font-size: 0.6875rem;
-    font-weight: 700;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: var(--dt-champagne);
-  }
-
-  h1 {
-    margin: 0 0 0.4rem;
-    font-size: clamp(1.5rem, 3.5vw, 2rem);
-    font-weight: 400;
-    line-height: 1.2;
-    letter-spacing: -0.005em;
-    background: var(--dt-metal-lg);
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-    transform: translateZ(0);
-  }
-
-  .meta {
-    margin: 0;
-    font-family: var(--dt-condensed);
-    font-size: 0.8125rem;
-    letter-spacing: 0.04em;
-    color: var(--dt-chrome-dim);
-  }
-
-  .hint {
-    margin: 0.85rem 0 0;
-    max-width: 78ch;
-    font-size: 0.9375rem;
-    line-height: 1.65;
-    font-weight: 300;
-    color: var(--dt-chrome-muted);
-  }
-
-  /* `**bold**` in a hint marks the step or band to look at, so it should be
-     legible rather than merely heavier at weight 300. */
-  .hint :global(b) {
-    font-weight: 500;
-    color: var(--dt-champagne);
-  }
-
-  .hint :global(i) {
-    font-style: italic;
-    color: #d6d3d1;
-  }
-
-  .sheet {
-    border-radius: 12px;
-    border: 1px solid rgba(253, 194, 35, 0.14);
-    overflow: hidden;
-    box-shadow: 0 18px 48px rgba(0, 0, 0, 0.45);
-    min-height: 520px;
-  }
-
-  .foot {
-    display: flex;
-    justify-content: space-between;
-    gap: 1rem;
-    flex-wrap: wrap;
-    margin-top: 1.75rem;
-    font-size: 0.875rem;
-  }
-
-  .foot a {
-    color: var(--dt-chrome-muted);
-    text-decoration: none;
-  }
-
-  .foot a:hover { color: var(--dt-cyan); }
-
-  @media (max-width: 640px) {
-    .inner { padding: 0 0.75rem; }
-    .sheet { border-radius: 8px; }
-  }
-</style>
