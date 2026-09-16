@@ -27,6 +27,7 @@ import {
 import {
   ANATOMY,
   badgesOf,
+  groundBadge,
   speakerBadge,
   type Badge,
 } from "../anatomy.ts";
@@ -116,11 +117,16 @@ export type ControllerOptions = {
   readonly start?: number;
 };
 
-/** What the chapter 1–7 layer puts on one row, after the switch and lenses. */
+/** What the chapter 1–8 layer puts on one row, after the switch and lenses. */
 export type RowBadges = {
   /** About the sentence alone: its form, what it implies, whether it is literal. */
   readonly row: readonly Badge[];
-  /** About its move on its target: how the two relate, what kind of deduction. */
+  /**
+   * About its move on its target: how the two relate, what kind of deduction,
+   * what it stands on. The file's labels first, in their order; then, on a
+   * proof, disproof or difficulty whose `provenance` names a source and that
+   * carries no ch. 8 label of its own, the ground read off that provenance.
+   */
   readonly edge: readonly Badge[];
   /** Ch. 1, for a row with no named speaker. */
   readonly speaker: Badge | undefined;
@@ -256,9 +262,13 @@ export type SugyaController = {
    */
   readonly hotBead: string | undefined;
 
-  // The chapter 1–7 layer.
+  // The chapter 1–8 layer.
   readonly anatomy: AnatomyLayer;
-  /** True when any sentence carries an annotation, or the sugya names its party. */
+  /**
+   * True when the layer would have something to show beyond the speaker
+   * badges: a sentence carries an annotation, the sugya names its party, or
+   * a move's provenance gives it a ground.
+   */
   readonly annotated: boolean;
   readonly party: Badge | undefined;
   readonly badgesAt: (unit: Unit) => RowBadges;
@@ -577,12 +587,15 @@ export const useSugyaController = (
     };
   }, [units]);
 
-  // --- the chapter 1–7 layer -------------------------------------------------
-  // Everything below is derived from the annotations and the switch; the only
-  // state is the switch itself (persisted) and which badge is hot.
+  // --- the chapter 1–8 layer -------------------------------------------------
+  // Everything below is derived from the annotations, the provenances and the
+  // switch; the only state is the switch itself (persisted) and which badge is
+  // hot.
 
   const annotated = useMemo(
-    () => sugya.party !== undefined || units.some((u) => (u.anatomy ?? []).length > 0),
+    () =>
+      sugya.party !== undefined ||
+      units.some((u) => (u.anatomy ?? []).length > 0 || groundBadge(u) !== undefined),
     [sugya, units],
   );
 
@@ -602,9 +615,12 @@ export const useSugyaController = (
     (unit: Unit): RowBadges => {
       if (!layerOn) return NO_BADGES;
       const speaker = speakerBadge(unit);
+      // The derived ground comes last, so a relation or deduction the file
+      // wrote stays first — and stays the badge the bead carries.
+      const ground = groundBadge(unit);
       return {
         row: badgesOf(unit.anatomy, "row").filter(showing),
-        edge: badgesOf(unit.anatomy, "edge").filter(showing),
+        edge: [...badgesOf(unit.anatomy, "edge"), ...(ground === undefined ? [] : [ground])].filter(showing),
         speaker: speaker !== undefined && showing(speaker) ? speaker : undefined,
       };
     },

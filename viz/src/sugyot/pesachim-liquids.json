@@ -50,6 +50,10 @@
         {
           "kind": "differs-in-context",
           "note": "The testimony speaks of a special halachah handed down from Sinai, not of liquid uncleanness in general — a different respect, so it proves nothing about the general case."
+        },
+        {
+          "kind": "ground-does-not-reach",
+          "note": "Rav Papa does not deny the testimony; he denies that it reaches R. Eleazar's claim. The ground is real and the house stands over a gap — Ramchal's `אחיו הוא במצוות` pattern (Eng p132–136)."
         }
       ],
       "note": "Ramchal labels only Rav Huna's reply. `דחיה` is inferred here, on the rule at Heb p185 that a `דחיה` may land on a proof that was brought, not only on a statement."
@@ -65,6 +69,10 @@
         {
           "kind": "hypothetical-syllogism-tollens",
           "note": "If the Temple liquids were a halachah from Sinai, nothing could be derived from them; R. Eleazar did derive from them; so they are not. The same shape as the proof it defends."
+        },
+        {
+          "kind": "ground-deduction",
+          "note": "The contradiction rests on no verse or testimony of its own, only on the deduction beside this badge: R. Eleazar's derivation is the premise, and a received law yields no derivations (Eng p116)."
         }
       ],
       "note": "Ramchal: `הנה כאן סתר שמועתו של רב פפא לחלוטין` — Rav Papa's statement is absolutely contradicted (Heb p177)."

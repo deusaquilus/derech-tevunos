@@ -1,12 +1,13 @@
 import type { JSX } from "react";
 
 import { FAMILIES, FAMILY_ORDER, type Family } from "../../anatomy.ts";
+import { SQUARE_BOX, TILE_GLYPH } from "../../glyphs.ts";
 import { ELEMENTS, ELEMENT_GLOSS, LEAVES, type Element, type MoveKey } from "../../taxonomy.ts";
 import type { Lenses } from "../hooks/useAnatomyLayer.ts";
 import { ElementIcon } from "./ElementIcon.tsx";
 import { Tooltip } from "./Tooltip.tsx";
 
-/** The chapter 1–7 layer's controls, when the sugya has anything to show. */
+/** The chapter 1–8 layer's controls, when the sugya has anything to show. */
 export type LegendAnatomyProps = {
   readonly on: boolean;
   readonly onToggle: (on: boolean) => void;
@@ -27,7 +28,33 @@ export type LegendBarProps = {
 };
 
 const MASTER_TIP =
-  "Ramchal's chapters 1–7 as a second layer over the chapter 9 moves: who is speaking, what each statement is made of, how two statements relate, and what kind of deduction a proof is. Off, the page shows only the seven moves. Your choice is remembered.";
+  "Ramchal's chapters 1–8 as a second layer over the chapter 9 moves: who is speaking, what each statement is made of, how two statements relate, what kind of deduction a proof is, and what it stands on. Off, the page shows only the seven moves. Your choice is remembered.";
+
+const HUE_NOTE =
+  "Colour marks the family: violet for chapters 3–6, teal for chapter 7, magenta for chapter 8, slate for chapter 1.";
+
+/**
+ * The key to the chapter 4 glyphs, shown once, on the Relations lens: every
+ * relation is a variation of one shape, and the shape has to be learnt before
+ * the variations can be read (`icons_v3/ICONS_REFERENCE.md` §3).
+ */
+const TileKey = (): JSX.Element => (
+  <span className="legend-tip-tile">
+    <svg
+      className="glyph"
+      width={30}
+      height={30}
+      viewBox={SQUARE_BOX}
+      aria-hidden="true"
+      dangerouslySetInnerHTML={{ __html: TILE_GLYPH }}
+    />
+    <span>
+      One statement: the <b>box is the subject</b>, the <b>arrow is the predicate</b>, and it reads subject →
+      predicate. Every relation glyph is two of these — a shared term drawn once, a negation drawn solid with
+      the glyph in white, a narrower claim drawn smaller.
+    </span>
+  </span>
+);
 
 const FOLD_TIP =
   "What a challenge does when it arrives from far down the page. On, it folds the finished business behind it: every earlier challenge on the same claim stays as a row, every answer is tucked into a band, and the rail runs over the shorter page. Off, it arrives over the open text as before, with the rail drawn its full length. Flipping it re-lays the page out at the step you are on. Your choice is remembered.";
@@ -40,7 +67,7 @@ const leavesOf = (element: Element): string =>
 
 /**
  * The seven ch. 9 icons with their glosses, each explained on hover; at the
- * right end, the switch for the chapter 1–7 layer; and under them, when the
+ * right end, the switch for the chapter 1–8 layer; and under them, when the
  * layer is on, one pill per family to show or hide it.
  */
 export const LegendBar = ({ anatomy, fold }: LegendBarProps): JSX.Element => (
@@ -100,7 +127,7 @@ export const LegendBar = ({ anatomy, fold }: LegendBarProps): JSX.Element => (
                   checked={anatomy.on}
                   onChange={(event) => anatomy.onToggle(event.currentTarget.checked)}
                 />
-                Ramchal&rsquo;s anatomy <span className="legend-switch-ch">ch. 1–7</span>
+                Ramchal&rsquo;s anatomy <span className="legend-switch-ch">ch. 1–8</span>
               </label>
             </Tooltip>
           )}
@@ -124,9 +151,9 @@ export const LegendBar = ({ anatomy, fold }: LegendBarProps): JSX.Element => (
                       <b>{info.name}</b> · {info.chapter}
                     </span>
                     <span>{info.blurb}</span>
+                    {family === "relations" ? <TileKey /> : null}
                     <span className="legend-tip-leaves">
-                      Colour marks the family: violet for chapters 3–6, teal for chapter 7, slate for chapter 1.
-                      Click to {on ? "hide" : "show"} these badges.
+                      {HUE_NOTE} Click to {on ? "hide" : "show"} these badges.
                     </span>
                   </span>
                 }

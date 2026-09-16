@@ -4,7 +4,7 @@
 
 **What this is.** A self-contained reference for an agent whose job is to take a passage — Talmudic or otherwise — segment it, normalize each utterance, classify what it *is*, what it *does*, how it is *warranted*, and along which *distinction* it turns (the system of *Derech Tevunos*, R. Moshe Chaim Luzzatto, *The Ways of Reason*), and then write the result as a **sugya file**: format `derech-tevunos/sugya`, version `1`, the JSON the visualization at `viz/` reads. It supersedes the two documents it consolidates, `DERECH_TEVUNOS_FOR_AGENTS.md` (the system) and `SUGYA_JSON_FORMAT.md` (the file), and carries everything in both.
 
-**The one fact to hold in mind throughout.** The file format is younger than the system. Every one of Ramchal's constructs has a key in this guide, but only some of them have a home in the file today: the nineteen moves, the six provenances, the three parties, and fifty-three "anatomy" labels (the forms of a statement, the relations between two, the kinds of derivation and their failures). The rest — the normalized subject and predicate, the premises of a proof, the rebuttal and style kinds, aspects, modality, the twenty-four axes, composites — are **pending**: they are written into the file's `ext` bag under the field names given here, are carried through untouched, and will move into the schema proper as each earns a renderer. §4 is the complete inventory of what is present and what is pending; every construct's own entry in Part II says which it is and shows the JSON either way.
+**The one fact to hold in mind throughout.** The file format is younger than the system. Every one of Ramchal's constructs has a key in this guide, but only some of them have a home in the file today: the nineteen moves, the six provenances, the three parties, and sixty-four "anatomy" labels (the forms of a statement, the relations between two, the kinds of derivation and their failures, and what a proof or disproof stands on). The rest — the normalized subject and predicate, the premises of a proof, the remaining rebuttal and style kinds, aspects, modality, the twenty-four axes, composites — are **pending**: they are written into the file's `ext` bag under the field names given here, are carried through untouched, and will move into the schema proper as each earns a renderer. §4 is the complete inventory of what is present and what is pending; every construct's own entry in Part II says which it is and shows the JSON either way.
 
 **Conventions.**
 - `key` — stable ASCII id. The keys in §7 (the card) and §3 (the vocabularies) are the complete vocabulary; emit them exactly as written.
@@ -257,7 +257,7 @@ Two moves that open, two that act:
 
 | key | type | required | what it is |
 |---|---|---|---|
-| `kind` | one of fifty-three | **yes** | The label. The full list, by family and level, is §3.3. |
+| `kind` | one of sixty-four | **yes** | The label. The full list, by family and level, is §3.3. |
 | `basis` | `attested` · `marked` · `inferred` | no | How the label was arrived at: Ramchal's own labelling of this passage; the type's stock word is in the text (`כל` for categorical, `אף על גב ד` for discrepancy, `מה … אף` for analogism); ours alone. Absent: `inferred`. |
 | `note` | string | no | Why this label — the words that carry it, or the reading. Shown in the chip's tooltip. |
 
@@ -323,7 +323,7 @@ Every closed list in the file is a constant in the code, and `npm test` asserts 
 
 Effects for the four adjudicating elements are fixed by the text. Ramchal pins the resolution pair at Heb p185: a שינוי "is truly a דחיה, except that a דחיה falls on a statement or a proof and a שינוי falls on a difficulty" — so it weakens where a יישוב closes. Effects on the `statement` subtypes are a reading, not a quotation: Ramchal treats a forced explanation and an אוקימתא as costs paid to keep a statement standing, so both are recorded as weakening it.
 
-### 3.3 The fifty-three `anatomy.kind` values
+### 3.3 The sixty-four `anatomy.kind` values
 
 *Row-level — about the sentence alone; may go on any unit.*
 
@@ -340,12 +340,13 @@ Effects for the four adjudicating elements are fixed by the text. Ramchal pins t
 
 | family | chapter | kinds |
 |---|---|---|
-| how two statements relate | ch. 4 | `equivalent` `variant` `diametrically-opposed` `contradictory` `converse` `converse-limited` `contrapositive` `obverse` `incongruent` |
+| how two statements relate | ch. 4 | `equivalent` `variant` `variant-subjects` `diametrically-opposed` `contradictory` `converse` `converse-limited` `contrapositive` `obverse` `incongruent` |
 | the tests that dissolve an apparent opposition | ch. 4 | `differs-in-time` `differs-in-place` `differs-in-context` `homonym` |
 | deriving a conclusion | ch. 7 | `syllogism` `classical-syllogism` `analogism` `a-fortiori` `hypothetical-syllogism` `hypothetical-syllogism-tollens` `disjunctive-syllogism` |
-| why a derivation fails | ch. 7 | `fallacy-not-similar` `fallacy-not-greater` `fallacy-counterexample` |
+| why a derivation fails | ch. 7 | `fallacy-not-included` `fallacy-not-similar` `fallacy-not-greater` `fallacy-counterexample` |
+| what a proof or disproof stands on | ch. 8 | `ground-axiom` `ground-sense` `ground-common-sense` `ground-tradition` `ground-deduction` `via-opposite` `dilemma` `ground-does-not-reach` `theory` |
 
-Definitions, stock words, pages and the number of separable intentions each form has are in `viz/src/anatomy.ts`, one entry per kind; the chip labels and tooltips on the page come from there. Three names differ from the older agents' guide: the guide's `converse-complete` is `converse` here; the guide's `infer/opposite` on a partial statement is `absolute-opposite` here; and `syllogism` (a derivation that fits no more specific kind) exists only here.
+Definitions, stock words, pages and the number of separable intentions each form has are in `viz/src/anatomy.ts`, one entry per kind; the chip labels and tooltips on the page come from there. Three names differ from the older agents' guide: the guide's `converse-complete` is `converse` here; the guide's `infer/opposite` on a partial statement is `absolute-opposite` here; and `syllogism` (a derivation that fits no more specific kind) exists only here. The guide's one `variant` is two kinds here (`variant` / `variant-subjects`). Four warrant keys have icons under different names: `proof/indirect` is `via-opposite`, `disproof/dilemma` is `dilemma`, `rebuttal/irrelevant` is `ground-does-not-reach`, `sevara` is `theory`. The four sources of certainty that match `provenance` are usually derived, not written.
 
 ---
 
@@ -373,7 +374,7 @@ The system has more constructs than the file has homes. This section is the inve
 | B | Elucidation (ביאור) of another unit | pending | `ext.form.elucidationOf` |
 | B | Inference necessary / loose | present | `anatomy[].kind` ∈ `inference-necessary` `inference-loose` |
 | B | The five necessary-inference kinds `infer/*` | partial | `absolute-opposite` (= `infer/opposite` from a partial) is a row kind; a conversion can be labelled with the edge kinds `converse` `converse-limited` `contrapositive` when the דיוק unit targets its source; the full record: pending, `ext.inference` |
-| C | The nine relations | present | `anatomy[].kind`, edge-level, on the unit whose move targets the other |
+| C | The ten relations | present | `anatomy[].kind`, edge-level, on the unit whose move targets the other — `variant` is predicates change; `variant-subjects` is subjects change |
 | C | The parent `opposite` | not a kind | use `diametrically-opposed` or `contradictory` |
 | C | The four dissolving tests | present | `anatomy[].kind`, edge-level |
 | C | `figurative` as a dissolving test | partial | the row kind `figurative` on the figurative unit; `ext.relation.dissolvedBy: "figurative"` |
@@ -381,16 +382,19 @@ The system has more constructs than the file has homes. This section is the inve
 | C | Relation to a unit other than the target | pending | `ext.relation: { to, kind, dissolvedBy }` |
 | D | Propagation, premise, conclusion, derivation (terms) | conceptual | — |
 | D | The syllogism kinds (6) and the generic `syllogism` | present | `anatomy[].kind`, edge-level |
-| D | The three defeats | present | `anatomy[].kind`, edge-level |
+| D | The four defeats | present | `anatomy[].kind`, edge-level — `fallacy-not-included` is the inclusion failure of a classical syllogism |
+| D | Chapter 8's nine grounds | present | `anatomy[].kind`, edge-level, magenta; four of them usually derived from `provenance` |
 | D | Status accepted / rejected / doubt | derived | never emitted |
-| D | Provenance of a unit's own authority (5 + `asserted`) | present | `provenance` |
+| D | Provenance of a unit's own authority (5 + `asserted`) | present | `provenance` — on a proof, contradiction or difficulty, `sense` / `axiom` / `endoxa` / `tradition` also draw the matching magenta ground badge |
 | D | Provenance of each premise | pending | `ext.warrant.premises[].provenance` |
 | D | The premises themselves | pending | `ext.warrant.premises` |
 | D | Proof from nature / convention / syllogism | partial | `provenance` on the proof unit says which; a `proof/*` unit carries it |
-| D | `proof/indirect` | pending | `ext.warrant.kind` (with `hypothetical-syllogism-tollens` in `anatomy` when that is the machinery) |
-| D | `disproof/indirect`, `disproof/reductio`, `disproof/dilemma` | pending | `ext.warrant.kind` (reductio may also carry `hypothetical-syllogism-tollens`; dilemma may also carry `disjunctive-syllogism`) |
-| D | The five `rebuttal/*` kinds | pending | `ext.warrant.kind` |
-| D | סברא | pending | `ext.warrant.kind: "sevara"` |
+| D | `proof/indirect` | partial | icon `via-opposite` in `anatomy`; keep `ext.warrant.kind` when premises are recorded; the machinery (usually a tollens) stays in `anatomy` |
+| D | `disproof/indirect`, `disproof/reductio` | pending | `ext.warrant.kind` (reductio may also carry `hypothetical-syllogism-tollens`) |
+| D | `disproof/dilemma` | partial | icon `dilemma` in `anatomy`; keep `ext.warrant.kind` when premises are recorded; may also carry `disjunctive-syllogism` |
+| D | `rebuttal/irrelevant` | partial | icon `ground-does-not-reach` in `anatomy`; keep `ext.warrant.kind` when premises are recorded |
+| D | The other four `rebuttal/*` kinds | pending | `ext.warrant.kind` |
+| D | סברא | partial | icon `theory` in `anatomy`; keep `ext.warrant.kind: "sevara"`; the reducer still treats a validation as a full `raise` |
 | D | The four aspects | pending | `ext.warrant.aspect` |
 | D | Modality potential / actual | pending | `ext.warrant.modality` |
 | D | The six `style/*` objection kinds | pending | `ext.warrant.kind` on a `difficulty/objection` |
@@ -433,7 +437,7 @@ The system has more constructs than the file has homes. This section is the inve
 
 Rules:
 
-1. **What has a home goes in its home, and is not repeated in `ext`.** A `categorical` form goes in `anatomy`, not in `ext.form`. An `a-fortiori` goes in `anatomy`, not in `ext.warrant.kind`. `ext.warrant.kind` is written only for a kind the anatomy vocabulary lacks (`rebuttal/*`, `style/*`, `proof/indirect`, `disproof/*`, `sevara`, a bare source kind). `ext.warrant.defeat` likewise only when the defeat cannot be an edge label (the unit has no target). The one deliberate repetition is `ext.move.targets`, which lists **every** target, primary first — so that `move.target` and `ext.move.targets[0]` agree and graduation to a list is a straight copy.
+1. **What has a home goes in its home, and is not repeated in `ext`.** A `categorical` form goes in `anatomy`, not in `ext.form`. An `a-fortiori` goes in `anatomy`, not in `ext.warrant.kind`. `ext.warrant.kind` is written only for a kind the anatomy vocabulary lacks, or to keep the classifier key beside premises when the icon has a different name (`via-opposite` / `proof/indirect`, `dilemma` / `disproof/dilemma`, `ground-does-not-reach` / `rebuttal/irrelevant`, `theory` / `sevara`). The remaining `rebuttal/*`, `style/*`, `disproof/indirect`, `disproof/reductio`, and a bare source kind still live only in `ext`. `ext.warrant.defeat` likewise only when the defeat cannot be an edge label (the unit has no target). The one deliberate repetition is `ext.move.targets`, which lists **every** target, primary first — so that `move.target` and `ext.move.targets[0]` agree and graduation to a list is a straight copy.
 2. **Omit what is absent; write `null` for what was asked and is unknown.** Aspect and modality are `null` when the respect cannot be determined — never a guessed default. A key not applicable to the unit is simply not written.
 3. **Keys inside `ext` are the guide's, verbatim.** `axis/` and `aspect/` and `infer/` prefixes are kept; kinds are the strings in §7.
 4. **`ext` is never a substitute for a home that exists.** A file that puts `"kind": "consequent"` in `ext.form` and nothing in `anatomy` is valid but wrong: the page will not show the form.
@@ -508,7 +512,7 @@ Adding a Layer B/C/D kind is one entry in `ENTRIES` in `anatomy.ts` (its family,
 1. Not an object; wrong `format`; a `version` it does not understand.
 2. **Unknown keys**, at every level — a misspelt key would otherwise vanish silently, and these files are written by hand and by agents. The message suggests the nearest allowed key when one is within two edits.
 3. Missing required keys; wrong types; empty required strings.
-4. Values outside a vocabulary, with the allowed values listed (or counted, for the fifty-three labels) and a suggestion when one is close.
+4. Values outside a vocabulary, with the allowed values listed (or counted, for the sixty-four labels) and a suggestion when one is close.
 5. A `subtype` that is not a leaf of its `element`.
 6. Then the structural rules, from the analysis itself: duplicate unit ids; a `target` that names no unit; a `target` that names a *later* unit; an edge-level label on a unit whose move acts on nothing; no units at all.
 
@@ -520,7 +524,7 @@ bad.json: 5 faults
   $.folio: required
   $.units[0].colour: unknown key
   $.units[1].move.subtype: "objection" is not a subtype of "answer" (expected "answer" | "determination")
-  $.units[1].anatomy[0].kind: "consequant" is not one of the 53 values allowed for "kind" (did you mean "consequent"?)
+  $.units[1].anatomy[0].kind: "consequant" is not one of the 64 values allowed for "kind" (did you mean "consequent"?)
 ```
 
 The same list appears on the *Open* page (§5.3) when a file offered there is refused. The JSON Schema expresses the same rules as far as JSON Schema can (shape, required keys, enums, the element→subtype pairing, `additionalProperties: false` everywhere but `ext`). It cannot express the structural rules in item 6; those need the reader.
@@ -529,8 +533,8 @@ Faults an agent makes most often, and the fix:
 
 | fault | fix |
 |---|---|
-| `$.units[3].anatomy[0].kind: "converse-complete" is not one of the 53 values` | the file's name is `converse` |
-| `$.units[3].anatomy[0].kind: "axis/time" is not one of the 53 values` | axes are pending: `ext.axis: ["axis/time"]` |
+| `$.units[3].anatomy[0].kind: "converse-complete" is not one of the 64 values` | the file's name is `converse` |
+| `$.units[3].anatomy[0].kind: "axis/time" is not one of the 64 values` | axes are pending: `ext.axis: ["axis/time"]` |
 | `$.units[4].warrant: unknown key` | pending layers go inside `ext`: `ext.warrant` |
 | `$.units[5].move.target: expected a string, got ["a","b"]` | one target in `move.target`; all of them in `ext.move.targets` |
 | `$.units: unit "t1-ask" carries the edge-level label "contradictory" but acts on nothing` | a relation or deduction needs `move.target` |
@@ -563,7 +567,7 @@ node -e 'import("./viz/src/format.ts").then(m => { m.parseSugya(JSON.parse(requi
 | `viz/src/sugyot/*.json` | the nine shipped passages |
 | `viz/src/sugyot/index.ts` | loads them: `SUGYOT`, `sugyaById`, `ofCollection` |
 | `viz/src/taxonomy.ts` | the seven elements, nineteen leaves, effects (`LEAVES`) |
-| `viz/src/anatomy.ts` | the fifty-three kinds (`ENTRIES`), families, levels |
+| `viz/src/anatomy.ts` | the sixty-four kinds (`ENTRIES`), families, levels |
 | `viz/src/markers.ts` | the stock-phrase lexicon Ramchal himself gives, one leaf per phrase |
 | `viz/src/sugya.ts` | `analyze`: depth, standing, status, movements — the reducer of §13 |
 | `viz/src/app/sugyot.ts` | `useSugyot` is the shipped lattice; `useOpened` / `openSugya` are the loader page's session |
@@ -677,7 +681,7 @@ Literal vs `figurative` (השאלה / הפלגה) → `anatomy`: truth is judged
 
 ### C · Relations between two propositions (Ch 4, p48–64) → `anatomy`, edge-level
 
-`equivalent` דומים · `variant` מתחלפים · `opposite` הפכיים → `diametrically-opposed` הפכיים ממש (both categorical or both particular) / `contradictory` מתנגדים (one categorical, one particular) · `converse` חילוף (complete) / `converse-limited` / `contrapositive` · `obverse` מתהפכים · `incongruent` נבדלים.
+`equivalent` דומים · `variant` מתחלפים (same S, different P → `variant`; same P, different S → `variant-subjects`) · `opposite` הפכיים → `diametrically-opposed` הפכיים ממש (both categorical or both particular) / `contradictory` מתנגדים (one categorical, one particular) · `converse` חילוף (complete) / `converse-limited` / `contrapositive` · `obverse` מתהפכים · `incongruent` נבדלים.
 
 Opposition requires same S, same P, same **time**, **place**, **aspect**, and **literal sense**; otherwise `differs-in-time` / `differs-in-place` / `differs-in-context` / `homonym` (one word, two meanings) / `figurative` (one statement is a figure or hyperbole — the row kind on that unit). Opposite terms → `anatomy`, row-level: `no-middle` (טמא/טהור, אסור/מותר) vs `has-middle` (רשות/חובה, middle = מצוה).
 
@@ -687,21 +691,21 @@ Propagation (p92): the predicate moves **up** its order (S is P, P ⊆ Q ⟹ S i
 
 Syllogisms → `anatomy`, edge-level: `classical-syllogism` היקש מופתי · `analogism` בנין אב / מה מצינו · `a-fortiori` קל וחומר / כל שכן · `hypothetical-syllogism` היקש תלוי (ponens; `hypothetical-syllogism-tollens`) · `disjunctive-syllogism` היקש מחלק · `syllogism` (generic, no more specific kind fits).
 
-Defeats of analogy and a fortiori (p100–104) → `anatomy`, edge-level: `fallacy-not-similar` (מה ל… שכן …) · `fallacy-not-greater` (ordering reverses under another criterion) · `fallacy-counterexample` (… יוכיח).
+Defeats → `anatomy`, edge-level: `fallacy-not-included` (classical syllogism: the inclusion fails) · `fallacy-not-similar` (מה ל… שכן …) · `fallacy-not-greater` (ordering reverses under another criterion) · `fallacy-counterexample` (… יוכיח).
 
 Status (p112): `accepted` · `rejected` · `doubt` — **doubt is the initial state.** Derived; never emitted.
 
 Provenance of premises → `provenance` (the unit's own), `ext.warrant.premises[].provenance` (each premise): `sense` מוחשות · `axiom` מושכלות ראשונים · `endoxa` מפורסמות · `tradition` מקובלות (Scripture, הלכה למשה מסיני, the thirteen מדות, undisputed authority) · `derivation` היקש · `asserted` (file only: own authority, the default).
 
-Proof: from nature (axiom, sense) · from convention (endoxa, tradition) · from syllogism · `proof/indirect` — the opposite is shown false (valid only across no-middle opposites) → `ext.warrant.kind`.
+Proof: from nature (axiom, sense) · from convention (endoxa, tradition) · from syllogism · `proof/indirect` — the opposite is shown false (valid only across no-middle opposites) → icon `via-opposite` in `anatomy`; `ext.warrant.kind` when premises are recorded. On a proof, contradiction or difficulty, `provenance` of `sense` / `axiom` / `endoxa` / `tradition` also draws the matching magenta ground badge.
 
-Disproof: the same three sources · `disproof/indirect` (contrary derived from a true premise) · `disproof/reductio` (a consequence is patently false; via היקש תלוי) · `disproof/dilemma` ממה נפשך → `ext.warrant.kind`.
+Disproof: the same three sources · `disproof/indirect` (contrary derived from a true premise) · `disproof/reductio` (a consequence is patently false; via היקש תלוי) → `ext.warrant.kind` · `disproof/dilemma` ממה נפשך → icon `dilemma` in `anatomy`; `ext.warrant.kind` when premises are recorded.
 
-Rebuttal of a proof or disproof → `ext.warrant.kind`: `rebuttal/irrelevant` (the source does not bear on this claim) · `rebuttal/invalid-syllogism` · `rebuttal/your-reasoning` ולטעמיך / ולדידך · `rebuttal/just-the-opposite` אדרבה · `rebuttal/that-proves-mine` היא הנותנת / משם ראיה. A rebutted proof returns its claim to doubt (not rejected); a rebutted disproof returns it to doubt (not accepted). A rebuttal's `kind` is always `rebuttal/*`; the verse, tradition or syllogism it leans on is a premise.
+Rebuttal of a proof or disproof → `ext.warrant.kind`: `rebuttal/irrelevant` (the source does not bear on this claim; icon `ground-does-not-reach`) · `rebuttal/invalid-syllogism` · `rebuttal/your-reasoning` ולטעמיך / ולדידך · `rebuttal/just-the-opposite` אדרבה · `rebuttal/that-proves-mine` היא הנותנת / משם ראיה. A rebutted proof returns its claim to doubt (not rejected); a rebutted disproof returns it to doubt (not accepted). A rebuttal's `kind` is always `rebuttal/*`; the verse, tradition or syllogism it leans on is a premise.
 
-Phrasing arguments (`אם כן לימא קרא X` · `X מיבעי ליה` · `ליתני X` · `למה לי`): aimed at a *reading* of a fixed text → `hypothetical-syllogism-tollens` (anatomy), and `proof/indirect` of the only other reading (ext); aimed at the author's *wording* with the reading agreed → a פירכא with a `style/*` warrant (ext).
+Phrasing arguments (`אם כן לימא קרא X` · `X מיבעי ליה` · `ליתני X` · `למה לי`): aimed at a *reading* of a fixed text → `hypothetical-syllogism-tollens` (anatomy), and `proof/indirect` of the only other reading (`via-opposite` in anatomy; `ext.warrant.kind` for the premises); aimed at the author's *wording* with the reading agreed → a פירכא with a `style/*` warrant (ext).
 
-`sevara` סברא: inclines when arguments balance; never establishes alone → `ext.warrant.kind: "sevara"`.
+`sevara` סברא: inclines when arguments balance; never establishes alone → icon `theory` in `anatomy`; keep `ext.warrant.kind: "sevara"`.
 
 Aspects (p148–150) → `ext.warrant.aspect`: `aspect/essence` מה שבעצמו · `aspect/proprium` מה שבסגולתו · `aspect/accident` מה שבמקריו · `aspect/relation` מה שביחסו אל זולתו. Modality (p154) → `ext.warrant.modality`: `potential` בכח · `actual` בפועל. **Chaining requires equal aspect and equal modality.**
 
@@ -2468,12 +2472,14 @@ Compare two *normalized* propositions on S, P, quantity, and quality (affirm / d
 #### variant — מתחלפים
 - means · Same S, different P; or same P, different S. A dispute of content, not a flat denial. What one says carries to the other only in the shared part.
 - test · Two different values of one variable — two measures, two times, two amounts, two proportions — are variant, not opposite: neither side *denies* a predicate the other affirms. Opposition (below) needs one הן and one לאו on the same P.
+- file · two icons. `variant` is same subject, two predicates; `variant-subjects` is same predicate, two subjects.
 - ex · Kesubos 57a `רבי טרפון אומר: נותנין לה הכל תרומה; רבי עקיבא אומר: מחצה חולין ומחצה תרומה` — two proportions, neither denied.
 
 ```json
 [
   { "id": "akiva-57a", "speaker": "R. Akiva", "he": "רבי עקיבא אומר: מחצה חולין ומחצה תרומה.", "en": "R. Akiva says: half non-sacred and half terumah.", "move": { "element": "statement", "subtype": "firsthand", "target": "tarfon-57a" }, "provenance": "tradition", "anatomy": [{ "kind": "variant", "note": "Against R. Tarfon's `נותנין לה הכל תרומה`: two proportions for one subject; neither says לאו to the other's predicate." }], "ext": { "axis": ["axis/quantity"] } },
-  { "id": "r1", "speaker": "Chachamim", "he": "וחכמים אומרים: עד חצות.", "en": "And the Sages say: until midnight.", "move": { "element": "statement", "subtype": "firsthand", "target": "eliezer-2a" }, "provenance": "tradition", "anatomy": [{ "kind": "variant", "note": "Berachos 2a: against `עד סוף האשמורה הראשונה`, two times for one deadline." }], "ext": { "axis": ["axis/time"] } }
+  { "id": "r1", "speaker": "Chachamim", "he": "וחכמים אומרים: עד חצות.", "en": "And the Sages say: until midnight.", "move": { "element": "statement", "subtype": "firsthand", "target": "eliezer-2a" }, "provenance": "tradition", "anatomy": [{ "kind": "variant", "note": "Berachos 2a: against `עד סוף האשמורה הראשונה`, two times for one deadline." }], "ext": { "axis": ["axis/time"] } },
+  { "id": "women-same-rule", "he": "נשים חייבות בקידוש היום.", "en": "Women are obligated in the day's kiddush.", "move": { "element": "statement", "subtype": "firsthand", "target": "men-kiddush" }, "provenance": "tradition", "anatomy": [{ "kind": "variant-subjects", "note": "[constructed] Same predicate (obligated in the day's kiddush), two subjects (men / women). Neither confirms nor opposes the other." }] }
 ]
 ```
 
@@ -2581,7 +2587,7 @@ Three kinds, by what changes besides order:
 
 ## §11 · Layer D — Warrants: deriving, proving, disproving, rebutting
 
-What is present: the seven deduction kinds and three defeats as **edge-level** `anatomy` kinds (on the proof, contradiction, difficulty or resolution whose move they warrant), and the unit's own `provenance`. What is pending, all under `ext.warrant`: the premises with their provenances, the proof/disproof kinds that are not syllogisms (`proof/indirect`, `disproof/*`), the five rebuttal kinds, the six style kinds, `sevara`, aspect and modality.
+What is present: the seven deduction kinds and four defeats as **edge-level** `anatomy` kinds (on the proof, contradiction, difficulty or resolution whose move they warrant), the unit's own `provenance`, and chapter 8's nine grounds (four of them derived from `provenance` on a proof, contradiction or difficulty). What is pending, all under `ext.warrant`: the premises with their provenances, `disproof/indirect` and `disproof/reductio`, the four rebuttal kinds that have no icon, the six style kinds, aspect and modality. `proof/indirect`, `disproof/dilemma`, `rebuttal/irrelevant` and `sevara` have icons (`via-opposite`, `dilemma`, `ground-does-not-reach`, `theory`) and still keep the classifier key in `ext` when premises are recorded.
 
 **Precedence for `ext.warrant.kind`** — ask in this order and take the first that applies:
 1. the unit answers a proof or a difficulty → a `rebuttal/*` kind, whatever machinery it uses;
@@ -2596,7 +2602,7 @@ The verse, tradition or syllogism a rebuttal leans on goes in `premises`, never 
 - Predicate moves **up**: `האזמל של מילה הוא מוקצה` + מוקצה is forbidden to handle ⟹ the knife is forbidden to handle.
 - Subject moves **down**: `העושה אב מלאכה בשבת חייב סקילה` + writing is an אב מלאכה ⟹ `הכותב חייב סקילה`.
 - Terms: premise **הקדמה**, conclusion **תולדה**, derivation **היקש**.
-- The whole force rests on the inclusion actually holding, `בהכרח ותמיד`. Disputes about inclusion are where derivations diverge: Rabbi Yosi holds הבערה is not an אב מלאכה → no death penalty for kindling; Shabbos 43b `טלטול מן הצד אין שמו טלטול` → the mukzeh rule does not reach sideways handling.
+- The whole force rests on the inclusion actually holding, `בהכרח ותמיד`. Disputes about inclusion are where derivations diverge: Rabbi Yosi holds הבערה is not an אב מלאכה → no death penalty for kindling; Shabbos 43b `טלטול מן הצד אין שמו טלטול` → the mukzeh rule does not reach sideways handling. That failure is `fallacy-not-included`.
 
 ### classical-syllogism — היקש מופתי
 - means · Conclusion by the propagation rules from an established premise plus an inclusion. Fails iff the inclusion fails — predicate or subject does not subsume. Ramchal's term, not the three-term Aristotelian figure.
@@ -2642,6 +2648,7 @@ The verse, tradition or syllogism a rebuttal leans on goes in `premises`, never 
 
 ### Defeats of analogism and a fortiori (p100–104)
 - file · edge-level `anatomy` kinds on the unit that attacks the derivation; its `move.target` is the derivation. When the defeat cannot be an edge label (no target), `ext.warrant.defeat`.
+- **fallacy-not-included** — a classical syllogism fails because the inclusion it rests on does not hold. Shabbos 70a, Rabbi Yosi holds kindling is not a principal labour; Shabbos 43b `טלטול מן הצד אין שמו טלטול`.
 - **fallacy-not-similar** — the supposed similars differ in a relevant respect. Recognize `מה ל… שכן …` · `מי דמי? התם … הכא …` · `לא הרי … כהרי …` · `שאני …`. ex · Kerisos 26a `צבור מנשיא לא אתי, דאיכא למיפרך: מה לנשיא שכן יש בקרבנו נקבה`.
 - **fallacy-not-greater** — the lesser/greater ordering reverses under another criterion, so neither is simply heavier. Recognize `מה ל… שכן … תאמר ב… ש…` when it names a respect in which the "lighter" case is heavier. ex · Horayos 10a, prince from Cohen Gadol: `מה למשיח שכן אינו מביא בשגגת מעשה, תאמר בנשיא שמביא בשגגת מעשה`. Severity is per aspect; an a fortiori needs the ordering to hold in every relevant aspect (Sifri Naso, §11 Aspects).
 - **fallacy-counterexample** — a third subject shares the antecedent property and lacks P. Recognize `… יוכיח`. ex · Toras Cohanim ibid. — `משיח יוכיח, שמביא על הנודע זכר ואין מביא אשם תלוי`.
@@ -2685,7 +2692,7 @@ The verse, tradition or syllogism a rebuttal leans on goes in `premises`, never 
 
 ### The phrasing argument — לימא קרא / ליתני / מיבעי ליה / למה לי `[supplied recognizer]`
 - means · "Had the intended proposition been A, the wording would have been X; the wording is Y." A hypothetical syllogism whose antecedent is a reading and whose consequent is a wording. One surface form, two different moves — decide by what the speaker does with the wording:
-- **(i) aimed at a proposed reading** of a text whose own wording is not in question (Scripture; a Mishnah as an Amora reads it). Y ≠ X refutes reading A → `hypothetical-syllogism-tollens` (anatomy); when A and B are the only readings, refuting A is `proof/indirect` of B (no-middle) → `ext.warrant.kind`. The reply defends the reading or offers another (דחיה), not a lesson in the wording.
+- **(i) aimed at a proposed reading** of a text whose own wording is not in question (Scripture; a Mishnah as an Amora reads it). Y ≠ X refutes reading A → `hypothetical-syllogism-tollens` (anatomy); when A and B are the only readings, refuting A is `proof/indirect` of B (no-middle) → icon `via-opposite` in `anatomy`, `ext.warrant.kind` for the premises. The reply defends the reading or offers another (דחיה), not a lesson in the wording.
   - markers · `אם כן, לימא קרא X! מאי Y?` · `ליכתוב קרא X` · `לכתוב רחמנא X` · `X מיבעי ליה` when it decides between readings.
   - ex · Horayos 9a `דאי סלקא דעתך … נכתבה רחמנא להאי "מאחת" בדלות אי נמי בעשירות` — the placement of מאחת rules out the rival reading.
 - **(ii) aimed at the author's own wording** when the reading is agreed: why Y rather than the plainer X? A פירכא on form — `style/redundant`, `style/self-contradictory` (words not fitted to the matter), `style/order-*` — answered by a יישוב naming what the wording teaches (`הא קא משמע לן`, `לא זו אף זו קתני`, `איידי דתנא … תנא …`).
@@ -2695,7 +2702,7 @@ The verse, tradition or syllogism a rebuttal leans on goes in `premises`, never 
 
 ```json
 [
-  { "id": "leima-kra", "speaker": "Rabbah bar Rav Shila", "he": "אמר רבה בר רב שילא: אם כן, לימא קרא ״ויטהר״! מאי ״וטהר״? טהר יומא.", "en": "Rabbah bar Rav Shila said: if so, let the verse say 'and he shall be clean'! What is 'and it is clean'? The day is clear.", "move": { "element": "contradiction", "subtype": "direct", "target": "dilma", "marker": "אם כן, לימא קרא X! מאי Y?" }, "provenance": "tradition", "anatomy": [{ "kind": "hypothetical-syllogism-tollens", "note": "Berachos 2b. Had וטהר meant the man, the verse would say ויטהר; it says וטהר; so it means the day. Two readings only, so refuting one proves the other." }], "ext": { "warrant": { "kind": "proof/indirect", "premises": [{ "text": "the verse reads וטהר, not ויטהר", "provenance": "tradition" }, { "text": "'the man' and 'the day' are the only readings", "provenance": "derivation" }] } } },
+  { "id": "leima-kra", "speaker": "Rabbah bar Rav Shila", "he": "אמר רבה בר רב שילא: אם כן, לימא קרא ״ויטהר״! מאי ״וטהר״? טהר יומא.", "en": "Rabbah bar Rav Shila said: if so, let the verse say 'and he shall be clean'! What is 'and it is clean'? The day is clear.", "move": { "element": "contradiction", "subtype": "direct", "target": "dilma", "marker": "אם כן, לימא קרא X! מאי Y?" }, "provenance": "tradition", "anatomy": [{ "kind": "hypothetical-syllogism-tollens", "note": "Berachos 2b. Had וטהר meant the man, the verse would say ויטהר; it says וטהר; so it means the day. Two readings only, so refuting one proves the other." }, { "kind": "via-opposite" }], "ext": { "warrant": { "kind": "proof/indirect", "premises": [{ "text": "the verse reads וטהר, not ויטהר", "provenance": "tradition" }, { "text": "'the man' and 'the day' are the only readings", "provenance": "derivation" }] } } },
   { "id": "meachas", "he": "דאי סלקא דעתך … נכתבה רחמנא להאי ״מאחת״ בדלות אי נמי בעשירות!", "en": "For if you think otherwise, let the Merciful One have written 'of one' by the poor man's offering or by the rich man's!", "move": { "element": "proof", "subtype": "demonstration", "target": "meachas-reading", "marker": "דאי סלקא דעתך … נכתבה רחמנא …" }, "provenance": "tradition", "anatomy": [{ "kind": "hypothetical-syllogism-tollens", "note": "Horayos 9a: the placement of מאחת by the tenth-ephah offering rules out the rival reading." }], "ext": { "warrant": { "kind": "proof/indirect" } } }
 ]
 ```
@@ -2762,15 +2769,15 @@ The six, on the unit whose own authority they describe:
 ]
 ```
 
-**Indirect proof** — `proof/indirect` · proving the opposite false proves the claim, `ובלבד שלא יהיו מאותם שיש ביניהם אמצעי` — no-middle opposites only. Pending: `ext.warrant.kind: "proof/indirect"`; the machinery (usually a tollens) in `anatomy`; the no-middle premise in `premises` or as a `no-middle` row label. Examples: `leima-kra` and `meachas` above.
+**Indirect proof** — `proof/indirect` · proving the opposite false proves the claim, `ובלבד שלא יהיו מאותם שיש ביניהם אמצעי` — no-middle opposites only. Partial: icon `via-opposite` in `anatomy`; keep `ext.warrant.kind: "proof/indirect"` when premises are recorded; the machinery (usually a tollens) in `anatomy`; the no-middle premise in `premises` or as a `no-middle` row label. Examples: `leima-kra` and `meachas` above.
 
 ### Sources of disproof (p122–132)
 - **From nature** — Berachos 58b `וגמירי דלא עבר כסלא` ← `והא קא חזינן דעבר` (sense). File: `contradiction/direct` with `provenance: sense` (`chazinan`, §8).
 - **From convention** — Chagigah 4a `כל זכורך – לרבות את הקטנים` ← `והא אנן תנן: חוץ מחרש שוטה וקטן` · Bava Kamma 83b `רואין אותו כאלו הוא עבד` ← `והא כתיב: עין תחת עין`. File: `contradiction/direct` with `provenance: tradition`.
-- **From syllogism** — pending kinds in `ext.warrant.kind`:
-  - `disproof/indirect` — the contrary is derived from a true premise. Bava Kamma 83b `אימא במיתה ממש` ← `לא סלקא דעתך – דהא אתקש למכה בהמה ישלמנה` (the juxtaposed verse yields *money*, so *death* falls).
-  - `disproof/reductio` — a consequence of the claim is patently false, so the claim is (tollens). Bava Kamma 84a `אין נתינה אלא ממון` ← `אלא מעתה: כאשר יתן מום באדם – הכי נמי דממון הוא?` Recognize `אלא מעתה …` · `ועוד, … ?!` · `אי הכי …`.
-  - `disproof/dilemma` — ממה נפשך · every reading of the claim is enumerated and each fails. Bava Kamma 29a `כגון דעברא במיא דרך שרעתא דנהרא` ← `היכי דמי? אי דאיכא דרכא אחרינא – פושע הוא! ואי דליכא דרכא אחרינא – אנוס הוא!` Recognize `היכי דמי? אי … אי …` · `ממה נפשך`.
+- **From syllogism** — kinds in `ext.warrant.kind`, with an icon where one exists:
+  - `disproof/indirect` — the contrary is derived from a true premise. Bava Kamma 83b `אימא במיתה ממש` ← `לא סלקא דעתך – דהא אתקש למכה בהמה ישלמנה` (the juxtaposed verse yields *money*, so *death* falls). Pending: `ext.warrant.kind` only.
+  - `disproof/reductio` — a consequence of the claim is patently false, so the claim is (tollens). Bava Kamma 84a `אין נתינה אלא ממון` ← `אלא מעתה: כאשר יתן מום באדם – הכי נמי דממון הוא?` Recognize `אלא מעתה …` · `ועוד, … ?!` · `אי הכי …`. Pending: `ext.warrant.kind` only.
+  - `disproof/dilemma` — ממה נפשך · every reading of the claim is enumerated and each fails. Bava Kamma 29a `כגון דעברא במיא דרך שרעתא דנהרא` ← `היכי דמי? אי דאיכא דרכא אחרינא – פושע הוא! ואי דליכא דרכא אחרינא – אנוס הוא!` Recognize `היכי דמי? אי … אי …` · `ממה נפשך`. Partial: icon `dilemma` in `anatomy`.
 
 ```json
 [
@@ -2789,14 +2796,14 @@ The six, on the unit whose own authority they describe:
 
 ```json
 [
-  { "id": "heichi-dami-29a", "he": "היכי דמי? אי דאיכא דרכא אחרינא – פושע הוא! ואי דליכא דרכא אחרינא – אנוס הוא!", "en": "What is the case? If there was another road, he was negligent! And if there was no other road, he was compelled!", "move": { "element": "contradiction", "subtype": "direct", "target": "shirata", "marker": "היכי דמי? אי … אי …" }, "provenance": "derivation", "anatomy": [{ "kind": "disjunctive-syllogism", "note": "Bava Kamma 29a. Both readings enumerated, each fails: ממה נפשך." }, { "kind": "no-middle", "note": "Another road or not: nothing between." }], "ext": { "warrant": { "kind": "disproof/dilemma" } } },
-  { "id": "dilemma", "speaker": "B", "en": "Then either charitable pledges are contracts that lack consideration, or they are not contracts at all. You cannot have it both ways.", "move": { "element": "difficulty", "subtype": "objection", "target": "estoppel" }, "provenance": "derivation", "anatomy": [{ "kind": "disjunction" }, { "kind": "no-middle" }], "ext": { "warrant": { "kind": "disproof/dilemma" } } }
+  { "id": "heichi-dami-29a", "he": "היכי דמי? אי דאיכא דרכא אחרינא – פושע הוא! ואי דליכא דרכא אחרינא – אנוס הוא!", "en": "What is the case? If there was another road, he was negligent! And if there was no other road, he was compelled!", "move": { "element": "contradiction", "subtype": "direct", "target": "shirata", "marker": "היכי דמי? אי … אי …" }, "provenance": "derivation", "anatomy": [{ "kind": "dilemma", "note": "Bava Kamma 29a. Both readings enumerated, each fails: ממה נפשך." }, { "kind": "disjunctive-syllogism" }, { "kind": "no-middle", "note": "Another road or not: nothing between." }], "ext": { "warrant": { "kind": "disproof/dilemma" } } },
+  { "id": "dilemma", "speaker": "B", "en": "Then either charitable pledges are contracts that lack consideration, or they are not contracts at all. You cannot have it both ways.", "move": { "element": "difficulty", "subtype": "objection", "target": "estoppel" }, "provenance": "derivation", "anatomy": [{ "kind": "dilemma" }, { "kind": "disjunction" }, { "kind": "no-middle" }], "ext": { "warrant": { "kind": "disproof/dilemma" } } }
 ]
 ```
 
 ### Rebutting a proof or disproof (p132–142)
-A proof or disproof is rebutted by showing it does not bear on the claim, or that its syllogism fails. The move is a דחיה (`contradiction/opposition`) of the proof or disproof — occasionally a סתירה when the rebuttal shows the proof outright false. The kind is pending: `ext.warrant.kind: "rebuttal/*"`.
-- `rebuttal/irrelevant` — the verse, sense report, tradition, etc. does not prove or disprove *this* claim. ex · Bava Kamma 88a `החובל בעבד כנעני שלו פטור`, proved from `כי ינצו אנשים יחדו איש ואחיו` (a slave has no brotherhood) ← `אחיו הוא במצוות` · Berachos 58b `והא קא חזינן דעבר` ← `זיוה הוא דעבר` — the sense report is reinterpreted · Sukkah 2b `משם ראייה? אשה היתה ופטורה מן הסוכה` — a false friend: the words `משם ראיה` here mean "is that a proof?", not "from there is *my* proof".
+A proof or disproof is rebutted by showing it does not bear on the claim, or that its syllogism fails. The move is a דחיה (`contradiction/opposition`) of the proof or disproof — occasionally a סתירה when the rebuttal shows the proof outright false. The kind is `ext.warrant.kind: "rebuttal/*"`; `rebuttal/irrelevant` also has the icon `ground-does-not-reach`.
+- `rebuttal/irrelevant` — the verse, sense report, tradition, etc. does not prove or disprove *this* claim. Icon `ground-does-not-reach`. ex · Bava Kamma 88a `החובל בעבד כנעני שלו פטור`, proved from `כי ינצו אנשים יחדו איש ואחיו` (a slave has no brotherhood) ← `אחיו הוא במצוות` · Berachos 58b `והא קא חזינן דעבר` ← `זיוה הוא דעבר` — the sense report is reinterpreted · Sukkah 2b `משם ראייה? אשה היתה ופטורה מן הסוכה` — a false friend: the words `משם ראיה` here mean "is that a proof?", not "from there is *my* proof".
 - `rebuttal/invalid-syllogism` — the derivation fails by a Ch 7 defeat. ex · `משיח יוכיח` · `אמה העבריה תוכיח`. The defeat is the edge label; the rebuttal kind is in `ext`.
 - `rebuttal/your-reasoning` — ולטעמיך / ולדידך · turn the same or another difficulty on the objector's own view, forcing a qualification that saves both. ex · Bava Kamma 88a `אלא מעתה לרבנן עבד יהא כשר למלכות?` ← `ולטעמיך תקשי לך גר לדברי הכל? אלא אמר קרא: מקרב אחיך – המובחר שבאחיך` · Berachos 4b `דאי לא תימא הכי – שחרית היכי מצי סמיך?`.
 - `rebuttal/just-the-opposite` — אדרבה · lift the difficulty from one's own claim and land it on the opponent's. ex · Bava Kamma 83b `דנין ניזקין מניזקין ואין דנין ניזקין ממיתה` ← `אדרבה! דנין אדם מאדם ואין דנין אדם מבהמה`.
@@ -2808,7 +2815,7 @@ A proof or disproof is rebutted by showing it does not bear on the claim, or tha
 
 ```json
 [
-  { "id": "achiv", "he": "אחיו הוא במצוות.", "en": "He is his brother in the commandments.", "move": { "element": "contradiction", "subtype": "opposition", "target": "proof-from-brother" }, "provenance": "tradition", "ext": { "warrant": { "kind": "rebuttal/irrelevant", "premises": [{ "text": "אחיו הוא במצוות — a Canaanite slave is a brother in commandments", "provenance": "tradition" }] } } },
+  { "id": "achiv", "he": "אחיו הוא במצוות.", "en": "He is his brother in the commandments.", "move": { "element": "contradiction", "subtype": "opposition", "target": "proof-from-brother" }, "provenance": "tradition", "anatomy": [{ "kind": "ground-does-not-reach", "note": "The verse about brothers is real; a Canaanite slave is a brother in commandments, so it does not exempt him." }], "ext": { "warrant": { "kind": "rebuttal/irrelevant", "premises": [{ "text": "אחיו הוא במצוות — a Canaanite slave is a brother in commandments", "provenance": "tradition" }] } } },
   { "id": "misham-reayah", "he": "אמרו לו: משם ראייה? אשה היתה, ופטורה מן הסוכה!", "en": "They said to him: is that a proof? She was a woman, and exempt from the sukkah!", "move": { "element": "contradiction", "subtype": "opposition", "target": "heleni" }, "provenance": "tradition", "note": "Sukkah 2b. The elders' silence proves nothing about the rule: the sukkah was a woman's, and she was exempt. `משם ראייה` here is a rhetorical 'is that a proof?', not the היא הנותנת of rebuttal/that-proves-mine.", "ext": { "warrant": { "kind": "rebuttal/irrelevant", "premises": [{ "text": "women are exempt from the sukkah", "provenance": "tradition" }] } } }
 ]
 ```
@@ -2839,11 +2846,11 @@ A proof or disproof is rebutted by showing it does not bear on the claim, or tha
 - he · `מין ראיה אחרת שאינה לא מאמתת לגמרי ולא מכחשת לגמרי, אלא מטה הדעת לאחד מן הצדדים`
 - means · When arguments balance, the mind inclines to the more reasonable side. A tiebreak weight, not a status. A proof from סברא is admissible but weak (p176); a דחיה that is too far-fetched fails against it (p180). No calculus is given — do not invent numbers.
 - markers · `מסתברא` · `מסתברא כמאן דאמר …` · `הכי נמי מסתברא` (when it is not followed by a source).
-- file · pending — `ext.warrant.kind: "sevara"`. The move is a `proof/validation` of the side inclined to (the reducer will treat it as a full `raise`, which is more than Ramchal grants; say so in `note`), or an `answer/determination` when it closes an איבעיא.
+- file · partial — icon `theory` in `anatomy`; keep `ext.warrant.kind: "sevara"`. The move is a `proof/validation` of the side inclined to (the reducer will treat it as a full `raise`, which is more than Ramchal grants; say so in `note`), or an `answer/determination` when it closes an איבעיא.
 
 ```json
 [
-  { "id": "mistabra", "he": "ומסתברא כמאן דאמר: אף מחזיר.", "en": "And it stands to reason like the one who says: even one who returns.", "move": { "element": "proof", "subtype": "validation", "target": "af-machzir", "marker": "מסתברא כמאן דאמר …" }, "provenance": "derivation", "note": "Chullin 19b. A סברא inclines; it does not establish. The reducer reads any `raise` as full, so the note carries the weaker weight.", "ext": { "warrant": { "kind": "sevara" } } },
+  { "id": "mistabra", "he": "ומסתברא כמאן דאמר: אף מחזיר.", "en": "And it stands to reason like the one who says: even one who returns.", "move": { "element": "proof", "subtype": "validation", "target": "af-machzir", "marker": "מסתברא כמאן דאמר …" }, "provenance": "derivation", "anatomy": [{ "kind": "theory", "note": "Chullin 19b. A סברא inclines; it does not establish. The reducer reads any `raise` as full, so the note carries the weaker weight." }], "ext": { "warrant": { "kind": "sevara" } } },
   { "id": "c3", "he": "לא איתמר בה לא ראיה ולא סתירה, ומסתברא כרב.", "en": "Neither proof nor contradiction was stated on it, and it stands to reason like Rav.", "move": { "element": "proof", "subtype": "validation", "target": "c1", "marker": "מסתברא" }, "provenance": "derivation", "note": "[constructed] Arguments balance; the inclination is recorded as a weak validation.", "ext": { "warrant": { "kind": "sevara" } } }
 ]
 ```
@@ -3154,7 +3161,7 @@ Whatever the surface — question, exclamation, ellipsis, rhetoric — extract s
 
 **Step 4 · Check that the purpose is served.** Does the explanation fit the wording? Does the proof prove? Does the difficulty land? Does the resolution remove it? Does the answer answer what was asked? (p194). This chooses the leaf: full vs forced explanation; demonstration vs validation; settlement vs alternative; direct contradiction vs opposition. → `move.subtype`. When two leaves are defensible, take the one the passage's *outcome* supports and say so in `note`.
 
-**Step 5 · Verify premises recursively.** Every premise must itself be established — by a further premise, and so on, until a terminal: something self-evident (sense, axiom) or conventionally authoritative (endoxa, tradition) (p194–196). Then read the chain back: if the last holds, the previous holds, and so to the first. Chains exist for difficulties as much as for statements. → the deduction kind as an edge-level `anatomy` kind; the unit's own `provenance`; the chain in `ext.warrant.premises[]`, each with its `provenance`; a pending kind (`rebuttal/*`, `style/*`, `proof/indirect`, `disproof/*`, `sevara`) in `ext.warrant.kind`.
+**Step 5 · Verify premises recursively.** Every premise must itself be established — by a further premise, and so on, until a terminal: something self-evident (sense, axiom) or conventionally authoritative (endoxa, tradition) (p194–196). Then read the chain back: if the last holds, the previous holds, and so to the first. Chains exist for difficulties as much as for statements. → the deduction kind as an edge-level `anatomy` kind; the unit's own `provenance` (and the derived ground badge, when it maps); the chain in `ext.warrant.premises[]`, each with its `provenance`; a pending or partial kind (`rebuttal/*`, `style/*`, `proof/indirect`, `disproof/*`, `sevara`) in `ext.warrant.kind`, with the matching icon in `anatomy` when one exists (`via-opposite`, `dilemma`, `ground-does-not-reach`, `theory`).
 
 **Step 6 · Separate text from elucidation.** A ביאור restates a proposition at greater length and adds nothing (p196). → `ext.form.elucidationOf` on the restating unit; its move is `statement/explanation` with the elucidated unit as `target`. The status is often conferred *later*: when the Gemara answers a redundancy objection with `מה טעם קאמר`, `פירושא קא מפרש`, `מה הן קתני`, or a reading on which the second clause spells out the first, the second clause becomes an elucidation of the first — go back and set `elucidationOf` on it.
 
@@ -3819,7 +3826,13 @@ Other names an agent may meet for the same concepts. Map them to the keys in §3
 | סוג genus · מין species | kind · species |
 | הפעל affection | being acted upon |
 | מתחבר attribute (axis 15) | accompanying accident |
-| `anatomy` (file) | Layers B, C, D; "the anatomy layer"; the fifty-three kinds |
+| `variant-subjects` (file) | the other half of `variant`: same predicate, two subjects |
+| `fallacy-not-included` (file) | classical-syllogism inclusion failure |
+| `via-opposite` (file) | `proof/indirect` |
+| `dilemma` (file) | `disproof/dilemma` · ממה נפשך |
+| `ground-does-not-reach` (file) | `rebuttal/irrelevant` |
+| `theory` (file) | `sevara` · סברא |
+| `anatomy` (file) | Layers B, C, D; "the anatomy layer"; the sixty-four kinds |
 | `move` (file) | Layer A; "the move layer"; the nineteen leaves; taxonomy |
 | `ext` (file) | the waiting room; pending fields |
 
@@ -3866,8 +3879,8 @@ The book's own labelled instances not already given above, each as a one-line un
 ```json
 [
   { "id": "kosev-lash", "he": "הכותב – חייב; הלש – חייב.", "en": "One who writes is liable; one who kneads is liable.", "move": { "element": "statement", "subtype": "inference", "target": "av-melacha" }, "provenance": "derivation", "anatomy": [{ "kind": "classical-syllogism", "note": "Shabbos 70a / Sanhedrin 53a: subject down from `העושה אב מלאכה בשבת חייב סקילה`." }, { "kind": "inference-necessary" }] },
-  { "id": "min-hatzad", "he": "טלטול מן הצד אין שמו טלטול.", "en": "Sideways handling is not called handling.", "move": { "element": "contradiction", "subtype": "opposition", "target": "mukzeh-min-hatzad" }, "provenance": "tradition", "note": "Shabbos 43b: the inclusion fails — the mukzeh rule does not reach sideways handling — so the conclusion is withdrawn.", "ext": { "warrant": { "kind": "rebuttal/invalid-syllogism" } } },
-  { "id": "meachas-9a", "he": "מאי שנא ״מאחת״ דמשמע להו? דכתבה רחמנא לבסוף גבי עשירית האיפה … דאי סלקא דעתך … נכתבה רחמנא להאי ״מאחת״ בדלות אי נמי בעשירות.", "en": "Why does 'of one' mean this to them? Because the Merciful One wrote it last, by the tenth-ephah offering … for if you thought otherwise, let it have been written by the poor man's offering or the rich man's.", "move": { "element": "proof", "subtype": "demonstration", "target": "meachas-reading" }, "provenance": "tradition", "anatomy": [{ "kind": "hypothetical-syllogism-tollens" }], "note": "Horayos 9a.", "ext": { "warrant": { "kind": "proof/indirect" } } },
+  { "id": "min-hatzad", "he": "טלטול מן הצד אין שמו טלטול.", "en": "Sideways handling is not called handling.", "move": { "element": "contradiction", "subtype": "opposition", "target": "mukzeh-min-hatzad" }, "provenance": "tradition", "anatomy": [{ "kind": "fallacy-not-included", "note": "Shabbos 43b: the inclusion fails — the mukzeh rule does not reach sideways handling — so the conclusion is withdrawn." }], "ext": { "warrant": { "kind": "rebuttal/invalid-syllogism" } } },
+  { "id": "meachas-9a", "he": "מאי שנא ״מאחת״ דמשמע להו? דכתבה רחמנא לבסוף גבי עשירית האיפה … דאי סלקא דעתך … נכתבה רחמנא להאי ״מאחת״ בדלות אי נמי בעשירות.", "en": "Why does 'of one' mean this to them? Because the Merciful One wrote it last, by the tenth-ephah offering … for if you thought otherwise, let it have been written by the poor man's offering or the rich man's.", "move": { "element": "proof", "subtype": "demonstration", "target": "meachas-reading" }, "provenance": "tradition", "anatomy": [{ "kind": "hypothetical-syllogism-tollens" }, { "kind": "via-opposite" }], "note": "Horayos 9a.", "ext": { "warrant": { "kind": "proof/indirect" } } },
   { "id": "makeh-adam", "he": "דאתקש למכה בהמה.", "en": "For it is juxtaposed to one who strikes an animal.", "move": { "element": "proof", "subtype": "demonstration", "target": "mamon-claim" }, "provenance": "tradition", "anatomy": [{ "kind": "analogism", "basis": "marked", "note": "Bava Kamma 83b: the similarity premise is tradition — juxtaposed subjects teach each other." }], "ext": { "warrant": { "premises": [{ "text": "מכה אדם and מכה בהמה are juxtaposed in Scripture", "provenance": "tradition" }] }, "axis": ["axis/similarity"] } }
 ]
 ```
@@ -3903,7 +3916,7 @@ Pesachim 16a / 17b, the whole shape (shipped as `pesachim-liquids.json`): R. Ele
 3. **One unit, one move, one target.** Sentences holding two moves are split (§6, §16); the split is explained in `note` or `about`.
 4. **`provenance` filled wherever known** — `tradition` on every Mishnah, baraita and verse; `asserted` on a rabbi's own ruling; `derivation` on reasoning. The default is `asserted`, and a defaulted proof-text reads *doubt* instead of *accepted*.
 5. **`marker` copied exactly** from `markers.ts` where the phrase appears; `attested: true` only where Ramchal labels this passage; neither otherwise.
-6. **Every `anatomy.kind` is one of the fifty-three**; row kinds describe the unit, edge kinds describe its relation to its `target`; `basis: marked` only when the phrase is in the text; a `note` on any label that is not obvious.
+6. **Every `anatomy.kind` is one of the sixty-four**; row kinds describe the unit, edge kinds describe its relation to its `target`; `basis: marked` only when the phrase is in the text; a `note` on any label that is not obvious. Write `variant` vs `variant-subjects` by which term changes; write `via-opposite`, `dilemma`, `ground-does-not-reach`, `theory` for the warrant kinds that have those icons; do not write a derived ground that `provenance` already implies.
 7. **`ext` carries only what has no home** — `form`, `relation`, `warrant`, `axis`, `inference`, `move`, `priority` under their guide names; `ext.move.targets` lists every target with the primary first; nothing in `ext` duplicates a present field.
 8. **`תיובתא` paired** with a `contradiction/direct` on the same target; `sevara` noted as weak; a rebuttal's `ext.warrant.kind` is `rebuttal/*` and what it leans on is a premise.
 9. **The reducer's verdict matches the source's.** Trace §13 by hand for the claim the passage is about; where the Talmud closes with `והלכתא`, `תיובתא`, or a last word standing, the file must draw the same status. Where it cannot (a placeholder effect, a tiebreak), `about` says so.

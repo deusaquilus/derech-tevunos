@@ -1,7 +1,7 @@
 import type { JSX } from "react";
 
 import { hueOf } from "../../anatomy.ts";
-import { BUSY_GLYPHS, GLYPHS } from "../../glyphs.ts";
+import { BUSY_GLYPHS, GLYPHS, glyphBox } from "../../glyphs.ts";
 import { LIGHT } from "../../theme.ts";
 import type { Bead } from "../useSugyaController.ts";
 
@@ -70,7 +70,7 @@ export const BeadLayer = ({
                 y={at.y - inner / 2}
                 width={inner}
                 height={inner}
-                viewBox="-12 -12 24 24"
+                viewBox={glyphBox(badge.info.key)}
                 dangerouslySetInnerHTML={{ __html: GLYPHS[badge.info.key] }}
               />
             )}

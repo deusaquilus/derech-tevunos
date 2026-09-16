@@ -90,7 +90,7 @@ Literal vs `figurative` (השאלה / הפלגה): truth is judged on the intend
 
 ### C · Relations between two propositions (Ch 4, p48–64)
 
-`equivalent` דומים · `variant` מתחלפים · `opposite` הפכיים → `diametrically-opposed` הפכיים ממש (both categorical or both particular) / `contradictory` מתנגדים (one categorical, one particular) · `converse` חילוף (complete) / `converse-limited` / `contrapositive` · `obverse` מתהפכים · `incongruent` נבדלים.
+`equivalent` דומים · `variant` מתחלפים (same S, different P · same P, different S) · `opposite` הפכיים → `diametrically-opposed` הפכיים ממש (both categorical or both particular) / `contradictory` מתנגדים (one categorical, one particular) · `converse` חילוף (complete) / `converse-limited` / `contrapositive` · `obverse` מתהפכים · `incongruent` נבדלים.
 
 Opposition requires same S, same P, same **time**, **place**, **aspect**, and **literal sense**; otherwise `differs-in-time` / `differs-in-place` / `differs-in-context` / `homonym` (one word, two meanings) / `figurative` (one statement is a figure or hyperbole). Opposite terms: `no-middle` (טמא/טהור, אסור/מותר) vs `has-middle` (רשות/חובה, middle = מצוה).
 
@@ -100,7 +100,7 @@ Propagation (p92): the predicate moves **up** its order (S is P, P ⊆ Q ⟹ S i
 
 Syllogisms: `classical-syllogism` היקש מופתי · `analogism` בנין אב / מה מצינו · `a-fortiori` קל וחומר / כל שכן · `hypothetical-syllogism` היקש תלוי (ponens; `hypothetical-syllogism-tollens`) · `disjunctive-syllogism` היקש מחלק.
 
-Defeats of analogy and a fortiori (p100–104): `fallacy-not-similar` (מה ל… שכן …) · `fallacy-not-greater` (ordering reverses under another criterion) · `fallacy-counterexample` (… יוכיח).
+Defeats of a classical syllogism: `fallacy-not-included` (the inclusion fails — the member is not in the kind). Defeats of analogy and a fortiori (p100–104): `fallacy-not-similar` (מה ל… שכן …) · `fallacy-not-greater` (ordering reverses under another criterion) · `fallacy-counterexample` (… יוכיח).
 
 Status (p112): `accepted` · `rejected` · `doubt` — **doubt is the initial state.**
 
@@ -272,7 +272,7 @@ type Annotation = {
     premises: Array<{ text: string; provenance: Provenance; id?: string }>;
     aspect?: Aspect | string | null;    // null = unknown; never guessed
     modality?: "potential" | "actual" | null;
-    defeat?: "fallacy-not-similar" | "fallacy-not-greater" | "fallacy-counterexample";
+    defeat?: "fallacy-not-included" | "fallacy-not-similar" | "fallacy-not-greater" | "fallacy-counterexample";
   };
 
   relation?: { to: string; kind: RelationKind; dissolvedBy?: OppositionTest };   // Layer C
@@ -596,6 +596,7 @@ Compare two *normalized* propositions on S, P, quantity, and quality (affirm / d
 - means · Same S, different P; or same P, different S. A dispute of content, not a flat denial.
 - test · Two different values of one variable — two measures, two times, two amounts, two proportions — are variant, not opposite: neither side *denies* a predicate the other affirms. Opposition (below) needs one הן and one לאו on the same P.
 - ex · Kesubos 57a `רבי טרפון אומר: נותנין לה הכל תרומה; רבי עקיבא אומר: מחצה חולין ומחצה תרומה` — two proportions, neither denied.
+- file · the page splits this into two icons: `variant` (predicates change) and `variant-subjects` (subjects change). Emit `variant` here; pick the file key when writing a sugya JSON.
 
 #### opposite — הפכיים
 - he · `שיאמרו על נשוא אחד בנושא אחד, אחד – הן ואחד – לאו`
@@ -638,7 +639,7 @@ Three kinds, by what changes besides order:
 - The whole force rests on the inclusion actually holding, `בהכרח ותמיד`. Disputes about inclusion are where derivations diverge: Rabbi Yosi holds הבערה is not an אב מלאכה → no death penalty for kindling; Shabbos 43b `טלטול מן הצד אין שמו טלטול` → the mukzeh rule does not reach sideways handling.
 
 ### classical-syllogism — היקש מופתי
-- means · Conclusion by the propagation rules from an established premise plus an inclusion. Fails iff the inclusion fails — predicate or subject does not subsume.
+- means · Conclusion by the propagation rules from an established premise plus an inclusion. Fails iff the inclusion fails — predicate or subject does not subsume (`fallacy-not-included`).
 - ex · Yebamos 66a — `מנין לכהן שנשא אשה וקנה עבדים שיאכלו בתרומה? שנאמר: וכהן כי יקנה נפש קנין כספו הוא יאכל בו` — קנין כספו eats terumah (verse); the wife is קנין כספו ⟹ she eats terumah.
 
 ### analogism — בנין אב / מה מצינו
@@ -656,6 +657,9 @@ Three kinds, by what changes besides order:
 - **fallacy-not-similar** — the supposed similars differ in a relevant respect. Recognize `מה ל… שכן …`. ex · Kerisos 26a `צבור מנשיא לא אתי, דאיכא למיפרך: מה לנשיא שכן יש בקרבנו נקבה`.
 - **fallacy-not-greater** — the lesser/greater ordering reverses under another criterion, so neither is simply heavier. ex · Horayos 10a, prince from Cohen Gadol: `מה למשיח שכן אינו מביא בשגגת מעשה, תאמר בנשיא שמביא בשגגת מעשה`. Severity is per aspect; an a fortiori needs the ordering to hold in every relevant aspect (Sifri Naso, below).
 - **fallacy-counterexample** — a third subject shares the antecedent property and lacks P. Recognize `… יוכיח`. ex · Toras Cohanim ibid. — `משיח יוכיח, שמביא על הנודע זכר ואין מביא אשם תלוי`.
+
+### Defeat of a classical syllogism
+- **fallacy-not-included** — the inclusion the syllogism rests on does not hold: the case is not a member of the kind, or the predicate is not part of the wider one. Shabbos 70a, Rabbi Yosi holds kindling is not a principal labour, so no death penalty follows; Shabbos 43b `טלטול מן הצד אין שמו טלטול` — handling from the side is not handling.
 
 ### hypothetical-syllogism — היקש תלוי
 - he · `שני ענינים, שהם אחד קודם ואחד נמשך, יכריחו זה את זה; פרוש, שבהמצא הקודם – ימצא הנמשך, ובהעדר הנמשך – יעדר הקודם`
@@ -854,6 +858,21 @@ Other names an agent may meet for the same concepts. Map them to the keys in §0
 | מתחבר attribute (axis 15) | accompanying accident |
 
 Spelling: the same terms also appear in defective spelling — פרוש, תרוץ, קשיא, פרכא, רמיא, סיעתא, שנוי, ישוב, אבעיא. This document uses the plene forms common in Talmud study. Treat both as one term.
+
+### Visualization keys (the page)
+
+The waterfall file (`SUGYA_JSON_FORMAT.md`) names some of these constructs with the icon set's keys. An agent writing a file uses the file's keys, not the §0 keys, for `anatomy[].kind`. The classifier still emits the §0 keys.
+
+| §0 / warrant key | file `anatomy[].kind` | note |
+|---|---|---|
+| `variant` (same S, different P) | `variant` | predicates change |
+| `variant` (same P, different S) | `variant-subjects` | subjects change |
+| inclusion fails (classical syllogism) | `fallacy-not-included` | also a `warrant.defeat` |
+| `proof/indirect` | `via-opposite` | keep the warrant kind in `ext` when premises are recorded |
+| `disproof/dilemma` | `dilemma` | same |
+| `rebuttal/irrelevant` | `ground-does-not-reach` | the other four `rebuttal/*` kinds have no icon yet |
+| `sevara` | `theory` | still a weak validation; say so in `note` |
+| `provenance: sense` · `axiom` · `endoxa` · `tradition` on a proof, contradiction or difficulty | derived `ground-sense` · `ground-axiom` · `ground-common-sense` · `ground-tradition` | do not write the badge; the page derives it. Write `ground-deduction` yourself — `derivation` does not auto-map |
 
 ---
 

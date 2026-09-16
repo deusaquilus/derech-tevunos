@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from "react";
 
 import { FAMILY_ORDER, type Family } from "../../anatomy.ts";
 
-/** Which families of the chapter 1–7 layer are showing. */
+/** Which families of the chapter 1–8 layer are showing. */
 export type Lenses = Record<Family, boolean>;
 
 export const ALL_LENSES: Lenses = {
@@ -10,6 +10,7 @@ export const ALL_LENSES: Lenses = {
   anatomy: true,
   relations: true,
   deductions: true,
+  grounds: true,
 };
 
 /** The layer's switchable state, as the reader left it. */
@@ -27,10 +28,18 @@ export const DEFAULT_LAYER: AnatomyLayerState = { on: false, lenses: ALL_LENSES 
 
 const STORAGE_KEY = "sugya-lattice.anatomy";
 
-const isLenses = (value: unknown): value is Lenses =>
-  typeof value === "object" &&
-  value !== null &&
-  FAMILY_ORDER.every((f) => typeof (value as Record<string, unknown>)[f] === "boolean");
+/**
+ * A remembered lens setting, family by family. A family the stored record
+ * does not know — one added since the reader last visited, as `grounds` was
+ * in v6 — is shown, which is what every family is by default; the reader's
+ * choices about the others are kept.
+ */
+const lensesOf = (value: unknown): Lenses => {
+  const stored = typeof value === "object" && value !== null ? (value as Record<string, unknown>) : {};
+  return Object.fromEntries(
+    FAMILY_ORDER.map((f) => [f, typeof stored[f] === "boolean" ? stored[f] : ALL_LENSES[f]]),
+  ) as Lenses;
+};
 
 const read = (): AnatomyLayerState => {
   if (typeof window === "undefined") return DEFAULT_LAYER;
@@ -42,7 +51,7 @@ const read = (): AnatomyLayerState => {
     const { on, lenses } = parsed as { on?: unknown; lenses?: unknown };
     return {
       on: typeof on === "boolean" ? on : DEFAULT_LAYER.on,
-      lenses: isLenses(lenses) ? lenses : DEFAULT_LAYER.lenses,
+      lenses: lensesOf(lenses),
     };
   } catch {
     return DEFAULT_LAYER;

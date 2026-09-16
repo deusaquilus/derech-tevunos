@@ -10,7 +10,7 @@
  * per sentence. A unit is its text (`he`, `en`, `short`), who says it
  * (`speaker`), the ch. 9 move it makes (`move`: element, subtype, what it acts
  * on, the phrase that licensed the label, whether Ramchal gave it), where its
- * authority comes from (`provenance`), the ch. 1–7 layer (`anatomy`) and a
+ * authority comes from (`provenance`), the ch. 1–8 layer (`anatomy`) and a
  * `note`. Layers are separate keys so a future one — the normalized form, the
  * warrant, the axis — is a new sibling of `move`, not a change to it.
  *
@@ -162,7 +162,7 @@ const oneOf = <T extends string>(obj: Record<string, unknown>, key: string, allo
   if (v === undefined) return undefined;
   if ((allowed as readonly string[]).includes(v)) return v as T;
   const hint = nearest(v, allowed);
-  // A short list is spelt out; the fifty-three ch. 1–7 labels are not.
+  // A short list is spelt out; the sixty-four ch. 1–8 labels are not.
   const expected = allowed.length <= 8
     ? allowed.map((a) => `"${a}"`).join(" | ")
     : `the ${allowed.length} values allowed for "${key}"`;

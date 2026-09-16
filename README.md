@@ -78,6 +78,7 @@ have just written, go to `#/open`, drop it, pick it, or paste the JSON.
 | `SUGYA_WATERFALL_V3_RAIL.md` | The rail and the fold. |
 | `SUGYA_WATERFALL_V4_ANATOMY.md` | The ch. 1–7 anatomy layer (badges, beads, lenses). |
 | `SUGYA_WATERFALL_V5_FOLD_TREE.md` | Nested folds and a rail inside a rail. |
+| `SUGYA_WATERFALL_V6_ADDITIONAL_ICONS.md` | The rest of `icons_v3`: a second variant, a fourth fallacy, and chapter 8's nine grounds. |
 | `nested_rail_research/` | The study that v5 implements: `VERDICT.md`, a reference fold-tree, and `IMPLEMENTATION_PLAN.md`. `node simulate.ts` from that directory reprints the pages. |
 | `derech-tevunos-visualization-spec.md` | Seven visualizations that *compute* something (concept lattices, circumscription, aspect lanes). Sibling of the waterfall, not a replacement. |
 | `web/` | The first two of those: lattice interval under doubt, and circumscription diff. `cd web && npm install && npm run dev` — http://localhost:5173/. Notes from that build: `viz-5.1-lattice-interval-under-doubt-lessons.md`. |

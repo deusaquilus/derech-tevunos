@@ -713,6 +713,7 @@ export const bavaMetziaYeush: Sugya = {
       anatomy: [
         { kind: "analogism", basis: "marked", note: "`מה היתירא … אף איסורא`: the rule is carried from the permitted case to the prohibited one by likeness, and that is what refutes Rava." },
         { kind: "comparative", basis: "marked" },
+        { kind: "ground-deduction", note: "The refutation brings no new source: the mishnah was already on the table, and what knocks Rava down is the analogy drawn from it. A disproof from syllogism (Eng p124–126), and the teal badge says which syllogism." },
       ],
     },
     {

@@ -12,6 +12,7 @@ labels each sentence with the move it makes and draws how the moves hang togethe
 npm install
 npm run dev       # React app on http://localhost:5174
 npm run check     # typecheck + acceptance tests
+npm run glyphs    # regenerate src/glyphs.ts from icons_v3
 npm run export    # writes out/*.svg and out/index.html
 npm run build     # production bundle into dist/
 ```
@@ -24,8 +25,8 @@ verdict wording — lives in a module both import, so neither can drift.
 | File | What it holds |
 |---|---|
 | `src/taxonomy.ts` | The seven elements, nineteen leaves, icons, and effects |
-| `src/anatomy.ts` | The ch. 1–7 vocabulary — fifty-three types in four families — and where each may sit |
-| `src/glyphs.ts` | The fifty-three glyphs as SVG bodies, coloured by `currentColor` |
+| `src/anatomy.ts` | The ch. 1–8 vocabulary — sixty-four types in five families — and where each may sit |
+| `src/glyphs.ts` | The sixty-four glyphs as SVG bodies, coloured by `currentColor`, plus the chapter 4 tile key |
 | `src/markers.ts` | The Aramaic trigger lexicon, each entry page-cited |
 | `src/sugya.ts` | The data model, the status/standing reducer, and `prefixOf` |
 | `src/verdict.ts` | Which of status or standing to report, and in what words |
@@ -49,7 +50,7 @@ verdict wording — lives in a module both import, so neither can drift.
 
 A passage is a JSON file in the format described in
 [`SUGYA_JSON_FORMAT.md`](../SUGYA_JSON_FORMAT.md): the sentences in order, each
-with the move it makes, what it acts on, who says it, and its ch. 1–7 labels.
+with the move it makes, what it acts on, who says it, and its ch. 1–8 labels.
 To ship one, put the file in `src/sugyot/` and add a line to `FILES` in
 `src/sugyot/index.ts`; it is validated at import and appears in the gallery and
 the tabs. To look at one without a rebuild, go to `#/open`: a page of its own,
@@ -115,7 +116,7 @@ page moves as you drag.
 | `FoldBand` | A fold summary; what is hidden and how it stands |
 | `SugyaHeader` | The passage's citation and one instructional line |
 | `Tooltip` | Rich hover/focus text for anything; picks the side that fits; a short unprompted `hint` form for an anchor whose twin is hovered |
-| `Glyph` | One ch. 1–7 glyph in its family's hue. Nothing else. |
+| `Glyph` | One ch. 1–8 glyph in its family's hue. Nothing else. |
 | `AnatomyBadge` | One badge: glyph, short name, basis, its tooltip |
 | `BadgeTip` | What a badge's tooltip says, given where the badge sits |
 | `BeadLayer` | Measured elbows; draws a bead on each long enough run, which lights its chip rather than explaining itself |
@@ -127,24 +128,30 @@ rail ticks cannot be computed up front. `useIconPositions` measures them after
 layout. Revealing a sentence changes only opacity, never layout, so the measuring
 runs on resize rather than on every slider move.
 
-## A second layer: chapters 1–7
+## A second layer: chapters 1–8
 
 Chapter 9 says what each sentence *does* — it is the layer the lattice draws.
-Chapters 1–7 say what each sentence *is*: who speaks (ch. 1), the shape of the
-claim (chs. 3–6), how two claims relate (ch. 4), and by what rule one is drawn
-from another (ch. 7). That vocabulary sits on the sheet as a second layer,
-`Ramchal's anatomy`, switched on from the legend and off by default. When it is on,
-each sentence carries small badges — violet for the shape of the statement, teal
-for the deduction, slate for the speaker — and each move's handle carries the
-relation it bears to its target; where the connector's run is long enough, the
-same relation also appears as a bead on the elbow, and hovering either lights
-both. Every badge explains itself on hover, and that tooltip is the whole of
-what the layer says about it; a bead, too small to hold a paragraph, sends the
-reader to its chip with one line instead. The
-five fixtures are annotated; none of these labels is attested, since none of
-their sentences is one Ramchal labels in chapters 1–7, so each is `inferred`, or
-`marked` where the Talmud's own wording (`מה … אף`, `אף על פי ש`) names the form.
-See `SUGYA_WATERFALL_V4_ANATOMY.md`.
+Chapters 1–8 say what each sentence *is*: who speaks (ch. 1), the shape of the
+claim (chs. 3–6), how two claims relate (ch. 4), by what rule one is drawn
+from another (ch. 7), and what a proof or disproof stands on (ch. 8). That
+vocabulary sits on the sheet as a second layer, `Ramchal's anatomy`, switched
+on from the legend and off by default. When it is on, each sentence carries
+small badges — violet for the shape of the statement, teal for the deduction,
+magenta for the ground, slate for the speaker — and each move's handle carries
+the relation it bears to its target; where the connector's run is long enough,
+the same relation also appears as a bead on the elbow, and hovering either
+lights both. Every badge explains itself on hover, and that tooltip is the
+whole of what the layer says about it; a bead, too small to hold a paragraph,
+sends the reader to its chip with one line instead. The fixtures are
+annotated; none of these labels is attested, since none of their sentences is
+one Ramchal labels in chapters 1–8, so each is `inferred`, or `marked` where
+the Talmud's own wording (`מה … אף`, `אף על פי ש`) names the form. See
+`SUGYA_WATERFALL_V4_ANATOMY.md` for the layer and
+`SUGYA_WATERFALL_V6_ADDITIONAL_ICONS.md` for the rest of the icon set.
+
+The glyphs are extracted from `icons_v3/` by `npm run glyphs`
+(`scripts/extract-glyphs.ts`). Bodies are `currentColor`; chapter 5's wide
+icons and chapter 8's landscapes fall back to a dot in the bead.
 
 ## Why chapter 9 is the right layer
 

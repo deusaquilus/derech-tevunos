@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://derech-tevunos.local/sugya.schema.json",
   "title": "Sugya",
-  "description": "One Talmudic passage, sentence by sentence, labelled with the move each sentence makes (Derech Tevunos ch. 9) and, optionally, what each sentence is and how it stands to the one it acts on (ch. 1–7). Everything the page renders and nothing it derives: depth, standing, status, folds and rails are all computed from `units`. Reference: SUGYA_JSON_FORMAT.md at the repository root; implementation: viz/src/format.ts.",
+  "description": "One Talmudic passage, sentence by sentence, labelled with the move each sentence makes (Derech Tevunos ch. 9) and, optionally, what each sentence is, how it stands to the one it acts on, and what it rests on (ch. 1–8). Everything the page renders and nothing it derives: depth, standing, status, folds and rails are all computed from `units`. Reference: SUGYA_JSON_FORMAT.md at the repository root; implementation: viz/src/format.ts.",
   "type": "object",
   "additionalProperties": false,
   "required": ["format", "version", "id", "title", "tractate", "folio", "discussedAt", "units"],
@@ -59,7 +59,7 @@
     "provenance": {
       "type": "string",
       "enum": ["sense", "axiom", "endoxa", "tradition", "derivation", "asserted"],
-      "description": "Ch. 8: where the sentence's authority comes from. The first four enter accepted; `derivation` and `asserted` start in doubt. Absent, `asserted`."
+      "description": "Ch. 8: where the sentence's authority comes from. The first four enter accepted; `derivation` and `asserted` start in doubt. Absent, `asserted`. On a proof, contradiction or difficulty, one of the first four also draws as a ground badge (`ground-sense`, `ground-axiom`, `ground-common-sense`, `ground-tradition`) when the anatomy layer is on and the unit carries no ch. 8 label of its own."
     },
     "ext": {
       "type": "object",
@@ -90,7 +90,7 @@
     },
     "annotation": {
       "type": "object",
-      "description": "One ch. 1–7 label. Row-level kinds describe the sentence alone; edge-level kinds (relations, deductions) describe its move on `target` and need one.",
+      "description": "One ch. 1–8 label. Row-level kinds describe the sentence alone; edge-level kinds (relations, deductions, grounds) describe its move on `target` and need one.",
       "additionalProperties": false,
       "required": ["kind"],
       "properties": {
@@ -103,7 +103,7 @@
             "exclusion", "exception", "conditional", "hypothetical",
             "compound", "compound-not-only", "compound-needless", "disjunction",
             "preclusive", "discrepancy", "comparative", "consequent",
-            "equivalent", "variant", "diametrically-opposed", "contradictory",
+            "equivalent", "variant", "variant-subjects", "diametrically-opposed", "contradictory",
             "converse", "converse-limited", "contrapositive", "obverse", "incongruent",
             "differs-in-time", "differs-in-place", "differs-in-context", "homonym",
             "no-middle", "has-middle",
@@ -111,7 +111,9 @@
             "figurative",
             "syllogism", "classical-syllogism", "analogism", "a-fortiori",
             "hypothetical-syllogism", "hypothetical-syllogism-tollens", "disjunctive-syllogism",
-            "fallacy-not-similar", "fallacy-not-greater", "fallacy-counterexample"
+            "fallacy-not-included", "fallacy-not-similar", "fallacy-not-greater", "fallacy-counterexample",
+            "ground-axiom", "ground-sense", "ground-common-sense", "ground-tradition", "ground-deduction",
+            "via-opposite", "dilemma", "ground-does-not-reach", "theory"
           ]
         },
         "basis": { "$ref": "#/$defs/basis" },
@@ -120,7 +122,7 @@
     },
     "unit": {
       "type": "object",
-      "description": "One sentence: its text, who says it, the move it makes, where its authority comes from, its ch. 1–7 labels.",
+      "description": "One sentence: its text, who says it, the move it makes, where its authority comes from, its ch. 1–8 labels.",
       "additionalProperties": false,
       "required": ["id", "en", "move"],
       "properties": {

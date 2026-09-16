@@ -1,0 +1,72 @@
+---
+description: Domain modeling with discriminated unions — make illegal states unrepresentable
+globs: "**/*.{ts,tsx,astro}"
+alwaysApply: false
+---
+
+# Domain Modeling in TypeScript
+
+## Discriminated Unions (Coproducts)
+
+Use a shared literal field (discriminant) to model states. This is the TypeScript equivalent of Scala's `sealed trait` + `case class`.
+
+```typescript
+// ❌ BAD — boolean flags create impossible states
+type Request = {
+  loading: boolean;
+  data?: string;
+  error?: Error;
+};
+
+// ✅ GOOD — each state is a distinct shape
+type Request =
+  | { status: "idle" }
+  | { status: "loading" }
+  | { status: "success"; data: string }
+  | { status: "error"; error: Error };
+```
+
+## Exhaustive Switching
+
+Always handle every variant. Use a `never` check to get a compile error when new variants are added.
+
+```typescript
+function handle(req: Request): string {
+  switch (req.status) {
+    case "idle":
+      return "Waiting";
+    case "loading":
+      return "Loading...";
+    case "success":
+      return req.data;
+    case "error":
+      return req.error.message;
+    default: {
+      const _exhaustive: never = req;
+      return _exhaustive;
+    }
+  }
+}
+```
+
+## Nullability
+
+- Use `T | undefined` for optional values. This is your `Option[T]`.
+- Use `T | null` when the API or DOM convention uses `null`.
+- With `strict` mode, the compiler enforces null checks — no need for a Maybe monad.
+- Optional chaining (`?.`) and nullish coalescing (`??`) are your `.getOrElse`.
+
+## Product Types
+
+- Prefer `type` for data shapes. Use `interface` when you need declaration merging (rare).
+- Mark fields `readonly` by default.
+
+```typescript
+type User = {
+  readonly id: string;
+  readonly name: string;
+  readonly email: string;
+};
+
+const rename = (user: User, name: string): User => ({ ...user, name });
+```

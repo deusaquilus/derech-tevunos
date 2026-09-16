@@ -1,13 +1,15 @@
 /**
- * Derech Tevunos chapters 1–7: who is speaking, what a statement is made of,
+ * Derech Tevunos chapters 1–8: who is speaking, what a statement is made of,
  * how two statements stand to each other, what one implies, when it is not
- * meant literally, and how a conclusion is derived from what is granted.
+ * meant literally, how a conclusion is derived from what is granted, and what
+ * a proof or disproof stands on.
  *
  * Chapter 9 (`taxonomy.ts`) names what a sentence *does* to an earlier one.
- * These chapters name what a sentence *is*, and how it relates. The two are
- * different levels and stay apart: nothing here is a move, nothing here has an
- * effect, and no label here touches a verdict. On the page it is a second layer
- * of badges over the lattice — switched on and off as one, and off by default.
+ * These chapters name what a sentence *is*, how it relates, and what it rests
+ * on. The two are different levels and stay apart: nothing here is a move,
+ * nothing here has an effect, and no label here touches a verdict. On the page
+ * it is a second layer of badges over the lattice — switched on and off as
+ * one, and off by default.
  *
  * Every type is defined by an everyday phrase rather than a term of logic,
  * following the book's own habit: Ramchal fixes nearly every type by a stock
@@ -15,27 +17,32 @@
  * chip label is that word's everyday picture and the tooltip gives the rest.
  *
  * Page numbers follow the bilingual edition: even pages English, odd Hebrew.
- * See `icons/CH1-3_ICONS_EXPLORATION.md` and `icons/CONTACT_SHEET_PART2.md`.
+ * The glyphs are the icon set in `icons_v3/`; `icons_v3/ICONS_REFERENCE.md` is
+ * the contract for what each means and where it attaches.
  */
 
-import type { LabelBasis } from "./sugya.ts";
+import type { LabelBasis, Provenance } from "./sugya.ts";
+import type { Element } from "./taxonomy.ts";
 
 /**
  * Ramchal's own partition (ch. 2, Eng p18–20): understanding statements
- * (chapters 3–6), deriving new ones (chapter 7), and, before either, knowing
- * who is talking (chapter 1). Chapters 3–6 are split in two here only because
- * a badge about one sentence and a badge about two sit in different places.
+ * (chapters 3–6), deriving new ones (chapter 7), accepting or rejecting them
+ * (chapter 8), and, before any of it, knowing who is talking (chapter 1).
+ * Chapters 3–6 are split in two here only because a badge about one sentence
+ * and a badge about two sit in different places.
  */
-export type Family = "speakers" | "anatomy" | "relations" | "deductions";
+export type Family = "speakers" | "anatomy" | "relations" | "deductions" | "grounds";
 
 /** Where a badge belongs: on the row it describes, or on the move the row makes. */
 export type Level = "row" | "edge";
 
 /**
  * One hue per family, so that in a mixed view the eye reads moves by the
- * element colours and this layer by shape. Green and red stay verdicts.
+ * element colours and this layer by shape. Green and red stay verdicts; amber,
+ * yellow and blue stay with the moves that own them. Magenta was the one clean
+ * hue left when chapter 8 arrived (`icons_v3/METHODOLOGY.md` §3).
  */
-export type Hue = "violet" | "teal" | "slate";
+export type Hue = "violet" | "teal" | "slate" | "magenta";
 
 export type FamilyInfo = {
   readonly name: string;
@@ -74,10 +81,17 @@ export const FAMILIES: Record<Family, FamilyInfo> = {
     blurb:
       "What kind of inference a proof is — a fortiori, analogy, syllogism, elimination — and, on an objection to such a proof, which way it broke.",
   },
+  grounds: {
+    name: "Grounds",
+    chapter: "ch. 8",
+    hue: "magenta",
+    blurb:
+      "What a proof or disproof stands on — the mind's own axioms, the senses, common opinion, a received tradition, a deduction — and how it is turned aside: shown not to reach the claim, caught whichever way it is taken, or held up by a theory alone.",
+  },
 };
 
 /** Lens order: who speaks, then Ramchal's three processes in the book's order. */
-export const FAMILY_ORDER: readonly Family[] = ["speakers", "anatomy", "relations", "deductions"];
+export const FAMILY_ORDER: readonly Family[] = ["speakers", "anatomy", "relations", "deductions", "grounds"];
 
 export type AnatomyKey =
   // ch. 1 — who is speaking
@@ -110,6 +124,7 @@ export type AnatomyKey =
   // ch. 4 — how two statements relate, and the tests for an apparent opposition
   | "equivalent"
   | "variant"
+  | "variant-subjects"
   | "diametrically-opposed"
   | "contradictory"
   | "converse"
@@ -137,9 +152,20 @@ export type AnatomyKey =
   | "hypothetical-syllogism"
   | "hypothetical-syllogism-tollens"
   | "disjunctive-syllogism"
+  | "fallacy-not-included"
   | "fallacy-not-similar"
   | "fallacy-not-greater"
-  | "fallacy-counterexample";
+  | "fallacy-counterexample"
+  // ch. 8 — what a proof or disproof stands on, and how it is turned aside
+  | "ground-axiom"
+  | "ground-sense"
+  | "ground-common-sense"
+  | "ground-tradition"
+  | "ground-deduction"
+  | "via-opposite"
+  | "dilemma"
+  | "ground-does-not-reach"
+  | "theory";
 
 export type AnatomyInfo = {
   readonly key: AnatomyKey;
@@ -190,6 +216,12 @@ const deduction = (e: Omit<Entry, "family" | "level" | "chapter">): Entry => ({
   family: "deductions",
   level: "edge",
   chapter: 7,
+  ...e,
+});
+const ground = (e: Omit<Entry, "family" | "level" | "chapter">): Entry => ({
+  family: "grounds",
+  level: "edge",
+  chapter: 8,
   ...e,
 });
 
@@ -457,12 +489,21 @@ const ENTRIES: Record<AnatomyKey, Entry> = {
     page: "Eng p48 · Heb p47",
   }),
   variant: relation({
-    en: "variant",
+    en: "variant: predicates change",
     he: "מתחלפים",
-    short: "share a part",
-    reads: "share a part, differ in a part",
+    short: "same subject, two claims",
+    reads: "one subject, two different predicates",
     definition:
-      "Two statements that agree in subject or in predicate but not both. They neither confirm nor oppose each other; what one says carries to the other only in the shared part.",
+      "Two statements about the same subject that say different things of it — two measures, two times, two proportions (Kesubos 57a). They neither confirm nor oppose each other: neither denies the predicate the other affirms, and what one says carries to the other only in the shared subject.",
+    page: "Eng p50 · Heb p51",
+  }),
+  "variant-subjects": relation({
+    en: "variant: subjects change",
+    he: "מתחלפים",
+    short: "same claim, two subjects",
+    reads: "one predicate, two different subjects",
+    definition:
+      "Two statements that say the same thing of different subjects. The other half of Ramchal's מתחלפים: they share the predicate and nothing else, so neither confirms nor opposes the other, and what one says carries only in the shared predicate. The icon merges the shared part: one tall arrow, two boxes.",
     page: "Eng p50 · Heb p51",
   }),
   "diametrically-opposed": relation({
@@ -686,6 +727,14 @@ const ENTRIES: Record<AnatomyKey, Entry> = {
       "From either this or that, and not that: therefore this. Sound only where the two terms have no middle. Pesachim 5b and Bava Kamma 104a (Eng p108–110).",
     page: "Eng p108–110 · Heb p109",
   }),
+  "fallacy-not-included": deduction({
+    en: "fallacy: not in the kind",
+    short: "not in the kind",
+    reads: "the member is not in the kind after all",
+    definition:
+      "A classical syllogism fails because the inclusion it rests on does not hold: the case is not a member of the kind, or the predicate is not part of the wider one. Rabbi Yosi holds kindling is not a principal labour, so no death penalty follows for it (Shabbos 70a); handling from the side is not handling, so the muktzeh rule does not reach it (Shabbos 43b). The tree with a branch cut off and its member dropped.",
+    page: "Eng p94–96 · Heb p93–95",
+  }),
   "fallacy-not-similar": deduction({
     en: "fallacy: not really alike",
     word: "מה ל… שכן",
@@ -710,6 +759,94 @@ const ENTRIES: Record<AnatomyKey, Entry> = {
     definition:
       "An analogism fails because a third case, as like the source as the target is, lacks the predicate — the Cohen Gadol in Toras Cohanim (Eng p104). One counter-case breaks the likeness.",
     page: "Eng p102–104 · Heb p101",
+  }),
+
+  // --- ch. 8: what a proof stands on, and how it is turned aside (Eng p112–144, Heb p111–143)
+  // Every picture is one landscape: a floor seen in depth, a house built on its
+  // horizon. The glyph cut into the floor says which source; the house's state
+  // says the statement's fate. `icons_v3/METHODOLOGY.md` §6.
+  "ground-axiom": ground({
+    en: "ground: first axiom",
+    he: "מושכלות ראשונים",
+    short: "self-evident",
+    reads: "the mind dictates it, no training needed",
+    definition:
+      "The proof rests on what the mind sees for itself — two is more than one, the half is less than the whole. Nothing is brought to establish it and nothing could. The floor carries a sun: ברור כשמש, clear as day.",
+    page: "Eng p112 · Heb p111",
+  }),
+  "ground-sense": ground({
+    en: "ground: the senses",
+    he: "מוחשות",
+    short: "the senses attest",
+    reads: "the senses testify to it",
+    definition:
+      "The proof rests on perception — stones are hard, water is wet, “we have seen them pass” (Berachos 58b). A disproof from sense is answered only by reinterpreting what was seen: it was only its glow that passed.",
+    page: "Eng p112 · Heb p111",
+  }),
+  "ground-common-sense": ground({
+    en: "ground: common opinion",
+    he: "מפורסמות",
+    short: "everyone holds it",
+    reads: "what most people hold by nature",
+    definition:
+      "The proof rests on what people at large take for granted — pride is base, humility is praiseworthy. Binding on those who share it, which in a sugya is everyone present. Three heads and shoulders on the floor.",
+    page: "Eng p112–114 · Heb p113",
+  }),
+  "ground-tradition": ground({
+    en: "ground: tradition",
+    he: "מקובלות",
+    word: "שנאמר · דתנן · דאמר מר",
+    short: "handed down",
+    reads: "a verse, a halacha, an undisputed authority",
+    definition:
+      "The proof rests on what was received from fathers and teachers: Scripture, a halachah from Sinai, the thirteen rules, the word of anyone we may not dispute. The commonest ground in the Talmud, and the one every תא שמע brings. Two hands reaching for each other.",
+    page: "Eng p114 · Heb p113",
+  }),
+  "ground-deduction": ground({
+    en: "ground: deduction",
+    he: "היקש",
+    short: "by deduction",
+    reads: "it follows from a true premise by a deduction",
+    definition:
+      "The proof rests on reasoning from something already established, by one of chapter 7's forms; the teal badge beside this one says which. It is only as good as its premise and its form, so what attacks it is chapter 7's fallacies. An arrow on the floor pointing at the house.",
+    page: "Eng p116 · Heb p115",
+  }),
+  "via-opposite": ground({
+    en: "through the opposite",
+    he: "ראיה על היות הפכו כוזב",
+    short: "the opposite fails",
+    reads: "the opposite is false, so this is true — or proved, so this is false",
+    definition:
+      "An indirect route: show the contrary false and the claim stands; show the contrary true and the claim falls. Sound only where the two terms have no middle — if a third state is possible, refuting one proves nothing about the other. Two houses on the horizon, one of them struck.",
+    page: "Eng p116–118, p126 · Heb p115–117, p125",
+  }),
+  dilemma: ground({
+    en: "dilemma",
+    he: "ממה נפשך",
+    word: "ממה נפשך",
+    short: "either way, it fails",
+    reads: "whichever way you take the statement, it fails",
+    definition:
+      "A disproof by cases: every reading of the statement is enumerated and each is refuted — היכי דמי? אי … אי … (Bava Kamma 29a). The disjunctive syllogism with every branch cut: one road forks, both ways end in a stop bar, and the house is struck.",
+    page: "Eng p132 · Heb p131",
+  }),
+  "ground-does-not-reach": ground({
+    en: "the ground does not reach",
+    short: "real, but does not reach",
+    reads: "the verse or perception is real but does not touch this statement",
+    definition:
+      "Turns a proof or disproof aside without denying its source: the verse says what it says and the thing was seen, but neither bears on this claim. אחיו הוא במצוות — the slave is a brother in commandments, so the verse about brothers does not exempt him (Bava Kamma 88a); זיוה הוא דעבר — only its glow passed (Berachos 58b). The claim returns to doubt, not to rejection. The floor stops short; a dotted line traces where it should reach.",
+    page: "Eng p132–136 · Heb p131–135",
+  }),
+  theory: ground({
+    en: "theory",
+    he: "סברא",
+    word: "מסתברא",
+    short: "inclines, does not prove",
+    reads: "inclines the mind when the proofs are balanced; it does not prove",
+    definition:
+      "Reasonableness as a weight: when the arguments balance, the mind leans to the more sensible side. It settles nothing on its own — a proof “on the strength of a theory” is admissible but weak (Eng p176), and a far-fetched opposition fails against it (Eng p180). The house leans; it has not fallen.",
+    page: "Eng p142–144 · Heb p141–143",
   }),
 };
 
@@ -772,6 +909,52 @@ export const badgesOf = (
  */
 export const speakerBadge = (unit: { readonly speaker?: string }): Badge | undefined =>
   unit.speaker === undefined ? { info: ANATOMY["party-talmud"], basis: "marked" } : undefined;
+
+/**
+ * Chapter 8's four sources of certainty are already in the file, as a unit's
+ * `provenance` — the same four words, chosen for what they do to the unit's
+ * starting status. Each has a ground badge; `derivation` and `asserted` do
+ * not. `derivation` says only that the sentence must earn its acceptance, not
+ * that it is a deduction, so `ground-deduction` is the author's to place.
+ */
+export const GROUND_OF_PROVENANCE: Readonly<Partial<Record<Provenance, AnatomyKey>>> = {
+  sense: "ground-sense",
+  axiom: "ground-axiom",
+  endoxa: "ground-common-sense",
+  tradition: "ground-tradition",
+};
+
+/**
+ * The moves chapter 8 is about: proof (ראיה), disproof (הכחשה, which ch. 9
+ * calls סתירה or דחיה), and the objection that turns one aside. A resolution
+ * or an answer is about fit, not truth, and a statement or question opens.
+ */
+export const GROUND_ELEMENTS: ReadonlySet<Element> = new Set<Element>(["proof", "contradiction", "difficulty"]);
+
+/**
+ * Chapter 8 for one move: what it stands on, read off the file's `provenance`
+ * where that names a source of certainty and the move is a proof, a disproof
+ * or a difficulty acting on something. The badge is `inferred`: the file
+ * records the source as an editorial judgment, not as a stock word found in
+ * the text. An explicit ch. 8 label on the unit is the author speaking, and
+ * stands alone — nothing is derived beside it.
+ */
+export const groundBadge = (unit: {
+  readonly move: { readonly element: Element };
+  readonly target?: string;
+  readonly provenance?: Provenance;
+  readonly anatomy?: readonly Annotation[];
+}): Badge | undefined => {
+  if (unit.target === undefined || !GROUND_ELEMENTS.has(unit.move.element)) return undefined;
+  if ((unit.anatomy ?? []).some((a) => ANATOMY[a.kind].family === "grounds")) return undefined;
+  const kind = unit.provenance === undefined ? undefined : GROUND_OF_PROVENANCE[unit.provenance];
+  if (kind === undefined) return undefined;
+  return {
+    info: ANATOMY[kind],
+    basis: "inferred",
+    note: "Read from the sentence's provenance in the file, which names its source; no label of its own says so.",
+  };
+};
 
 /**
  * Why an annotation cannot sit where it was put. An edge-level type describes

@@ -1,0 +1,40 @@
+---
+description: Minimal functional programming style for TypeScript — pragmatic FP without the ceremony
+alwaysApply: true
+---
+
+# Minimal FP Style
+
+Pragmatic functional programming. Take what's useful from FP, leave the cathedral behind.
+
+## Immutability
+
+- Use `const` for all bindings. Use `let` only when mutation is genuinely cleaner.
+- Prefer `readonly` on interface/type fields. Use `ReadonlyArray<T>` or `readonly T[]` for arrays that shouldn't be mutated.
+- Update objects via spread (`{ ...obj, field: newVal }`), not mutation.
+- Don't reach for deep-freeze libraries or `Readonly<Readonly<...>>` nesting. Shallow `readonly` is enough.
+
+## Collections
+
+- Prefer `map`, `filter`, `flatMap`, `reduce` over `for` loops.
+- A `for...of` loop is fine when it's clearer, especially for side-effectful iteration or early returns.
+- Don't chain more than ~3-4 operations without an intermediate variable or comment for readability.
+
+## Functions over classes
+
+- Prefer plain functions + types over classes. Export functions from modules.
+- Classes are fine when the framework demands them or when encapsulating mutable state (rare).
+
+## Error handling
+
+- **Throw exceptions for errors.** This is the language convention. Try/catch with proper error typing.
+- Do NOT wrap every function in `Result<T, E>`. Exceptions are fine when scope is small and failure modes are simple.
+- A discriminated union result type is appropriate ONLY when a function has multiple distinct, typed failure modes that callers genuinely need to branch on at the type level. This is rare.
+
+## Avoid
+
+- fp-ts, Effect, or any "Haskell-in-TypeScript" library
+- Monad transformers, HKTs, applicative functors
+- Lens libraries (use spread)
+- Pointfree style when it hurts readability
+- Over-abstraction in the name of purity

@@ -9,6 +9,7 @@
     "build": "vite build",
     "preview": "vite preview",
     "export": "node src/main.ts",
+    "glyphs": "node scripts/extract-glyphs.ts",
     "typecheck": "tsc --noEmit",
     "test": "node src/check.ts",
     "check": "npm run typecheck && npm run test"

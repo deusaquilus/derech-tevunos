@@ -12,12 +12,14 @@
      page without being mistaken for the red of a refutation or the amber of a
      doubt. */
   --rail: #4338ca;
-  /* The chapter 1–7 layer, one hue per family (see anatomy.ts). Violet for
-     chapters 3–6, teal for chapter 7, slate — the statement icon's grey — for
-     chapter 1. None is a verdict colour; none but slate is an element colour. */
+  /* The chapter 1–8 layer, one hue per family (see anatomy.ts). Violet for
+     chapters 3–6, teal for chapter 7, magenta for chapter 8, slate — the
+     statement icon's grey — for chapter 1. None is a verdict colour; none but
+     slate is an element colour. The values are the icon set's own. */
   --violet: #7c3aed;
   --teal: #0d9488;
   --slate: #475569;
+  --magenta: #c026d3;
 }
 
 * {
@@ -525,7 +527,7 @@ body {
   color: var(--muted);
 }
 
-/* The switches — the fold policy's and the chapter 1–7 layer's — at the right
+/* The switches — the fold policy's and the chapter 1–8 layer's — at the right
    end of the legend, where a reader looking up what the icons mean will find
    them. */
 .legend-switches {
@@ -688,6 +690,11 @@ body {
   background: color-mix(in srgb, var(--slate) 8%, transparent);
 }
 
+.lens-on.lens-magenta {
+  border-color: var(--magenta);
+  background: color-mix(in srgb, var(--magenta) 8%, transparent);
+}
+
 .lens-violet .lens-dot {
   color: var(--violet);
 }
@@ -698,6 +705,22 @@ body {
 
 .lens-slate .lens-dot {
   color: var(--slate);
+}
+
+.lens-magenta .lens-dot {
+  color: var(--magenta);
+}
+
+/* The chapter 4 shape, shown once in the Relations lens's tooltip as the key
+   to the eleven glyphs built from it. */
+.legend-tip-tile {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.legend-tip-tile .glyph {
+  color: var(--violet);
 }
 
 .lens-on .lens-dot {
@@ -1196,7 +1219,7 @@ body {
   background: color-mix(in srgb, var(--rail) 6%, transparent);
 }
 
-/* --- the chapter 1–7 layer: badges ------------------------------------------
+/* --- the chapter 1–8 layer: badges ------------------------------------------
    Hue is the family; shape is the type; a dashed outline is an inferred label,
    as "inferred" in the meta line is for the ch. 9 move. Every badge explains
    itself on hover or focus. */
@@ -1279,13 +1302,20 @@ body {
   background: color-mix(in srgb, var(--slate) 5%, transparent);
 }
 
+.badge-magenta {
+  color: var(--magenta);
+  border-color: color-mix(in srgb, var(--magenta) 55%, transparent);
+  background: color-mix(in srgb, var(--magenta) 6%, transparent);
+}
+
 .badge-inferred {
   border-style: dashed;
 }
 
 .badge-inline.badge-violet,
 .badge-inline.badge-teal,
-.badge-inline.badge-slate {
+.badge-inline.badge-slate,
+.badge-inline.badge-magenta {
   background: none;
 }
 
@@ -1362,6 +1392,10 @@ body {
 
 .badge-tip-slate {
   color: var(--slate);
+}
+
+.badge-tip-magenta {
+  color: var(--magenta);
 }
 
 .badge-tip-word {

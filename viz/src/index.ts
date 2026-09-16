@@ -91,7 +91,7 @@ export type { Tone, Verdict } from "./verdict.ts";
 export { MARKERS, markersFor, unmarkedLeaves } from "./markers.ts";
 export type { Marker } from "./markers.ts";
 
-// --- chapters 1–7: the anatomy vocabulary -----------------------------------
+// --- chapters 1–8: the anatomy vocabulary -----------------------------------
 export {
   ANATOMY,
   ANATOMY_KEYS,
@@ -100,6 +100,10 @@ export {
   BASES,
   basisOf,
   FAMILIES,
+  FAMILY_ORDER,
+  GROUND_ELEMENTS,
+  GROUND_OF_PROVENANCE,
+  groundBadge,
   hueOf,
   PARTIES,
   speakerBadge,
@@ -116,7 +120,16 @@ export type {
   Party,
 } from "./anatomy.ts";
 
-export { BUSY_GLYPHS, GLYPHS } from "./glyphs.ts";
+export {
+  BUSY_GLYPHS,
+  GLYPHS,
+  glyphAspect,
+  glyphBox,
+  SQUARE_BOX,
+  TILE_GLYPH,
+  WIDE_BOX,
+  WIDE_GLYPHS,
+} from "./glyphs.ts";
 
 // --- geometry + static renderer --------------------------------------------
 export {

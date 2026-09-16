@@ -58,7 +58,7 @@ export type UnitRowProps = {
   readonly onHandle: () => void;
   readonly onPeek: (id: string | undefined) => void;
 
-  // The chapter 1–7 layer. All empty when it is off.
+  // The chapter 1–8 layer. All empty when it is off.
   readonly badges?: RowBadges;
   /** 1-based position of the sentence this one acts on, for the badges' wording. */
   readonly targetOrdinal?: number;

@@ -18,11 +18,13 @@ import {
   movementsOf,
   prefixOf,
   PROVENANCES,
+  type Provenance,
   type Standing,
   type Status,
   type Sugya,
   type Unit,
 } from "./sugya.ts";
+import { LIGHT } from "./theme.ts";
 import {
   anchorOf,
   arrive,
@@ -73,11 +75,14 @@ import {
   badgesOf,
   BASES,
   basisOf,
+  FAMILY_ORDER,
+  GROUND_OF_PROVENANCE,
+  groundBadge,
   hueOf,
   PARTIES,
   speakerBadge,
 } from "./anatomy.ts";
-import { BUSY_GLYPHS, GLYPHS } from "./glyphs.ts";
+import { BUSY_GLYPHS, GLYPHS, glyphAspect, TILE_GLYPH, WIDE_GLYPHS } from "./glyphs.ts";
 import { FIXTURES } from "./fixtures/index.ts";
 import { FORMAT, FORMAT_VERSION, parseSugya, stringify, SugyaFormatError, toJson } from "./format.ts";
 import { renderSugya } from "./render.ts";
@@ -604,39 +609,48 @@ console.log("\nThe research skeletons — what each row says about itself");
   check("a named row gets no speaker badge", all.filter((u) => u.speaker !== undefined).every((u) => speakerBadge(u) === undefined), true);
 }
 
-// --- chapters 1–7: the anatomy layer ----------------------------------------
+// --- chapters 1–8: the anatomy layer ----------------------------------------
 // A second vocabulary over the ch. 9 moves. None of it enters the analysis, so
 // what there is to check is the vocabulary itself, where a label may sit, what
 // the fixtures carry, and the geometry of the bead.
 
-console.log("\nChapters 1–7 — the vocabulary");
+console.log("\nChapters 1–8 — the vocabulary");
 const inFamily = (family: string): number =>
   ANATOMY_KEYS.filter((k) => ANATOMY[k].family === family).length;
-check("fifty-three types", ANATOMY_KEYS.length, 53);
+check("sixty-four types", ANATOMY_KEYS.length, 64);
 check("three speakers", inFamily("speakers"), 3);
 check("twenty-seven forms of a statement", inFamily("anatomy"), 27);
-check("thirteen relations", inFamily("relations"), 13);
-check("ten deductions", inFamily("deductions"), 10);
+check("fourteen relations", inFamily("relations"), 14);
+check("eleven deductions", inFamily("deductions"), 11);
+check("nine grounds", inFamily("grounds"), 9);
+check("five families, grounds last", FAMILY_ORDER.join(), "speakers,anatomy,relations,deductions,grounds");
 check("every type has a glyph", ANATOMY_KEYS.every((k) => GLYPHS[k].length > 0), true);
 check("no glyph without a type", Object.keys(GLYPHS).every((k) => k in ANATOMY), true);
-check(
-  "glyphs carry no hue of their own",
-  Object.values(GLYPHS).every((g) => !/#(7c3aed|0d9488|475569)/i.test(g)),
-  true,
-);
+// The icon set's own hues (icons_v3/ICONS_REFERENCE.md §2), none of which may
+// survive extraction: the family decides the colour, not the body.
+const HUES = /#(7c3aed|0d9488|475569|c026d3)/i;
+check("glyphs carry no hue of their own", Object.values(GLYPHS).every((g) => !HUES.test(g)), true);
+check("…nor does the tile", TILE_GLYPH.length > 0 && !HUES.test(TILE_GLYPH), true);
+check("the chapter 8 bodies carry their own gradient", ANATOMY_KEYS.filter((k) => ANATOMY[k].family === "grounds").every((k) => /<linearGradient id="fade-[a-z]+"/.test(GLYPHS[k]) && /stop-color="currentColor"/.test(GLYPHS[k])), true);
 check("the busy glyphs are types", [...BUSY_GLYPHS].every((k) => k in ANATOMY), true);
+check("the wide glyphs are the three of chapter 5", [...WIDE_GLYPHS].sort().join(), "absolute-opposite,inference-loose,inference-necessary");
+check("…drawn half again as wide", glyphAspect("inference-necessary"), 1.5);
+check("…and a square one is square", glyphAspect("exception"), 1);
+check("every landscape falls back to a dot at bead size", ANATOMY_KEYS.filter((k) => ANATOMY[k].family === "grounds").every((k) => BUSY_GLYPHS.has(k)), true);
 check(
-  "relations and deductions sit on edges, nothing else does",
+  "relations, deductions and grounds sit on edges, nothing else does",
   ANATOMY_KEYS.every(
     (k) =>
       (ANATOMY[k].level === "edge") ===
-      (ANATOMY[k].family === "relations" || ANATOMY[k].family === "deductions"),
+      (ANATOMY[k].family === "relations" || ANATOMY[k].family === "deductions" || ANATOMY[k].family === "grounds"),
   ),
   true,
 );
 check("chapter 7 is teal", hueOf("a-fortiori"), "teal");
 check("chapters 3–6 are violet", hueOf("exception"), "violet");
 check("chapter 1 is slate", hueOf("party-talmud"), "slate");
+check("chapter 8 is magenta", hueOf("ground-tradition"), "magenta");
+check("…and no badge is a verdict colour", Object.values(LIGHT.hue).every((h) => h !== LIGHT.accepted && h !== LIGHT.rejected && h !== LIGHT.doubt), true);
 check("every type cites a page", ANATOMY_KEYS.every((k) => /p\d/.test(ANATOMY[k].page)), true);
 check("every type reads in everyday words", ANATOMY_KEYS.every((k) => ANATOMY[k].short.length <= 26), true);
 check(
@@ -647,10 +661,26 @@ check(
   "2213",
 );
 
-console.log("\nChapters 1–7 — where a label may sit");
+console.log("\nChapters 1–8 — where a label may sit");
 check("an edge label needs a target", annotationErrors({ id: "x", anatomy: [{ kind: "contradictory" }] }).length, 1);
+check("so does a ground", annotationErrors({ id: "x", anatomy: [{ kind: "ground-tradition" }] }).length, 1);
 check("a row label does not", annotationErrors({ id: "x", anatomy: [{ kind: "categorical" }] }).length, 0);
 check("with a target, either may sit", annotationErrors({ id: "x", target: "y", anatomy: [{ kind: "analogism" }, { kind: "simple" }] }).length, 0);
+
+console.log("\nChapter 8 — the ground read off a move's provenance");
+const proofFrom = (provenance: Provenance) => ({ move: { element: "proof" } as const, target: "y", provenance });
+check("the four sources each have a ground", Object.entries(GROUND_OF_PROVENANCE).map(([p, g]) => `${p}→${g}`).join(" "), "sense→ground-sense axiom→ground-axiom endoxa→ground-common-sense tradition→ground-tradition");
+check("a proof from tradition stands on tradition", groundBadge(proofFrom("tradition"))?.info.key, "ground-tradition");
+check("…and the badge is inferred: the file names a source, not a stock word", groundBadge(proofFrom("tradition"))?.basis, "inferred");
+check("a proof from the senses", groundBadge(proofFrom("sense"))?.info.key, "ground-sense");
+check("a derivation says only that the move must earn its keep, so nothing is read off it", groundBadge(proofFrom("derivation")), undefined);
+check("nor off an assertion", groundBadge(proofFrom("asserted")), undefined);
+check("a difficulty from a mishnah stands on tradition", groundBadge({ move: { element: "difficulty" }, target: "y", provenance: "tradition" })?.info.key, "ground-tradition");
+check("so does a contradiction", groundBadge({ move: { element: "contradiction" }, target: "y", provenance: "tradition" })?.info.key, "ground-tradition");
+check("a resolution is about fit, not truth: no ground", groundBadge({ move: { element: "resolution" }, target: "y", provenance: "tradition" }), undefined);
+check("an opening statement has no edge to put it on", groundBadge({ move: { element: "statement" }, provenance: "tradition" }), undefined);
+check("an explicit ch. 8 label stands alone", groundBadge({ ...proofFrom("tradition"), anatomy: [{ kind: "theory" }] }), undefined);
+check("…but a relation beside it does not suppress the ground", groundBadge({ ...proofFrom("tradition"), anatomy: [{ kind: "contradictory" }] })?.info.key, "ground-tradition");
 const misplaced: Sugya = {
   ...pesachimLiquids,
   units: [
@@ -670,7 +700,7 @@ check(
 );
 check("…and keeps declaration order", badgesOf([{ kind: "compound" }, { kind: "partial" }], "row").map((b) => b.info.key).join(), "compound,partial");
 
-console.log("\nChapters 1–7 — what the fixtures carry");
+console.log("\nChapters 1–8 — what the fixtures carry");
 check("every fixture names its party", FIXTURES.every((s) => s.party !== undefined), true);
 check("Bava Metzia: rabbis in dispute", bm.party, "party-group");
 check("Berachos: one man asks and answers himself", FIXTURES.find((s) => s.id === "berachos-yaakov")?.party, "party-individual");
@@ -694,6 +724,13 @@ check("the סתירה refutes by analogy, marked by `מה … אף`", bm.units.f
 check("`אף על פי ש` in the mishnah is a discrepancy, marked", bm.units.find((u) => u.id === "t11-ask")?.anatomy?.find((a) => a.kind === "discrepancy")?.basis, "marked");
 check("an `אי הכי` press is a syllogism on the denial", bm.units.find((u) => u.id === "t9-press")?.anatomy?.[0]?.kind, "hypothetical-syllogism-tollens");
 check("Bava Metzia carries labels on most sentences", bm.units.filter((u) => (u.anatomy ?? []).length > 0).length >= 35, true);
+check("Rav Papa's opposition says the testimony does not reach the claim", pesachimLiquids.units.find((u) => u.id === "ravpapa")?.anatomy?.some((a) => a.kind === "ground-does-not-reach"), true);
+check("Rav Huna's contradiction stands on a deduction, said explicitly", pesachimLiquids.units.find((u) => u.id === "ravhuna")?.anatomy?.some((a) => a.kind === "ground-deduction"), true);
+check("…so nothing is read off its provenance beside it", groundBadge(pesachimLiquids.units.find((u) => u.id === "ravhuna")!), undefined);
+check("the testimony stands on tradition, read off its provenance", groundBadge(pesachimLiquids.units.find((u) => u.id === "testimony")!)?.info.key, "ground-tradition");
+check("every תא שמע from a mishnah stands on tradition", bm.units.filter((u) => u.marker === "תא שמע" && u.provenance === "tradition").every((u) => groundBadge(u)?.info.key === "ground-tradition"), true);
+check("…thirteen challenges and two proofs, fifteen grounds in all", bm.units.filter((u) => groundBadge(u) !== undefined).length, 15);
+check("the סתירה by analogy names its ground: a deduction", bm.units.find((u) => u.id === "t12-dumya")?.anatomy?.some((a) => a.kind === "ground-deduction"), true);
 
 // --- the file format ----------------------------------------------------------
 // The JSON files under `sugyot/` are what the app renders; the TypeScript
@@ -792,10 +829,10 @@ check("bases", schema.$defs["basis"]?.enum?.join(), BASES.join());
 check("provenances", schema.$defs["provenance"]?.enum?.join(), PROVENANCES.join());
 check("elements", schema.$defs["move"]?.properties?.["element"]?.enum?.join(), ELEMENTS.join());
 check("the subtypes of every element", (schema.$defs["move"]?.allOf ?? []).map((c) => `${c.if.properties.element.const}: ${c.then.properties.subtype.enum.join()}`).join(" / "), ELEMENTS.map((e) => `${e}: ${SUBTYPES[e].join()}`).join(" / "));
-check("the ch. 1–7 labels, all fifty-three", schema.$defs["annotation"]?.properties?.["kind"]?.enum?.join(), ANATOMY_KEYS.join());
+check("the ch. 1–8 labels, all sixty-four", schema.$defs["annotation"]?.properties?.["kind"]?.enum?.join(), ANATOMY_KEYS.join());
 check("every file names the schema beside it", SUGYOT.every((s) => (JSON.parse(readText(`${s.id}.json`)) as { $schema?: string }).$schema === "./sugya.schema.json"), true);
 
-console.log("\nChapters 1–7 — the bead");
+console.log("\nChapters 1–8 — the bead");
 check("a bead needs a run of 44px", BEAD_MIN_RUN, 44);
 check("two adjacent rows, 60px apart, hold one", beadFits({ x: 0, y: 0 }, { x: 34, y: 60 }), true);
 check("a run of 30px does not", beadFits({ x: 0, y: 0 }, { x: 34, y: 30 }), false);

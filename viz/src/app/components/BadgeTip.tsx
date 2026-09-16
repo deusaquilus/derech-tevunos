@@ -24,20 +24,22 @@ export const BASIS_WORDING: Record<LabelBasis, string> = {
   inferred: "inferred, not attested",
 };
 
-const about = ({ where, ordinal, targetOrdinal, beadDrawn }: BadgeTipProps): string => {
+const about = ({ badge, where, ordinal, targetOrdinal, beadDrawn }: BadgeTipProps): string => {
   const here = ordinal === undefined ? "this sentence" : `sentence ${ordinal}`;
   const there = targetOrdinal === undefined ? "the sentence it acts on" : `sentence ${targetOrdinal}`;
+  const bead =
+    beadDrawn === true ? ", and the bead on the line between them — the same badge, drawn where the line is" : "";
   switch (where) {
     case "row":
       return `About ${here} on its own: what it is made of, not what it does.`;
     case "speaker":
       return `About who is speaking in ${here}. No one is named, so this is the Talmud's own voice.`;
     case "edge":
-      return `Relates ${here} to ${there}, the one it acts on. Hovering highlights that sentence${
-        beadDrawn === true
-          ? ", and the bead on the line between them — the same badge, drawn where the line is"
-          : ""
-      }.`;
+      // A ground is not a relation between the two sentences: it is what the
+      // move from the one to the other rests on, or how it is turned aside.
+      return badge.info.family === "grounds"
+        ? `What ${here}'s move on ${there} stands on, or how it is turned aside. Hovering highlights that sentence${bead}.`
+        : `Relates ${here} to ${there}, the one it acts on. Hovering highlights that sentence${bead}.`;
     case "strip":
       return "About the passage as a whole, not any one sentence.";
     default: {
