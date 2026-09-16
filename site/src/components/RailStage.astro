@@ -283,30 +283,25 @@ const hintHtml = sugya.hint === undefined ? undefined : markupToHtml(sugya.hint)
     overflow-x: hidden;
     /* Lets the rail dock size itself in `cqh` against this scroller. */
     container-type: size;
-    /* `.sugya-sheet` paints the rail's stone page colour; the stage keeps the
-       ink so the drawing reads as a lit card on the dark shell, which is how
-       it has looked since the first mock. */
-    background: var(--dt-ink);
-    padding: 14px 16px 18px;
-    /* No visible scrollbar. The sheet still scrolls with wheel, trackpad and
-       touch; only the chrome is gone. */
+    /* The article fills this region edge to edge (`.sheet` in the rail's
+       stylesheet: no border, no radius, no width cap, min-height 100%). The
+       region paints the SAME `--surface` the article does, so where the
+       article ends — which, with min-height 100%, is never above the fold —
+       there is no seam. `.sugya-sheet` would otherwise paint the stone
+       `--page` colour here and show as a frame. No padding: padding was the
+       dark frame. */
+    background: var(--surface);
+    padding: 0;
+    /* No visible scrollbar. A long passage still scrolls under wheel,
+       trackpad and touch, and the rail's own reveal keeps the frontier in
+       view as sentences are added — so in use there is nothing to scroll
+       *for*. Only the chrome is gone. */
     scrollbar-width: none;
   }
 
   .stage-sheet::-webkit-scrollbar,
   .panel::-webkit-scrollbar {
     display: none;
-  }
-
-  /* The rail's own card, centred at the widths its author chose for it
-     (`.app` in the old standalone shell: 1040px, 1220px for a long passage). */
-  .stage-sheet :global(article.sheet) {
-    max-width: 1040px;
-    margin: 0 auto;
-  }
-
-  .stage-sheet :global(article.sheet-long) {
-    max-width: 1220px;
   }
 
   @media (max-width: 720px) {
@@ -321,10 +316,6 @@ const hintHtml = sugya.hint === undefined ? undefined : markupToHtml(sugya.hint)
 
     .panel {
       padding: 0.85rem 0.85rem 1rem;
-    }
-
-    .stage-sheet {
-      padding: 8px 6px 10px;
     }
   }
 </style>

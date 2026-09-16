@@ -385,6 +385,17 @@ drag meant for the sheet moved the document instead. So on every rail route
   `position: sticky` elements (state-of-play, foot control, reveal dock) and
   its one `scrollIntoView` all attach to that scroller, which is why it works
   without touching the controller.
+- **The article IS the region — no card.** `article.sheet` fills
+  `.stage-sheet` edge to edge: no border, no radius, no width cap,
+  `min-height: 100%`, and both paint the same `--surface` so there is no seam.
+  It used to be a bordered card centred at 1040px inside a padded dark
+  region, which read as a screen within a screen. Do not reintroduce a
+  `max-width`, a padding frame, or a second background around it. The 408
+  lines of the standalone shell's CSS (`.app`, `.tabs`, `.gallery-*`,
+  `.card`, `.open-*`) were removed at the same time, each class checked
+  against the surviving components first — but note that `pill-*`, `badge-*`
+  and `tip-pop-*` are built dynamically and a token search will call them
+  dead when they are not.
 - **The reveal dock is sized in `cqh`, not `vh`.** `.rail-dock` used to be
   `top: 64px; height: calc(100vh - 140px)`, clearing a site nav that is no
   longer inside the scrolling region. It is now `top: 12px; height:
