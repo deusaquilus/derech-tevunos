@@ -10,34 +10,42 @@ import {
 } from "react";
 
 /**
- * `aligned` puts a tick at the measured centre of every sentence, so dragging
- * down is dragging through the passage. That is the better control and it is
- * why this is not an `<input type="range">` — but it only works while the
- * passage fits on a screen or two. Past that the rail is taller than the
- * viewport, the thumb spends most of its life scrolled off, and a drag cannot
- * reach the far end without the pointer leaving the window.
+ * A map of the argument in the margin: one tick per sentence, evenly spaced
+ * over whatever height the dock gives it, with the thumb at the frontier. It
+ * is not an `<input type="range">` because the ticks carry structure — a
+ * movement's first sentence is marked — and because a drag has to reach the
+ * far end of a seventy-seven sentence passage without the pointer leaving the
+ * window.
  *
- * `map` gives that up deliberately: the rail sticks to the viewport at a fixed
- * height and the ticks are evenly spaced, so it is a map of the argument rather
- * than a gutter beside it. Alignment is lost; reachability is what replaces it.
+ * It used to have a second form, `aligned`, which put each tick at the
+ * measured centre of its sentence so that dragging down was dragging through
+ * the passage — the better control while the passage fits on a screen or two.
+ * That form went when the control was pinned beside the rows (2026-09-16): the
+ * rows scroll and the map does not, so no tick can line up with a row any
+ * more, and one that claimed to would lie the moment the reader scrolled.
+ * Alignment is given up; reachability, with the thumb always in view, is what
+ * the map buys.
  */
-export type RailVariant = "aligned" | "map";
-
 export type RevealRailProps = {
   readonly count: number;
   /** How many sentences are revealed, 1-based. */
   readonly value: number;
   readonly onChange: (next: number) => void;
-  /** Vertical centre of each sentence's icon. Used by `aligned` only. */
-  readonly ticks: readonly number[];
   /** Indices, 0-based, where a new movement of the argument begins. */
   readonly boundaries?: readonly number[];
-  readonly variant?: RailVariant;
   readonly valueLabel?: string;
   readonly label: string;
 };
 
 const MAP_PAD = 14;
+
+/**
+ * Below this many pixels between ticks a ring (8px across, bordered) reads as
+ * a chain, and the ticks are drawn as flat dashes instead: fifty-seven in a
+ * viewport-height rail sit eight pixels apart, four in the same rail sit two
+ * hundred apart. The number is a judgment — a ring plus its own width of air.
+ */
+const DENSE_SPACING = 16;
 
 const clamp = (n: number, lo: number, hi: number): number => Math.min(hi, Math.max(lo, n));
 
@@ -45,9 +53,7 @@ export const RevealRail = ({
   count,
   value,
   onChange,
-  ticks,
   boundaries = [],
-  variant = "aligned",
   valueLabel,
   label,
 }: RevealRailProps): JSX.Element => {
@@ -59,27 +65,25 @@ export const RevealRail = ({
   const [dragging, setDragging] = useState(false);
   const [railHeight, setRailHeight] = useState(0);
 
-  // In `map` the rail owns its own geometry: it is sticky, so its height comes
-  // from the viewport rather than from the rows.
+  // The rail owns its own geometry: it is pinned in the dock, so its height
+  // comes from the dock rather than from the rows.
   useEffect(() => {
     const rail = railRef.current;
-    if (rail === null || variant !== "map") return undefined;
+    if (rail === null) return undefined;
     const observer = new ResizeObserver(() => {
       const next = rail.getBoundingClientRect().height;
       setRailHeight((prev) => (Math.abs(prev - next) < 0.5 ? prev : next));
     });
     observer.observe(rail);
     return () => observer.disconnect();
-  }, [variant]);
+  }, []);
 
-  const spread = useMemo(() => {
-    if (variant !== "map") return ticks;
-    const usable = Math.max(0, railHeight - 2 * MAP_PAD);
-    return Array.from(
-      { length: count },
-      (_, i) => MAP_PAD + (usable * i) / Math.max(1, count - 1),
-    );
-  }, [variant, ticks, count, railHeight]);
+  const usable = Math.max(0, railHeight - 2 * MAP_PAD);
+  const spread = useMemo(
+    () => Array.from({ length: count }, (_, i) => MAP_PAD + (usable * i) / Math.max(1, count - 1)),
+    [count, usable],
+  );
+  const dense = usable / Math.max(1, count - 1) < DENSE_SPACING;
 
   const nearestStep = useCallback(
     (offsetY: number): number => {
@@ -158,12 +162,11 @@ export const RevealRail = ({
   const first = spread[0] ?? 0;
   const thumbY = spread[value - 1] ?? first;
   const last = spread[spread.length - 1] ?? first;
-  const dense = variant === "map";
   const boundarySet = useMemo(() => new Set(boundaries), [boundaries]);
 
   return (
     <div
-      className={`rail rail-${variant}${dragging ? " rail-dragging" : ""}`}
+      className={`rail rail-map${dragging ? " rail-dragging" : ""}`}
       ref={railRef}
       onPointerDown={onPointerDown}
       onPointerMove={onPointerMove}

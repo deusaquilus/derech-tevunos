@@ -410,57 +410,105 @@ page components and the React `markup.tsx` — was deleted on 2026-09-16.
 `src/rail/markup.ts` is its one survivor, rewritten as an HTML interpreter so
 the Astro page can render a passage's `hint` server-side.
 
-### The rail owns the viewport — settled 2026-09-16
+### The rail owns the viewport — settled 2026-09-16, re-cut the same day
 
 A page that scrolled under the drawing made the drawing unusable: wheel and
 drag meant for the sheet moved the document instead. So on every rail route
 (`/` and `/sugya/<id>`, via `RailStage.astro` and `Layout`'s `bare` prop):
 
-- **Nothing scrolls except the sheet.** `html` and `body` are clamped to one
+- **Nothing scrolls except the rows.** `html` and `body` are clamped to one
   viewport with `overflow: hidden` — both, because iOS Safari does not honour
-  it on `body` alone — the footer is not rendered, and `.stage-sheet` takes the
-  remaining height as the only scroll container. The rail's three
-  `position: sticky` elements (state-of-play, foot control, reveal dock) and
-  its one `scrollIntoView` all attach to that scroller, which is why it works
-  without touching the controller.
+  it on `body` alone — and the footer is not rendered. `.stage-sheet` is a
+  flex column that clips and does not scroll; the rail's `article.sheet`
+  fills it as a flex column of its own, and **`.stage-rows`, inside that, is
+  the one scroll container.** The controller's one `scrollIntoView` moves it
+  and nothing else. The first cut had the whole article scrolling under three
+  `position: sticky` elements; that let the foot control drift by the
+  article's bottom padding as the reader passed the last row, and it is why
+  the dock's height was ever written in `cqh`.
+- **Three things are pinned and never move.** The state-of-play bar is the
+  column's first child, directly under the strip, on every passage (it used to
+  be sticky, and only on a long one). The reveal dock is the scroller's flex
+  sibling in `.stage`, stretched to the band's height, so it is exactly as
+  tall as the space between the bar and the foot. The foot control is the
+  column's last child, always rendered — "next sentence" is `disabled` at the
+  end rather than gone — and only as wide as its buttons, with the hairline
+  above it on `.stage` running the full width. Measured 2026-09-16 at
+  1280×800: bar 92–130, dock 130–753, foot 754–800, rows scroller 622px tall
+  (it was 448px on the homepage with the legend and bar inside it). None of
+  the three moved by a pixel across wheel, "next sentence", "what happens
+  next", a run to the end and back, or the panel opening.
+- **The reveal control is a map at every length.** Pinned beside rows that
+  scroll under it, no tick can line up with a row, so the `aligned` variant
+  and the controller's `ticks` were removed with the re-cut rather than left
+  as a trap. Ticks are rings until they would sit closer than 16px, then
+  dashes (`DENSE_SPACING` in `RevealRail.tsx`); 77 sentences in a 605px rail
+  are dashes, 4 are rings.
+- **The frontier scrolls all the way in.** `planScroll`'s frontier plan uses
+  `block: "end"`, so "what happens next" and "next sentence" always land the
+  new sentence with its foot at the bottom of the scroller (measured: 11px
+  above it, the `scroll-margin-bottom`). `nearest` did nothing while any of
+  the row was visible and left new sentences half-shown at the edge.
+- **The legend lives in the strip's panel, not on the sheet.** `SugyaView`
+  takes a `legendHost` element and portals the legend and its switches into
+  it; `RailStage.astro` declares `<div id="railLegend">` in the panel and
+  `Rail.tsx` resolves it once, synchronously, in a `useState` initialiser
+  (safe because the island is `client:only`; an effect would render the
+  legend inline for a frame and measure the rows twice). Every icon already
+  explains itself on hover in the rows, so the key bought nothing for the
+  ~90px it took. Two consequences that were found the hard way: the panel
+  must set `color: var(--dt-fg)`, or portalled text inherits the body's
+  near-white chrome colour and vanishes into the paper; and engaging the
+  sheet must `blur()` a focused control inside the strip, or a just-clicked
+  switch holds the panel open through `:focus-within`.
+- **`Tooltip` fits its clipping ancestor, not the window.** A popup is
+  absolutely positioned inside its anchor, so the rows' scroller and the
+  panel both cut off whatever leaves them. `boundsOf` walks up to the nearest
+  ancestor with non-visible overflow and flips against that box.
 - **The article IS the region — no card.** `article.sheet` fills
-  `.stage-sheet` edge to edge: no border, no radius, no width cap,
-  `min-height: 100%`, and both paint the same `--surface` so there is no seam.
-  It used to be a bordered card centred at 1040px inside a padded dark
-  region, which read as a screen within a screen. Do not reintroduce a
-  `max-width`, a padding frame, or a second background around it. The 408
-  lines of the standalone shell's CSS (`.app`, `.tabs`, `.gallery-*`,
-  `.card`, `.open-*`) were removed at the same time, each class checked
-  against the surviving components first — but note that `pill-*`, `badge-*`
-  and `tip-pop-*` are built dynamically and a token search will call them
-  dead when they are not.
-- **The reveal dock is sized in `cqh`, not `vh`.** `.rail-dock` used to be
-  `top: 64px; height: calc(100vh - 140px)`, clearing a site nav that is no
-  longer inside the scrolling region. It is now `top: 12px; height:
-  calc(100cqh - 24px)` against `.stage-sheet`, which declares
-  `container-type: size` for exactly this. Measured 2026-09-16: dock 644px in a
-  700px sheet. Putting a `vh` value back makes the dock taller than the sheet.
+  `.stage-sheet` edge to edge: no border, no radius, no width cap, and both
+  paint the same `--surface` so there is no seam. It used to be a bordered
+  card centred at 1040px inside a padded dark region, which read as a screen
+  within a screen. Do not reintroduce a `max-width`, a padding frame, or a
+  second background around it. The 408 lines of the standalone shell's CSS
+  (`.app`, `.tabs`, `.gallery-*`, `.card`, `.open-*`) were removed at the
+  same time, each class checked against the surviving components first — but
+  note that `pill-*`, `badge-*` and `tip-pop-*` are built dynamically and a
+  token search will call them dead when they are not.
+- **The rail's global class names are not free.** Its stylesheet is
+  unscoped, so an Astro element that borrows one takes its rules: the stage
+  wrapper was `.stage` and inherited the rail's `.stage` (a stray 4px
+  `margin-top`, and it would have taken the band's hairline). It is
+  `.rail-stage` now. Check `styles.css` before naming an element in
+  `RailStage.astro`.
 - **The header is a 40px strip whose panel overlays the sheet.** The passage
-  switcher opens on hover, focus or tap, absolutely positioned below the strip.
-  It must never push the sheet down: the controller measures row geometry, so a
-  header that changed the sheet's height would re-measure every rail and elbow
-  on every hover. Engaging the sheet (wheel, pointer, touch) closes the panel.
-- **Scrollbars are hidden, not removed.** The sheet and the panel scroll with
+  switcher and the key open on hover, focus or tap, absolutely positioned
+  below the strip. It must never push the sheet down: the controller measures
+  row geometry, so a header that changed the sheet's height would re-measure
+  every rail and elbow on every hover. Engaging the sheet (wheel, pointer,
+  touch) closes the panel.
+- **Scrollbars are hidden, not removed.** The rows and the panel scroll with
   `scrollbar-width: none`; the switcher is a wrapping grid so it has nothing
   to scroll. On a 390px phone the grid must be two columns — one column put the
   panel's bottom at 926px in an 844px viewport — and the panel carries
-  `max-height: calc(100dvh - 90px)` as a net.
+  `max-height: calc(100dvh - 90px)` as a net. With the key in it the panel's
+  bottom is at 590px in an 800px viewport.
 - **The introduction is not on the homepage.** `Hero.astro` (wordmark, lede,
   mascot) moved to `/sugya`, the passage index. A 400px introduction above a
   drawing that must own the screen left the drawing nothing.
 
-Verified by 18 automated checks in a 1280×800 browser and 1 at 390×844 (wheel
-moves the sheet 235px and the window 0px; hover opens the panel without
-changing the sheet's height; the sheet's bottom edge equals the viewport's).
+Verified 2026-09-16 (re-cut) by 21 automated checks on the 77-sentence
+passage and 9 on the 4-sentence homepage at 1280×800, plus 8 at 390×844:
+window and `.stage-sheet` scroll stay 0 under wheel while `.stage-rows` moves;
+the panel opens without changing the sheet's geometry; the legend's tooltip
+stays inside the panel; a switch clicked in the panel toggles and a wheel over
+the sheet then closes the panel.
 
 **Known, not yet done:** at 390px the rail's own row layout collapses — the
-secondary text column narrows to one word per line and overlaps the tick dock.
-That is the row grid inside `src/rail/app/`, not the stage.
+secondary text column narrows to one word per line, so a single row is 1171px
+tall and cannot fit the 666px scroller. That is the row grid inside
+`src/rail/app/`, not the stage: the stage's three pinned elements hold there
+too, and the frontier's foot still lands 10px above the foot control.
 
 ### Doctrine carried over from `exobench-site`
 
@@ -550,9 +598,15 @@ caption.
 - Reintroduce a hash route, a second `<h1>`, or a `body` rule into
   `src/rail/`. Each undoes part of the integration; see "The rail is part of
   the site".
-- Put anything below the sheet on a rail route, render the footer there, let
-  the strip's panel push the sheet instead of overlaying it, or write a `vh`
-  height back into `.rail-dock`. See "The rail owns the viewport".
+- Put anything below the sheet on a rail route, render the footer there, or let
+  the strip's panel push the sheet instead of overlaying it. See "The rail
+  owns the viewport".
+- Make anything but `.stage-rows` scroll on a rail route: no `overflow-y:
+  auto` back on `.stage-sheet`, no `position: sticky` (or a `vh`/`cqh`
+  height) on the state-of-play bar, the dock or the foot, no rendering the
+  foot or the legend conditionally so that the sheet's column changes height
+  mid-passage. The three are pinned flex children and the legend is in the
+  panel; each was measured. See "The rail owns the viewport".
 - Hand-edit anything under `src/content/docs/text/` — it is generated by
   `npm run build-text` from the bilingual source and gitignored.
 - Lighten the site's brass toward the rail's `--doubt` amber, emit a

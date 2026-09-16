@@ -88,9 +88,11 @@ import { useIconPositions } from "./hooks/useIconPositions.ts";
 
 /**
  * Past this many sentences the passage no longer fits on a screen or two, and
- * three things that are free below it stop being free: every row can be kept in
- * the document, the rail can align its ticks to the rows, and the reader can
- * hold the whole shape in view. See `RevealRail` and the horizon below.
+ * two things that are free below it stop being free: every row can be kept in
+ * the document, and the reader can hold the whole shape in view — so the rows
+ * get movement headings and a horizon. (The reveal control used to be a third:
+ * below this it aligned its ticks to the rows. It is a map at every length now,
+ * pinned beside rows that scroll under it; see `RevealRail`.)
  */
 export const LONG_SUGYA = 14;
 
@@ -305,7 +307,6 @@ export type SugyaController = {
   readonly handles: ReadonlyMap<string, Handle>;
   readonly columns: readonly DepthColumn[];
   readonly connectors: readonly Connector[];
-  readonly ticks: readonly number[];
   readonly roots: readonly StateOfPlayEntry[];
   readonly coverage: { readonly attested: number; readonly marked: number };
 
@@ -556,17 +557,6 @@ export const useSugyaController = (
     [slots, units, handles, fold.attention, positions, revealed],
   );
 
-  // For the aligned rail, a hidden row borrows the height of the last visible
-  // one above it, so the ticks stay monotonic across a fold.
-  const ticks = useMemo(() => {
-    let last = 0;
-    return units.slice(0, rendered).map((unit) => {
-      const y = positions.get(unit.id)?.y;
-      if (y !== undefined) last = y;
-      return last;
-    });
-  }, [units, rendered, positions]);
-
   const roots = useMemo<readonly StateOfPlayEntry[]>(
     () =>
       units
@@ -754,10 +744,16 @@ export const useSugyaController = (
         : plan.kind === "row"
           ? rows.querySelector(`[data-id="${plan.id}"]`)
           : rows.querySelector(`[data-key="${plan.key}"]`);
-    // `nearest` for the frontier is deliberate: it does nothing while the row
-    // is on screen, and otherwise moves the page by the least it can.
+    // `end` for the frontier is deliberate: the sentence that just appeared is
+    // brought all the way into view, its foot at the bottom of the rows, so
+    // "what happens next" and "next sentence" always show the whole of what
+    // they revealed with as much of the argument above it as fits. (`nearest`
+    // did nothing while any of the row was on screen, and left the new
+    // sentence half-visible at the bottom edge.) The scroller these calls move
+    // is the rows alone: the state-of-play bar, the dock and the foot are
+    // outside it and never move.
     node?.scrollIntoView({
-      block: plan.kind === "frontier" ? "nearest" : plan.block,
+      block: plan.kind === "frontier" ? "end" : plan.block,
       behavior: "smooth",
     });
   }, [fold, slots, units, tree]);
@@ -825,7 +821,6 @@ export const useSugyaController = (
     handles,
     columns,
     connectors,
-    ticks,
     roots,
     coverage,
     rowsRef,

@@ -15,8 +15,6 @@ export type StateOfPlayEntry = {
 
 export type StateOfPlayProps = {
   readonly entries: readonly StateOfPlayEntry[];
-  /** Pin it to the top of the viewport, for a passage too long to see at once. */
-  readonly sticky?: boolean;
   /** Ch. 1: what kind of sugya this is, when the layer is showing it. */
   readonly party?: Badge;
 };
@@ -30,16 +28,18 @@ export type StateOfPlayProps = {
  * over for fifty sentences reads "in doubt" for fifty sentences and the badge
  * says nothing. What moves is how many objections are standing against it, and
  * in a sugya built of thirteen successive challenges that is the score.
+ *
+ * It is a bar pinned above the rows, never scrolled: over fifty sentences the
+ * opening claim scrolls away long before the argument about it does, and it is
+ * the one thing worth keeping in view. It used to be `position: sticky` inside
+ * the scrolling sheet, and only on a long passage; now the sheet itself does
+ * not scroll and the bar sits outside the part that does, on every passage.
  */
-export const StateOfPlay = ({
-  entries,
-  sticky = false,
-  party,
-}: StateOfPlayProps): JSX.Element | null => {
+export const StateOfPlay = ({ entries, party }: StateOfPlayProps): JSX.Element | null => {
   if (entries.length === 0) return null;
 
   return (
-    <div className={`state${sticky ? " state-sticky" : ""}`} aria-live="polite">
+    <div className="state" aria-live="polite">
       <span className="state-label">Where it stands</span>
       {party === undefined ? null : (
         <span className="state-party">

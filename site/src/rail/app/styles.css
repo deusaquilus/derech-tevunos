@@ -62,19 +62,29 @@
 
 /* --- sheet --------------------------------------------------------------- */
 
-/* The sheet IS the stage's scroll region, edge to edge.
+/* The sheet fills the stage's region, edge to edge, and does not scroll.
 
    It used to be a bordered, rounded card centred at 1040px, which was right
    when it sat on a page of its own. On the site there is no page: the region
    under the strip is the drawing, and a card inside that region read as a
    screen within a screen — a lit box in a dark frame with its own scroll.
-   So no border, no radius, no width cap, and `min-height: 100%` so a four-row
-   passage paints the whole region instead of leaving a gap under a box.
-   The stage (`RailStage.astro`) paints its own background with the same
-   `--surface` so there is no seam where the article ends. */
+   So no border, no radius, no width cap. The stage (`RailStage.astro`) paints
+   its own background with the same `--surface` so there is no seam.
+
+   It is a flex column whose middle child, `.stage`, takes all the height that
+   the bars above and below it leave; the rows inside `.stage` are the one
+   scroll container, and everything else — the state-of-play bar, the reveal
+   dock, the foot control — is pinned by the column and never moves. Until
+   2026-09-16 the whole article scrolled and those three were `position:
+   sticky` inside it, which let the foot drift with the article's bottom
+   padding and put the dock's height in `cqh`. No padding here: each band
+   carries its own, so the rows' scroller can hold the margins the overlays
+   must not be offset by. */
 .sheet {
-  min-height: 100%;
-  padding: 18px 28px 24px;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-height: 0;
   background: var(--surface);
 }
 
@@ -104,17 +114,21 @@
 
 /* --- legend -------------------------------------------------------------- */
 
+/* Rendered into the strip's panel on the site (see `legendHost` on
+   `SugyaView`), under the passage switcher and above the panel's links, so it
+   is one more section of that panel: a rule above, none below. Inline, on a
+   page without a panel, it sits above the state-of-play bar and the same
+   rule reads as its top edge. */
 .legend-block {
-  margin: 16px 0 0;
+  margin: 1rem 0 0;
+  padding-top: 0.85rem;
   border-top: 1px solid var(--border);
-  border-bottom: 1px solid var(--border);
 }
 
 .legend-bar {
   display: flex;
   align-items: flex-start;
   gap: 8px 18px;
-  padding: 14px 0;
 }
 
 .legend {
@@ -248,7 +262,7 @@
   align-items: center;
   gap: 6px 8px;
   margin: 0;
-  padding: 0 0 12px;
+  padding: 12px 0 0;
   list-style: none;
 }
 
@@ -410,8 +424,10 @@
 }
 
 /* Rows are siblings at the same z-index, so a popup in one would be painted
-   under the text of the next. The row with an open popup rises above them,
-   and above the sticky strip, for as long as it is open. */
+   under the text of the next. The row with an open popup rises above them for
+   as long as it is open. (The popup cannot reach the state-of-play bar: the
+   bar is outside the rows' scroller, which clips whatever leaves it — which is
+   also why `Tooltip` flips a popup to fit that scroller, not the window.) */
 .row:has(.tip-pop) {
   z-index: 5;
 }
@@ -423,25 +439,21 @@
 
 /* --- where it stands ----------------------------------------------------- */
 
+/* The bar pinned under the strip, on every passage: the first child of the
+   sheet's column, so nothing is above it and the rows scroll under its rule.
+   Over fifty sentences the opening claim scrolls away long before the argument
+   about it does, and it is the one thing worth keeping in view. It was
+   `position: sticky` inside the scrolling article, with a blurred translucent
+   back so rows showed through as they passed; pinned outside the scroller
+   nothing passes under it, so it is opaque paper like the rest. */
 .state {
   display: flex;
+  flex: none;
   flex-wrap: wrap;
   align-items: center;
-  gap: 10px 14px;
-  padding: 13px 0;
+  gap: 8px 14px;
+  padding: 8px 28px;
   border-bottom: 1px solid var(--border);
-}
-
-/* Over fifty sentences the opening claim scrolls away long before the argument
-   about it does, and it is the one thing worth keeping in view. */
-.state-sticky {
-  position: sticky;
-  top: 0;
-  z-index: 3;
-  padding: 11px 4px;
-  border-bottom: 1px solid var(--border);
-  background: color-mix(in srgb, var(--surface) 92%, transparent);
-  backdrop-filter: blur(6px);
 }
 
 .state-open {
@@ -476,17 +488,48 @@
 
 /* --- stage --------------------------------------------------------------- */
 
+/* The middle band of the sheet's column: the rows' scroller on the left and
+   the reveal dock down the right edge, both as tall as the space between the
+   state-of-play bar and the foot. `min-height: 0` is what lets the column
+   size this band to what is left rather than to its content; without it the
+   scroller would be as tall as the rows and nothing would scroll. The rule
+   under it is the foot's: it runs the width of the sheet where the scroller
+   ends, while the foot itself is only as wide as its buttons. */
 .stage {
   display: flex;
+  flex: 1;
   align-items: stretch;
-  gap: 4px;
-  margin-top: 4px;
+  min-height: 0;
+  border-bottom: 1px solid var(--border);
 }
 
+/* THE ONE SCROLL CONTAINER. Wheel, drag, touch and the controller's
+   `scrollIntoView` all move this and nothing else on the page. The margins
+   are its padding, so the drawing inside it starts at (28px, 6px) of the
+   scrollable area and the overlays laid over the drawing start where the rows
+   do. The scrollbar is hidden, not removed, as the sheet's was: the frontier
+   is kept in view as sentences are added, so there is nothing to scroll
+   *for*. */
 .stage-rows {
-  position: relative;
   flex: 1;
   min-width: 0;
+  min-height: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 6px 12px 16px 28px;
+  scrollbar-width: none;
+}
+
+.stage-rows::-webkit-scrollbar {
+  display: none;
+}
+
+/* The positioned box the connector, rail and bead layers are laid over at
+   `top: 0; left: 0`. It has no padding of its own, so their origin is the
+   rows' origin; padding here would offset every rail and elbow by that
+   much. */
+.stage-drawing {
+  position: relative;
 }
 
 .rows {
@@ -741,6 +784,16 @@
   color: var(--fg);
 }
 
+/* The foot's "next sentence" at the end of the passage: still there, because
+   the foot is always there, but with nothing to do. */
+.advance:disabled,
+.advance:disabled:hover {
+  border-color: var(--border);
+  color: var(--muted);
+  opacity: 0.5;
+  cursor: default;
+}
+
 .advance-count {
   padding-left: 4px;
   border-left: 1px solid var(--border);
@@ -748,15 +801,18 @@
   font-size: 10.5px;
 }
 
-/* Any row scrolled to needs room above it for the sticky strip and its
-   movement heading. The frontier also needs room beneath, so the control
-   lands inside the viewport. */
+/* Any row scrolled to the top needs room above it for its movement heading,
+   which is the row before it in the scroller. The frontier, scrolled to the
+   bottom, needs only a breath beneath its control. Both used to be far larger
+   — 88px and 96px — to clear the state-of-play strip and the foot when those
+   were sticky inside the scroller and painted over its ends; they are outside
+   it now and nothing in here can pass under them. */
 .row {
-  scroll-margin-top: 88px;
+  scroll-margin-top: 40px;
 }
 
 .row-frontier {
-  scroll-margin-bottom: 96px;
+  scroll-margin-bottom: 10px;
 }
 
 /* --- a move whose line was too long to draw ------------------------------- */
@@ -1302,21 +1358,26 @@
 
 /* --- foot control --------------------------------------------------------- */
 
+/* The last child of the sheet's column, pinned to the bottom on every passage
+   and at every step. It is as wide as its contents, not the sheet: two
+   buttons and a count at the left margin, with a hairline above them that
+   runs the width of the sheet to mark where the scroller ends. It used to be
+   `position: sticky; bottom: 0` at the end of the scrolling article and
+   stretched across it with the count pushed to the far right — and it moved:
+   the article's bottom padding sat under it at the end of the scroll and not
+   before, so it stepped up and down as the reader passed the last row. */
 .sheet-foot {
-  position: sticky;
-  bottom: 0;
   display: flex;
+  flex: none;
+  align-self: flex-start;
   align-items: center;
   gap: 8px;
-  margin-top: 6px;
-  padding: 10px 4px;
-  border-top: 1px solid var(--border);
-  background: color-mix(in srgb, var(--surface) 92%, transparent);
-  backdrop-filter: blur(6px);
+  width: max-content;
+  max-width: 100%;
+  padding: 7px 28px 9px;
 }
 
 .sheet-foot-count {
-  margin-left: auto;
   color: var(--muted);
   font-size: 11px;
   font-variant-numeric: tabular-nums;
@@ -1382,28 +1443,29 @@
 }
 
 /* A rail as tall as a fifty-seven sentence passage puts its thumb thousands of
-   pixels off screen and cannot be dragged end to end at all. Sticking it to the
-   viewport costs the alignment between ticks and rows and buys back reach.
+   pixels off screen and cannot be dragged end to end at all. So the rail is
+   never inside the scroller: the dock is the scroller's flex sibling in
+   `.stage`, stretched to the band's height, and the map inside it takes that
+   height and spreads its ticks over it. Its height is therefore exactly the
+   space between the state-of-play bar and the foot, and it moves with neither
+   the rows nor the page.
 
-   "The viewport" here is the sheet's SCROLL CONTAINER, not the window. The site
-   clamps the page — nothing scrolls except the sheet — so `top` is measured
-   from the sheet's top edge, and the height is in container-query units
-   against that same scroller (`.stage-sheet` in RailStage.astro declares
-   `container-type: size`). The `vh` line is only a fallback for an engine
-   without `cqh`; on one that has it, the second declaration wins. The old
-   values, `top: 64px` and `calc(100vh - 140px)`, were clearing a site nav that
-   is no longer inside the scrolling region. */
+   It used to be `position: sticky; top: 12px` inside the scrolling sheet with
+   its height written in `cqh` against that scroller (`container-type: size`
+   on `.stage-sheet`), and before that `top: 64px; height: calc(100vh -
+   140px)` clearing a site nav that was no longer in the scrolling region.
+   Both were ways of pinning a thing that lived in a scroller; now it does
+   not, and no unit is needed. */
 .rail-dock {
+  display: flex;
   flex: none;
-  align-self: flex-start;
-  position: sticky;
-  top: 12px;
-  height: calc(100vh - 140px);
-  height: calc(100cqh - 24px);
+  flex-direction: column;
+  padding: 8px 14px 8px 0;
 }
 
 .rail-map {
-  height: 100%;
+  flex: 1;
+  min-height: 0;
 }
 
 .rail-track,

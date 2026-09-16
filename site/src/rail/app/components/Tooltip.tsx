@@ -25,13 +25,34 @@ type Placement = {
 const POP_HEIGHT = 170;
 const GUTTER = 12;
 
+type Bounds = { readonly right: number; readonly bottom: number };
+
+/**
+ * The box a popup has to fit inside: the anchor's nearest ancestor that clips
+ * its overflow, or the viewport when nothing does. The popup is absolutely
+ * positioned inside the anchor, so a scroller between the two cuts off whatever
+ * leaves it — the rows are one such scroller and the strip's panel, where the
+ * legend lives, is another. Fitting the window alone would place a popup that
+ * the scroller then clips.
+ */
+const boundsOf = (anchor: HTMLElement): Bounds => {
+  const viewport = { right: window.innerWidth, bottom: window.innerHeight };
+  for (let el = anchor.parentElement; el !== null; el = el.parentElement) {
+    const { overflowX, overflowY } = getComputedStyle(el);
+    if (overflowX === "visible" && overflowY === "visible") continue;
+    const box = el.getBoundingClientRect();
+    return { right: Math.min(box.right, viewport.right), bottom: Math.min(box.bottom, viewport.bottom) };
+  }
+  return viewport;
+};
+
 /**
  * A real popup on hover or focus, styled and positioned by the page. The
  * native `title` attribute is not relied on anywhere a reader needs the
  * explanation: it is slow to appear, unstyled, and in some embeddings never
  * shows at all. The popup flips to the other side of its anchor when it would
- * leave the viewport, and takes no pointer events, so it never gets in the way
- * of the thing it explains.
+ * leave the box that clips it, and takes no pointer events, so it never gets
+ * in the way of the thing it explains.
  */
 export const Tooltip = ({
   content,
@@ -50,8 +71,9 @@ export const Tooltip = ({
     const anchor = ref.current;
     if (anchor === null) return;
     const box = anchor.getBoundingClientRect();
-    const side = box.left + w <= window.innerWidth - GUTTER ? "left" : "right";
-    const vert = box.bottom + POP_HEIGHT <= window.innerHeight - GUTTER ? "below" : "above";
+    const bounds = boundsOf(anchor);
+    const side = box.left + w <= bounds.right - GUTTER ? "left" : "right";
+    const vert = box.bottom + POP_HEIGHT <= bounds.bottom - GUTTER ? "below" : "above";
     // Same placement, same object: a hint is placed from an effect, and a new
     // object every render would ask for another.
     setPlacement((p) => (p.side === side && p.vert === vert ? p : { side, vert }));
