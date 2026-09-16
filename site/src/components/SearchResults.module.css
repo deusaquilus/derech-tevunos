@@ -45,7 +45,7 @@
 }
 
 .on {
-  background: #fff8e7;
+  background: var(--dt-surface-on);
 }
 
 .top {

@@ -1,25 +1,29 @@
+/* The greige palette (settled 2026-09-16). These MUST match `LIGHT` in
+   `../theme.ts`, which is what the icons and the SVG export read; this block
+   is what the rows read. See the header comment there for why warm gray. */
 :root {
-  --fg: #1c1917;
-  --muted: #78716c;
-  --border: #d6d3d1;
-  --surface: #ffffff;
-  --page: #fafaf9;
-  --accepted: #15803d;
+  --fg: #2a2622;
+  --muted: #726b62;
+  --border: #d3cdc2;
+  --surface: #eeeae2;
+  --page: #e6e2da;
+  --accepted: #2f7a42;
   --doubt: #a16207;
-  --rejected: #b91c1c;
-  --focus: #2563eb;
+  --rejected: #b0392e;
+  --focus: #3b4f8a;
   /* The rail. A hue no verdict uses, so a long one can be followed up the
      page without being mistaken for the red of a refutation or the amber of a
-     doubt. */
-  --rail: #4338ca;
+     doubt. Prussian rather than electric indigo: ink on paper. */
+  --rail: #3b4f8a;
   /* The chapter 1–8 layer, one hue per family (see anatomy.ts). Violet for
      chapters 3–6, teal for chapter 7, magenta for chapter 8, slate — the
      statement icon's grey — for chapter 1. None is a verdict colour; none but
-     slate is an element colour. The values are the icon set's own. */
-  --violet: #7c3aed;
-  --teal: #0d9488;
-  --slate: #475569;
-  --magenta: #c026d3;
+     slate is an element colour. The hues are the icon set's own
+     (`icons_v3/ICONS_REFERENCE.md` §2), inked one step deeper for the paper. */
+  --violet: #6f4fb0;
+  --teal: #237f76;
+  --slate: #66605a;
+  --magenta: #a2418a;
 }
 
 * {

@@ -56,21 +56,21 @@ const passages = SUGYOT.map((s) => ({
     flex-direction: column;
     gap: 0.1rem;
     padding: 0.55rem 0.8rem;
-    border: 1px solid rgba(253, 194, 35, 0.18);
+    border: 1px solid var(--dt-rule);
     border-radius: 8px;
-    background: rgba(255, 255, 255, 0.03);
+    background: var(--dt-surface-soft);
     text-decoration: none;
     transition: border-color 0.15s ease, background 0.15s ease;
   }
 
   a:hover {
-    border-color: rgba(253, 194, 35, 0.45);
-    background: rgba(255, 255, 255, 0.06);
+    border-color: var(--dt-brass);
+    background: var(--dt-surface);
   }
 
   a.on {
-    border-color: var(--dt-cyan);
-    background: rgba(34, 211, 238, 0.08);
+    border-color: var(--dt-brass);
+    background: var(--dt-surface-on);
   }
 
   .cite {
@@ -79,22 +79,22 @@ const passages = SUGYOT.map((s) => ({
     font-weight: 700;
     letter-spacing: 0.1em;
     text-transform: uppercase;
-    color: var(--dt-champagne);
+    color: var(--dt-brass);
   }
 
   a.on .cite {
-    color: var(--dt-cyan);
+    color: var(--dt-tag-fg);
   }
 
   .title {
     font-size: 0.875rem;
     font-weight: 500;
-    color: var(--dt-chrome-fg);
+    color: var(--dt-fg);
     line-height: 1.3;
   }
 
   .count {
     font-size: 0.6875rem;
-    color: var(--dt-chrome-dim);
+    color: var(--dt-faint);
   }
 </style>

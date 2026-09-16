@@ -53,7 +53,7 @@ const totalSentences = SUGYOT.reduce((n, s) => n + s.units.length, 0);
      separates the two without a hard edge, leaving the gold piping, the cyan
      lenses and the white beard to carry the shape. */
   .hero {
-    background: radial-gradient(ellipse 70% 90% at 72% 40%, #1a2030 0%, var(--dt-ink) 68%);
+    background: radial-gradient(ellipse 70% 90% at 72% 40%, #2a2620 0%, var(--dt-ink) 68%);
     border-bottom: 1px solid var(--dt-chrome-rule-soft);
     overflow: hidden;
   }
@@ -92,7 +92,7 @@ const totalSentences = SUGYOT.reduce((n, s) => n + s.units.length, 0);
     color: var(--dt-chrome-muted);
   }
 
-  .lede em { color: #d6d3d1; font-style: italic; }
+  .lede em { color: var(--dt-chrome-fg); font-style: italic; }
   .lede strong { color: var(--dt-champagne); font-weight: 500; }
 
   .meta {

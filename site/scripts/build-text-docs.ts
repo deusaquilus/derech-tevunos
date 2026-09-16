@@ -311,7 +311,12 @@ const main = (): void => {
     process.exit(1);
   }
 
-  fs.rmSync(OUT_DIR, { recursive: true, force: true });
+  // Write in place, then remove what is stale — never `rmSync` the directory.
+  // `astro dev` watches this directory, and a delete-and-recreate makes its
+  // content layer drop every chapter and not pick the new files up: the
+  // routes 404 until the server restarts. Measured 2026-09-16 after running
+  // `npm run build` beside a live dev server. Overwriting files is a change
+  // the watcher handles; a vanishing directory is not.
   fs.mkdirSync(OUT_DIR, { recursive: true });
 
   const written: string[] = [];
@@ -330,6 +335,11 @@ const main = (): void => {
     fs.writeFileSync(path.join(OUT_DIR, `${slug}.md`), contents, 'utf-8');
     written.push(slug);
   }
+
+  const keep = new Set(written.map((slug) => `${slug}.md`));
+  const stale = fs.readdirSync(OUT_DIR).filter((name) => name.endsWith('.md') && !keep.has(name));
+  for (const name of stale) fs.unlinkSync(path.join(OUT_DIR, name));
+  if (stale.length > 0) console.log(`   removed ${stale.length} stale page(s): ${stale.join(', ')}`);
 
   console.log(`✅ Text docs: ${written.length} pages → src/content/docs/text/`);
   console.log(`   ${chapters.length} chapters, ${plains.length} appended section(s)`);

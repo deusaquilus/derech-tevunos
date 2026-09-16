@@ -15,10 +15,17 @@
  */
 
 :root {
-  /* ── The mascot, literally. Dark chrome only. ── */
-  --dt-ink: #0e1119;
-  --dt-ink-deep: #080a10;
-  --dt-hood: #2d2f37;
+  /* ── The mascot, warmed one step. Dark chrome only. ──
+     The sampled outline is `#0E1119`, a blue-black. The site's ink is
+     `#1c1a17` — the same darkness with the blue taken out — because the
+     paper it sits over is warm gray (below), and a cool bar over a warm page
+     is a temperature clash before it is anything else. The mascot itself
+     sits on this fine: the robe's own shadows are this colour. Settled
+     2026-09-16 with the greige palette; the sampled value stays recorded in
+     AGENTS.md. */
+  --dt-ink: #1c1a17;
+  --dt-ink-deep: #14120f;
+  --dt-hood: #332e28;
   --dt-gold: #fdc223;
   --dt-cyan: #22d3ee;
   --dt-champagne: #e7cc8f;
@@ -32,9 +39,9 @@
   --dt-metal-lg: linear-gradient(135deg, #fdf0c4, #fdc223 42%, #a9761a);
 
   /* Chrome text */
-  --dt-chrome-fg: #e5e7eb;
+  --dt-chrome-fg: #ebe6dd;
   --dt-chrome-muted: #9aa0a6;
-  --dt-chrome-dim: #6b7280;
+  --dt-chrome-dim: #7d766c;
   --dt-chrome-rule: rgba(253, 194, 35, 0.14);
   --dt-chrome-rule-soft: rgba(253, 194, 35, 0.08);
 
@@ -57,22 +64,35 @@
   --dt-tag-bg: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
   --dt-tag-fg: #78350f;
 
-  --dt-callout-bg: #fffbeb;
+  /* On greige paper a near-white callout would read as a cool hole in the
+     page; this is the paper lifted a step toward the amber rail instead. */
+  --dt-callout-bg: #f3ecda;
   --dt-callout-rail: #f59e0b;
   --dt-callout-label: #92400e;
   --dt-callout-fg: #78350f;
 
-  /* Neutrals for light pages. Cool grays, unchanged from the source theme —
-     the warmth belongs to the accent, not the chrome. */
-  --dt-fg: #1f2937;
-  --dt-fg-strong: #1a1a1a;
-  --dt-muted: #6b7280;
-  --dt-faint: #9ca3af;
-  --dt-rule: #e5e7eb;
-  --dt-rule-strong: #d1d5db;
-  --dt-surface: #ffffff;
-  --dt-surface-soft: #fafbfc;
-  --dt-surface-code: #f6f8fa;
+  /* ── The paper. "Greige", settled 2026-09-16. ──
+     A warm gray, not white and not yellow. Every light surface on the site —
+     docs, notes, the rail's sheet — is this one paper, so the warmed nav above
+     it is binding on page rather than a bar over a screen. The rail's own
+     `--surface` (src/rail/app/styles.css) is the SAME value; if one moves the
+     other must. Text is warm near-black, rules are warm gray: nothing on the
+     light pages is a cool gray any more, because a single cool rule on warm
+     paper reads as a mistake. */
+  --dt-fg: #2a2622;
+  --dt-fg-strong: #221e1a;
+  --dt-muted: #726b62;
+  --dt-faint: #9a938a;
+  --dt-rule: #d3cdc2;
+  --dt-rule-strong: #c4bdb1;
+  --dt-surface: #eeeae2;
+  /* One step deeper than the surface: page gradients, sidebars, the strip. */
+  --dt-surface-soft: #e6e2da;
+  /* Two steps deeper: the passage strip's bar, table heads, code panels. */
+  --dt-surface-deep: #e2ded6;
+  --dt-surface-code: #e6e2da;
+  /* The selected state on paper — the paper lifted toward cream. */
+  --dt-surface-on: #efe6d2;
 
   /* ── Type ── */
   --dt-sans: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;

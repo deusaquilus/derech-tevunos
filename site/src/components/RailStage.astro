@@ -111,17 +111,21 @@ const hintHtml = sugya.hint === undefined ? undefined : markupToHtml(sugya.hint)
     display: flex;
     flex-direction: column;
     position: relative;
-    background: var(--dt-ink);
+    background: var(--dt-surface);
   }
 
   /* ── The strip ── */
 
+  /* The strip is the paper, one step deeper than the sheet, with a hairline
+     under it — a page edge, not a bar. It used to be ink with champagne caps
+     and a cyan hover, which made it a third palette between the gold nav and
+     the white sheet; on greige the whole region below the nav is one paper. */
   .strip {
     position: relative;
     z-index: 20;
     flex: none;
-    border-bottom: 1px solid var(--dt-chrome-rule);
-    background: var(--dt-ink);
+    border-bottom: 1px solid var(--dt-rule);
+    background: var(--dt-surface-deep);
   }
 
   .line {
@@ -145,14 +149,14 @@ const hintHtml = sugya.hint === undefined ? undefined : markupToHtml(sugya.hint)
     font-weight: 700;
     letter-spacing: 0.14em;
     text-transform: uppercase;
-    color: var(--dt-champagne);
+    color: var(--dt-brass);
     white-space: nowrap;
   }
 
   .title {
     font-size: 0.9375rem;
     font-weight: 500;
-    color: var(--dt-chrome-fg);
+    color: var(--dt-fg);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -163,7 +167,7 @@ const hintHtml = sugya.hint === undefined ? undefined : markupToHtml(sugya.hint)
     font-family: var(--dt-condensed);
     font-size: 0.75rem;
     letter-spacing: 0.04em;
-    color: var(--dt-chrome-dim);
+    color: var(--dt-muted);
     white-space: nowrap;
   }
 
@@ -177,7 +181,7 @@ const hintHtml = sugya.hint === undefined ? undefined : markupToHtml(sugya.hint)
     font-weight: 600;
     letter-spacing: 0.08em;
     text-transform: uppercase;
-    color: var(--dt-chrome-muted);
+    color: var(--dt-muted);
     white-space: nowrap;
     transition: color 0.15s ease;
   }
@@ -191,7 +195,7 @@ const hintHtml = sugya.hint === undefined ? undefined : markupToHtml(sugya.hint)
   .strip:hover .more,
   .strip:focus-within .more,
   .strip.open .more {
-    color: var(--dt-cyan);
+    color: var(--dt-brass);
   }
 
   .strip:hover .more svg,
@@ -215,9 +219,9 @@ const hintHtml = sugya.hint === undefined ? undefined : markupToHtml(sugya.hint)
     max-height: calc(100dvh - 90px);
     overflow-y: auto;
     scrollbar-width: none;
-    background: #11151d;
-    border-bottom: 1px solid var(--dt-chrome-rule);
-    box-shadow: 0 24px 48px rgba(0, 0, 0, 0.55);
+    background: var(--dt-surface);
+    border-bottom: 1px solid var(--dt-rule);
+    box-shadow: 0 16px 40px rgba(42, 38, 34, 0.18);
     visibility: hidden;
     opacity: 0;
     transform: translateY(-6px);
@@ -241,18 +245,18 @@ const hintHtml = sugya.hint === undefined ? undefined : markupToHtml(sugya.hint)
     max-width: 78ch;
     font-size: 0.9rem;
     line-height: 1.6;
-    font-weight: 300;
-    color: var(--dt-chrome-muted);
+    font-weight: 400;
+    color: var(--dt-muted);
   }
 
   .hint :global(b) {
-    font-weight: 500;
-    color: var(--dt-champagne);
+    font-weight: 600;
+    color: var(--dt-brass);
   }
 
   .hint :global(i) {
     font-style: italic;
-    color: #d6d3d1;
+    color: var(--dt-fg);
   }
 
   .links {
@@ -261,17 +265,17 @@ const hintHtml = sugya.hint === undefined ? undefined : markupToHtml(sugya.hint)
     flex-wrap: wrap;
     margin-top: 1rem;
     padding-top: 0.85rem;
-    border-top: 1px solid var(--dt-chrome-rule-soft);
+    border-top: 1px solid var(--dt-rule);
     font-size: 0.8125rem;
   }
 
   .links a {
-    color: var(--dt-chrome-muted);
+    color: var(--dt-muted);
     text-decoration: none;
   }
 
   .links a:hover {
-    color: var(--dt-cyan);
+    color: var(--dt-brass);
   }
 
   /* ── The sheet: the one scroll container ── */

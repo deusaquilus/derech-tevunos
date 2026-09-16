@@ -79,7 +79,7 @@ const byCategory = groupByCategory(docs);
     width: 268px;
     flex-shrink: 0;
     background: var(--dt-surface-soft);
-    border-right: 1px solid #e1e4e8;
+    border-right: 1px solid var(--dt-rule);
     position: sticky;
     top: var(--dt-nav-clearance);
     height: calc(100vh - var(--dt-nav-clearance));
@@ -98,7 +98,7 @@ const byCategory = groupByCategory(docs);
 
   .head {
     padding: 0 1.25rem 1.25rem;
-    border-bottom: 1px solid #e1e4e8;
+    border-bottom: 1px solid var(--dt-rule);
     margin-bottom: 0.75rem;
   }
 
@@ -132,7 +132,7 @@ const byCategory = groupByCategory(docs);
   li a {
     display: block;
     padding: 0.5rem 0.75rem;
-    color: #4b5563;
+    color: var(--dt-fg);
     text-decoration: none;
     border-radius: 6px;
     font-size: 0.875rem;
@@ -141,7 +141,7 @@ const byCategory = groupByCategory(docs);
   }
 
   li a:hover {
-    background: #f3f4f6;
+    background: var(--dt-surface);
     color: var(--dt-brass);
   }
 

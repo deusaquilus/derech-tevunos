@@ -123,7 +123,7 @@
   line-height: 1.25;
   margin: 2.5rem 0 1rem;
   padding-bottom: 0.3em;
-  border-bottom: 2px solid #cbd5e1;
+  border-bottom: 2px solid var(--dt-rule-strong);
   letter-spacing: -0.015em;
   scroll-margin-top: 100px;
   background: var(--dt-title-grad);
@@ -138,7 +138,7 @@
   line-height: 1.3;
   margin: 2rem 0 0.75rem;
   padding-bottom: 0.3em;
-  border-bottom: 1px solid #e2e8f0;
+  border-bottom: 1px solid var(--dt-rule);
   letter-spacing: -0.01em;
   scroll-margin-top: 100px;
   background: var(--dt-h2-grad);
@@ -244,7 +244,7 @@
 .dt-prose pre code {
   background: none;
   padding: 0;
-  color: #24292e;
+  color: var(--dt-fg-strong);
   font-size: 0.875rem;
   border: none;
   line-height: 1.55;
@@ -319,7 +319,7 @@
 }
 
 .dt-prose tbody tr:nth-child(2n) { background: rgba(0, 0, 0, 0.02); }
-.dt-prose tbody tr:hover { background: #f3f4f6; }
+.dt-prose tbody tr:hover { background: var(--dt-surface-soft); }
 
 .dt-prose .condense-more table {
   font-family: var(--dt-condensed);
@@ -449,7 +449,7 @@
   line-height: 1.3;
   letter-spacing: -0.01em;
   padding-bottom: 0.3em;
-  border-bottom: 1px solid #e2e8f0;
+  border-bottom: 1px solid var(--dt-rule);
   cursor: pointer;
   list-style: none;
   display: flex;

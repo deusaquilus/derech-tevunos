@@ -293,20 +293,58 @@ On the dark chrome the near-black robe dissolves into the ink, so every dark
 placement needs a radial lift behind the figure; the gold piping, cyan lenses
 and white beard are what carry the silhouette. See `.hero` in `index.astro`.
 
-**Gold and cyan are unusable as text on white** (contrast ratios about 1.7:1 and
-1.5:1). So the literal mascot colours go on dark chrome only, and the light
-content pages get a darkened brass ramp that keeps the hue and passes WCAG. Do
-not "fix" a light-page heading back to `#FDC223`.
+**Gold and cyan are unusable as text on a light surface** (contrast ratios
+about 1.7:1 and 1.5:1 on white). So the literal mascot colours go on dark
+chrome only, and the light content pages get a darkened brass ramp that keeps
+the hue and passes WCAG. Do not "fix" a light-page heading back to `#FDC223`.
+
+### The paper is greige, and the ink is warmed to match — settled 2026-09-16
+
+The site's light surface is **`#eeeae2`, a warm gray — not white.** Rendered
+alternatives, in order of rejection: pure white under the ink nav (a 20:1
+luminance cliff at an edge that means nothing, plus cool chrome over cool
+paper reading as clinical); a blue-black dark sheet (fatiguing for 57
+sentences of bilingual prose, and the semantic palette had to be re-derived);
+parchment (`#f4ecd8`, the strongest thematic fit but a shade too literal a
+"book"); greige, chosen. Leather (`#231d17`, a warm dark) is the natural dark
+toggle if one is ever wanted — same plumbing, second palette.
+
+Two things follow that a future change could undo:
+
+- **The nav is `#1c1a17`, not the sampled `#0E1119`.** Same darkness, blue
+  removed. A cool bar over warm paper is a temperature clash before it is
+  anything else, and the mascot sits on the warm ink perfectly — the robe's
+  own shadows are that colour. The sampled value stays in the table above as
+  the *source*; the site's ink is one deliberate step from it.
+- **Every light surface is the same paper**, and the rail's `--surface` is the
+  same value as the site's `--dt-surface`. Docs, notes, the rail's sheet, the
+  passage strip, the search dropdown: one paper. Nothing on a light page is a
+  cool gray any more — a single `#e5e7eb` rule on warm paper reads as a
+  mistake. `tokens.css` carries the whole warm ramp (`--dt-fg`, `--dt-muted`,
+  `--dt-faint`, `--dt-rule`, `--dt-surface*`); reach for those, never a
+  literal.
+
+Guardrail: **flat colour only.** No paper texture, no ornamental rules, no
+drop caps. Warm paper stays contemporary because the type and layout are; the
+moment texture arrives it is a 2005 antique template.
 
 ### The rail's colour vocabulary is nearly full, and it is semantic
 
-`site/src/rail/app/styles.css` and `site/src/rail/theme.ts` have already spent most of the
-wheel on *meaning*: green `#15803d` accepted, amber `#a16207` under doubt, red
-`#b91c1c` rejected, indigo `#4338ca` for the rail itself, and violet / teal /
-magenta / slate for the four chapter 1–8 anatomy families. The site's brass
-(`#8a5a00`) is deliberately **darker in value** than the rail's amber so the two
-read as different signals despite sharing a hue. That gap is the whole reason
-the palette works — do not lighten the site brass toward `#a16207`.
+`site/src/rail/app/styles.css` (`:root`, for the rows) and
+`site/src/rail/theme.ts` (`LIGHT`, for the icons and the SVG export) declare
+the same palette twice, and **they must agree** — `ElementIcon` paints every
+icon's interior with `theme.surface`, so a drift between the two shows up as
+icons the wrong colour. The values are the greige re-inking of the original
+Tailwind-600 set, one step deeper and less saturated for paper: green
+`#2f7a42` accepted, amber `#a16207` under doubt (unchanged), red `#b0392e`
+rejected, Prussian `#3b4f8a` for the rail itself, and violet `#6f4fb0` / teal
+`#237f76` / magenta `#a2418a` / slate `#66605a` for the chapter 1–8 anatomy
+families. `hue.slate` and `element.statement` are the **same** value on
+purpose — the speaker badges share the statement icon's grey — change both or
+neither. The site's brass (`#8a5a00`) is deliberately **darker in value** than
+the rail's amber so the two read as different signals despite sharing a hue.
+That gap is the whole reason the palette works — do not lighten the site brass
+toward `#a16207`.
 
 ### Namespace every site CSS custom property `--dt-*`
 
@@ -521,3 +559,10 @@ caption.
   trailing-slash canonical or sitemap entry, replace an `HtmlFigure` with a PNG,
   or declare an un-namespaced CSS custom property. Each has its reasoning above;
   all four look like tidying and are regressions.
+- Set any light surface back to `#ffffff`, cool the nav back to the sampled
+  `#0E1119`, write a cool-gray literal (`#e5e7eb`, `#6b7280`, …) onto a light
+  page, or let `theme.ts` and `styles.css` disagree on a rail token. See "The
+  paper is greige". Add a paper texture or an ornamental rule, ever.
+- `rmSync` the generated `src/content/docs/text/` directory. The generator
+  writes in place and removes stale files; a vanishing directory makes a live
+  `astro dev` drop every chapter route until restart.
