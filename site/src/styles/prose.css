@@ -1,0 +1,603 @@
+/*
+ * Light content pages — docs and notes.
+ *
+ * Adapted from the `exobench-site` theme, recoloured to the mascot's brass
+ * ramp (see tokens.css). The typographic decisions are carried over verbatim
+ * along with the comments explaining them; the colours are the only thing that
+ * changed, plus the RTL and bilingual sections at the end, which are new.
+ *
+ * The site shell is dark (`Layout.astro`) and these pages are light. That is a
+ * deliberate split, not a theme toggle: chrome is ink and gold, reading
+ * surfaces are white and brass.
+ */
+
+/* ===========================================
+   Page shell
+   =========================================== */
+
+.dt-page {
+  background: linear-gradient(to bottom, var(--dt-surface-soft) 0%, var(--dt-surface) 100%);
+  min-height: 100vh;
+  /* Clears the sticky nav. Shared with the docs TOC via the token so the two
+     cannot drift apart. */
+  padding-top: var(--dt-nav-clearance);
+  color: var(--dt-fg-strong);
+}
+
+/* ===========================================
+   Page title
+   =========================================== */
+
+.dt-page-title {
+  /* 2.25rem (36px) is modern long-form territory — Stratechery 36px, Linear
+     blog 36px. Larger steals real estate from the article without adding
+     hierarchy; the gradient and the bar already do the visual work. */
+  font-size: 2.25rem;
+  font-weight: 800;
+  /* padding-bottom leaves clearance for the bar's drop shadow:
+     3px bar + 2px shadow + ~5px breath. */
+  margin: 0 0 0.625rem;
+  padding-bottom: 0.625rem;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  position: relative;
+  background: var(--dt-title-grad);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  transform: translateZ(0);
+}
+
+.dt-page-title::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  border-radius: 2px;
+  background: var(--dt-title-bar);
+  box-shadow: 0 2px 8px rgba(138, 90, 0, 0.25);
+}
+
+.dt-page-description {
+  font-size: 1.125rem;
+  color: var(--dt-muted);
+  /* 1.5 is headline/sub-headline leading. 1.7 is body-prose leading and is
+     wrong for a one- or two-line deck: it looks airy and steals space. */
+  line-height: 1.5;
+  font-weight: 400;
+  margin: 0;
+}
+
+.dt-tag {
+  display: inline-flex;
+  align-items: center;
+  background: var(--dt-tag-bg);
+  color: var(--dt-tag-fg);
+  padding: 0.375rem 0.875rem;
+  border-radius: 20px;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  box-shadow: 0 1px 2px rgba(138, 90, 0, 0.12);
+}
+
+/* ===========================================
+   Prose
+   =========================================== */
+
+.dt-prose {
+  /* Roboto Serif: a transitional serif designed to pair with Roboto sans,
+     which the headings and chrome use. Variable, optically sized, screen-first.
+     The fallback chain stays in the transitional-serif family so the document
+     never drops to a system sans. */
+  font-family: var(--dt-serif);
+  font-variation-settings: 'opsz' 18;
+  font-size: 1.0625rem;
+  line-height: 1.7;
+  color: var(--dt-fg);
+}
+
+/* Strong reset: the first and last block should sit flush with the container,
+   never inheriting a user-agent margin or a collapse surprise. */
+.dt-prose > :first-child { margin-top: 0; }
+.dt-prose > :last-child { margin-bottom: 0; }
+
+/* Headings. Convergent pattern: weight 600, tight line-height (~1.25), a
+   modular scale, and a top:bottom margin ratio of about 2:1 so a heading
+   "belongs" to the content below it. Headings stay on the sans for the classic
+   serif-body/sans-heading pairing. */
+.dt-prose h1,
+.dt-prose h2,
+.dt-prose h3,
+.dt-prose h4,
+.dt-prose h5,
+.dt-prose h6 {
+  font-family: var(--dt-sans);
+}
+
+.dt-prose h1 {
+  font-size: 2rem;
+  font-weight: 600;
+  line-height: 1.25;
+  margin: 2.5rem 0 1rem;
+  padding-bottom: 0.3em;
+  border-bottom: 2px solid #cbd5e1;
+  letter-spacing: -0.015em;
+  scroll-margin-top: 100px;
+  background: var(--dt-title-grad);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.dt-prose h2 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  line-height: 1.3;
+  margin: 2rem 0 0.75rem;
+  padding-bottom: 0.3em;
+  border-bottom: 1px solid #e2e8f0;
+  letter-spacing: -0.01em;
+  scroll-margin-top: 100px;
+  background: var(--dt-h2-grad);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.dt-prose h3 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  line-height: 1.35;
+  margin: 1.5rem 0 0.5rem;
+  letter-spacing: -0.005em;
+  scroll-margin-top: 100px;
+  background: var(--dt-h3-grad);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.dt-prose h4 {
+  font-size: 1.0625rem;
+  font-weight: 700;
+  margin: 1.25rem 0 0.4rem;
+  color: var(--dt-fg-strong);
+}
+
+/* Adjacent headings: collapse the top margin so they do not double-stack. */
+.dt-prose h1 + h2,
+.dt-prose h2 + h3,
+.dt-prose h3 + h4 {
+  margin-top: 1rem;
+}
+
+/* Paragraphs. margin-bottom is about one line-height of body so paragraphs
+   read as separate blocks without floating apart. */
+.dt-prose p {
+  margin: 0 0 1rem;
+}
+
+/* Lists. padding-left puts the bullets inside the list's bounding box. li-to-li
+   spacing is tighter than paragraph-to-paragraph (Gestalt: internal < external). */
+.dt-prose ul,
+.dt-prose ol {
+  margin: 0 0 1rem;
+  padding-left: 2rem;
+}
+
+.dt-prose li { margin-bottom: 0.25rem; }
+.dt-prose li > p { margin-bottom: 0; }
+.dt-prose li > ul,
+.dt-prose li > ol { margin-top: 0.25rem; margin-bottom: 0; }
+.dt-prose li::marker { color: var(--dt-faint); }
+
+.dt-prose strong {
+  font-weight: 600;
+  color: var(--dt-fg-strong);
+}
+
+/* Inline code. GitHub's monochrome recipe: body text colour, soft cool-gray
+   background. The monospace face is the only signal, so in serif prose this
+   reads as a quiet aside instead of a coloured interruption every few words.
+   Ligatures are off so `->>`, `=>` and `!=` render as the literal characters
+   the author typed rather than combined arrow glyphs. */
+.dt-prose code {
+  background: rgba(175, 184, 193, 0.2);
+  padding: 0.2em 0.4em;
+  border-radius: 6px;
+  font-family: var(--dt-mono);
+  font-size: 0.85em;
+  color: inherit;
+  font-weight: 400;
+  font-variant-ligatures: none;
+  font-feature-settings: 'liga' 0, 'calt' 0;
+}
+
+/* Code inside a heading: the gradient would clip the glyphs, so use the
+   gradient's first stop as a solid instead. */
+.dt-prose h1 code,
+.dt-prose h2 code,
+.dt-prose h3 code {
+  background: none;
+  -webkit-text-fill-color: var(--dt-brass);
+  color: var(--dt-brass);
+  border: none;
+  padding: 0;
+}
+
+/* Code blocks. GitHub Light recipe — neutral gray surface, hairline border, no
+   rail, no gradient, no shadow, no brand colour. The block is a container that
+   says "verbatim, monospace"; identity lives in the headings and the callout,
+   not on every code panel. Paired with Shiki's github-light. */
+.dt-prose pre {
+  background: var(--dt-surface-code) !important;
+  padding: 1rem 1.25rem;
+  border-radius: 6px;
+  overflow-x: auto;
+  margin: 0 0 1rem;
+  border: 1px solid var(--dt-rule);
+}
+
+.dt-prose pre code {
+  background: none;
+  padding: 0;
+  color: #24292e;
+  font-size: 0.875rem;
+  border: none;
+  line-height: 1.55;
+}
+
+/* Blockquotes. A left rail and a muted colour, no fill. A blockquote is a
+   quote, not a callout — no panel, no card. */
+.dt-prose blockquote {
+  border-left: 4px solid var(--dt-rule-strong);
+  padding: 0 1rem;
+  margin: 0 0 1rem;
+  color: var(--dt-muted);
+  font-style: normal;
+}
+
+.dt-prose blockquote p { margin-bottom: 0; }
+
+/* Links. Body weight, thin near-transparent underline. The brass is the only
+   loud signal; everything else stays quiet. */
+.dt-prose a {
+  color: var(--dt-link);
+  text-decoration: none;
+  font-weight: inherit;
+  transition: color 0.2s ease, border-color 0.2s ease;
+  border-bottom: 1px solid rgba(138, 90, 0, 0.22);
+}
+
+.dt-prose a:hover {
+  color: var(--dt-link-hover);
+  border-bottom-color: var(--dt-link-hover);
+}
+
+.dt-prose img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  margin: 1.25rem 0;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  border: 1px solid var(--dt-rule-strong);
+}
+
+/* Horizontal rules. gray-400: clearly visible, still neutral, no brand colour. */
+.dt-prose hr {
+  border: none;
+  border-top: 1px solid var(--dt-faint);
+  margin: 2rem 0;
+}
+
+/* Tables. Regular sans, matching the headings, so grids look like the rest of
+   the page. Wrap a table in `<div class="condense-more">` for a denser one. */
+.dt-prose table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 0 0 1rem;
+  border: 1px solid var(--dt-rule-strong);
+  font-family: var(--dt-sans);
+  font-size: 0.875rem;
+}
+
+.dt-prose th,
+.dt-prose td {
+  padding: 0.5rem 0.875rem;
+  text-align: left;
+  border: 1px solid var(--dt-rule-strong);
+  vertical-align: top;
+}
+
+.dt-prose th {
+  background: var(--dt-surface-code);
+  font-weight: 600;
+  color: var(--dt-fg-strong);
+}
+
+.dt-prose tbody tr:nth-child(2n) { background: rgba(0, 0, 0, 0.02); }
+.dt-prose tbody tr:hover { background: #f3f4f6; }
+
+.dt-prose .condense-more table {
+  font-family: var(--dt-condensed);
+  font-size: 0.8125rem;
+  letter-spacing: 0.01em;
+}
+
+.dt-prose .condense-more th,
+.dt-prose .condense-more td {
+  padding: 0.375rem 0.625rem;
+}
+
+/* ===========================================
+   Callout — the one deliberate exception
+   =========================================== */
+
+/* A quiet, monochromatic brass panel for fast scanning by readers and by
+   summarizers. Everything inside lives in the brass tonal scale, uses the sans
+   for density, and runs slightly smaller than the body so it reads as a
+   compressed summary rather than another paragraph. The rest of the article is
+   serif body and neutral chrome; this is the one place brand colour surfaces
+   inside content. */
+.dt-prose .callout {
+  background: var(--dt-callout-bg);
+  border-left: 4px solid var(--dt-callout-rail);
+  padding: 1.25rem 1.5rem;
+  margin: 0 0 1.5rem;
+  border-radius: 0 6px 6px 0;
+  /* Roboto Condensed: same family as the headings so the page reads as one
+     typographic system, but narrower glyphs raise information density per
+     line. This block is meant to be skimmed, so density is the goal, not
+     paragraph-prose comfort. The width contrast against the serif body also
+     signals "a different kind of reading". */
+  font-family: var(--dt-condensed);
+  font-size: 0.9375rem;
+  letter-spacing: 0.01em;
+}
+
+.dt-prose .callout > :first-child { margin-top: 0; }
+.dt-prose .callout > :last-child { margin-bottom: 0; }
+
+.dt-prose .callout-label {
+  font-family: var(--dt-condensed);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--dt-callout-label);
+  margin: 0 0 0.625rem;
+  line-height: 1;
+}
+
+.dt-prose .callout p {
+  margin: 0;
+  /* Deep brass, not slate: the same hue family as the background, which makes
+     the block a single-colour tonal panel. */
+  color: var(--dt-callout-fg);
+  line-height: 1.6;
+}
+
+.dt-prose .callout p + p { margin-top: 0.5rem; }
+
+.dt-prose .callout code {
+  background: rgba(138, 90, 0, 0.08);
+  color: var(--dt-brass);
+  font-size: 0.85em;
+}
+
+/* ===========================================
+   Heading anchors (GitHub style)
+   =========================================== */
+
+/* Positioned absolutely in the left margin so they sit outside the heading's
+   text flow and its border-bottom. */
+.dt-prose h2,
+.dt-prose h3 {
+  position: relative;
+}
+
+.dt-prose .anchor {
+  position: absolute;
+  left: -1.5em;
+  top: 0.35em;
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  opacity: 0;
+  transition: opacity 0.15s ease;
+  color: var(--dt-faint) !important;
+  -webkit-text-fill-color: var(--dt-faint) !important;
+  background: none !important;
+  font-size: 0.75em;
+  line-height: 1;
+  border-bottom: none !important;
+}
+
+.dt-prose h2:hover .anchor,
+.dt-prose h3:hover .anchor,
+.dt-prose .anchor:focus {
+  opacity: 1;
+}
+
+.dt-prose .anchor:hover {
+  color: var(--dt-brass) !important;
+  -webkit-text-fill-color: var(--dt-brass) !important;
+}
+
+/* The gutter anchor has nowhere to go on a narrow screen — it would sit off
+   the viewport edge and force a horizontal scrollbar. */
+@media (max-width: 900px) {
+  .dt-prose .anchor { display: none; }
+}
+
+/* ===========================================
+   Collapsible sections
+   =========================================== */
+
+.dt-prose details {
+  margin-top: 1.5rem;
+  scroll-margin-top: 80px;
+}
+
+.dt-prose details > summary {
+  font-family: var(--dt-sans);
+  font-size: 1.25rem;
+  font-weight: 600;
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+  padding-bottom: 0.3em;
+  border-bottom: 1px solid #e2e8f0;
+  cursor: pointer;
+  list-style: none;
+  display: flex;
+  align-items: baseline;
+  gap: 0.625rem;
+  background: var(--dt-h2-grad);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.dt-prose details > summary::-webkit-details-marker { display: none; }
+
+.dt-prose details > summary::before {
+  content: '▶';
+  font-size: 0.625rem;
+  flex-shrink: 0;
+  transition: transform 0.2s ease;
+  background: none;
+  -webkit-background-clip: unset;
+  background-clip: unset;
+  -webkit-text-fill-color: var(--dt-faint);
+  color: var(--dt-faint);
+}
+
+.dt-prose details[open] > summary::before { transform: rotate(90deg); }
+
+/* ===========================================
+   Right-to-left runs — NEW, not in the source theme
+   =========================================== */
+
+/*
+ * The bilingual text is Hebrew and English in one document, and the two
+ * directions interact in ways that are easy to get wrong.
+ *
+ * `dir="rtl"` on the paragraph is what reorders the text; the Hebrew face and
+ * size come from the `[lang="he"]` rule in Layout.astro. Everything below
+ * handles the things `dir` alone does not fix.
+ */
+
+.dt-prose [dir='rtl'] {
+  text-align: right;
+}
+
+/* Lists, blockquotes and code blocks all carry a left-side affordance that has
+   to move to the right in an RTL block, or the bullet/rail ends up on the
+   wrong side of its own content. */
+.dt-prose [dir='rtl'] ul,
+.dt-prose [dir='rtl'] ol {
+  padding-left: 0;
+  padding-right: 2rem;
+}
+
+.dt-prose [dir='rtl'] blockquote {
+  border-left: none;
+  border-right: 4px solid var(--dt-rule-strong);
+  padding: 0 1rem 0 0;
+}
+
+/* Tables mirror wholesale: the header row and every cell align right. */
+.dt-prose [dir='rtl'] th,
+.dt-prose [dir='rtl'] td {
+  text-align: right;
+}
+
+/*
+ * Bidi isolation for inline runs.
+ *
+ * A Hebrew phrase quoted inside English prose — `"…" (הוא מותיב לה)` — is the
+ * classic trap. Parentheses, quotes, digits and citation numbers are all
+ * bidi-NEUTRAL, so the Unicode algorithm resolves their direction from the
+ * surrounding text and they routinely land on the wrong side of the quoted
+ * phrase. Measured on the source text: 205 lines carry parentheses and 166
+ * carry digits alongside Hebrew.
+ *
+ * `unicode-bidi: isolate` makes the run a self-contained bidi paragraph, so
+ * the neutral characters around it resolve against the OUTER direction and
+ * stay put. The generator emits `<span lang="he">` around every inline Hebrew
+ * run precisely so this rule has something to attach to; `<bdi>` gets the same
+ * treatment for hand-authored markdown.
+ */
+.dt-prose :is(span, bdi)[lang='he'],
+.dt-prose bdi {
+  unicode-bidi: isolate;
+}
+
+/* An inline Hebrew run inside an English paragraph must not inherit the
+   block's RTL alignment or the 1.9 line-height meant for whole Hebrew
+   paragraphs — that would make English lines jump around it. */
+.dt-prose p:not([dir='rtl']) span[lang='he'] {
+  line-height: inherit;
+}
+
+/* ===========================================
+   Bilingual chapter layout — NEW
+   =========================================== */
+
+/*
+ * The chapters are Hebrew and English stacked, one language block after the
+ * other, which is how the source document is written and what the reader asked
+ * for. The two are marked off by a label rather than by a rule, so a long
+ * Hebrew stretch does not look like a separate document.
+ *
+ * Deliberately NOT two columns. The paragraphs pair 174-to-174, but the
+ * longest Hebrew paragraph is 7211 characters, so the languages never have
+ * equal heights and a naive two-column layout desynchronizes on the first
+ * screen. A per-paragraph grid would fix that and is the right answer if this
+ * ever becomes side-by-side.
+ */
+
+.dt-lang-heading {
+  font-family: var(--dt-condensed);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--dt-faint);
+  margin: 2.5rem 0 0.75rem;
+  padding-bottom: 0.4rem;
+  border-bottom: 1px solid var(--dt-rule);
+  /* Kill the inherited h2/h3 gradient and its own border treatment. */
+  background: none !important;
+  -webkit-text-fill-color: var(--dt-faint) !important;
+}
+
+.dt-lang-heading:first-child { margin-top: 0; }
+
+/* The Hebrew block gets a little more air than the English, because
+   unvocalized square script at 1.15em is denser per line. */
+.dt-lang-block[lang='he'] {
+  margin-bottom: 1.5rem;
+}
+
+/* ===========================================
+   Mobile
+   =========================================== */
+
+@media (max-width: 768px) {
+  .dt-page-title { font-size: 2rem; }
+  .dt-page-description { font-size: 1.05rem; }
+
+  .dt-prose { font-size: 1rem; }
+  .dt-prose h1 { font-size: 1.75rem; margin-top: 2rem; }
+  .dt-prose h2 { font-size: 1.375rem; margin-top: 1.75rem; }
+  .dt-prose h3 { font-size: 1.125rem; margin-top: 1.25rem; }
+  .dt-prose details > summary { font-size: 1.125rem; }
+
+  /* Tables are the one thing that cannot reflow. Let the block scroll rather
+     than forcing the whole page to. */
+  .dt-prose table { display: block; overflow-x: auto; white-space: nowrap; }
+}

@@ -32,9 +32,9 @@ because the refutation brings no new source.
 
 ## 0. The short version
 
-1. **The glyphs are from `icons_v3`.** `npm run glyphs` (`viz/scripts/extract-glyphs.ts`)
+1. **The glyphs are from `icons_v3`.** `npm run glyphs` (`site/scripts/extract-glyphs.ts`)
    pulls the bodies, replaces hex colours with `currentColor`, and writes
-   `viz/src/glyphs.ts`. Forty of the old bodies are unchanged. Thirteen
+   `site/src/rail/glyphs.ts`. Forty of the old bodies are unchanged. Thirteen
    chapter 4 tiles were redrawn. Eleven kinds are new. Chapter 5's wide
    36×24 icons and every chapter 8 landscape are too busy for a bead: they
    fall back to a dot, as v4's four busy glyphs already did.
@@ -67,11 +67,11 @@ because the refutation brings no new source.
 When the layer is off the sheet is v5. When it is on, the new family is a
 fifth pill in the lens row, on by default, remembered with the rest.
 
-![Pesachim 16a, the layer on: derived tradition on the testimony, explicit “does not reach” on Rav Papa, deduction on Rav Huna](viz/out/pesachim-layer-on.png)
+![Pesachim 16a, the layer on: derived tradition on the testimony, explicit “does not reach” on Rav Papa, deduction on Rav Huna](renders/pesachim-layer-on.png)
 
-![The derived ground on Yosi ben Yo'ezer's testimony](viz/out/pesachim-ground-tip.png)
+![The derived ground on Yosi ben Yo'ezer's testimony](renders/pesachim-ground-tip.png)
 
-![Rav Papa's explicit ground: real, but it does not reach](viz/out/pesachim-reach-tip.png)
+![Rav Papa's explicit ground: real, but it does not reach](renders/pesachim-reach-tip.png)
 
 ---
 
@@ -133,13 +133,13 @@ Still unexercised by any shipped passage: `dilemma`, `theory`,
 `variant-subjects`, `ground-axiom`, `ground-sense`, `ground-common-sense`.
 They are in the vocabulary and the legend and on no row.
 
-![The Relations lens, with the tile key](viz/out/lens-relations-tile.png)
+![The Relations lens, with the tile key](renders/lens-relations-tile.png)
 
-![Bava Metzia 22b at the סתירה: the analogy, and *by deduction* beside it](viz/out/bm-49.png)
+![Bava Metzia 22b at the סתירה: the analogy, and *by deduction* beside it](renders/bm-49.png)
 
-![Bava Metzia at step 12: fourteen badges, three of them magenta, two beads](viz/out/bm-12.png)
+![Bava Metzia at step 12: fourteen badges, three of them magenta, two beads](renders/bm-12.png)
 
-![Berachos 4a: the redrawn chapter 4 tiles](viz/out/berachos.png)
+![Berachos 4a: the redrawn chapter 4 tiles](renders/berachos.png)
 
 ---
 
@@ -177,9 +177,9 @@ established by the other reading's failure, so `via-opposite` sits beside
 the tollens. And Rabbah's `מי דמי?!` is Ramchal's own recognizer for
 `fallacy-not-similar`, marked.
 
-![Gittin at step 10: `variant` on Rava, the analogism and its derived ground, the inclusion that fails, and the maxim that does not reach](viz/out/git-10.png)
+![Gittin at step 10: `variant` on Rava, the analogism and its derived ground, the inclusion that fails, and the maxim that does not reach](renders/git-10.png)
 
-![Gittin at step 30: `via-opposite` on the phrasing argument, `מי דמי?!` as a marked `fallacy-not-similar`, both threads folded](viz/out/git-30.png)
+![Gittin at step 30: `via-opposite` on the phrasing argument, `מי דמי?!` as a marked `fallacy-not-similar`, both threads folded](renders/git-30.png)
 
 Filling in `provenance` changed the page beyond the badges: thirteen units
 are `tradition`, so the mishnah now opens **accepted** instead of in doubt,
@@ -276,25 +276,25 @@ premises stay in `ext`.
 | File | Change |
 |---|---|
 | `icons_v3/` | the source set (72 icons). `ICONS_REFERENCE.md` is the contract for using them; `METHODOLOGY.md` is the contract for making them |
-| `viz/scripts/extract-glyphs.ts` | new — reads the v3 SVGs, strips hex colours, writes `glyphs.ts` |
-| `viz/src/glyphs.ts` | regenerated: 64 bodies + `TILE_GLYPH`; `WIDE_GLYPHS`; `BUSY_GLYPHS` grown |
-| `viz/src/anatomy.ts` | `variant-subjects`, `fallacy-not-included`, nine grounds; `Family` includes `grounds`; `Hue` includes `magenta`; `GROUND_OF_PROVENANCE`, `GROUND_ELEMENTS`, `groundBadge` |
-| `viz/src/theme.ts`, `viz/src/app/styles.css` | `--magenta`; lens / badge / tip styles for the fifth family |
-| `viz/src/app/components/Glyph.tsx` | `glyphAspect`, `glyphBox` — wide chips, square chips |
-| `viz/src/app/components/BeadLayer.tsx` | uses `glyphBox` |
-| `viz/src/app/components/LegendBar.tsx` | chapters 1–8; Grounds lens; `TileKey` on the Relations tooltip |
-| `viz/src/app/components/BadgeTip.tsx` | grounds edge wording |
-| `viz/src/app/hooks/useAnatomyLayer.ts` | `grounds` default on; a missing stored family defaults on |
-| `viz/src/app/useSugyaController.ts` | `badgesAt` appends a derived ground last; an explicit ch. 8 label suppresses it |
-| `viz/src/sugyot/sugya.schema.json` | enum +11 |
-| `viz/src/format.ts` | comments 64 / chapters 1–8 |
-| `viz/src/index.ts` | exports the new APIs |
-| `viz/src/fixtures/pesachim-liquids.ts` | Rav Papa `ground-does-not-reach`; Rav Huna `ground-deduction` |
-| `viz/src/fixtures/bava-metzia-yeush.ts` | sentence 49 `ground-deduction` |
-| `viz/src/fixtures/research/skeleton.ts` | `RowTags` carries optional `provenance` and `anatomy` |
-| `viz/src/fixtures/research/git-2a-befanai.ts` | 19 labels on 16 rows, `provenance` on 25; two rows' Hebrew extended to the `מידי דהוה א…` clause |
-| `viz/src/check.ts` | 64 types; `groundBadge` cases; fixture asserts |
+| `site/scripts/extract-glyphs.ts` | new — reads the v3 SVGs, strips hex colours, writes `glyphs.ts` |
+| `site/src/rail/glyphs.ts` | regenerated: 64 bodies + `TILE_GLYPH`; `WIDE_GLYPHS`; `BUSY_GLYPHS` grown |
+| `site/src/rail/anatomy.ts` | `variant-subjects`, `fallacy-not-included`, nine grounds; `Family` includes `grounds`; `Hue` includes `magenta`; `GROUND_OF_PROVENANCE`, `GROUND_ELEMENTS`, `groundBadge` |
+| `site/src/rail/theme.ts`, `site/src/rail/app/styles.css` | `--magenta`; lens / badge / tip styles for the fifth family |
+| `site/src/rail/app/components/Glyph.tsx` | `glyphAspect`, `glyphBox` — wide chips, square chips |
+| `site/src/rail/app/components/BeadLayer.tsx` | uses `glyphBox` |
+| `site/src/rail/app/components/LegendBar.tsx` | chapters 1–8; Grounds lens; `TileKey` on the Relations tooltip |
+| `site/src/rail/app/components/BadgeTip.tsx` | grounds edge wording |
+| `site/src/rail/app/hooks/useAnatomyLayer.ts` | `grounds` default on; a missing stored family defaults on |
+| `site/src/rail/app/useSugyaController.ts` | `badgesAt` appends a derived ground last; an explicit ch. 8 label suppresses it |
+| `site/src/rail/sugyot/sugya.schema.json` | enum +11 |
+| `site/src/rail/format.ts` | comments 64 / chapters 1–8 |
+| `site/src/rail/index.ts` | exports the new APIs |
+| `site/src/rail/fixtures/pesachim-liquids.ts` | Rav Papa `ground-does-not-reach`; Rav Huna `ground-deduction` |
+| `site/src/rail/fixtures/bava-metzia-yeush.ts` | sentence 49 `ground-deduction` |
+| `site/src/rail/fixtures/research/skeleton.ts` | `RowTags` carries optional `provenance` and `anatomy` |
+| `site/src/rail/fixtures/research/git-2a-befanai.ts` | 19 labels on 16 rows, `provenance` on 25; two rows' Hebrew extended to the `מידי דהוה א…` clause |
+| `site/src/rail/check.ts` | 64 types; `groundBadge` cases; fixture asserts |
 | `SUGYA_JSON_FORMAT.md` | §4.2, §4.4, §5.2, §7 |
 | `DERECH_TEVUNOS_FOR_AGENTS.md` | §0, §6, §8 visualization keys |
 | `DERECH_TEVUNOS_SUGYA_JSON_GUIDE.md` | inventory, vocabularies, Layer D, checklist |
-| `README.md`, `viz/README.md` | the v6 pointer; `npm run glyphs` |
+| `README.md`, `AGENTS.md` | the v6 pointer; `npm run glyphs` |

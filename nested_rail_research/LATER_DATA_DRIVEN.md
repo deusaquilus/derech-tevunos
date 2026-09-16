@@ -19,8 +19,8 @@ view.json  ──▶ ViewConfig ────────────────
 state.json ──▶ FoldState (or: replay(steps, toggles)) ────┘
 ```
 
-New modules when the time comes: `viz/src/scene.ts` (Scene types, `sceneOf`),
-`viz/src/config.ts` (`ViewConfig`, defaults), `viz/src/parse.ts`
+New modules when the time comes: `site/src/rail/scene.ts` (Scene types, `sceneOf`),
+`site/src/rail/config.ts` (`ViewConfig`, defaults), `site/src/rail/parse.ts`
 (`parseSugya`), `viz/schema/sugya.schema.json` (generated),
 `viz/test/scenes/*.json` (golden snapshots).
 
@@ -194,17 +194,17 @@ bands.
 Each ships on its own. They follow the visualization; A is a prerequisite for
 C and D; B is independent.
 
-**A — Scene extraction.** `viz/src/scene.ts`, `sceneOf` over the fold tree,
+**A — Scene extraction.** `site/src/rail/scene.ts`, `sceneOf` over the fold tree,
 `<SceneView/>`; golden snapshots under `viz/test/scenes/`. *Done when:* the
 app looks and behaves exactly as before and the golden files pass.
 
-**B — Config.** `viz/src/config.ts` gathers `LONG_REACH`, `HORIZON`,
+**B — Config.** `site/src/rail/config.ts` gathers `LONG_REACH`, `HORIZON`,
 `LONG_SUGYA`, `BEADS_ON_ELBOWS`, `RAIL_WIDTH`, `LATTICE_MARGIN`, `INDENT`,
 `LANE_GAP` and the fold `Policy` into `ViewConfig` with defaults, threaded as a
 parameter.
 
-**C — JSON documents.** `viz/src/parse.ts` and the schema; fixtures move to
-`viz/src/fixtures/*.sugya.json` with `fixtures/index.ts` importing them
+**C — JSON documents.** `site/src/rail/parse.ts` and the schema; fixtures move to
+`site/src/rail/fixtures/*.sugya.json` with `fixtures/index.ts` importing them
 (`with { type: "json" }` works in Node 22+ and Vite); `state.json` load/save
 for deep links; the app takes `?sugya=…&view=…&state=…`. *Done when:* a sugya
 file that is not in the repository renders from a URL with no code change, and

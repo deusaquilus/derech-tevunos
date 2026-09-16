@@ -1,0 +1,135 @@
+---
+import Navigation from '../components/Navigation.astro';
+import Footer from '../components/Footer.astro';
+import '../styles/tokens.css';
+
+interface Props {
+  title?: string;
+  description?: string;
+  /** When true, emit robots noindex. Keep in sync with SITEMAP_EXCLUDE in astro.config.mjs. */
+  noindex?: boolean;
+  /** Real name of the page author. Set on every blog post. */
+  author?: string;
+  /**
+   * Social-card image for og:image and twitter:image only; never rendered on
+   * the page. Site-relative path or absolute URL. Unset falls back to the
+   * mascot card, which is a logo and carries no information scent — set it per
+   * post to the article's own banner so a shared link shows the subject
+   * rather than a cartoon.
+   */
+  image?: string;
+  /** Suppress the light-page top padding: the rail supplies its own. */
+  bare?: boolean;
+}
+
+const {
+  title = 'Derech Tevunos',
+  description =
+    "Ramchal's Derech Tevunos as a system for labelling dialectical text, and a visualization that draws a sugya as a waterfall of those labels.",
+  noindex = false,
+  author,
+  image,
+  bare = false,
+} = Astro.props;
+
+const site = Astro.site ?? new URL('https://derechtevunos.com');
+// new URL() ignores the base when `image` is already absolute, so a
+// site-relative path and a full URL both work.
+const ogImage = new URL(image ?? '/social-card.png', site).href;
+// Slash-free canonical. This tag, the sitemap serialize hook
+// (astro.config.mjs) and `trailingSlash: false` (vercel.json) are three places
+// that must always agree. Do not "fix" this back to a trailing slash — see
+// AGENTS.md, "Doctrine carried over from exobench-site".
+const canonicalPath =
+  Astro.url.pathname === '/' ? '/' : Astro.url.pathname.replace(/\/$/, '');
+const canonicalUrl = new URL(canonicalPath, site).href;
+---
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={description} />
+    {author && <meta name="author" content={author} />}
+    {noindex && <meta name="robots" content="noindex" />}
+    <link rel="canonical" href={canonicalUrl} />
+    <link rel="alternate" type="application/rss+xml" title="Derech Tevunos" href="/rss.xml" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:site_name" content="Derech Tevunos" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+
+    <title>{title}</title>
+    <link rel="icon" type="image/png" sizes="32x32" href="/mark-32.png" />
+    <link rel="icon" type="image/png" sizes="48x48" href="/mark-48.png" />
+    <link rel="icon" type="image/png" sizes="64x64" href="/mark-64.png" />
+    <link rel="apple-touch-icon" href="/mark-180.png" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;600;700&family=Roboto+Condensed:wght@400;500;600;700&family=Roboto+Serif:opsz,wght@8..144,400;8..144,500;8..144,600;8..144,700&family=Frank+Ruhl+Libre:wght@400;500;700&family=JetBrains+Mono:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body class={bare ? 'dt-bare' : undefined}>
+    <Navigation />
+    <main id="main">
+      <slot />
+    </main>
+    <Footer />
+  </body>
+</html>
+
+<style is:global>
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
+  body {
+    margin: 0;
+    font-family: var(--dt-sans);
+    background: var(--dt-ink);
+    color: var(--dt-chrome-fg);
+    line-height: 1.6;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  body > main {
+    flex: 1;
+    min-width: 0;
+  }
+
+  /* Skip-link target: the sticky nav would otherwise cover the heading. */
+  #main {
+    scroll-margin-top: var(--dt-nav-clearance);
+  }
+
+  a {
+    color: inherit;
+  }
+
+  /* Hebrew runs. Applied by the text generator to whole paragraphs; `dir` on
+     the element is what actually reorders, the font and size just make it
+     legible. Unvocalized Hebrew at the Latin body size reads small, so it gets
+     a step up and looser leading. */
+  [lang='he'] {
+    font-family: var(--dt-hebrew);
+    font-size: 1.15em;
+    line-height: 1.9;
+  }
+</style>

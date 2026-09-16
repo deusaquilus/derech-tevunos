@@ -2,11 +2,11 @@
 
 *One Talmudic passage as JSON: everything the page renders, nothing it derives.*
 
-Format `derech-tevunos/sugya`, version `1`. Implementation: `viz/src/format.ts`.
-Schema for editors: `viz/src/sugyot/sugya.schema.json`. The nine passages the
-app ships with are `viz/src/sugyot/*.json`, and every one of them is checked
+Format `derech-tevunos/sugya`, version `1`. Implementation: `site/src/rail/format.ts`.
+Schema for editors: `site/src/rail/sugyot/sugya.schema.json`. The nine passages the
+app ships with are `site/src/rail/sugyot/*.json`, and every one of them is checked
 against its hand-written TypeScript original for identical data, identical
-analysis and an identical drawing (`npm test` in `viz/`).
+analysis and an identical drawing (`npm run check:rail` in `site/`).
 
 ---
 
@@ -78,13 +78,13 @@ ch. 1–8 badges — is opt-in per unit.
 
 ## 2. How a file is loaded
 
-**Shipped.** `viz/src/sugyot/index.ts` imports each file and passes it through
+**Shipped.** `site/src/rail/sugyot/index.ts` imports each file and passes it through
 `parseSugya`. A file with a fault fails at import, naming every fault; nothing
 half-valid reaches the page. To ship a passage: put the file in that directory
 and add one line to `FILES`. Order there is gallery and tab order.
 
 **Opened at runtime.** `#/open` is a page of its own
-(`viz/src/app/pages/OpenPage.tsx`): its own chrome, not a tab of the shipped
+(`site/src/rail/app/pages/OpenPage.tsx`): its own chrome, not a tab of the shipped
 lattice. It takes a file dropped on it, chosen from the picker, or pasted into
 its box. The same `parseSugya` runs on it. If it passes, the passage is drawn
 there by the same `SugyaView` every shipped passage is drawn by, and the route
@@ -97,7 +97,7 @@ at and nothing is drawn. Beside the drawn passage sit *Download canonical form*
 **From code.** `parseSugya(json, sourceName)` returns a `Sugya` or throws a
 `SugyaFormatError` whose `.faults` is the list; `toJson(sugya)` and
 `stringify(sugya)` go the other way. All three are exported from the barrel
-`viz/src/index.ts`.
+`site/src/rail/index.ts`.
 
 ---
 
@@ -308,7 +308,7 @@ asserts the schema's enums equal them, so the three cannot drift: the reader
 | ch. 8 · what a proof or disproof stands on | `ground-axiom` `ground-sense` `ground-common-sense` `ground-tradition` `ground-deduction` `via-opposite` `dilemma` `ground-does-not-reach` `theory` |
 
 Definitions, stock words, pages and the number of separable intentions each
-form has are in `viz/src/anatomy.ts`, one entry per kind; the chip labels and
+form has are in `site/src/rail/anatomy.ts`, one entry per kind; the chip labels and
 tooltips on the page come from there. `variant` is same subject, two predicates;
 `variant-subjects` is same predicate, two subjects. The four `ground-*` sources
 of certainty that match `provenance` (`sense`, `axiom`, `endoxa`, `tradition`)
@@ -454,7 +454,7 @@ Not enforced by the reader; how the shipped files are written.
 - **`marker`** is a signpost of the *move*, not of its content — `תא שמע`,
   `אלא`, `הכא במאי עסקינן`, `מאי שנא … ומאי שנא` — generalised with `…` and
   `פלוני`. A phrase that only happens to occur in the sentence is not a marker.
-  The lexicon is `viz/src/markers.ts`.
+  The lexicon is `site/src/rail/markers.ts`.
 - **`attested`** is `true` only where Ramchal labels *this* sentence of *this*
   passage. Say `attested: false` explicitly on a passage he discusses when one
   unit's label is yours, and explain in `note`.
@@ -472,12 +472,12 @@ Not enforced by the reader; how the shipped files are written.
 
 | | |
 |---|---|
-| `viz/src/format.ts` | `parseSugya`, `SugyaFormatError`, `toJson`, `stringify`, the `*Json` types |
-| `viz/src/sugyot/sugya.schema.json` | JSON Schema 2020-12 |
-| `viz/src/sugyot/*.json` | the nine shipped passages |
-| `viz/src/sugyot/index.ts` | loads them: `SUGYOT`, `sugyaById`, `ofCollection` |
-| `viz/src/app/sugyot.ts` | `useSugyot` is the shipped lattice; `useOpened` / `openSugya` are the loader page's session |
-| `viz/src/app/pages/OpenPage.tsx` | the loader page: drop, pick or paste a file; the faults, or the passage drawn |
-| `viz/src/app/markup.tsx` | `renderMarkup` — the `hint` markup |
-| `viz/src/fixtures/*.ts` | the same passages as TypeScript, the oracle the JSON is checked against |
-| `viz/src/check.ts` → *The file format* | the checks: equivalence per passage, the reader's refusals, schema ↔ code |
+| `site/src/rail/format.ts` | `parseSugya`, `SugyaFormatError`, `toJson`, `stringify`, the `*Json` types |
+| `site/src/rail/sugyot/sugya.schema.json` | JSON Schema 2020-12 |
+| `site/src/rail/sugyot/*.json` | the nine shipped passages |
+| `site/src/rail/sugyot/index.ts` | loads them: `SUGYOT`, `sugyaById`, `ofCollection` |
+| `site/src/rail/app/sugyot.ts` | `useSugyot` is the shipped lattice; `useOpened` / `openSugya` are the loader page's session |
+| `site/src/rail/app/pages/OpenPage.tsx` | the loader page: drop, pick or paste a file; the faults, or the passage drawn |
+| `site/src/rail/app/markup.tsx` | `renderMarkup` — the `hint` markup |
+| `site/src/rail/fixtures/*.ts` | the same passages as TypeScript, the oracle the JSON is checked against |
+| `site/src/rail/check.ts` → *The file format* | the checks: equivalence per passage, the reader's refusals, schema ↔ code |

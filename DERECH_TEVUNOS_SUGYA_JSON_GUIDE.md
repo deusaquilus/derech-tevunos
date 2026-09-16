@@ -2,7 +2,7 @@
 
 **Ramchal's system for annotating dialectical text, and the file format it is written into. One guide, for agents.**
 
-**What this is.** A self-contained reference for an agent whose job is to take a passage — Talmudic or otherwise — segment it, normalize each utterance, classify what it *is*, what it *does*, how it is *warranted*, and along which *distinction* it turns (the system of *Derech Tevunos*, R. Moshe Chaim Luzzatto, *The Ways of Reason*), and then write the result as a **sugya file**: format `derech-tevunos/sugya`, version `1`, the JSON the visualization at `viz/` reads. It supersedes the two documents it consolidates, `DERECH_TEVUNOS_FOR_AGENTS.md` (the system) and `SUGYA_JSON_FORMAT.md` (the file), and carries everything in both.
+**What this is.** A self-contained reference for an agent whose job is to take a passage — Talmudic or otherwise — segment it, normalize each utterance, classify what it *is*, what it *does*, how it is *warranted*, and along which *distinction* it turns (the system of *Derech Tevunos*, R. Moshe Chaim Luzzatto, *The Ways of Reason*), and then write the result as a **sugya file**: format `derech-tevunos/sugya`, version `1`, the JSON the visualization reads. It supersedes the two documents it consolidates, `DERECH_TEVUNOS_FOR_AGENTS.md` (the system) and `SUGYA_JSON_FORMAT.md` (the file), and carries everything in both.
 
 **The one fact to hold in mind throughout.** The file format is younger than the system. Every one of Ramchal's constructs has a key in this guide, but only some of them have a home in the file today: the nineteen moves, the six provenances, the three parties, and sixty-four "anatomy" labels (the forms of a statement, the relations between two, the kinds of derivation and their failures, and what a proof or disproof stands on). The rest — the normalized subject and predicate, the premises of a proof, the remaining rebuttal and style kinds, aspects, modality, the twenty-four axes, composites — are **pending**: they are written into the file's `ext` bag under the field names given here, are carried through untouched, and will move into the schema proper as each earns a renderer. §4 is the complete inventory of what is present and what is pending; every construct's own entry in Part II says which it is and shows the JSON either way.
 
@@ -36,7 +36,7 @@ A file is a **sugya**: a passage's metadata, then its **units** — the sentence
 
 Everything else on the page is **derived** and is *not* in the file: depth (from the chain of targets), standing and status (from the moves that land on a unit — §13), the verdict pill, the movements a passage divides into, the folds, the bands, the rails, the handles, whether a label reads *attested*, *marked* or *inferred*, and the *Talmud itself* badge on a sentence with no speaker. If two files have the same units they draw the same page. Do not emit status or standing.
 
-The smallest complete file, exactly as shipped (`viz/src/sugyot/yebamos-deafmute.json`) — Ramchal's own illustration of שאלה and תשובה:
+The smallest complete file, exactly as shipped (`site/src/rail/sugyot/yebamos-deafmute.json`) — Ramchal's own illustration of שאלה and תשובה:
 
 ```json
 {
@@ -288,7 +288,7 @@ Two rules the reader enforces. A **row-level** kind (speakers, statement anatomy
 
 ## §3 · The closed vocabularies
 
-Every closed list in the file is a constant in the code, and `npm test` asserts the schema's enums equal them, so the three cannot drift: the reader (`viz/src/format.ts`), the schema (`viz/src/sugyot/sugya.schema.json`) and the vocabulary modules (`taxonomy.ts`, `anatomy.ts`, `sugya.ts`).
+Every closed list in the file is a constant in the code, and `npm test` asserts the schema's enums equal them, so the three cannot drift: the reader (`site/src/rail/format.ts`), the schema (`site/src/rail/sugyot/sugya.schema.json`) and the vocabulary modules (`taxonomy.ts`, `anatomy.ts`, `sugya.ts`).
 
 ### 3.1 Sugya-level and unit-level enums
 
@@ -346,7 +346,7 @@ Effects for the four adjudicating elements are fixed by the text. Ramchal pins t
 | why a derivation fails | ch. 7 | `fallacy-not-included` `fallacy-not-similar` `fallacy-not-greater` `fallacy-counterexample` |
 | what a proof or disproof stands on | ch. 8 | `ground-axiom` `ground-sense` `ground-common-sense` `ground-tradition` `ground-deduction` `via-opposite` `dilemma` `ground-does-not-reach` `theory` |
 
-Definitions, stock words, pages and the number of separable intentions each form has are in `viz/src/anatomy.ts`, one entry per kind; the chip labels and tooltips on the page come from there. Three names differ from the older agents' guide: the guide's `converse-complete` is `converse` here; the guide's `infer/opposite` on a partial statement is `absolute-opposite` here; and `syllogism` (a derivation that fits no more specific kind) exists only here. The guide's one `variant` is two kinds here (`variant` / `variant-subjects`). Four warrant keys have icons under different names: `proof/indirect` is `via-opposite`, `disproof/dilemma` is `dilemma`, `rebuttal/irrelevant` is `ground-does-not-reach`, `sevara` is `theory`. The four sources of certainty that match `provenance` are usually derived, not written.
+Definitions, stock words, pages and the number of separable intentions each form has are in `site/src/rail/anatomy.ts`, one entry per kind; the chip labels and tooltips on the page come from there. Three names differ from the older agents' guide: the guide's `converse-complete` is `converse` here; the guide's `infer/opposite` on a partial statement is `absolute-opposite` here; and `syllogism` (a derivation that fits no more specific kind) exists only here. The guide's one `variant` is two kinds here (`variant` / `variant-subjects`). Four warrant keys have icons under different names: `proof/indirect` is `via-opposite`, `disproof/dilemma` is `dilemma`, `rebuttal/irrelevant` is `ground-does-not-reach`, `sevara` is `theory`. The four sources of certainty that match `provenance` are usually derived, not written.
 
 ---
 
@@ -548,33 +548,33 @@ Faults an agent makes most often, and the fix:
 
 ### 5.3 How a file is loaded
 
-**Shipped.** `viz/src/sugyot/index.ts` imports each file and passes it through `parseSugya`. A file with a fault fails at import, naming every fault; nothing half-valid reaches the page. To ship a passage: put the file in that directory and add one line to `FILES`. Order there is gallery and tab order.
+**Shipped.** `site/src/rail/sugyot/index.ts` imports each file and passes it through `parseSugya`. A file with a fault fails at import, naming every fault; nothing half-valid reaches the page. To ship a passage: put the file in that directory and add one line to `FILES`. Order there is gallery and tab order.
 
 **Opened at runtime — how to look at what you have written.** `#/open` is a page of its own: its own chrome, not a tab of the shipped lattice. It takes a file dropped on it, chosen from its picker, or pasted into its box, and runs the same `parseSugya` on it. If it passes, the passage is drawn there by the same `SugyaView` every shipped passage uses, the route becomes `#/open/<id>`, and the file is kept in `sessionStorage` so a reload on that page redraws it. It does not join the shipped tabs or the gallery. If it fails, every fault is listed with the path it was found at and nothing is drawn: this is the fastest way to check a file you have just written. *Download canonical form* beside the drawn passage gives back the file in the canonical order of §5.2, and the file's own `about` is shown there under *The file's own preface*.
 
-**From code.** `parseSugya(json, sourceName)` returns a `Sugya` or throws a `SugyaFormatError` whose `.faults` is the list; `toJson(sugya)` and `stringify(sugya)` go the other way. All three are exported from the barrel `viz/src/index.ts`. Node 22 runs the TypeScript directly, so a one-line check of an agent's output is:
+**From code.** `parseSugya(json, sourceName)` returns a `Sugya` or throws a `SugyaFormatError` whose `.faults` is the list; `toJson(sugya)` and `stringify(sugya)` go the other way. All three are exported from the barrel `site/src/rail/index.ts`. Node 22 runs the TypeScript directly, so a one-line check of an agent's output is:
 
 ```
-node -e 'import("./viz/src/format.ts").then(m => { m.parseSugya(JSON.parse(require("fs").readFileSync(process.argv[1], "utf8")), process.argv[1]); console.log("ok"); })' out.json
+node -e 'import("./site/src/rail/format.ts").then(m => { m.parseSugya(JSON.parse(require("fs").readFileSync(process.argv[1], "utf8")), process.argv[1]); console.log("ok"); })' out.json
 ```
 
 ### 5.4 Where things are
 
 | | |
 |---|---|
-| `viz/src/format.ts` | `parseSugya`, `SugyaFormatError`, `toJson`, `stringify`, the `*Json` types |
-| `viz/src/sugyot/sugya.schema.json` | JSON Schema 2020-12 |
-| `viz/src/sugyot/*.json` | the nine shipped passages |
-| `viz/src/sugyot/index.ts` | loads them: `SUGYOT`, `sugyaById`, `ofCollection` |
-| `viz/src/taxonomy.ts` | the seven elements, nineteen leaves, effects (`LEAVES`) |
-| `viz/src/anatomy.ts` | the sixty-four kinds (`ENTRIES`), families, levels |
-| `viz/src/markers.ts` | the stock-phrase lexicon Ramchal himself gives, one leaf per phrase |
-| `viz/src/sugya.ts` | `analyze`: depth, standing, status, movements — the reducer of §13 |
-| `viz/src/app/sugyot.ts` | `useSugyot` is the shipped lattice; `useOpened` / `openSugya` are the loader page's session |
-| `viz/src/app/pages/OpenPage.tsx` | the loader page: drop, pick or paste a file; the faults, or the passage drawn |
-| `viz/src/app/markup.tsx` | `renderMarkup` — the `hint` markup |
-| `viz/src/fixtures/*.ts` | the same passages as TypeScript, the oracle the JSON is checked against |
-| `viz/src/check.ts` → *The file format* | the checks: equivalence per passage, the reader's refusals, schema ↔ code |
+| `site/src/rail/format.ts` | `parseSugya`, `SugyaFormatError`, `toJson`, `stringify`, the `*Json` types |
+| `site/src/rail/sugyot/sugya.schema.json` | JSON Schema 2020-12 |
+| `site/src/rail/sugyot/*.json` | the nine shipped passages |
+| `site/src/rail/sugyot/index.ts` | loads them: `SUGYOT`, `sugyaById`, `ofCollection` |
+| `site/src/rail/taxonomy.ts` | the seven elements, nineteen leaves, effects (`LEAVES`) |
+| `site/src/rail/anatomy.ts` | the sixty-four kinds (`ENTRIES`), families, levels |
+| `site/src/rail/markers.ts` | the stock-phrase lexicon Ramchal himself gives, one leaf per phrase |
+| `site/src/rail/sugya.ts` | `analyze`: depth, standing, status, movements — the reducer of §13 |
+| `site/src/rail/app/sugyot.ts` | `useSugyot` is the shipped lattice; `useOpened` / `openSugya` are the loader page's session |
+| `site/src/rail/app/pages/OpenPage.tsx` | the loader page: drop, pick or paste a file; the faults, or the passage drawn |
+| `site/src/rail/app/markup.tsx` | `renderMarkup` — the `hint` markup |
+| `site/src/rail/fixtures/*.ts` | the same passages as TypeScript, the oracle the JSON is checked against |
+| `site/src/rail/check.ts` → *The file format* | the checks: equivalence per passage, the reader's refusals, schema ↔ code |
 
 ### 5.5 What the shipped passages use — the construct inventory
 
@@ -604,7 +604,7 @@ Not enforced by the reader; how the shipped files are written, and how an agent'
 - **One unit, one target.** When a sentence both answers a difficulty and proves the original claim (Berachos 20b, §16), split it into a resolution targeting the difficulty and a proof targeting the claim; the reducer cannot otherwise give the claim its due.
 - **`target` is the shorter reach** when a move could be read as acting on two earlier units. The others go in `ext.move.targets`.
 - **`speaker`** is given when the sentence names one, including *Mishnah* for a mishnah and a verse's citation for a verse. A nameless stam sentence, and an `אמר לך פלוני` put in someone's mouth by the Gemara, carry none. For a dialogue, the party's name or letter.
-- **`marker`** is a signpost of the *move*, not of its content — `תא שמע`, `אלא`, `הכא במאי עסקינן`, `מאי שנא … ומאי שנא` — generalised with `…` and `פלוני`. A phrase that only happens to occur in the sentence is not a marker. The lexicon Ramchal himself gives is `viz/src/markers.ts`; §8 lists more, marked `[supplied]` where the book does not cite them. A non-Talmudic text has no markers: every label is *inferred*.
+- **`marker`** is a signpost of the *move*, not of its content — `תא שמע`, `אלא`, `הכא במאי עסקינן`, `מאי שנא … ומאי שנא` — generalised with `…` and `פלוני`. A phrase that only happens to occur in the sentence is not a marker. The lexicon Ramchal himself gives is `site/src/rail/markers.ts`; §8 lists more, marked `[supplied]` where the book does not cite them. A non-Talmudic text has no markers: every label is *inferred*.
 - **`attested`** is `true` only where Ramchal labels *this* sentence of *this* passage. Say `attested: false` explicitly on a passage he discusses when one unit's label is yours, and explain in `note`. On a passage he does not discuss, omit it or write `false` throughout.
 - **`provenance`** is `tradition` for a mishnah, baraita or verse, whether stated or brought as evidence; `derivation` for a resolution, an inference, or any reasoning; `asserted` for a rabbi's ruling on his own authority; `sense`, `axiom`, `endoxa` when a premise of that kind is itself the unit. It is about the unit's *own* authority; the provenance of the premises a unit leans on goes in `ext.warrant.premises[].provenance`.
 - **`short`** is worth writing by hand on any passage long enough to fold; it is what the reader sees on a band while the sentences under it are hidden.
@@ -3073,7 +3073,7 @@ In the file: these govern `about` (what the passage is, then how it was labelled
 
 ## §13 · Status — the reducer, as implemented and as the book has it
 
-Status and standing are derived; the file never carries them. This section says how `analyze` in `viz/src/sugya.ts` computes them, so that an agent can predict the verdict its file will draw and adjust segmentation and provenance until the verdict matches the Talmud's.
+Status and standing are derived; the file never carries them. This section says how `analyze` in `site/src/rail/sugya.ts` computes them, so that an agent can predict the verdict its file will draw and adjust segmentation and provenance until the verdict matches the Talmud's.
 
 ### The book's reducer
 
@@ -3765,7 +3765,7 @@ A dialogue between two lawyers, A and B (the calibration transfer case):
 
 **Interpretive effects.** The book fixes effects for the adjudicating elements (proof raises; contradiction rejects; resolution and answer discharge; difficulty unsettles) and for דחיה and שינוי. Treating פירוש דחוק and אוקימתא as *unsettling* their target reads his remark that they cost the author his precision as an effect (`[supplied]`). The file implements this reading.
 
-**Recognizers.** Stock phrases given here that the book does not itself cite — `שמע מינה`, `תניא נמי הכי`, `מיתיבי`, `לא צריכא`, `אלא מעתה` as reductio marker, `מהו דתימא … קא משמע לן`, `תא שמע`, `ואיבעית אימא`, `חסורי מחסרא`, `איידי דתנא` — are standard Talmudic usage supplied for function. Where the book gives a phrase, it is the one quoted in `viz/src/markers.ts`; `move.marker` should copy that form, so that files agree with the lexicon and can be checked against it. (The page itself reads *any* `marker` as *marked* — `labelBasis` tests presence, not the lexicon — so a wrong or invented marker is not caught by validation; it is the agent's discipline.)
+**Recognizers.** Stock phrases given here that the book does not itself cite — `שמע מינה`, `תניא נמי הכי`, `מיתיבי`, `לא צריכא`, `אלא מעתה` as reductio marker, `מהו דתימא … קא משמע לן`, `תא שמע`, `ואיבעית אימא`, `חסורי מחסרא`, `איידי דתנא` — are standard Talmudic usage supplied for function. Where the book gives a phrase, it is the one quoted in `site/src/rail/markers.ts`; `move.marker` should copy that form, so that files agree with the lexicon and can be checked against it. (The page itself reads *any* `marker` as *marked* — `labelBasis` tests presence, not the lexicon — so a wrong or invented marker is not caught by validation; it is the agent's discipline.)
 
 **No calculus for סברא.** Weight it qualitatively; do not assign numbers. The reducer has no weight at all: a `proof/validation` carrying `sevara` raises like any other, and the `note` must say it should not.
 

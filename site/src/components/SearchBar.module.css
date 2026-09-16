@@ -1,0 +1,118 @@
+/*
+ * CSS Modules, not a global stylesheet.
+ *
+ * React has no `<style scoped>`, which the Vue original used. Modules are the
+ * replacement: Vite hashes these class names, so nothing here can leak into
+ * article content. The one genuinely global rule the original carried — the
+ * `.search-highlight` mark, which was injected into page DOM from outside the
+ * component — is gone entirely, because the React version renders matches as
+ * children instead of injecting HTML.
+ *
+ * This bar sits in the dark nav, so its palette is chrome, not content.
+ */
+
+.container {
+  position: relative;
+  width: 100%;
+}
+
+.bar {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: rgba(255, 255, 255, 0.07);
+  border: 1px solid rgba(253, 194, 35, 0.2);
+  border-radius: 20px;
+  padding: 0.45rem 0.9rem;
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.bar:focus-within {
+  background: rgba(255, 255, 255, 0.11);
+  border-color: rgba(253, 194, 35, 0.45);
+}
+
+.active {
+  border-color: rgba(253, 194, 35, 0.45);
+}
+
+.icon {
+  color: var(--dt-champagne);
+  flex-shrink: 0;
+  opacity: 0.85;
+}
+
+.input {
+  flex: 1;
+  min-width: 0;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-family: var(--dt-sans);
+  font-size: 0.9rem;
+  color: var(--dt-chrome-fg);
+}
+
+.input::placeholder {
+  color: var(--dt-chrome-muted);
+}
+
+/* The UA search-cancel button would sit beside our own clear button. */
+.input::-webkit-search-cancel-button {
+  display: none;
+}
+
+.kbd {
+  display: none;
+  font-family: var(--dt-mono);
+  font-size: 0.7rem;
+  padding: 0.15rem 0.4rem;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(253, 194, 35, 0.2);
+  border-radius: 4px;
+  color: var(--dt-chrome-muted);
+  flex-shrink: 0;
+}
+
+@media (min-width: 768px) {
+  .kbd { display: block; }
+}
+
+.clear {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0.2rem;
+  display: flex;
+  align-items: center;
+  color: var(--dt-chrome-muted);
+  border-radius: 50%;
+  flex-shrink: 0;
+  transition: color 0.2s ease, background 0.2s ease;
+}
+
+.clear:hover {
+  color: var(--dt-chrome-fg);
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.spinner {
+  width: 14px;
+  height: 14px;
+  border: 2px solid rgba(255, 255, 255, 0.15);
+  border-top-color: var(--dt-gold);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+  flex-shrink: 0;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Honour a reduced-motion preference: a perpetual spinner is exactly the kind
+   of animation that setting exists to stop. */
+@media (prefers-reduced-motion: reduce) {
+  .spinner { animation-duration: 2.4s; }
+}

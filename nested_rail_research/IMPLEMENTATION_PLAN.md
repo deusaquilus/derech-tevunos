@@ -47,7 +47,7 @@ module with no React and no pixels in it.
 | `nested_rail_research/foldtree.ts` | **The reference implementation.** ~550 lines, pure, commented | 40 min |
 | `nested_rail_research/simulate.ts` | Invariant checks, v3 comparison, and the printed pages quoted in §2 | 15 min |
 | `nested_rail_research/skeletons.ts` | Six annotated long sugyot used as test material (§3.3) | skim |
-| `viz/src/folding.ts`, `viz/src/sugya.ts`, `viz/src/app/useSugyaController.ts`, `viz/src/app/SugyaView.tsx`, `viz/src/app/components/{RailLayer,FoldBand,UnitRow}.tsx`, `viz/src/layout.ts`, `viz/src/check.ts` | The code that changes | 60 min |
+| `site/src/rail/folding.ts`, `site/src/rail/sugya.ts`, `site/src/rail/app/useSugyaController.ts`, `site/src/rail/app/SugyaView.tsx`, `site/src/rail/app/components/{RailLayer,FoldBand,UnitRow}.tsx`, `site/src/rail/layout.ts`, `site/src/rail/check.ts` | The code that changes | 60 min |
 
 ### Repository facts
 
@@ -561,7 +561,7 @@ nests two deep, Pesachim exercises exposure, Bava Metzia 2a exercises frames
 inside threads and the two-rail page. The user has to be able to open them in
 the app to judge the visualization.
 
-Decided: copy three of them into `viz/src/fixtures/research/` as ordinary
+Decided: copy three of them into `site/src/rail/fixtures/research/` as ordinary
 `Sugya` modules — `bm-2a-ochazin`, `bk-2a-toldos`, `pes-2a-or` — and add them
 to `FIXTURES` so they appear in the gallery and have pages. In the gallery,
 list them under their own heading, *Research passages*, with one sentence

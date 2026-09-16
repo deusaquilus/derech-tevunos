@@ -7,7 +7,7 @@ background. Three documents, in order of authority:
 
 | Document | Role |
 |---|---|
-| [`CODE_STYLE_DOCTRINE.md`](CODE_STYLE_DOCTRINE.md) | **Authoritative.** The long-form statement, with reasoning and worked examples. Read it before arguing with a rule. Its header maps every example it cites onto the `viz/` file that demonstrates the same thing here, and records the four places this repo deliberately differs. |
+| [`CODE_STYLE_DOCTRINE.md`](CODE_STYLE_DOCTRINE.md) | **Authoritative.** The long-form statement, with reasoning and worked examples. Read it before arguing with a rule. Its header maps every example it cites onto the `site/src/rail/` file that demonstrates the same thing here, and records the places this repo deliberately differs. |
 | [`.cursor/rules/minimal-fp-style.mdc`](.cursor/rules/minimal-fp-style.mdc) | Always-on summary of the same philosophy in miniature. |
 | [`.cursor/rules/typescript-domain-modeling.mdc`](.cursor/rules/typescript-domain-modeling.mdc) | Discriminated unions and exhaustive matching, applied to `.ts`/`.tsx`/`.astro`. |
 
@@ -27,7 +27,7 @@ Two rules that are easy to violate while refactoring rather than while writing:
 then act on each group). A function named `parse…`, `classify…`, `build…`,
 `find…` or `to…` never has a side effect.
 
-### `viz/` is the local reference implementation
+### `site/src/rail/` is the local reference implementation
 
 The doctrine was written against a different codebase, so its examples are
 mapped onto local ones in its header. These are the files that mapping points
@@ -35,25 +35,26 @@ at, and they are worth reading before writing new code here:
 
 | File | What it demonstrates |
 |---|---|
-| `viz/src/folding.ts` | The densest union work in the repo — laminar bands, `readonly` on 72 lines, and the fold-tree invariants stated as types |
-| `viz/src/sugya.ts` | The status/standing reducer: a pure fold over a data grammar, no behaviour attached to the nodes |
-| `viz/src/verdict.ts` | Exhaustive matching with a `never` guard, deciding which of status or standing to report |
-| `viz/src/format.ts` | The I/O boundary done properly: `parseSugya` reports *every* fault with its path, and `SugyaFormatError extends Error` is the one class in the tree |
-| `viz/src/taxonomy.ts` | Closed vocabularies as `as const` tables rather than TS `enum`s |
-| `viz/src/app/router.tsx` | A hash router in fifty lines with no dependency — the house answer to "should we add a library" |
+| `site/src/rail/folding.ts` | The densest union work in the repo — laminar bands, `readonly` on 72 lines, and the fold-tree invariants stated as types |
+| `site/src/rail/sugya.ts` | The status/standing reducer: a pure fold over a data grammar, no behaviour attached to the nodes |
+| `site/src/rail/verdict.ts` | Exhaustive matching with a `never` guard, deciding which of status or standing to report |
+| `site/src/rail/format.ts` | The I/O boundary done properly: `parseSugya` reports *every* fault with its path, and `SugyaFormatError extends Error` is the one class in the tree |
+| `site/src/rail/taxonomy.ts` | Closed vocabularies as `as const` tables rather than TS `enum`s |
+| `site/src/rail/app/router.tsx` | A hash router in fifty lines with no dependency — the house answer to "should we add a library" |
 
-Verified 2026-09-16: **zero** TypeScript `any` anywhere in `viz/src`, and
+Verified 2026-09-16: **zero** TypeScript `any` anywhere in `src/rail`, and
 exactly one class declaration (the `Error` subclass above). Hold new code to
 that standard.
 
 Two local conventions the doctrine does not predict. **The exhaustiveness guard
 here is the inline binding**, `default: { const exhaustive: never = status;
 return exhaustive; }`, not a throwing `assertNever(x)` helper — see the three in
-`viz/src/verdict.ts`. Both give the same compile error when a variant is added,
-so match the neighbours rather than converting one to the other. And **`viz`
-tests are one acceptance oracle, not per-module unit files**: `src/check.ts`
-holds the shipped JSON passages to the TypeScript fixtures. The planned `site/`
-will use `vitest` per module as the doctrine describes.
+`site/src/rail/verdict.ts`. Both give the same compile error when a variant is
+added, so match the neighbours rather than converting one to the other. And
+**the rail is covered by one acceptance oracle, not per-module unit files**:
+`site/src/rail/check.ts` holds the shipped JSON passages to their TypeScript
+fixtures. New site code outside `src/rail/` uses `vitest` per module, as the
+doctrine describes.
 
 ### Six patterns the long-form doctrine does not state
 
@@ -91,7 +92,7 @@ already in use — see `scripts/build-blog-lastmod.ts`, `audit-plan-text.ts` and
 something `plus`, `merge`, or `concat` unless it really is total and has an
 identity. If it is defined only on same-shape operands, or can throw, say so in
 the name — `absorb`, `insert`, `intoBucket`. `a + b` must not look like it can
-fail. `viz/src/folding.ts` already gets this right: the band combiner is
+fail. `site/src/rail/folding.ts` already gets this right: the band combiner is
 `insert(bands, band)`, which promises nothing about commutativity or identity,
 and the invariant predicates (`contains`, `same`, `disjoint`, `covers`) are
 separate pure functions rather than being folded into it. A future "combine two
@@ -102,7 +103,7 @@ analyses" operation is a **partial semigroup**, not a monoid; only the leaves
 follows from other fields, expose it as a function or getter over the variant
 that has those fields. A stored copy is a second source of truth that goes
 stale, and a stored copy that gets *serialised* is a stale value with a long
-life. `viz` follows this — rails, handles and verdicts are derived in
+life. The rail follows this — rails, handles and verdicts are derived in
 `useSugyaController`, never held — and so should anything the site persists:
 derived quantities stay out of the JSON.
 
@@ -192,8 +193,8 @@ collected more than one name. Pin them.
 
 | Term | What it means | Not |
 |---|---|---|
-| **waterfall** | The layout `viz/` draws: a staircase of rows, one per labelled sentence, plus rails and folds. The preferred name for the drawing as a whole. | Any *computed* construction |
-| **glyph lattice** | An earlier name for the same waterfall. Survives in `viz/package.json` (`"name": "sugya-lattice"`) and `viz/README.md`. Do not rename the package; do not use it in new prose. | A concept lattice |
+| **waterfall** | The layout `site/src/rail/` draws: a staircase of rows, one per labelled sentence, plus rails and folds. The preferred name for the drawing as a whole. | Any *computed* construction |
+| **glyph lattice** | An earlier name for the same waterfall, from when it was a standalone app called `sugya-lattice`. Do not use it in new prose. | A concept lattice |
 | **concept lattice** | The FCA construction in `derech-tevunos-visualization-spec.md`, implemented in `web/`. A genuinely different visualization that *computes* something. | The waterfall |
 | **rail** | The connector drawn for one relation that reaches back many rows. | The whole drawing; a row |
 | **fold** | The band that puts a settled stretch of argument behind a summary the reader can open. | A collapse — the band keeps the verdict of everything inside it |
@@ -216,28 +217,45 @@ or *what is still exerting force* (standing).
 |---|---|
 | `DerechTevunos_benyehudah_bilingual_fixed.md` | The book, Hebrew and English, chapters 1–11 plus the Sugya Context Index. **Prefer this copy** for labelling; the terminology is aligned to the Diaspora Yeshiva translation. |
 | `DerechTevunos_benyehudah_bilingual.md` | The parent: same interleaving, pre-alignment English. |
-| `viz/` | The rail visualization. React 19 + Vite, hash-routed, its own npm package. The main app. |
+| `site/` | **The website, and the only npm package in the repo.** Astro + React, deployed to Vercel at `derechtevunos.com`. The rail visualization lives inside it at `site/src/rail/`. |
 | `web/` | Two computed visualizations (lattice interval under doubt, circumscription diff). Separate npm package. |
-| `icons_v3/` | The current glyph set — 104 SVGs. `ICONS_REFERENCE.md` is the contract for using them, `METHODOLOGY.md` for making them. |
+| `icons_v3/` | The current glyph set — 104 SVGs. `ICONS_REFERENCE.md` is the contract for using them, `METHODOLOGY.md` for making them. `site/src/rail/glyphs.ts` is **generated** from these by `npm run glyphs`; edit the SVGs and regenerate, never the generated file. |
+| `renders/` | Exported PNGs and SVGs of the waterfall, embedded by the `SUGYA_WATERFALL_*` design documents. Was `viz/out/`. Keep the filenames — they are image references in markdown. |
 | `mascott/` | The mascot. Source of the site palette; see below. |
 | `DERECH_TEVUNOS_*.md`, `SUGYA_*.md` | The system and file format, written for a classifier. Roughly 1 MB; agent-facing, mostly not published. |
 | `nested_rail_research/` | The study that the v5 fold tree implements. |
 
-`viz/` and `web/` are independent npm packages. There is **no** workspace root,
-so `npm install` at the repository root does nothing — install inside the
-package you are working on.
+There is **no** workspace root, so `npm install` at the repository root does
+nothing. `site/` and `web/` each have their own `package.json`; install inside
+the one you are working on.
 
 ## Node and toolchains
 
-Node 22 or later. Before claiming a change to `viz/` works, run its own gate:
+Node 22 or later. Everything runs from `site/`:
 
 ```
-cd viz && npm run check      # typecheck + the acceptance tests
+cd site
+npm run dev        # Astro dev server; the rail included
+npm run build      # generators, then astro build
+npm run check      # typecheck + the rail's acceptance oracle
+npm test           # vitest
 ```
 
-`npm test` in `viz/` runs `src/check.ts`, which holds the shipped JSON passages
-to the TypeScript fixtures as an oracle. A change that makes those disagree is a
-real regression, not a stale test.
+`npm run check:rail` runs `src/rail/check.ts`, which holds the nine shipped JSON
+passages to their TypeScript fixtures as an oracle. A change that makes those
+disagree is a real regression, not a stale test. It resolves its own paths from
+`import.meta.url`, so it does not care about the working directory.
+
+`npm run build` runs the generators first — the chapter split, the search index
+and the blog lastmod map. Run the whole script; calling `astro build` directly
+leaves those inputs stale, and the chapter pages are **generated and
+gitignored**, so a bare `astro build` on a fresh clone produces a docs section
+with nothing in it.
+
+`npm run glyphs` regenerates `src/rail/glyphs.ts` from `icons_v3/icons/`. It is
+not part of the build — run it when the icon set changes. It resolves
+`icons_v3/` as `../../icons_v3` from `site/scripts/`, so it depends on the site
+sitting one level below the repository root.
 
 Do not disable, `skip`, comment out, or delete a failing test. Fix the code or
 fix the test; if you believe a test is genuinely invalid, **ask first**.
@@ -255,10 +273,25 @@ Sampled from the PNGs rather than eyeballed:
 | Off-white | `#FDFDFD` | Beard |
 
 `mascott/just_beard_goggles.png` is already a logo mark — gold rings, cyan
-lenses, white beard, transparent background. It is the nav glyph. Favicons
-are the sized set `mascott/goggles-beard-{16,24,32,48,64,96}x{same}.png`,
-copied into `viz/public/` and `web/public/` and declared in each app's
-`index.html`.
+lenses, white beard, transparent background. It is the nav glyph and the source
+of the favicons, which are generated into `site/public/mark-{32,48,64,180,512}.png`
+and declared in `Layout.astro`. The hand-sized set
+`mascott/goggles-beard-*.png` is the same mark at small pixel sizes; `web/`
+still uses it directly.
+
+The other poses are placed as follows, and they are all the **2D inked**
+versions on purpose — the 3D renders read as a different hand beside them:
+
+| Where | Image |
+|---|---|
+| Homepage hero | `profile_detailed.png` |
+| `/docs` index | `full_post_tea_break.png` (reading a folio) |
+| 404 | `full_post_hoverboard.png` |
+| Unused, reserved | `full_post_fixing_bug.png`, `just_face.png` |
+
+On the dark chrome the near-black robe dissolves into the ink, so every dark
+placement needs a radial lift behind the figure; the gold piping, cyan lenses
+and white beard are what carry the silhouette. See `.hero` in `index.astro`.
 
 **Gold and cyan are unusable as text on white** (contrast ratios about 1.7:1 and
 1.5:1). So the literal mascot colours go on dark chrome only, and the light
@@ -267,7 +300,7 @@ not "fix" a light-page heading back to `#FDC223`.
 
 ### The rail's colour vocabulary is nearly full, and it is semantic
 
-`viz/src/app/styles.css` and `viz/src/theme.ts` have already spent most of the
+`site/src/rail/app/styles.css` and `site/src/rail/theme.ts` have already spent most of the
 wheel on *meaning*: green `#15803d` accepted, amber `#a16207` under doubt, red
 `#b91c1c` rejected, indigo `#4338ca` for the rail itself, and violet / teal /
 magenta / slate for the four chapter 1–8 anatomy families. The site's brass
@@ -277,24 +310,24 @@ the palette works — do not lighten the site brass toward `#a16207`.
 
 ### Namespace every site CSS custom property `--dt-*`
 
-`viz` declares `--fg`, `--muted`, `--border`, `--surface`, and `--page` on
-`:root`. A site that declares its own variables under those names works fine
-until the rail is mounted in-page, and then silently restyles it. Namespacing is
-free now and a retrofit later.
+`src/rail/app/styles.css` declares `--fg`, `--muted`, `--border`, `--surface`
+and `--page` on `:root`, unprefixed. Site tokens under those names would
+silently restyle the visualization, which is mounted in-page on every rail
+route. So **every site variable is `--dt-*`** (`src/styles/tokens.css`), and the
+rail's bare names are left alone precisely because the site's are namespaced.
 
-## The site — decided 2026-09-16, not yet built
+## The site — settled 2026-09-16
 
-The site will live in `site/` (Astro, Vercel, `derechtevunos.com`) and is a
-heavily stripped adaptation of `exobench-site`. Nothing below is implemented
-yet; it is written down so the decisions are not re-litigated.
+`site/` is an Astro + React site deployed to Vercel at `derechtevunos.com`, a
+heavily stripped adaptation of `exobench-site`. It is built; what follows is why
+it is shaped the way it is.
 
 ### React, not Vue
 
 `exobench-site` is Vue, but only four of its twenty-nine Vue components survive
 the cull — 1017 lines, of which 452 are CSS that ports by copy-paste. The
-decisive argument is that **`viz/` is already React 19**: staying on Vue means
-shipping two renderers the moment the rail appears in-page. `@astrojs/react`
-accepts React 19, so the versions already agree.
+decisive argument is that **the rail was already React 19**: staying on Vue
+would mean shipping two renderers on every page that draws a waterfall.
 
 React has no `<style scoped>`. Use CSS Modules (`.module.css`, natively
 supported) for what was scoped, and a plainly-imported stylesheet for the
@@ -308,18 +341,35 @@ callback declared in a component body is rebuilt every render and never fires;
 lives in a ref; and an `await` before touching a canvas needs a cancellation
 flag or it leaks a chart onto a detached node.
 
-### The rail is a sub-app at `/rail/` first, an island later
+### The rail is part of the site, not a thing the site embeds
 
-Build `viz/` with its own Vite into the site's `public/rail/` and serve it
-there. Measured 2026-09-16, this needs **zero** changes to `viz`: its 1875-line
-stylesheet has only three global rules (`:root`, `*`, `body`), there are no
-absolute asset paths or `fetch()` calls anywhere in the app, and the hash router
-derives everything from `location.hash` with no server rewrites.
+There is no standalone visualization app any more. `viz/` was folded into
+`site/src/rail/` on 2026-09-16 and deleted; its `index.html`, `vite.config.ts`,
+`package.json` and dev server are gone, and `astro dev` is the only dev server.
+The consequences that a future change could undo by accident:
 
-Those same measurements make the later move — importing `SugyaView` as a React
-island at real URLs like `/rail/bava-metzia-yeush` — small rather than a
-rewrite. Do it when `viz` stops moving, not before. Astro bundles Vite 6 and
-`viz` declares Vite 8; verify that at island time instead of assuming it.
+- **Astro owns routing.** Each passage is a real page at `/sugya/<id>`,
+  generated by `getStaticPaths` from the same `SUGYOT` registry the drawing
+  reads. The hash router (`src/rail/app/router.tsx`) is still in the tree and
+  still used by `Root.tsx`, but **nothing the site renders goes through it** —
+  do not reintroduce `#/sugya/<id>` links.
+- **Astro owns the chrome.** `<Rail>` passes `header={false}`, a prop
+  `SugyaView` already offered for this case, so the site's nav and page header
+  are the only header. Without it the page grows a second `<h1>` reading "Sugya
+  lattice" under the site's own.
+- **Only the sheet is an island.** The gallery (`/sugya`), the page headers and
+  the passage switcher are Astro components and ship as HTML, so the passage
+  titles are in the first response. `client:only="react"` is correct for the
+  sheet rather than `client:load`: the controller measures DOM geometry to place
+  rails and elbows, so there is nothing meaningful to server-render, and trying
+  produces a flash of unpositioned rows.
+- **The sheet's surface is `.sugya-sheet`, which used to be `body`.** A `body`
+  rule in the rail's stylesheet repaints the site's dark shell stone-grey and
+  swaps its typeface. `:root` and `*` are deliberately left global there.
+
+`Root.tsx`, `GalleryPage.tsx`, `OpenPage.tsx`, `SugyaPage.tsx` and `markup.tsx`
+are the old standalone shell. They still compile and are unreferenced by the
+site; keep or delete them deliberately, but do not wire them back into a page.
 
 ### Doctrine carried over from `exobench-site`
 
@@ -402,12 +452,15 @@ caption.
 - Record an estimate where a measurement is possible, or state a guess where a
   bound is honest.
 - Use "lattice" for the waterfall in new prose, or "concept lattice" for
-  anything `viz/` draws. See "Terminology".
+  anything `src/rail/` draws. See "Terminology".
 - Remove, shorten, or reword code comments when moving or refactoring code.
   Comments travel verbatim with the code they describe.
 - Disable, skip, or delete a failing test to make a build pass.
-- Edit `viz/` on the assumption it is idle — it is under active development in
-  parallel. Coordinate before touching it.
+- Reintroduce a hash route, a second `<h1>`, or a `body` rule into
+  `src/rail/`. Each undoes part of the integration; see "The rail is part of
+  the site".
+- Hand-edit anything under `src/content/docs/text/` — it is generated by
+  `npm run build-text` from the bilingual source and gitignored.
 - Lighten the site's brass toward the rail's `--doubt` amber, emit a
   trailing-slash canonical or sitemap entry, replace an `HtmlFigure` with a PNG,
   or declare an un-namespaced CSS custom property. Each has its reasoning above;

@@ -10,45 +10,51 @@ under the Apache License 2.0; see `LICENSE` and `NOTICE`.
 
 ---
 
-## The rail visualization
+## The site, and the rail visualization inside it
 
-`viz/` is the main app. It takes a sugya file — each sentence labelled with the
-move it makes (ch. 9) and, optionally, what it *is* and how it stands to the one
-it acts on (chs. 1–7) — and draws the result as a **waterfall**: a staircase of
-rows, a **rail** for a long-reaching relation, and **folds** that put settled
-argument behind a band.
+`site/` is the whole thing: the website at [derechtevunos.com](https://derechtevunos.com),
+which carries the rail visualization on its front page, the bilingual text in
+its docs, and notes in its blog.
 
-Nine passages ship with the app: five from Ramchal's own examples, and four
-opening sugyot used to study nested folds and rails. A file of your own can be
-opened at `#/open` without a rebuild.
+The visualization takes a sugya file — each sentence labelled with the move it
+makes (ch. 9) and, optionally, what it *is* and how it stands to the one it acts
+on (chs. 1–7) — and draws the result as a **waterfall**: a staircase of rows, a
+**rail** for a long-reaching relation, and **folds** that put settled argument
+behind a band. It lives at `site/src/rail/`.
 
-The format the page reads is `derech-tevunos/sugya`, version `1`. The complete
+Nine passages ship: five from Ramchal's own examples, and four opening sugyot
+used to study nested folds and rails.
+
+The format it reads is `derech-tevunos/sugya`, version `1`. The complete
 reference is `DERECH_TEVUNOS_SUGYA_JSON_GUIDE.md`; the file-only document is
 `SUGYA_JSON_FORMAT.md`. How the page looks, and why, is the waterfall series
-(`SUGYA_WATERFALL_VISUALIZATION_V1.md` through `SUGYA_WATERFALL_V5_FOLD_TREE.md`).
-Module-level notes live in `viz/README.md`.
+(`SUGYA_WATERFALL_VISUALIZATION_V1.md` through `SUGYA_WATERFALL_V6_ADDITIONAL_ICONS.md`).
 
 ### Bring it up
 
 Node 22 or later. From the repository root:
 
 ```
-cd viz
+cd site
 npm install
 npm run dev
 ```
 
-The app is at http://localhost:5174/.
+The site is at http://localhost:4321/.
 
 | Command | What it does |
 |---|---|
-| `npm run dev` | Vite dev server |
-| `npm run check` | Typecheck and the acceptance tests |
-| `npm run export` | Static SVGs into `viz/out/` |
-| `npm run build` | Production bundle into `viz/dist/` |
+| `npm run dev` | Astro dev server, generators first |
+| `npm run build` | Generators, then the production build |
+| `npm run check` | Typecheck and the rail's acceptance oracle |
+| `npm test` | Vitest |
 
-The gallery is `#/`. A shipped passage is `#/sugya/<id>`. To look at a file you
-have just written, go to `#/open`, drop it, pick it, or paste the JSON.
+The rail is at `/`, every passage at `/sugya/<id>`, the text at `/docs`.
+
+The chapter pages under `src/content/docs/text/` are **generated** from
+`DerechTevunos_benyehudah_bilingual_fixed.md` by `npm run build-text` and are
+gitignored — run a build before expecting the docs section to have anything in
+it.
 
 ---
 

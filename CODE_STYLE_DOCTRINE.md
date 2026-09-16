@@ -9,19 +9,19 @@ below the rule is unaltered, including the original title.
 
 The doctrine cites the source repo's own `src/` files as canonical examples.
 Those files are not reproduced here — they belong to a separate, unlicensed
-codebase, and this repository is Apache-2.0. **`viz/` already demonstrates every
+codebase, and this repository is Apache-2.0. **`site/src/rail/` already demonstrates every
 pattern the doctrine cites, in this domain, and it typechecks.** Read these
 instead:
 
 | Cited as | Read instead | Which rule it demonstrates |
 |---|---|---|
-| `src/wire.ts` (`toSseFrame`, `assertNever`) | `viz/src/verdict.ts` | Exhaustive `switch` over a union with a `never` guard — three of them, deciding which of status or standing to report and in what words |
-| `src/domain.ts` (`DomainEvent`, `TokenUsage`) | `viz/src/sugya.ts`, `viz/src/folding.ts`, `viz/src/anatomy.ts` | Coproducts for the model, `readonly` products for the records. `folding.ts` carries the fold-tree invariants as types (laminar bands, `readonly` on 72 lines) |
-| `src/errors.ts` (pure classifiers, `unknown` narrowing) | `viz/src/format.ts` | The I/O boundary done properly: `parseSugya` narrows `unknown` and reports *every* fault with its path. `SugyaFormatError extends Error` is the repo's only class, and it is the blessed "throw for errors" case |
-| `src/errors.ts` (`ReadonlyArray` constant tables) | `viz/src/markers.ts`, `viz/src/taxonomy.ts` | `as const` vocabularies instead of TS `enum`s — the Aramaic trigger lexicon, and the seven elements with their nineteen leaves |
-| `src/redact.ts` (one grammar, several total interpreters) | `viz/src/render.ts` vs `viz/src/app/SugyaView.tsx` | The model is framework-free; a static-SVG interpreter and a React interpreter both fold over it, and everything they must agree on lives in a module both import |
-| `tsconfig.json` (strict flags) | `viz/tsconfig.json` | `strict`, `noUncheckedIndexedAccess`, `noFallthroughCasesInSwitch`, `noImplicitOverride`. Do not weaken these to silence an error |
-| `src/app/router.tsx` *(no counterpart cited)* | `viz/src/app/router.tsx` | The house answer to "should we add a library": a hash router in fifty lines with no dependency |
+| `src/wire.ts` (`toSseFrame`, `assertNever`) | `site/src/rail/verdict.ts` | Exhaustive `switch` over a union with a `never` guard — three of them, deciding which of status or standing to report and in what words |
+| `src/domain.ts` (`DomainEvent`, `TokenUsage`) | `site/src/rail/sugya.ts`, `site/src/rail/folding.ts`, `site/src/rail/anatomy.ts` | Coproducts for the model, `readonly` products for the records. `folding.ts` carries the fold-tree invariants as types (laminar bands, `readonly` on 72 lines) |
+| `src/errors.ts` (pure classifiers, `unknown` narrowing) | `site/src/rail/format.ts` | The I/O boundary done properly: `parseSugya` narrows `unknown` and reports *every* fault with its path. `SugyaFormatError extends Error` is the repo's only class, and it is the blessed "throw for errors" case |
+| `src/errors.ts` (`ReadonlyArray` constant tables) | `site/src/rail/markers.ts`, `site/src/rail/taxonomy.ts` | `as const` vocabularies instead of TS `enum`s — the Aramaic trigger lexicon, and the seven elements with their nineteen leaves |
+| `src/redact.ts` (one grammar, several total interpreters) | `site/src/rail/render.ts` vs `site/src/rail/app/SugyaView.tsx` | The model is framework-free; a static-SVG interpreter and a React interpreter both fold over it, and everything they must agree on lives in a module both import |
+| `tsconfig.json` (strict flags) | `site/tsconfig.json` | `strict`, `noUncheckedIndexedAccess`, `noFallthroughCasesInSwitch`, `noImplicitOverride`. Do not weaken these to silence an error |
+| `src/app/router.tsx` *(no counterpart cited)* | `site/src/rail/app/router.tsx` | The house answer to "should we add a library": a hash router in fifty lines with no dependency |
 
 ## Four places this repository genuinely differs
 
@@ -29,21 +29,22 @@ Recorded so that nobody "corrects" local code toward the source repo, or the
 reverse:
 
 - **The exhaustiveness idiom is different, and both are correct.** The doctrine
-  shows a throwing helper, `default: return assertNever(x)`. `viz` uses the
+  shows a throwing helper, `default: return assertNever(x)`. The rail uses the
   inline binding instead — `default: { const exhaustive: never = status; return
   exhaustive; }` (`verdict.ts`). Both produce the same compile error when a
   variant is added, which is the entire point; only the named helper also throws
   at runtime. Match the neighbours in whichever file you are editing.
-- **Tests do not mirror source here.** The doctrine specifies `vitest` with one
-  `test/*.test.ts` per module. `viz` instead has a single 844-line acceptance
-  script, `src/check.ts`, run by `npm test`, which holds the shipped JSON
-  passages to the TypeScript fixtures as an oracle. The planned `site/` will use
-  `vitest` as the doctrine describes; `viz` should keep its oracle.
+- **Tests do not mirror source here — in one subtree.** The doctrine specifies
+  `vitest` with one `test/*.test.ts` per module, and that is what `site/`
+  outside `src/rail/` uses. The rail itself has a single 844-line acceptance
+  script, `site/src/rail/check.ts`, run by `npm run check:rail`, which holds the
+  nine shipped JSON passages to their TypeScript fixtures as an oracle. Keep
+  both: per-module units for new site code, the oracle for the rail.
 - **There is no Node-22 wrapper.** The doctrine mandates routing every toolchain
   invocation through `scripts/with-node22.mjs` because that repo's shells
   resolve an older Node. This repo has no such wrapper and no `.npmrc`
   `engine-strict`; it just requires Node 22 or later.
-- **`src/asyncIter.ts` has no counterpart.** Nothing in `viz` iterates
+- **`src/asyncIter.ts` has no counterpart.** Nothing in `src/rail` iterates
   asynchronously, so the doctrine's carve-out permitting `for...of` for
   streaming and `async` iteration has no local example. The carve-out still
   stands; there is simply nothing here to point at.

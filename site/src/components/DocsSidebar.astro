@@ -1,0 +1,167 @@
+---
+import { groupByCategory, type Doc } from '../lib/docs';
+
+interface Props {
+  docs: readonly Doc[];
+  /** Slug of the page being viewed, or undefined on the docs index. */
+  current?: string;
+}
+
+const { docs, current } = Astro.props;
+const byCategory = groupByCategory(docs);
+---
+
+<aside class="sidebar" id="docsSidebar" data-restoring>
+  <div class="head">
+    <a href="/docs">Documentation</a>
+  </div>
+
+  <nav aria-label="Documentation">
+    {[...byCategory].map(([category, entries]) => (
+      <div class="group">
+        <div class="group-title">{category}</div>
+        <ul>
+          {entries.map((doc) => (
+            <li class={doc.slug === current ? 'on' : undefined}>
+              <a href={`/docs/${doc.slug}`} aria-current={doc.slug === current ? 'page' : undefined}>
+                {doc.data.title}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    ))}
+  </nav>
+</aside>
+
+<script is:inline>
+  // Restore the scroll position before first paint. Doing this in a deferred
+  // module would show the sidebar at the top and then jump; `data-restoring`
+  // hides the overflow until the offset is applied.
+  (function () {
+    const el = document.getElementById('docsSidebar');
+    if (!el) return;
+    const saved = sessionStorage.getItem('docsSidebarScroll');
+    if (saved !== null) el.scrollTop = parseInt(saved, 10);
+    el.removeAttribute('data-restoring');
+  })();
+</script>
+
+<script>
+  // Keep the sidebar's scroll offset across navigations. Every docs page is a
+  // full document load, so without this the list snaps back to the top each
+  // time a reader moves between chapters.
+  const el = document.getElementById('docsSidebar');
+  if (el) {
+    let t: ReturnType<typeof setTimeout>;
+    el.addEventListener('scroll', () => {
+      clearTimeout(t);
+      t = setTimeout(() => sessionStorage.setItem('docsSidebarScroll', String(el.scrollTop)), 100);
+    });
+
+    const toggle = document.getElementById('sidebarToggle');
+    toggle?.addEventListener('click', () => el.classList.toggle('open'));
+    document.addEventListener('click', (e) => {
+      if (
+        window.innerWidth <= 1024 &&
+        el.classList.contains('open') &&
+        !el.contains(e.target as Node) &&
+        !toggle?.contains(e.target as Node)
+      ) {
+        el.classList.remove('open');
+      }
+    });
+  }
+</script>
+
+<style>
+  .sidebar {
+    width: 268px;
+    flex-shrink: 0;
+    background: var(--dt-surface-soft);
+    border-right: 1px solid #e1e4e8;
+    position: sticky;
+    top: var(--dt-nav-clearance);
+    height: calc(100vh - var(--dt-nav-clearance));
+    overflow-y: auto;
+    padding: 1.5rem 0;
+  }
+
+  .sidebar[data-restoring] {
+    overflow-y: hidden;
+  }
+
+  .sidebar::-webkit-scrollbar { width: 6px; }
+  .sidebar::-webkit-scrollbar-track { background: transparent; }
+  .sidebar::-webkit-scrollbar-thumb { background: var(--dt-rule-strong); border-radius: 3px; }
+  .sidebar::-webkit-scrollbar-thumb:hover { background: var(--dt-faint); }
+
+  .head {
+    padding: 0 1.25rem 1.25rem;
+    border-bottom: 1px solid #e1e4e8;
+    margin-bottom: 0.75rem;
+  }
+
+  .head a {
+    font-size: 1.125rem;
+    font-weight: 700;
+    color: var(--dt-fg-strong);
+    text-decoration: none;
+    letter-spacing: -0.01em;
+  }
+
+  .head a:hover { color: var(--dt-brass); }
+
+  nav { padding: 0 0.5rem; }
+
+  .group { margin-bottom: 1.25rem; }
+
+  .group-title {
+    font-family: var(--dt-condensed);
+    font-size: 0.6875rem;
+    font-weight: 700;
+    color: var(--dt-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    padding: 0.5rem 0.75rem 0.125rem;
+  }
+
+  ul { list-style: none; padding: 0; margin: 0; }
+  li { margin: 0.125rem 0; }
+
+  li a {
+    display: block;
+    padding: 0.5rem 0.75rem;
+    color: #4b5563;
+    text-decoration: none;
+    border-radius: 6px;
+    font-size: 0.875rem;
+    line-height: 1.4;
+    transition: background 0.15s ease, color 0.15s ease;
+  }
+
+  li a:hover {
+    background: #f3f4f6;
+    color: var(--dt-brass);
+  }
+
+  li.on a {
+    background: var(--dt-tag-bg);
+    color: var(--dt-tag-fg);
+    font-weight: 600;
+    box-shadow: 0 1px 3px rgba(138, 90, 0, 0.15);
+  }
+
+  @media (max-width: 1024px) {
+    .sidebar {
+      position: fixed;
+      left: -288px;
+      top: var(--dt-nav-clearance);
+      z-index: 99;
+      transition: left 0.25s ease;
+      box-shadow: 2px 0 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .sidebar.open { left: 0; }
+  }
+</style>

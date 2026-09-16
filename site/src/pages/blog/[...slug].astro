@@ -1,0 +1,189 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+import type { CollectionEntry } from 'astro:content';
+import '../../styles/prose.css';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog');
+  return posts.map((post: CollectionEntry<'blog'>) => ({
+    params: { slug: post.slug },
+    props: { post },
+  }));
+}
+
+interface Props {
+  post: CollectionEntry<'blog'>;
+}
+
+const { post } = Astro.props as Props;
+const { Content } = await post.render();
+
+const pageTitle = post.data.subtitle
+  ? `${post.data.title} — ${post.data.subtitle}`
+  : post.data.title;
+---
+
+<Layout
+  title={`${pageTitle} — Derech Tevunos`}
+  description={post.data.description}
+  image={post.data.image}
+  author={post.data.author}
+  noindex={post.data.draft}
+>
+  <div class="dt-page">
+    <article class="wrap">
+      <header>
+        <h1 class="dt-page-title">{post.data.title}</h1>
+        {/* A subtitle is headline-adjacent, so it gets a real subhead
+            treatment rather than the muted description style — for a series it
+            can outrank the title and must read as structure, not a caption.
+            With no subtitle the SEO description doubles as a lighter deck. */}
+        {post.data.subtitle ? (
+          <p class="subtitle">{post.data.subtitle}</p>
+        ) : (
+          <p class="dt-page-description deck">{post.data.description}</p>
+        )}
+        <p class="byline">By {post.data.author}</p>
+        <time class="dateline" datetime={post.data.date.toISOString()}>
+          {post.data.date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
+        </time>
+      </header>
+
+      <div class="dt-prose" id="prose">
+        <Content />
+      </div>
+
+      {post.data.tags.length > 0 && (
+        <footer class="filed">
+          <span class="label">Tagged</span>
+          <span class="list">
+            {post.data.tags.map((tag: string, i: number) => (
+              <>
+                {i > 0 && <span class="sep">, </span>}
+                <span>{tag}</span>
+              </>
+            ))}
+          </span>
+        </footer>
+      )}
+    </article>
+  </div>
+</Layout>
+
+<script>
+  // Open a collapsed <details> when the page is loaded at a fragment inside
+  // it — otherwise a shared deep link scrolls to a closed section.
+  const openForHash = (): void => {
+    const hash = location.hash;
+    if (!hash) return;
+    let target: Element | null = null;
+    try {
+      target = document.querySelector(hash);
+    } catch {
+      return;
+    }
+    if (!target) return;
+    const details =
+      target.tagName === 'DETAILS'
+        ? (target as HTMLDetailsElement)
+        : target.closest<HTMLDetailsElement>('details');
+    if (details && !details.open) {
+      details.open = true;
+      requestAnimationFrame(() => target?.scrollIntoView({ behavior: 'smooth', block: 'start' }));
+    }
+  };
+
+  openForHash();
+  window.addEventListener('hashchange', openForHash);
+
+  const ICON = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="1em" height="1em"><path fill="currentColor" d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"/></svg>`;
+
+  document.querySelectorAll('#prose h2[id], #prose h3[id]').forEach((h) => {
+    const id = h.getAttribute('id');
+    if (!id) return;
+    const a = document.createElement('a');
+    a.href = `#${id}`;
+    a.className = 'anchor';
+    a.setAttribute('aria-label', `Link to ${h.textContent?.trim() ?? id}`);
+    a.innerHTML = ICON;
+    h.prepend(a);
+  });
+</script>
+
+<style>
+  .wrap {
+    max-width: 800px;
+    margin: 0 auto;
+    /* Tight at the top — `.dt-page` already supplies the gap below the sticky
+       nav. Generous at the bottom so the article does not crowd the footer. */
+    padding: 1.5rem 2rem 4rem;
+  }
+
+  header {
+    margin-bottom: 2rem;
+  }
+
+  .subtitle {
+    margin: 0.375rem 0 0;
+    font-size: 1.5rem;
+    font-weight: 600;
+    line-height: 1.25;
+    letter-spacing: -0.011em;
+    color: #334155;
+    text-wrap: balance;
+  }
+
+  .deck { margin: 0; }
+
+  .byline {
+    margin: 0.75rem 0 0;
+    font-size: 0.9375rem;
+    font-weight: 500;
+    color: #475569;
+  }
+
+  /* Tiny uppercase dateline, same system as the "Tagged" label below: small
+     meta lives in small uppercase muted gray. About 19px of vertical cost. */
+  .dateline {
+    display: block;
+    margin-top: 0.5rem;
+    font-family: var(--dt-condensed);
+    font-size: 0.6875rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    line-height: 1;
+    color: var(--dt-faint);
+  }
+
+  /* Tags at the END of the article, not the top: they answer "where do I find
+     more like this?", which is a question for readers who finished. */
+  .filed {
+    margin-top: 3rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--dt-rule);
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.5rem;
+    font-size: 0.875rem;
+    color: var(--dt-muted);
+  }
+
+  .filed .label {
+    font-family: var(--dt-condensed);
+    font-size: 0.6875rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--dt-faint);
+  }
+
+  .filed .sep { color: var(--dt-faint); }
+
+  @media (max-width: 768px) {
+    .wrap { padding: 1rem 1rem 3rem; }
+    .subtitle { font-size: 1.25rem; }
+  }
+</style>

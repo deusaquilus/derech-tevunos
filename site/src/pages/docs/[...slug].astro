@@ -1,0 +1,283 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import DocsSidebar from '../../components/DocsSidebar.astro';
+import { getCollection } from 'astro:content';
+import type { CollectionEntry } from 'astro:content';
+import { neighbours } from '../../lib/docs';
+import '../../styles/prose.css';
+
+export async function getStaticPaths() {
+  const docs = await getCollection('docs');
+  return docs.map((doc: CollectionEntry<'docs'>) => ({
+    params: { slug: doc.slug },
+    props: { doc },
+  }));
+}
+
+interface Props {
+  doc: CollectionEntry<'docs'>;
+}
+
+const { doc } = Astro.props as Props;
+const { Content, headings } = await doc.render();
+const allDocs = await getCollection('docs');
+const { prev, next } = neighbours(allDocs, doc.slug);
+
+// A generated chapter has no h2/h3 — its language blocks are labelled with a
+// styled paragraph, not a heading — so the TOC would render an empty rail.
+const toc = doc.data.kind === 'text' ? [] : headings.filter((h) => h.depth === 2 || h.depth === 3);
+---
+
+<Layout title={`${doc.data.title} — Derech Tevunos`} description={doc.data.description}>
+  <div class="shell dt-page">
+    <button class="toggle" id="sidebarToggle" aria-label="Toggle the documentation menu">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <line x1="3" y1="6" x2="21" y2="6"></line>
+        <line x1="3" y1="12" x2="21" y2="12"></line>
+        <line x1="3" y1="18" x2="21" y2="18"></line>
+      </svg>
+    </button>
+
+    <DocsSidebar docs={allDocs} current={doc.slug} />
+
+    <div class="body">
+      <article class="column">
+        <header>
+          <span class="dt-tag">{doc.data.category}</span>
+          <h1 class="dt-page-title">{doc.data.title}</h1>
+          <p class="dt-page-description">{doc.data.description}</p>
+        </header>
+
+        <div class="dt-prose" id="prose">
+          <Content />
+        </div>
+
+        {(prev || next) && (
+          <nav class="pager" aria-label="Chapter navigation">
+            {prev && (
+              <a href={`/docs/${prev.slug}`} class="prev">
+                <span class="label">← Previous</span>
+                <span class="title">{prev.data.title}</span>
+              </a>
+            )}
+            {next && (
+              <a href={`/docs/${next.slug}`} class="next">
+                <span class="label">Next →</span>
+                <span class="title">{next.data.title}</span>
+              </a>
+            )}
+          </nav>
+        )}
+      </article>
+
+      {toc.length > 0 && (
+        <aside class="toc">
+          <div class="toc-title">On this page</div>
+          <nav>
+            <ul>
+              {toc.map((h) => (
+                <li class={`d${h.depth}`}>
+                  <a href={`#${h.slug}`}>{h.text}</a>
+                </li>
+              ))}
+            </ul>
+          </nav>
+        </aside>
+      )}
+    </div>
+  </div>
+</Layout>
+
+<script>
+  // Gutter anchors on h2/h3, GitHub style. Injected rather than authored so
+  // every page gets them without markup in the content.
+  const ICON = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="1em" height="1em"><path fill="currentColor" d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"/></svg>`;
+
+  document.querySelectorAll('#prose h2[id], #prose h3[id]').forEach((h) => {
+    const id = h.getAttribute('id');
+    if (!id) return;
+    const a = document.createElement('a');
+    a.href = `#${id}`;
+    a.className = 'anchor';
+    a.setAttribute('aria-label', `Link to ${h.textContent?.trim() ?? id}`);
+    a.innerHTML = ICON;
+    h.prepend(a);
+  });
+
+  // Highlight the section the reader is in. rootMargin's bottom inset means a
+  // heading counts as "current" only once it is near the top of the viewport,
+  // not the moment it enters from below.
+  const links = document.querySelectorAll<HTMLAnchorElement>('.toc a');
+  if (links.length > 0) {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (!entry.isIntersecting) continue;
+          const id = entry.target.getAttribute('id');
+          links.forEach((l) => l.classList.toggle('on', l.getAttribute('href') === `#${id}`));
+        }
+      },
+      { rootMargin: '-72px 0px -80% 0px' },
+    );
+    document.querySelectorAll('#prose h2[id], #prose h3[id]').forEach((h) => observer.observe(h));
+  }
+</script>
+
+<style>
+  .shell {
+    display: flex;
+    position: relative;
+  }
+
+  .toggle {
+    display: none;
+    position: fixed;
+    top: calc(var(--dt-nav-clearance) + 0.75rem);
+    left: 1rem;
+    z-index: 100;
+    background: var(--dt-h2-grad);
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 0.5rem;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(138, 90, 0, 0.35);
+  }
+
+  .body {
+    flex: 1;
+    display: flex;
+    min-width: 0;
+  }
+
+  .column {
+    flex: 1;
+    /* 800px puts the serif body near the 70-character measure that long-form
+       reading wants. The Hebrew blocks share it: a wider column would push
+       unvocalized square script past a comfortable line. */
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 2.5rem 3rem 4rem;
+    min-width: 0;
+  }
+
+  .column header {
+    margin-bottom: 2.5rem;
+  }
+
+  .column header .dt-tag {
+    margin-bottom: 1.25rem;
+  }
+
+  .toc {
+    width: 220px;
+    flex-shrink: 0;
+    padding: 2.5rem 1.25rem 3rem 1.75rem;
+    position: sticky;
+    top: var(--dt-nav-clearance);
+    height: calc(100vh - var(--dt-nav-clearance));
+    overflow-y: auto;
+    border-left: 1px solid var(--dt-rule);
+  }
+
+  .toc::-webkit-scrollbar { width: 4px; }
+  .toc::-webkit-scrollbar-thumb { background: var(--dt-rule-strong); border-radius: 2px; }
+
+  .toc-title {
+    font-family: var(--dt-condensed);
+    font-size: 0.6875rem;
+    font-weight: 700;
+    color: var(--dt-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 1rem;
+  }
+
+  .toc ul { list-style: none; padding: 0; margin: 0; }
+
+  .toc a {
+    display: block;
+    padding: 0.4rem 0 0.4rem 0.875rem;
+    margin-left: -0.875rem;
+    color: var(--dt-muted);
+    text-decoration: none;
+    font-size: 0.8125rem;
+    line-height: 1.5;
+    border-left: 2px solid transparent;
+    transition: color 0.15s ease, border-color 0.15s ease;
+  }
+
+  .toc a:hover { color: var(--dt-brass); }
+
+  .toc a.on {
+    color: var(--dt-brass);
+    border-left-color: var(--dt-brass);
+    font-weight: 600;
+  }
+
+  .toc .d3 a { padding-left: 1.75rem; font-size: 0.75rem; }
+
+  .pager {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-top: 4rem;
+    padding-top: 2.5rem;
+    border-top: 1px solid var(--dt-rule);
+  }
+
+  .pager a {
+    display: flex;
+    flex-direction: column;
+    padding: 1.25rem 1.5rem;
+    background: var(--dt-surface-soft);
+    border: 1px solid var(--dt-rule);
+    border-radius: 10px;
+    text-decoration: none;
+    color: inherit;
+    transition: border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .pager a:hover {
+    border-color: var(--dt-brass);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(138, 90, 0, 0.15);
+  }
+
+  .pager .next { text-align: right; grid-column: 2; }
+  .pager .prev:only-child { grid-column: 1; }
+
+  .pager .label {
+    font-family: var(--dt-condensed);
+    font-size: 0.75rem;
+    color: var(--dt-muted);
+    margin-bottom: 0.4rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+
+  .pager .title {
+    font-size: 1rem;
+    color: var(--dt-fg-strong);
+    font-weight: 600;
+    line-height: 1.4;
+  }
+
+  .pager a:hover .title { color: var(--dt-brass); }
+
+  @media (max-width: 1280px) {
+    .toc { display: none; }
+    .column { max-width: 100%; }
+  }
+
+  @media (max-width: 1024px) {
+    .toggle { display: block; }
+  }
+
+  @media (max-width: 768px) {
+    .column { padding: 1.5rem 1rem 3rem; }
+    .pager { grid-template-columns: 1fr; }
+    .pager .next { grid-column: 1; text-align: left; }
+  }
+</style>

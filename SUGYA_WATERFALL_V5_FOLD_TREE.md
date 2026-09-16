@@ -60,9 +60,9 @@ nesting was already in every `target` pointer, and a band is only "a stretch of
 rows that hang under one unit". The analysis (`sugya.ts`), the taxonomy, the
 anatomy layer and the four short fixtures are untouched, and render as before.
 
-![The last תא שמע under threads: the challenges of both sides as rows, every answer folded, Rava's rail with his own challenges as teeth](viz/out/fold-48-threads.png)
+![The last תא שמע under threads: the challenges of both sides as rows, every answer folded, Rava's rail with his own challenges as teeth](renders/fold-48-threads.png)
 
-![Bava Kamma 3a, the אהייא band opened one level: five אלאs as teeth on one trunk, each candidate's objection folded beside it](viz/out/fold-bk-opened.png)
+![Bava Kamma 3a, the אהייא band opened one level: five אלאs as teeth on one trunk, each candidate's objection folded beside it](renders/fold-bk-opened.png)
 
 ---
 
@@ -250,7 +250,7 @@ On Bava Metzia 2a, opening Sumchos's frame at step 26 draws Sumchos's rail
 inside the mishnah's; opening Rav Pappa's frame as well moves attention to Rav
 Pappa's answer, whose rail takes the inner lane, and Sumchos's rail goes.
 
-![Two rails in two lanes: Sumchos's rake, 17 → 25 with a tooth at 23, inside the mishnah's hairline 1 → 26](viz/out/fold-two-rails.png)
+![Two rails in two lanes: Sumchos's rake, 17 → 25 with a tooth at 23, inside the mishnah's hairline 1 → 26](renders/fold-two-rails.png)
 
 ### 2.5 The reader's actions
 
@@ -327,7 +327,7 @@ Lanes 1 and beyond are hairlines: 1.5px, `--rail` at 45% opacity, no cap, a
 (`Then Rav Pappa's 'some are not like their…' → Rather fire's derivatives are like fire`).
 The rings around icons the rail joins (`row-on-rail`) follow lane 0 only.
 
-![Bava Kamma 3a, a thread opened inside the frame: the candidate's rail 32 → 49 in lane 0, the אהייא rail 30 → 69 as a hairline outside it](viz/out/fold-bk-thread.png)
+![Bava Kamma 3a, a thread opened inside the frame: the candidate's rail 32 → 49 in lane 0, the אהייא rail 30 → 69 as a hairline outside it](renders/fold-bk-thread.png)
 
 ### 3.3 Handles
 
@@ -440,7 +440,7 @@ sentence number:
 | … opened three levels | 31 | `3 → 43`, 2,115px, 8 teeth | `1 → 45`, 2,586px |
 | Gittin at 25, Rava's band opened | 13 | `4 → 13`, 504px | `3 → 25`, 744px |
 
-![Pesachim 2b at 45: the whole מאי אור discussion one band under the question, the אלא frame intact inside it](viz/out/fold-pes-45.png)
+![Pesachim 2b at 45: the whole מאי אור discussion one band under the question, the אלא frame intact inside it](renders/fold-pes-45.png)
 
 ### 5.3 Driven headless
 

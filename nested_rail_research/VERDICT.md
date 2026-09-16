@@ -7,7 +7,7 @@ renderer need lanes and colours for sugyot within sugyot?
 Method: the repo's Bava Metzia 21b–22b fixture plus the opening sugya of six tractates
 (Berakhot, Pesachim, Kiddushin, Gittin, Bava Kamma, Bava Metzia 2a), 325 sentences in all,
 encoded as move skeletons (`skeletons.ts`) from the Sefaria text (`texts/`), and run through
-`viz/src/folding.ts` **read-only** by `analyze.ts`. Ambiguous targets were given the shorter
+`site/src/rail/folding.ts` **read-only** by `analyze.ts`. Ambiguous targets were given the shorter
 reach, so nesting counts are a floor. Run: `node analyze.ts` (Node ≥ 22.18).
 
 ## Findings

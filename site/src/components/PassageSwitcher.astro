@@ -1,0 +1,108 @@
+---
+import { SUGYOT } from '../rail/sugyot/index.ts';
+
+interface Props {
+  /** Id of the passage being read, if any. */
+  current?: string;
+}
+
+const { current } = Astro.props;
+
+/**
+ * Server-rendered, not an island. This replaces the visualization's own tab
+ * strip, which was built on its hash router: every entry here is a real link
+ * to a real page, so the passages are crawlable and the browser's back button
+ * works.
+ */
+const passages = SUGYOT.map((s) => ({
+  id: s.id,
+  cite: `${s.tractate} ${s.folio}`,
+  title: s.title,
+  sentences: s.units.length,
+  collection: s.collection ?? 'other',
+}));
+---
+
+<nav class="switcher" aria-label="Choose a passage">
+  {passages.map((p) => (
+    <a
+      href={`/sugya/${p.id}`}
+      class={p.id === current ? 'on' : undefined}
+      aria-current={p.id === current ? 'page' : undefined}
+    >
+      <span class="cite">{p.cite}</span>
+      <span class="title">{p.title}</span>
+      <span class="count">{p.sentences} sentences</span>
+    </a>
+  ))}
+</nav>
+
+<style>
+  .switcher {
+    display: flex;
+    gap: 0.5rem;
+    overflow-x: auto;
+    padding: 0.75rem 0 1rem;
+    scrollbar-width: thin;
+  }
+
+  .switcher::-webkit-scrollbar { height: 6px; }
+  .switcher::-webkit-scrollbar-thumb {
+    background: rgba(253, 194, 35, 0.25);
+    border-radius: 3px;
+  }
+
+  a {
+    display: flex;
+    flex-direction: column;
+    gap: 0.1rem;
+    flex: 0 0 auto;
+    min-width: 11rem;
+    max-width: 15rem;
+    padding: 0.6rem 0.85rem;
+    border: 1px solid rgba(253, 194, 35, 0.18);
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.03);
+    text-decoration: none;
+    transition: border-color 0.2s ease, background 0.2s ease;
+  }
+
+  a:hover {
+    border-color: rgba(253, 194, 35, 0.45);
+    background: rgba(255, 255, 255, 0.06);
+  }
+
+  a.on {
+    border-color: var(--dt-cyan);
+    background: rgba(34, 211, 238, 0.08);
+  }
+
+  .cite {
+    font-family: var(--dt-condensed);
+    font-size: 0.6875rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--dt-champagne);
+  }
+
+  a.on .cite { color: var(--dt-cyan); }
+
+  .title {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--dt-chrome-fg);
+    line-height: 1.3;
+    /* Titles run to a full clause; two lines then ellipsis keeps the strip a
+       fixed height so the rail below it does not shift. */
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .count {
+    font-size: 0.6875rem;
+    color: var(--dt-chrome-dim);
+  }
+</style>

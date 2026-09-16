@@ -49,9 +49,9 @@ runs over every revealed sentence; every verdict on screen accounts for what is
 folded. This is what separates it from v2's fold-back chevron, which *retracts*
 the frontier, and it is what makes the band's summary trustworthy.
 
-![Before: the last תא שמע, at the foot of a rail that leaves the screen](viz/out/rail-before.png)
+![Before: the last תא שמע, at the foot of a rail that leaves the screen](renders/rail-before.png)
 
-![One press later: the סתירה lands — Rava, the band, the two blows, the rail](viz/out/rail-folded.png)
+![One press later: the סתירה lands — Rava, the band, the two blows, the rail](renders/rail-folded.png)
 
 ---
 
@@ -189,7 +189,7 @@ beams challenge and the three blows on Rava, which nobody answered because they
 won. It is a defensible frame for a ruling, and everything it hides is one click
 away.
 
-![The first challenge arrives open: Rava stays; the rail runs up past him to Abaye](viz/out/rail-first-challenge.png)
+![The first challenge arrives open: Rava stays; the rail runs up past him to Abaye](renders/rail-first-challenge.png)
 
 ### 2.4 What the band says
 
@@ -247,7 +247,7 @@ rejects. Drawing the whole rake in the open move's style would attribute the
 `תיובתא`'s non-effect to the `סתירה`, which is precisely the confusion v2 §4.1
 is about.
 
-![The landing: three blows on one trunk, one of them solid](viz/out/rail-landing.png)
+![The landing: three blows on one trunk, one of them solid](renders/rail-landing.png)
 
 ### 3.4 Above the rows
 
@@ -291,7 +291,7 @@ v2's guarantee that rows above the frontier never move is weakened again, to:
 things the reader did, or the arrival of a long-reaching move, and in every case
 the scroll plan is what makes the jump legible.
 
-![Unfolded: the rail leaves Rava and runs down the margin](viz/out/rail-unfolded.png)
+![Unfolded: the rail leaves Rava and runs down the margin](renders/rail-unfolded.png)
 
 ---
 

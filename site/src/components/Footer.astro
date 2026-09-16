@@ -1,0 +1,136 @@
+---
+const year = new Date().getFullYear();
+---
+
+<footer>
+  <div class="inner">
+    <div class="top">
+      <a href="/" class="brand">
+        <img src="/mark-48.png" alt="" width="48" height="48" />
+        <span>Derech Tevunos</span>
+      </a>
+
+      <nav class="links" aria-label="Footer">
+        <a href="/docs">The text</a>
+        <a href="/blog">Notes</a>
+        <a href="https://github.com/deusaquilus/derech-tevunos" rel="noopener">Source</a>
+        <a href="/license">License</a>
+      </nav>
+    </div>
+
+    <p class="attribution">
+      The Hebrew is the unvocalized 1742 Amsterdam text as keyed by
+      <a href="https://benyehuda.org" rel="noopener">Project Ben-Yehuda</a>
+      (catalogue 53742) and is in the public domain. The English is a clean-room
+      translation of that Hebrew, with technical terminology aligned to the
+      Diaspora Yeshiva translation.
+    </p>
+
+    <p class="copyright">
+      © {year} Alexander Ioffe. Original work under the Apache License 2.0.
+    </p>
+  </div>
+</footer>
+
+<style>
+  footer {
+    background: linear-gradient(180deg, var(--dt-ink) 0%, var(--dt-ink-deep) 100%);
+    border-top: 1px solid var(--dt-chrome-rule-soft);
+    margin-top: auto;
+    padding: 2.5rem 0 2rem;
+  }
+
+  .inner {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 2rem;
+  }
+
+  .top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 2rem;
+    flex-wrap: wrap;
+    margin-bottom: 1.5rem;
+  }
+
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    text-decoration: none;
+    font-size: 1rem;
+    font-weight: 500;
+    letter-spacing: 0.03em;
+    /* Flat champagne rather than the metallic ramp: at footer scale and 80%
+       opacity a gradient reads as a muddy smear. */
+    color: var(--dt-champagne);
+    opacity: 0.85;
+  }
+
+  .brand img {
+    height: 1.4rem;
+    width: auto;
+    opacity: 0.75;
+  }
+
+  .links {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    flex-wrap: wrap;
+    font-size: 0.875rem;
+  }
+
+  .links a {
+    color: var(--dt-chrome-dim);
+    text-decoration: none;
+    transition: color 0.2s ease;
+    white-space: nowrap;
+  }
+
+  .links a:hover {
+    color: var(--dt-chrome-muted);
+  }
+
+  /* The Ben-Yehuda credit is a licence condition of using the keyed text, not
+     decoration. It stays on every page. */
+  .attribution {
+    margin: 0 0 1rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid var(--dt-chrome-rule-soft);
+    max-width: 62ch;
+    font-size: 0.8125rem;
+    line-height: 1.6;
+    color: var(--dt-chrome-dim);
+  }
+
+  .attribution a {
+    color: var(--dt-chrome-muted);
+    text-decoration: none;
+    border-bottom: 1px solid rgba(154, 160, 166, 0.3);
+  }
+
+  .attribution a:hover {
+    color: var(--dt-champagne);
+  }
+
+  .copyright {
+    margin: 0;
+    font-size: 0.78rem;
+    color: #4b5563;
+  }
+
+  @media (max-width: 640px) {
+    .inner {
+      padding: 0 1rem;
+    }
+
+    .top {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 1.25rem;
+    }
+  }
+</style>

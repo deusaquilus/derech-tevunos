@@ -1,0 +1,202 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { SUGYOT } from '../../rail/sugyot/index.ts';
+import { movementsOf, type Collection, type Sugya } from '../../rail/sugya.ts';
+
+/**
+ * The passage index, server-rendered.
+ *
+ * This replaces the visualization's own gallery page, which was a React
+ * component built on the hash router. Nothing here is interactive, so nothing
+ * here needs to ship JavaScript — and unlike the original, the passage titles
+ * and counts are in the first HTML response.
+ *
+ * Shelf copy is carried over from that gallery: the book's own passages come
+ * first and unheaded under the page lead; the research passages are explained,
+ * because they are not Ramchal's examples and a reader should know that.
+ */
+const SHELVES: readonly {
+  readonly collection: Collection;
+  readonly heading?: string;
+  readonly lead?: string;
+}[] = [
+  { collection: 'ramchal' },
+  {
+    collection: 'research',
+    heading: 'Research passages',
+    lead:
+      "The opening sugyot of four tractates, labelled from stock phrases for the study of nested folds and rails rather than taken from Ramchal's discussion. They are here so the folds inside folds, and the rail inside a rail, can be seen on the pages that produce them.",
+  },
+];
+
+const shelved = new Set(SHELVES.map((s) => s.collection));
+const unshelved = SUGYOT.filter((s) => s.collection === undefined || !shelved.has(s.collection));
+
+const card = (s: Sugya) => ({
+  id: s.id,
+  cite: `${s.tractate} ${s.folio}`,
+  title: s.title,
+  sentences: s.units.length,
+  movements: movementsOf(s).length,
+});
+
+const shelves = [
+  ...SHELVES.map((shelf) => ({
+    ...shelf,
+    cards: SUGYOT.filter((s) => s.collection === shelf.collection).map(card),
+  })),
+  ...(unshelved.length > 0
+    ? [{ collection: 'other' as Collection, heading: 'Other passages', lead: undefined, cards: unshelved.map(card) }]
+    : []),
+].filter((shelf) => shelf.cards.length > 0);
+---
+
+<Layout
+  title="Passages — Derech Tevunos"
+  description={`${SUGYOT.length} labelled sugyot, from a four-sentence ruling to a seventy-seven-sentence elimination, each drawn as a waterfall of the moves its sentences make.`}
+>
+  <section class="page">
+    <div class="inner">
+      <header class="head">
+        <h1>Passages</h1>
+        <p class="lede">
+          {SUGYOT.length} passages, from a four-sentence ruling to a
+          seventy-seven-sentence elimination. Open one to walk through it a
+          sentence at a time.
+        </p>
+      </header>
+
+      {shelves.map((shelf) => (
+        <section class="shelf">
+          {shelf.heading && <h2>{shelf.heading}</h2>}
+          {shelf.lead && <p class="shelf-lead">{shelf.lead}</p>}
+          <ul>
+            {shelf.cards.map((c) => (
+              <li>
+                <a href={`/sugya/${c.id}`}>
+                  <span class="cite">{c.cite}</span>
+                  <span class="title">{c.title}</span>
+                  <span class="count">
+                    {c.sentences} sentences · {c.movements} movements
+                  </span>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </section>
+      ))}
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .page {
+    background: var(--dt-ink);
+    padding: 3rem 0 4rem;
+  }
+
+  .inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 2rem;
+  }
+
+  .head { margin-bottom: 2.5rem; }
+
+  h1 {
+    margin: 0 0 0.85rem;
+    font-size: clamp(2rem, 5vw, 2.75rem);
+    font-weight: 400;
+    letter-spacing: -0.005em;
+    background: var(--dt-metal-lg);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    transform: translateZ(0);
+  }
+
+  .lede {
+    margin: 0;
+    max-width: 58ch;
+    font-size: 1.0625rem;
+    line-height: 1.7;
+    font-weight: 300;
+    color: var(--dt-chrome-muted);
+  }
+
+  .shelf { margin-bottom: 2.5rem; }
+
+  .shelf h2 {
+    margin: 0 0 0.6rem;
+    font-family: var(--dt-condensed);
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--dt-champagne);
+  }
+
+  .shelf-lead {
+    margin: 0 0 1.25rem;
+    max-width: 66ch;
+    font-size: 0.9375rem;
+    line-height: 1.65;
+    color: var(--dt-chrome-dim);
+  }
+
+  .shelf ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 1rem;
+  }
+
+  .shelf a {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+    height: 100%;
+    padding: 1.1rem 1.25rem;
+    border: 1px solid rgba(253, 194, 35, 0.16);
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.03);
+    text-decoration: none;
+    transition: border-color 0.2s ease, background 0.2s ease, transform 0.2s ease;
+  }
+
+  .shelf a:hover {
+    border-color: rgba(253, 194, 35, 0.45);
+    background: rgba(255, 255, 255, 0.06);
+    transform: translateY(-2px);
+  }
+
+  .cite {
+    font-family: var(--dt-condensed);
+    font-size: 0.6875rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--dt-champagne);
+  }
+
+  .title {
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--dt-chrome-fg);
+    line-height: 1.4;
+  }
+
+  .count {
+    margin-top: auto;
+    padding-top: 0.4rem;
+    font-size: 0.75rem;
+    color: var(--dt-chrome-dim);
+  }
+
+  @media (max-width: 640px) {
+    .inner { padding: 0 1rem; }
+    .shelf ul { grid-template-columns: 1fr; }
+  }
+</style>

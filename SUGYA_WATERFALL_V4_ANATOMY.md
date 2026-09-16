@@ -71,9 +71,9 @@ When it is on:
 
 When it is off the sheet is v3, plus one unticked box in the legend.
 
-![Off: the v3 sheet, and one box in the legend](viz/out/anatomy-off.png)
+![Off: the v3 sheet, and one box in the legend](renders/anatomy-off.png)
 
-![On: the lens row, the party on the strip, and badges on the first rows](viz/out/anatomy-on.png)
+![On: the lens row, the party on the strip, and badges on the first rows](renders/anatomy-on.png)
 
 ---
 
@@ -188,7 +188,7 @@ Beads can be turned off wholesale — `useSugyaController(sugya, { beads: false 
 per page, or `BEADS_ON_ELBOWS = false` for the build — and nothing else moves.
 The chips do not depend on them.
 
-![The bead on the elbow from 7 to 8 pointed at: its ring, the thick elbow, the lit chip on sentence 8, and the one dashed line under that chip sending the reader there](viz/out/anatomy-bead.png)
+![The bead on the elbow from 7 to 8 pointed at: its ring, the thick elbow, the lit chip on sentence 8, and the one dashed line under that chip sending the reader there](renders/anatomy-bead.png)
 
 ### 2.3 Basis
 
@@ -254,7 +254,7 @@ exception*. So a badge is not a button. It takes the tab order, because focus
 opens the tooltip for a reader who is not using a pointer, and that is all it
 does; nothing in this layer changes the frontier, the fold or the focus.
 
-![The chip on sentence 8 explaining itself, the bead on its elbow lit, and sentence 7 peeked](viz/out/anatomy-chip.png)
+![The chip on sentence 8 explaining itself, the bead on its elbow lit, and sentence 7 peeked](renders/anatomy-chip.png)
 
 ### 2.6 The handle
 
@@ -266,9 +266,9 @@ reads `↑ acts on 2 · Rava: despair | 45 folded | ⟿ by analogy`. Pointing at
 segment lights the rail as pointing at the rail does, and its tooltip names the
 two sentences and says the type's stock word is in the text.
 
-![The climax at 49: the analogism rides the handle; the exception and the comparative sit on their rows](viz/out/anatomy-handle.png)
+![The climax at 49: the analogism rides the handle; the exception and the comparative sit on their rows](renders/anatomy-handle.png)
 
-![The handle segment's tooltip: `מה … אף`, the rule carried from the permitted case to the prohibited one](viz/out/anatomy-handle-tip.png)
+![The handle segment's tooltip: `מה … אף`, the rule carried from the permitted case to the prohibited one](renders/anatomy-handle-tip.png)
 
 ---
 

@@ -4,7 +4,7 @@
 extend this visualization, rebuild it for another text, or design a sibling
 visualization without rediscovering the reasoning from scratch.
 
-The artifact it describes lives in `viz/`. It takes a short passage of Talmud,
+The artifact it describes lives in `site/src/rail/`. It takes a short passage of Talmud,
 labels every sentence with the move that sentence makes according to the
 Ramchal's *Derech Tevunos* chapter 9, and draws the result as a lattice you
 unfold one sentence at a time with a slider.
@@ -870,9 +870,9 @@ attacker is spent (`discharged` or `defeated`):
 
 ## Appendix D — Icon files
 
-The seven element pictographs are geometry in `viz/src/icons.ts`, not shipped
+The seven element pictographs are geometry in `site/src/rail/icons.ts`, not shipped
 as image assets. Standalone copies live in `icons/` for upload. Colours are
-the light palette from `viz/src/theme.ts`.
+the light palette from `site/src/rail/theme.ts`.
 
 | Element | Icon | File |
 |---|---|---|

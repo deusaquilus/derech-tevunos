@@ -1,0 +1,194 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+import { groupByCategory, CATEGORY_BLURB } from '../../lib/docs';
+import '../../styles/prose.css';
+
+const docs = await getCollection('docs');
+const byCategory = groupByCategory(docs);
+---
+
+<Layout
+  title="Documentation — Derech Tevunos"
+  description="Derech Tevunos, chapter by chapter in Hebrew and English, plus how the rail visualization reads a sugya."
+>
+  <div class="dt-page">
+    <div class="wrap">
+      <header class="head">
+        <div class="head-copy">
+          <h1 class="dt-page-title">Documentation</h1>
+          <p class="dt-page-description">
+            The text itself, and the vocabulary the visualization is built on.
+          </p>
+        </div>
+        {/* The mascot reading a folio. Decorative, so `alt` is empty — the
+            heading beside it already says what the page is, and a description
+            of the drawing would only add noise to a screen reader. */}
+        <img
+          class="reading"
+          src="/mascot/reading.webp"
+          alt=""
+          width="405"
+          height="620"
+          loading="lazy"
+          decoding="async"
+        />
+      </header>
+
+      <div class="grid">
+        {[...byCategory].map(([category, entries]) => (
+          <section class="card">
+            <div class="card-head">
+              <h2>{category}</h2>
+              {CATEGORY_BLURB.has(category) && <p>{CATEGORY_BLURB.get(category)}</p>}
+            </div>
+            <ul>
+              {entries.map((doc) => (
+                <li>
+                  <a href={`/docs/${doc.slug}`}>
+                    <span class="t">{doc.data.title}</span>
+                    <span class="d">{doc.data.description}</span>
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </section>
+        ))}
+      </div>
+    </div>
+  </div>
+</Layout>
+
+<style>
+  .wrap {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 2rem 2rem 4rem;
+  }
+
+  .head {
+    margin-bottom: 3rem;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 2rem;
+  }
+
+  .head-copy {
+    max-width: 62ch;
+    /* The gradient bar under the title is a ::after pinned to the element's
+       edges, so the heading must not stretch to the flex line's full width or
+       the rule runs past the words. */
+    flex: 0 1 auto;
+  }
+
+  /* Sized so the figure's feet land on the title's baseline rather than
+     setting the header's height — at 168px the flex row grew to ~257px and
+     left a hole above the heading. */
+  .reading {
+    width: 132px;
+    height: auto;
+    flex-shrink: 0;
+    align-self: flex-end;
+    margin-bottom: -1.25rem;
+  }
+
+  @media (max-width: 860px) {
+    .reading { display: none; }
+  }
+
+  .grid {
+    display: grid;
+    gap: 2rem;
+  }
+
+  .card {
+    background: var(--dt-surface);
+    border: 1px solid var(--dt-rule);
+    border-radius: 12px;
+    padding: 2rem;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .card:hover {
+    border-color: var(--dt-rule-strong);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  }
+
+  .card-head {
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid #f3f4f6;
+  }
+
+  .card-head h2 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin: 0 0 0.4rem;
+    letter-spacing: -0.01em;
+    background: var(--dt-h2-grad);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .card-head p {
+    margin: 0;
+    color: var(--dt-muted);
+    font-size: 0.9375rem;
+    line-height: 1.5;
+  }
+
+  .card ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    gap: 0.5rem;
+  }
+
+  /* Two columns once there are enough entries to make a single tall list
+     awkward — the eleven chapters are the case that motivates it. */
+  @media (min-width: 720px) {
+    .card ul { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  .card li { margin: 0; }
+
+  .card li a {
+    display: flex;
+    flex-direction: column;
+    padding: 0.875rem 1rem;
+    border-radius: 8px;
+    text-decoration: none;
+    color: inherit;
+    border: 1px solid transparent;
+    transition: background 0.15s ease, border-color 0.15s ease, transform 0.15s ease;
+  }
+
+  .card li a:hover {
+    background: #f9fafb;
+    border-color: var(--dt-rule);
+    transform: translateX(4px);
+  }
+
+  .card li .t {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--dt-brass);
+    margin-bottom: 0.25rem;
+    line-height: 1.4;
+  }
+
+  .card li .d {
+    font-size: 0.875rem;
+    color: var(--dt-muted);
+    line-height: 1.5;
+  }
+
+  @media (max-width: 768px) {
+    .wrap { padding: 2rem 1rem 3rem; }
+    .card { padding: 1.5rem; }
+  }
+</style>

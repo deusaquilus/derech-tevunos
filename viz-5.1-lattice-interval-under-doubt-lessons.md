@@ -163,7 +163,7 @@ ln -sf ~/.local/lib/nodejs/bin/{node,npm,npx} ~/.local/bin/
 
 **Verify in a real browser.** The 6.3 bug was invisible in code review and invisible to the test suite, because the tests covered the engine and the bug was in how the app wired the engine to two headings. It was obvious in the first screenshot. Take a screenshot, then click the control and take another; comparing two states catches wiring errors that no single state reveals.
 
-**A `never` exhaustiveness check does not protect stale test expectations.** Separately, in the sibling `viz/` project, adding a `discharge` variant to an `Effect` union correctly forced every `switch` to handle it, but a test still asserted the old outcome (`defeated` where the new semantics give `discharged`). The type system moved the code and left the expectations behind. When you add a union variant, grep the test expectations too.
+**A `never` exhaustiveness check does not protect stale test expectations.** Separately, in the sibling rail project, adding a `discharge` variant to an `Effect` union correctly forced every `switch` to handle it, but a test still asserted the old outcome (`defeated` where the new semantics give `discharged`). The type system moved the code and left the expectations behind. When you add a union variant, grep the test expectations too.
 
 ---
 

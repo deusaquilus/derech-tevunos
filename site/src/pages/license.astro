@@ -1,0 +1,105 @@
+---
+import Layout from '../layouts/Layout.astro';
+import '../styles/prose.css';
+---
+
+<Layout
+  title="License — Derech Tevunos"
+  description="The 1742 Hebrew is public domain. Original work in this project is under the Apache License 2.0."
+>
+  <div class="dt-page">
+    <article class="wrap">
+      <header>
+        <h1 class="dt-page-title">License and attribution</h1>
+        <p class="dt-page-description">
+          Two different things with two different statuses: the text, and the work built on it.
+        </p>
+      </header>
+
+      <div class="dt-prose">
+        <div class="callout">
+          <p class="callout-label">In short</p>
+          <p>
+            The Hebrew of the 1742 Amsterdam print is in the <strong>public
+            domain</strong> and is not claimed under any license here. Everything
+            original in this project — the translation, the labelling system's
+            software, the visualization, and this site — is under the
+            <strong>Apache License 2.0</strong>.
+          </p>
+        </div>
+
+        <h2>The Hebrew</h2>
+        <p>
+          The Hebrew text is the unvocalized 1742 Amsterdam edition of
+          <em>Derech Tevunos</em>, as keyed by volunteers at
+          <a href="https://benyehuda.org" rel="noopener">Project Ben-Yehuda</a>
+          under catalogue ID 53742. It is in the public domain. Nothing in this
+          project asserts a copyright over it, and the Apache license below does
+          not reach it.
+        </p>
+
+        <h2>The English</h2>
+        <p>
+          The English is a clean-room translation of that Hebrew. Its technical
+          vocabulary has been cross-checked against the Diaspora Yeshiva
+          translation (Feldheim, 1988/2014) and uses that edition's terms where
+          the author prefers them, because they keep enough of the Western-logic
+          lexicon to be intelligible to a logician while diverging from the
+          Western definitions wherever those do not fit how a sugya actually
+          builds and tests a statement.
+        </p>
+        <p>
+          The aim is a <em>functional</em> vocabulary — one that lets a reader,
+          or a program, label the moves and statements of a large sugya — not
+          doctrinal correctness. Only the terms were taken from that edition;
+          the quotations, their citations as printed, and the sense of every
+          English sentence are the clean-room translation's own.
+        </p>
+
+        <h2>Editorial brackets</h2>
+        <p>
+          Researching the sources revealed places where the 1742 print's
+          quotation or citation differs from the source it cites. Those are
+          marked in the English with <code>[ed. …]</code> brackets giving the
+          source's reading. The Hebrew print and its translation stand as they
+          were; the brackets are the only addition.
+        </p>
+
+        <h2>Original work</h2>
+        <p>
+          Copyright 2026 Alexander Ioffe. Licensed under the Apache License,
+          Version 2.0. You may not use this project except in compliance with
+          the License. A copy is in the
+          <a href="https://github.com/deusaquilus/derech-tevunos/blob/main/LICENSE" rel="noopener">LICENSE</a>
+          file, or at
+          <a href="https://www.apache.org/licenses/LICENSE-2.0" rel="noopener">apache.org/licenses/LICENSE-2.0</a>.
+        </p>
+        <p>
+          Unless required by applicable law or agreed to in writing, software
+          distributed under the License is distributed on an “AS IS” basis,
+          without warranties or conditions of any kind, either express or
+          implied. See the License for the specific language governing
+          permissions and limitations under it.
+        </p>
+        <p>
+          The full attribution notice is in
+          <a href="https://github.com/deusaquilus/derech-tevunos/blob/main/NOTICE" rel="noopener">NOTICE</a>.
+        </p>
+      </div>
+    </article>
+  </div>
+</Layout>
+
+<style>
+  .wrap {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 2rem 2rem 4rem;
+  }
+
+  header { margin-bottom: 2.5rem; }
+
+  @media (max-width: 768px) {
+    .wrap { padding: 1.5rem 1rem 3rem; }
+  }
+</style>

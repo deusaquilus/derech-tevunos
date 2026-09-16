@@ -1,0 +1,112 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="Not found — Derech Tevunos" description="No page at this address." noindex={true}>
+  <section class="page">
+    <div class="inner">
+      <img
+        src="/mascot/lost.webp"
+        alt=""
+        width="428"
+        height="620"
+        loading="eager"
+        decoding="async"
+      />
+      <div class="copy">
+        <p class="code">404</p>
+        <h1>Nothing at this address</h1>
+        <p class="lede">
+          The page is not here. It may never have been, or it may have moved —
+          either way, these are the ways on:
+        </p>
+        <div class="cta">
+          <a class="primary" href="/">The rail</a>
+          <a class="secondary" href="/docs">The text</a>
+          <a class="secondary" href="/sugya">All passages</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .page {
+    background: radial-gradient(ellipse 70% 80% at 30% 45%, #1a2030 0%, var(--dt-ink) 68%);
+    padding: 3rem 0 4rem;
+  }
+
+  .inner {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    display: flex;
+    align-items: center;
+    gap: 2.5rem;
+  }
+
+  img {
+    width: 260px;
+    height: auto;
+    flex-shrink: 0;
+    filter: drop-shadow(0 10px 30px rgba(34, 211, 238, 0.18));
+  }
+
+  .code {
+    margin: 0 0 0.4rem;
+    font-family: var(--dt-mono);
+    font-size: 0.8125rem;
+    letter-spacing: 0.2em;
+    color: var(--dt-chrome-dim);
+  }
+
+  h1 {
+    margin: 0 0 0.9rem;
+    font-size: clamp(1.75rem, 4vw, 2.4rem);
+    font-weight: 400;
+    line-height: 1.15;
+    background: var(--dt-metal-lg);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    transform: translateZ(0);
+  }
+
+  .lede {
+    margin: 0 0 1.5rem;
+    max-width: 44ch;
+    font-size: 1rem;
+    line-height: 1.7;
+    font-weight: 300;
+    color: var(--dt-chrome-muted);
+  }
+
+  .cta { display: flex; gap: 0.7rem; flex-wrap: wrap; }
+
+  .cta a {
+    padding: 0.55rem 1.25rem;
+    border-radius: 20px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    text-decoration: none;
+  }
+
+  .primary {
+    background: linear-gradient(135deg, var(--dt-gold), #e0a615);
+    color: var(--dt-ink);
+  }
+
+  .secondary {
+    color: var(--dt-champagne);
+    border: 1px solid rgba(231, 204, 143, 0.3);
+  }
+
+  @media (max-width: 700px) {
+    .inner { flex-direction: column; text-align: center; padding: 0 1rem; gap: 1.5rem; }
+    img { width: 190px; }
+    .lede { margin-inline: auto; }
+    .cta { justify-content: center; }
+  }
+</style>

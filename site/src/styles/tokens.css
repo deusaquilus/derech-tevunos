@@ -1,0 +1,91 @@
+/*
+ * Design tokens.
+ *
+ * Every custom property here is namespaced `--dt-*` ON PURPOSE. The rail's
+ * stylesheet declares bare `--fg`, `--muted`, `--border`, `--surface` and
+ * `--page` on `:root`, and the rail is mounted in-page on this site. Unprefixed
+ * site tokens would silently restyle the visualization. See AGENTS.md,
+ * "Namespace every site CSS custom property".
+ *
+ * The values come from the mascot, sampled from the PNGs rather than eyeballed
+ * (AGENTS.md, "The mascot is the palette source"). Gold `#FDC223` and cyan
+ * `#02E8FD` are unusable as text on white — about 1.7:1 and 1.5:1 — so the
+ * literal mascot colours live on dark chrome and the light content pages get a
+ * darkened brass ramp that keeps the hue and passes WCAG.
+ */
+
+:root {
+  /* ── The mascot, literally. Dark chrome only. ── */
+  --dt-ink: #0e1119;
+  --dt-ink-deep: #080a10;
+  --dt-hood: #2d2f37;
+  --dt-gold: #fdc223;
+  --dt-cyan: #22d3ee;
+  --dt-champagne: #e7cc8f;
+  --dt-bone: #fdfdfd;
+
+  /* Metallic wordmark ramps. Roboto's strokes are uniform, so the ramp reads as
+     a tint at nav size and as metal at hero size. Both need `translateZ(0)` on
+     the element: a `background-clip: text` gradient is re-rasterized on every
+     repaint unless it gets its own compositor layer. */
+  --dt-metal-sm: linear-gradient(135deg, #fbe6a2, #fdc223 45%, #b8841c);
+  --dt-metal-lg: linear-gradient(135deg, #fdf0c4, #fdc223 42%, #a9761a);
+
+  /* Chrome text */
+  --dt-chrome-fg: #e5e7eb;
+  --dt-chrome-muted: #9aa0a6;
+  --dt-chrome-dim: #6b7280;
+  --dt-chrome-rule: rgba(253, 194, 35, 0.14);
+  --dt-chrome-rule-soft: rgba(253, 194, 35, 0.08);
+
+  /* ── Light content pages. Brass, darker in value than the rail's
+     `--doubt: #a16207` so brand and "under doubt" do not read as one signal.
+     Do not lighten these toward that amber. ── */
+  --dt-brass: #8a5a00;
+  --dt-brass-deep: #713f12;
+  --dt-brass-mid: #a16207;
+  --dt-brass-bright: #b45309;
+
+  --dt-title-grad: linear-gradient(135deg, #8a5a00, #a16207, #713f12);
+  --dt-title-bar: linear-gradient(90deg, #b45309 0%, #a16207 50%, #713f12 100%);
+  --dt-h2-grad: linear-gradient(135deg, #8a5a00, #a16207);
+  --dt-h3-grad: linear-gradient(135deg, #a16207, #b45309);
+
+  --dt-link: #8a5a00;
+  --dt-link-hover: #713f12;
+
+  --dt-tag-bg: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+  --dt-tag-fg: #78350f;
+
+  --dt-callout-bg: #fffbeb;
+  --dt-callout-rail: #f59e0b;
+  --dt-callout-label: #92400e;
+  --dt-callout-fg: #78350f;
+
+  /* Neutrals for light pages. Cool grays, unchanged from the source theme —
+     the warmth belongs to the accent, not the chrome. */
+  --dt-fg: #1f2937;
+  --dt-fg-strong: #1a1a1a;
+  --dt-muted: #6b7280;
+  --dt-faint: #9ca3af;
+  --dt-rule: #e5e7eb;
+  --dt-rule-strong: #d1d5db;
+  --dt-surface: #ffffff;
+  --dt-surface-soft: #fafbfc;
+  --dt-surface-code: #f6f8fa;
+
+  /* ── Type ── */
+  --dt-sans: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --dt-condensed: 'Roboto Condensed', 'Roboto', -apple-system, sans-serif;
+  --dt-serif: 'Roboto Serif', Charter, 'Bitstream Charter', 'Sitka Text', Cambria, Georgia, serif;
+  --dt-mono: 'JetBrains Mono', 'Fira Code', 'Consolas', monospace;
+  /* Frank Ruhl Libre is a Hebrew serif in the lineage of the types used for
+     printed rabbinic texts, which is what the 1742 Amsterdam print is. The
+     fallbacks are the platform Hebrew serifs, never a Latin face — a Latin
+     fallback renders Hebrew in a synthesised style at the wrong weight. */
+  --dt-hebrew: 'Frank Ruhl Libre', 'David Libre', 'Noto Serif Hebrew', 'Times New Roman', serif;
+
+  /* Clears the ~50px sticky nav plus breath. `.dt-page` and the docs TOC both
+     depend on this; change it in one place. */
+  --dt-nav-clearance: 64px;
+}

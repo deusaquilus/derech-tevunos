@@ -1,0 +1,16 @@
+{
+  "extends": "astro/tsconfigs/strict",
+  "compilerOptions": {
+    "jsx": "react-jsx",
+    "resolveJsonModule": true,
+    "noUncheckedIndexedAccess": true,
+    "noFallthroughCasesInSwitch": true,
+    // `src/rail/` imports its own modules with explicit extensions
+    // (`./Root.tsx`, `./sugya.ts`), which is how that subsystem was written.
+    // Without this permission every one of those imports is an error.
+    "allowImportingTsExtensions": true,
+    "verbatimModuleSyntax": true
+  },
+  "include": [".astro/types.d.ts", "**/*"],
+  "exclude": ["dist", ".vercel", "node_modules"]
+}

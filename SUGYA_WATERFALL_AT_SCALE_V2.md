@@ -7,7 +7,7 @@ vocabulary, and only records what the v1 design could not survive.
 
 The test case is `יאוש שלא מדעת` — Bava Metzia 21b–22b. Fifty-seven moves,
 eighteen movements, seven levels deep, and a conclusion the Talmud states in its
-own words, which makes it checkable. It is now `viz/src/fixtures/bava-metzia-yeush.ts`.
+own words, which makes it checkable. It is now `site/src/rail/fixtures/bava-metzia-yeush.ts`.
 
 ---
 
@@ -481,13 +481,13 @@ Local elbows are drawn; the challenge at the bottom prints `↑ acts on 2` becau
 its target is fifty sentences above. The sticky strip carries Abaye's standing and
 the open-challenge count; the minimap on the right marks all eighteen movements.
 
-![Unfolding the dew thread](viz/out/scale-unfolding.png)
+![Unfolding the dew thread](renders/scale-unfolding.png)
 
 The climax. `תיובתא` renders "undefined in source" — the gap in §4.1, visible at
 the moment it matters most — and `והלכתא` renders "inferred", the gap in §4.2.
 Abaye reads `accepted` in the sticky strip.
 
-![The verdict](viz/out/scale-verdict.png)
+![The verdict](renders/scale-verdict.png)
 
 ---
 
