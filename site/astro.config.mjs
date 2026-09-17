@@ -43,8 +43,23 @@ const blogLastmod = existsSync(lastmodPath)
   ? JSON.parse(readFileSync(lastmodPath, 'utf-8'))
   : {};
 
+// `astro build` and `astro dev` share Vite's default cache
+// (`node_modules/.vite/deps`). A build prebundles React with
+// `NODE_ENV=production`, and React 19's production jsx-dev-runtime
+// exports `jsxDEV` as undefined. The next `astro dev` then hydrates
+// every `client:only` island into a blank sheet:
+// `TypeError: jsxDEV is not a function` in ConnectorLayer (and every
+// other `.tsx`). Separate caches so a build cannot poison the dev
+// server. Measured 2026-09-16: homepage, `/sugya/pesachim-liquids`
+// and `/sugya/bk-2a-toldos` all empty with the shared cache; all
+// three draw after the split.
+const isBuild = process.argv.includes('build');
+
 export default defineConfig({
   site: 'https://derech-tevunos.com',
+  vite: {
+    cacheDir: isBuild ? './node_modules/.vite-build' : './node_modules/.vite',
+  },
   adapter: vercel(),
   integrations: [
     mdx(),
