@@ -11,10 +11,14 @@
  *
  * Two things this deliberately strips:
  *
- *   - The `<div class="dt-lang-block">` and `<span lang="he">` wrappers the
- *     text generator emits. `html()` returning empty is what does it, so the
- *     Hebrew itself survives while the markup does not — searching for a
- *     Hebrew phrase works, searching for `dt-lang-block` does not.
+ *   - The `<div class="dt-verse">` / `dt-he` / `dt-en` wrappers and the
+ *     `<span lang="he">` runs the text generator emits. `html()` returning
+ *     empty is what does it, so the Hebrew itself survives while the markup
+ *     does not — searching for a Hebrew phrase works, searching for `dt-verse`
+ *     does not. This relies on the generator keeping the Hebrew and English
+ *     as Markdown paragraphs *inside* the wrappers (blank lines around them);
+ *     Hebrew put on one line with its `<p>` tag would be a block of HTML and
+ *     vanish from the index.
  *   - Code blocks, which in this repo are JSON sugya fixtures. Their keys
  *     would otherwise dominate a query for any ordinary word.
  */

@@ -87,7 +87,7 @@ const toc: readonly TocEntry[] =
             <ul>
               {toc.map((h) => (
                 <li class={`d${h.depth}`}>
-                  <a href={`#${h.slug}`}>{h.text}</a>
+                  {h.html ? <a href={`#${h.slug}`} set:html={h.text} /> : <a href={`#${h.slug}`}>{h.text}</a>}
                 </li>
               ))}
             </ul>
