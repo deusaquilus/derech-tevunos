@@ -1,6 +1,6 @@
 ---
-title: "The most underrated sefer I own"
-subtitle: "Derech Tevunos is a specification, and the work it asks for just got cheap"
+title: "The most Underrated Sefer I Own"
+subtitle: "Derech Tevunos is a specification, and the work just got cheap"
 description: "Ramchal takes four sentences of Shabbos 5b and reconstructs twelve steps nobody wrote down. That is the method and that is why nobody runs it. The expensive half is now the cheap half."
 date: 2026-09-16
 author: "Alexander Ioffe"
@@ -141,6 +141,11 @@ can be checked against the sefer that specified it.
 
 </figure>
 
+The drawing is called **Sugyascade**, which is the link in the nav: sugya plus
+cascade, because a cascade descends over a series of ledges, which is the shape,
+and because each stage of one is set off by the stage above it, which is the
+argument.
+
 That reads fine at 4 sentences. The opening sugyot run to 36, 57 and 77, and there
 the sentence a move acts on can be 30 rows above it, which is what the rail and the
 fold are for.
@@ -160,18 +165,27 @@ makes it safe to read past. The bar above the rows holds the state of play, ever
 claim and where it currently stands.
 
 Nothing below the frontier is readable: a row or two of blur, then nothing
-rendered at all. The control beside the rows moves that frontier one sentence at
-a time, which is how a sugya arrives when you learn it, and it is the only way I
-have found to read a passage I have not seen before without the ending spoiling
-the middle.
+rendered at all.
+
+<figure>
+
+![Bava Metzia 21b to 22b on arrival, with one sentence revealed. The first row is readable. The next three rows are blurred. The reveal control on the right reads 1/57, and the foot control reads next sentence, 1 of 57.](./the-most-underrated-sefer-i-own/frontier-blur.png)
+
+<figcaption>The same <em>Bava Metzia</em> passage, on arrival. One sentence is readable. The next rows are blur, and then the drawing stops: 53 sentences are not in the page. The control on the right sits at 1/57.</figcaption>
+
+</figure>
+
+The control beside the rows moves that frontier one sentence at a time, which is
+how a sugya arrives when you learn it, and it is the only way I have found to
+read a passage I have not seen before without the ending spoiling the middle.
 
 [/sugya](/sugya) has all 9, and [/docs](/docs) has the sefer, Hebrew and English,
 all 11 chapters, with [chapter 9](/docs/text/chapter-09) as the vocabulary the
 drawing reads.
 
-[/byo](/byo) draws a file you labelled yourself. Drop it or paste it and it goes
-through the same parser and the same waterfall these 9 did, so what the page
-accepts and what the site ships are the same format by construction. Nothing is
+[/byo](/byo) draws a file you labelled yourself. Drop it or paste it and it is parsed and
+drawn by the code that draws these 9, so what the page accepts and what the site
+ships are the same format by construction. Nothing is
 uploaded: the file lives in your tab and the parse runs there. A file it refuses
 prints every fault at once, each with its path in the JSON.
 

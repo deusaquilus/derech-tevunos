@@ -294,8 +294,19 @@
   margin: 1.75rem 0;
 }
 
+/* Full-stage screenshots of the drawing are ~viewport-tall. At column
+   width they eat the article, so on a desktop column they sit at 70% and
+   centred. Full width below the nav breakpoint: 70% of a phone column is
+   too small to read the row text. */
 .dt-prose figure img {
-  margin: 0;
+  display: block;
+  margin: 0 auto;
+}
+
+@media (min-width: 641px) {
+  .dt-prose figure img {
+    max-width: 70%;
+  }
 }
 
 .dt-prose figcaption {

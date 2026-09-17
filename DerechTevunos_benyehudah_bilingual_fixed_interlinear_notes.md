@@ -2,7 +2,7 @@
 
 Companion to `DerechTevunos_benyehudah_bilingual_fixed_interlinear.md`. Every entry is keyed to a verse
 ID there (`chapter.paragraph.verse`), so each proposal names the exact span it would attach to. Written
-while cutting the verses, chapter by chapter; chapters 7–11 will be appended as they are cut.
+while cutting the verses, chapter by chapter; chapters 10–11 will be appended as they are cut.
 
 The notes point at what the repository already has, so that the interactive layer is assembled rather
 than invented:
@@ -10,7 +10,7 @@ than invented:
 | Asset | Where | What it gives chapters 1–3 |
 |---|---|---|
 | The glyph set | `icons_v3/icons/ch1-3/` (24), `icons_v3/icons/ch9-moves/` (7); contract in `icons_v3/ICONS_REFERENCE.md` §4–6 | One icon per speaker setting (ch. 1), per move (ch. 2), per quantity and per kind of statement (ch. 3) |
-| Sugya Context Index | Appendix of the parent file, `## Sugya Context Index` | A written entry, from the Sefaria text, for **every** passage chapters 1–6 cite. Nothing needs to be researched; it needs to be surfaced |
+| Sugya Context Index | Appendix of the parent file, `## Sugya Context Index` | A written entry, from the Sefaria text, for **every** passage chapters 1–9 cite. Nothing needs to be researched; it needs to be surfaced |
 | The rail taxonomy | `site/src/rail/taxonomy.ts` (`ELEMENTS`, `ELEMENT_GLOSS`, `LEAVES`) | The seven parts and their nineteen leaves as data, with a plain-English gloss each |
 | The agent card | `DERECH_TEVUNOS_FOR_AGENTS.md` §0 B (form table with intention counts), §4 (normalization example) | The eleven kinds as a table, with chapter 6's truth conditions already joined on |
 | The waterfall | `site/src/rail/`, mounted at `/sugya/<id>` and `/byo` | A renderer for any short sequence of moves, so a passage quoted in the text can be *drawn*, not described |
@@ -78,6 +78,32 @@ Added with chapters 4–6, ranked among themselves:
 15. **Chapter 3 ↔ chapter 6 concordance.** Seven of chapter 3's examples return in 6.3 to have their
     truth conditions stated. The verse pairs are listed under 6.3; a ribbon on each end is cheap and
     makes the book's own structure visible.
+
+Added with chapters 7–9, ranked among themselves:
+
+16. **9.3–9.20 · The Sugyascade's legend, made from the text.** Chapter 9 defines the nineteen leaves
+    that `taxonomy.ts` already holds as data (Hebrew name, plain gloss, chip, effect, Feldheim page).
+    Show that data beside each definition verse, and draw each leaf's example as one or two rows of the
+    waterfall. This is the one chapter where the site's own vocabulary and the book's text coincide
+    word for word, and the reader should see them coincide.
+17. **8.2 and 8.19 · The status reducer's textual root.** "Accept, deny, or remain in doubt", and "a
+    rebutted proof returns the statement to doubt", are the book's own statement of the site's
+    `accepted` / `rejected` / `doubt` and of `discharge`. `METHODOLOGY.md` §12 already says the verdict
+    state machine "is a widget"; these two verses are where it belongs.
+18. **8.3–8.10 and 8.12–8.16 · The grounds tree, twice.** Proof → nature (intelligibles, sensibles),
+    convention (commonly accepted, received), syllogism (the five of chapter 7); then the same tree for
+    disproof, then for rebuttal. Five landscape glyphs exist for the grounds, `via-opposite` and
+    `ground-does-not-reach` for the turns. One tree, with the glyphs on its leaves, is the chapter.
+19. **7.3 · The a fortiori and analogism builder with its three defeats.** 7.3.7 lists exactly three
+    ways the conclusion is annulled, and the three glyphs `fallacy-not-similar`, `fallacy-not-greater`,
+    `fallacy-counterexample` exist for exactly those. A builder that lets the reader assemble the
+    Sifra's argument and then try each defeat teaches chapter 7 and half of chapter 8 at once.
+20. **8.21 · The aspect selector.** "The Temple courtyard is a public domain": true for impurity, false
+    for Shabbat. A two-column with an aspect switch, plus the four-aspects chart (essence, proprium,
+    accident, relation). The paragraph is 26 verses and needs a mini-table-of-contents regardless.
+21. **9.6 and 9.16 / 9.20 · "How forced?"** Full explanation → forced explanation → rejected (9.6.4–9.6.6),
+    and the alternative that grows "more forced" with every deficiency posited (9.20.5): a graded slider,
+    not a category, and the text says so. The `unsettle` effect on these leaves comes from these verses.
 
 ## Chapter 1
 
@@ -703,13 +729,466 @@ note at the top of the chapter tells the reader what all this is *for*.
   Chapter 6 is keyed with en dashes (`–`) where chapters 1–5 use em dashes (`—`); a renderer should
   treat the two as one mark. Footnotes; do not emend.
 
+## Chapter 7
+
+Chapter 7 is the teal family of ICONS_REFERENCE §10, one glyph per kind of syllogism and one per way
+a syllogism fails. Every construct is named by the text. The chapter also introduces the words the
+rest of the book uses for deduction: `הקדמה` premise, `תולדה` conclusion, `הקש` syllogism (7.2.9).
+
+### 7.1.1–7.1.2 · The second foundation
+
+- **UX.** The book's roadmap (2.13–2.17) has a stop here: "the first foundation, understanding
+  statements" is chapters 3–6, "the second, generating conclusions" is this chapter. Light the map.
+
+### 7.2.1–7.2.14 · The classical syllogism (הקש מופתי)
+
+- **GUIDE, load-bearing.** 7.2.1–7.2.2 define the syllogism as inheritance in two directions: down
+  the *predicate* (whatever is joined to the predicate holds of the subject) and down the *subject*
+  (whatever falls under the subject takes the predicate). ICONS_REFERENCE §10 is explicit: "Ramchal's
+  'classical syllogism' is not the Aristotelian three-term figure. It is inheritance down the subject
+  or the predicate. Do not 'correct' it." A reader who knows Barbara will misread these verses unless
+  told so here.
+- **WIDGET.** The inheritance tree (`classical-syllogism` glyph: top node filled, one leaf filled).
+  Premise at the root (7.2.4, "one who performs a primary category of labor is liable to stoning");
+  members below (writing, kneading, 7.2.6); pick a member and the conclusion lights. Then the second
+  direction with the circumcision knife (7.2.7–7.2.8): "set aside" → "forbidden to move".
+- **WIDGET, the defeat.** `fallacy-not-included` (the tree with a branch cut): 7.2.12, R. Yose says
+  kindling is not a primary labor, so "one who kindles" drops out of the class; 7.2.13, "moving from
+  the side is not called moving". Both are ICONS_REFERENCE §12 attested fixtures. Let the reader cut the
+  branch and watch the conclusion go dark.
+- **SOURCE.** **Shabbat 73a** with **Sanhedrin 53a** (7.2.4, the premise), **Shabbat 70a** (7.2.12, R.
+  Yose on kindling), **Shabbat 43b** (7.2.13, moving from the side). All in the index; none is cited in
+  the print, so the card must say the loci are the index's.
+- **GUIDE.** Realia: the thirty-nine primary labors and stoning; `מוקצה` ("set aside") and why a
+  circumcision knife is one on Shabbat; indirect moving.
+- **GUIDE, a pull-quote.** 7.2.14: dispute between sages arises when one person's premise turns out
+  to be another's non-premise. This is the book's account of *why there is machloket at all*, said in
+  one sentence; a callout, and a forward link to chapter 9's `contradiction` element.
+- **TERM.** `הקדמה` / `תולדה` / `הקש` / `הקש מופתי` (7.2.9): glossary roots for the teal family.
+
+### 7.3.1–7.3.12 · Analogism and a fortiori; three defeats
+
+- **VISUAL.** `analogism` (filled square → outlined square) on 7.3.2; `a-fortiori` (small dot → big
+  circle) on 7.3.4. The analogism glyph is the `comparative` glyph of 3.17 plus an arrow
+  (`METHODOLOGY.md`, "same primitive, one step further"); say so, since 3.17.3 already taught the
+  known→unknown direction.
+- **CHART.** 7.3.7 names three defeats in one sentence, and the text then works one example of each:
+  not truly similar (7.3.8, Keritot 26a) → `fallacy-not-similar`; not truly lesser or greater (7.3.9–
+  7.3.10, the anointed priest is greater in one aspect and lesser in another) → `fallacy-not-greater`;
+  a similar subject that lacks the predicate (7.3.11–7.3.12, `משיח יוכיח`) → `fallacy-counterexample`.
+  Three rows, three glyphs, three verse pairs.
+- **WIDGET.** The builder. Three persons (individual, prince, anointed priest), their offerings, and a
+  predicate ("brings a suspensive guilt offering"); assemble the Sifra's analogism (7.3.5) and a
+  fortiori (7.3.6), then apply each defeat and see the conclusion annulled. The realia are the whole
+  difficulty of the paragraph, so the widget must carry them.
+- **GUIDE, realia table.** Individual: brings a female for a known sin, and a suspensive guilt
+  offering (`אשם תלוי`) for a doubtful one. Prince (`נשיא`, the king): a male goat for a known sin.
+  Anointed priest (`משיח`, the High Priest): a bull, and only for a mistaken ruling he acted on; brings
+  even after leaving office; no suspensive guilt offering. One table beside 7.3.5 turns the paragraph
+  from opaque to readable. The index entries **Torat Kohanim, Dibbura de-Chovah, parashah 5** (§9,
+  §7, §2), **Keritot 26a** and **Horayot 10a** carry all of it, and the Horayot entry notes that the
+  author quotes the Sifra's direction of the argument (priest → prince), which Horayot 10a runs the
+  other way.
+- **TERM.** `בנין אב` / `מה מצינו` (7.3.2), `כל שכן` / `קל וחמר` (7.3.4), `אינו דין` (7.3.6),
+  `מה ל… שכן` (7.3.8, 7.3.9), `… יוכיח` (7.3.11): the a fortiori's own formulae, all kept in the
+  English. Formula cards; `מה ל… שכן` and `יוכיח` are what a reader needs to recognise a defeat in
+  the wild.
+- **GUIDE.** 7.3.10's "in another aspect he is greater" is chapter 8's aspects (8.21) arriving early;
+  forward link.
+
+### 7.4.1–7.4.6 · The hypothetical syllogism (הקש תלוי)
+
+- **VISUAL.** `hypothetical-syllogism` (filled domino → outlined domino) for 7.4.2's first half,
+  `hypothetical-syllogism-tollens` (both crossed, arrow back) for its second half and for the example:
+  the Pesachim 19a argument (7.4.3–7.4.5) denies the consequent to deny the antecedent.
+- **GUIDE.** 7.4.2 states both directions in one verse; the example uses only the second. Say so, and
+  link back to 3.13 (the hypothetical statement) and 6.3.14–6.3.20 (its truth condition), since 7.4.6
+  names the premise "a hypothetical statement".
+- **SOURCE.** **Pesachim 19a** (index: the degrees of impurity, R. Akiva and R. Yose). Realia: what
+  "a fourth in terumah and a fifth in consecrated food" means.
+- **TERM.** `אי סלקא דעתך` "if it enters your mind": the marker of the hypothetical syllogism
+  (FOR_AGENTS §6 lists it). Formula card; it returns at 8.11.1 and 8.14.4.
+- **FIX.** 7.4.4 `כרבי עקיבא. היה נמשך` has a stray period splitting the clause.
+
+### 7.5.1–7.5.6 · The disjunctive syllogism (הקש מחלק)
+
+- **VISUAL.** `disjunctive-syllogism` (a fork, one branch struck, the other filled). Its precondition is
+  4.6's `no-middle` (ICONS_REFERENCE §7); ribbon back, and forward to 8.10.4 which restates it.
+- **SOURCE.** **Pesachim 5b** (7.5.2; `[ed.]` corrects "4–5"), **Bava Kamma 104a** (7.5.4). Both in the
+  index. Realia: kindling "singled out to divide" against "for a mere prohibition"; the agent
+  appointed before witnesses.
+- **TERM.** `שמע מינה` "learn from it", `היכי דמי` "what are the circumstances", `מנא ידעינן` "how do
+  we know": formula cards; `היכי דמי` returns at 8.15.2 as the opening of a dilemma.
+- **FIX.** 7.5.4 `בבא-קמא ק"ד):` lacks its opening parenthesis. 7.5.6 `או נשוא זה או נשוא זה. יש בנושא
+  זה` has a stray period inside the clause; the English smooths it.
+
+## Chapter 8
+
+Chapter 8 is the magenta family, the landscape of ICONS_REFERENCE §3 and §11: a floor whose glyph
+names the *source* of a proof, and a house whose state is the *fate* of the statement. Sections 1 and
+2 of the chapter are drawn; `METHODOLOGY.md` §13 lists what is not, and this chapter's notes say at
+each verse whether a glyph exists or is only planned.
+
+### 8.1.1–8.2.2 · Accept, deny, or remain in doubt
+
+- **WIDGET.** The status machine. 8.2.2 gives three states and the two transitions into the outer
+  two; 8.19.1 gives the transition back. These are the site's `accepted` / `rejected` / `doubt`
+  (AGENTS.md, terminology: "doubt is the resting state, not a fallback (ch. 8 p. 112)"), and
+  `METHODOLOGY.md` §12 says the state machine "is a widget". Build it here, with the state-of-play bar's
+  own colours, and link the Sugyascade's bar back to 8.2.2.
+- **UX.** The roadmap's third stop: "accepting or denying" is 2.16's third operation.
+
+### 8.3.1–8.9.4 · The sources of proof
+
+- **CHART.** The tree: proof (8.3.1) → from nature (8.4) → first intelligibles (8.5), sensibles (8.6);
+  from convention (8.7) → commonly accepted opinions (8.8), received traditions (8.9); from syllogism
+  (8.10) → the five kinds of chapter 7 (8.10.2). Put the five landscape glyphs on the leaves:
+  `ground-axiom` (8.5.1), `ground-sense` (8.6.1), `ground-common-sense` (8.8.1), `ground-tradition`
+  (8.9.1), `ground-deduction` (8.10.1). ICONS_REFERENCE §11a is this tree already.
+- **VISUAL.** Explain the landscape once, at 8.3.1: the floor is the source, the glyph cut into it
+  says which source, the house standing on the horizon is the statement established. Every later glyph
+  in the chapter is a variation and reads itself once this is known.
+- **SOURCE.** **Sukkah 40a** (8.6.2, wood's benefit comes after its burning), **Yevamot 40a** (8.9.3),
+  **Sanhedrin 90a** with **Isaiah 60:21** (8.9.4). All in the index.
+- **GUIDE.** 8.9.1 names, as received tradition, Scripture, the halachot given to Moses at Sinai and
+  the thirteen hermeneutic principles "together with all their rules": one sentence on what the
+  thirteen principles are, since chapter 7's `בנין אב` and `קל וחומר` are two of them. 8.5.2's "two is
+  more than one" and 8.6.1's "a stone is hard" are the glyph captions in ICONS_REFERENCE §11a.
+- **TERM.** `המשכלות הראשונות`, `המוחשות`, `המפרסמות`, `המקבלות`: the four are glossary roots, and
+  the translator's Greek gloss on `מפרסמות`, "*endoxa*", deserves its own tooltip.
+- **FIX.** 8.6.3 `וכל כל כיוצא בזה` for `וכן כל`.
+
+### 8.10.1–8.10.7 · Proof from syllogism; the opposite's falsity; the priest's wife
+
+- **VISUAL.** `via-opposite` (two houses on the horizon, the right one crossed) on 8.10.3–8.10.4, with
+  the precondition `no-middle` restated in 8.10.4 ("provided they are not among those between which
+  there is an intermediate"); ribbon to 4.6.
+- **WIDGET.** 8.10.5–8.10.7 is a three-row Sugyascade: the statement (a priest's wife eats terumah),
+  the received premise from the verse (the purchase of his money eats), the middle term (a wife is
+  acquired with money), the conclusion. `classical-syllogism` on the proof edge, `ground-tradition`
+  under it. ICONS_REFERENCE §12 lists **Yevamot 66a** as the attested fixture for exactly this.
+- **SOURCE.** **Yevamot 66a** with **Leviticus 22:11**. The index entry also gives the rule this
+  passage supplied to 4.7 and 4.8; ribbon.
+- **FIX.** 8.10.3 `אם תבוא לנו. ראיה עליו` stray period. 8.10.7 `שאשת(!)`: the `(!)` is the
+  transcriber's sic mark on a keying or print error for `שאשתו`, and must be rendered as such, not as
+  text.
+
+### 8.11.1–8.11.5 · A demonstration by hypothetical syllogism
+
+- **VISUAL.** `hypothetical-syllogism-tollens` on the proof edge, `ground-tradition` beneath: the
+  argument denies "the verse would have written it elsewhere" to deny "one is liable for one but not
+  all". 8.11.5 says outright this is the hypothetical syllogism.
+- **SOURCE.** **Horayot 9a** (`[ed.]` corrects the 1742's "ב'"); the index explains the sliding-scale
+  offering (lamb, birds, flour by wealth) without which 8.11.1's "poverty" and "wealth" are opaque.
+  GUIDE from it.
+
+### 8.12.1–8.13.3 · Disproof from nature and from convention
+
+- **CHART.** The same tree as 8.3–8.9, now for disproof: 8.12.1 says so. Reuse the tree with the
+  house outlined and crossed.
+- **SOURCE.** **Berachot 58b** (8.12.3; Shmuel, the comet and Orion: the index has the story, and it
+  returns at 8.16.5 for the rebuttal), **Chagigah 4a** (8.13.2), **Bava Kamma 83b** with **Leviticus
+  24:17–21** (8.13.3). All in the index.
+- **GUIDE.** 8.13.2 quotes `חוץ מחרש שוטה וקטן`, which the reader met at 3.11.2 from Chullin; here it
+  is the mishnah of Chagigah. Same words, different mishnah; the card should say so.
+- **TERM.** `והא אנן תנן` "but we have learned", `והא כתיב` "but it is written", `והא קא חזינן` "but
+  we see": the three disproof openers, one per source. Formula cards.
+- **FIX.** 8.12.3 `כשלא הביאו ראיה` ("when they did *not* bring") for `כשהביאו` (English "when they
+  brought").
+
+### 8.14.1–8.14.11 · Disproof from syllogism
+
+- **WIDGET.** Two chains, cut to their steps. The "actual death" chain (8.14.4–8.14.8): the
+  explanation proposed; the disproof `לא סלקא דעתך`; its ground, the juxtaposition to "one who strikes
+  an animal" (an analogism, 8.14.6, resting on a received tradition); the conclusion that the variant
+  (money) stands and "death" falls of itself (8.14.8). The "giving" chain (8.14.9–8.14.11): the
+  premise "every giving is money"; the reductio `אלא מעתה`; the well-known falsehood derived; the
+  premise falls. Each as a short Sugyascade. The index entry for **Bava Kamma 83b** lays both out.
+- **VISUAL.** 8.14.9–8.14.11 is the reductio. `METHODOLOGY.md` §12 and ICONS_REFERENCE §11b: no glyph
+  of its own, by decision; use `hypothetical-syllogism-tollens` on the `contradiction` edge with
+  `ground-deduction`. 8.14.11 states the tollens form in full, so the caption can quote it.
+- **GUIDE.** 8.14.6: "subjects juxtaposed to one another in the verses are learned from one
+  another" is the hermeneutic principle of `היקש` / `סמוכים`; one sentence, and note it is one of the
+  "received traditions" of 8.9.1.
+- **SOURCE.** **Bava Kamma 83b** and **84a**, with **Leviticus 24:17–21**; all in the index.
+- **TERM.** `לא סלקא דעתך` and `אלא מעתה`: the two disproof formulae of this paragraph; `אלא מעתה`
+  returns at 8.17.3. Formula cards.
+
+### 8.15.1–8.15.3 · The dilemma (ממה נפשך)
+
+- **VISUAL.** `dilemma` (the house crossed; one road forks and both branches end in a stop bar). It is
+  the `disjunctive-syllogism` glyph with both branches blocked (`METHODOLOGY.md`, "same primitive, one
+  step further"); say so.
+- **SOURCE.** **Bava Kamma 29a** (the camel and the river bank; the index explains why either reading
+  ends the dispute).
+- **TERM.** `היכי דמי … אי … אי …` is the dilemma's shape; `ממה נפשך` its name. Formula cards.
+
+### 8.16.1–8.16.6 · Rebutting a proof or a disproof
+
+- **VISUAL.** `ground-does-not-reach` (the floor stops short of the horizon; the house stands over the
+  gap) for 8.16.4 ("he is his brother in the commandments": the verse is real but does not exempt him)
+  and 8.16.5 ("it is its glow that passes": the sense is real but does not disprove). ICONS_REFERENCE
+  §12 lists both as the attested fixtures for this glyph. 8.16.6 (`משיח יוכיח`) is
+  `fallacy-counterexample` from chapter 7.
+- **CHART.** Three rows: what was rebutted (a proof from a verse; a disproof from sense; an a fortiori)
+  → how (the source does not reach; the source does not reach; the syllogism fails) → glyph. 8.16.1
+  and 8.16.2 are the two halves of that "how".
+- **SOURCE.** **Bava Kamma 87a with 88a** and **Deuteronomy 25:11** (8.16.3–8.16.4; the `[ed.]` records
+  1742's `אחים` for the verse's `אנשים … איש ואחיו`), **Berachot 58b** (8.16.5), the **Sifra** (8.16.6).
+- **UX.** 8.16.5 and 8.12.3 quote the same exchange twice, once as disproof and once as its rebuttal;
+  a ribbon between them shows the reader the move and the counter-move on one passage.
+
+### 8.17.1–8.18.4 · Turning the difficulty back; turning the proof around
+
+- **GAP, recorded.** No glyphs exist for these. `METHODOLOGY.md` §13 plans three, "Part 3, section
+  3: the rebuttals": `rebuttal-your-reasoning` (ולטעמך · ולדידך, 8.17.2), `rebuttal-just-the-opposite`
+  (אדרבא, 8.18.2), `rebuttal-proves-my-point` (משם ראיה · היא הנותנת, 8.18.2), and names the open
+  design question (how to show the opponent's position in the landscape). These verses are the
+  specification for that work; the interlinear page should render text chips until the glyphs exist.
+- **GUIDE.** 8.17.1 is subtle: the difficulty turned back does not defeat the opponent, it forces
+  *both* sides to adopt a distinction that saves both. 8.18.1 is the stronger move: the difficulty
+  leaves our side entirely, or the opponent's proof becomes ours. A two-step figure (shared escape;
+  reversal) beside the two verses.
+- **SOURCE.** **Bava Kamma 88a** (8.17.3, the slave and the kingship, "from the choicest of your
+  brothers"), **Bava Kamma 83b** (8.18.3, "we derive a man from a man"), **Shabbat 82a** with **Isaiah
+  30:14** (8.18.4, the shard for fire or for water). All in the index.
+- **TERM.** `ולטעמך`, `ולדידך`, `אדרבא`, `היא הנותנת`, `משם ראיה`: five formulae, all kept in the
+  English at 8.17.2 and 8.18.2. These are among the most frequent words a learner meets on a page of
+  Gemara; formula cards with the "what it announces" line.
+- **FIX.** 8.18.2 `או:היא הנותנת",` garbled punctuation and quotes; 8.18.3 `השיבו: אדרבא. דנין …
+  מבהמה".` missing opening quote and a stray period.
+
+### 8.19.1 · Return to doubt
+
+- **WIDGET.** The transition back in the status machine of 8.2 (see there). This verse is why the
+  rail's `discharge` effect exists: a settled difficulty or a rebutted proof does not *reject*, it
+  returns the statement to the resting state. Quote it in the Sugyascade's legend.
+
+### 8.20.1–8.20.3 · Sevara (סברא)
+
+- **VISUAL.** `theory` (the house leaning 14°) on 8.20.1. ICONS_REFERENCE §11b assigns it also to the
+  "weak proof on the strength of a theory" of 9.13.4; ribbon forward.
+- **GUIDE.** 8.20.2 defines sevara as a tilt when the arguments are balanced; 9.16.4 will use it as
+  the thing that keeps a statement standing against a far-fetched opposition. Both uses in one
+  glossary entry, and a note that `סברא` in 2.14.1 and 7.2.14 (`סברות`, "lines of reasoning") is the
+  looser sense.
+- **SOURCE.** **Chullin 19b** (the pinching of a bird offering; the index explains the two traditions).
+- **TERM.** `מסתברא` "it stands to reason": formula card.
+- **FIX.** 8.20.1 `מטה הדעת לא מן הצדדין` for `לאחד מן הצדדין` (English "to one of the sides"). 8.20.3
+  has no closing quotation mark.
+
+### 8.21.1–8.21.26 · Aspects; the four aspects; light and severe; potentiality and actuality
+
+- **UX.** 26 verses; a mini-table-of-contents as for 6.3: 8.21.1 the rule · 8.21.5 the courtyard ·
+  8.21.10 the four aspects (8.21.11 essence · 8.21.12 proprium · 8.21.14 accident · 8.21.16 relation) ·
+  8.21.18 light and severe · 8.21.22 potentiality and actuality · 8.21.26 the close.
+- **WIDGET.** The aspect selector (8.21.5–8.21.9): "The Temple courtyard is a public domain", with a
+  switch between *impurity* and *Shabbat*; the statement is true under one and its derivation fails
+  under the other. The same control serves the married woman at 8.21.19–8.21.21 (light in the aspect
+  of release, severe in the aspect of punishment) and the priest at 8.21.22–8.21.25 (sprinkles in
+  actuality, or fit to sprinkle).
+- **CHART.** The four aspects (8.21.10–8.21.17) with the text's own examples: essence, the knife that
+  cuts; proprium, the weasel that laps; accident, round or square; relation, similar or dissimilar,
+  acting or acted upon. `METHODOLOGY.md` §13 records that these four "stay skipped" in the glyph set
+  because `differs-in-context` covers what a learner needs; the chart is therefore the only place the
+  four are ever shown, and the interlinear is where it belongs.
+- **GAP, recorded.** Potentiality and actuality (8.21.22–8.21.25) are planned as two glyphs
+  (`METHODOLOGY.md` §13, "Section 5: a hollow shape against a filled one"), not drawn. Text chips until
+  then; FOR_AGENTS §6 "Modality — בכח / בפועל" already carries the distinction as data.
+- **GUIDE.** 8.21.1's list, "the generating statements and the conclusions, the verifying and the
+  verified, the disproved and the disproving", is the rule that every edge in the Sugyascade must join
+  two statements taken *in the same aspect*. Say so; it is the reason `differs-in-context` exists as a
+  test in chapter 4, and 8.21.7 ("a statement made according to one aspect you must not make into a
+  premise for a conclusion in another aspect") is its clearest statement in the book.
+- **TERM.** `בחינה` "aspect" is the word the whole site uses for "respect" (`differs-in-context`,
+  "same respect"); the glossary should tie the three renderings (aspect, respect, context) to the one
+  Hebrew word. The translator's "proprium" for `סגלה` needs a one-line gloss (a property that always
+  accompanies a thing without being its essence).
+- **SOURCE.** **Pesachim 19b** (8.21.5; `[ed.]` corrects "20"), **Mishnah Parah 9:3** (8.21.13; `[ed.]`
+  corrects "3"), **Sifrei Bamidbar 7** (8.21.19; `[ed.]` notes 1742's `הקל` twice for `הקל … הקלה`),
+  **Zevachim 99a** (8.21.23; `[ed.]` corrects "91"). All in the index; the Zevachim entry explains the
+  priestly watch (`משמרה`) that 8.21.24–8.21.25 turn on.
+
+### 8.22.1–8.24.5 · Agreement from the report, not the matter
+
+- **GAP, recorded.** These are chapter 9's `objection` leaf (9.17), and `METHODOLOGY.md` §13 plans
+  five glyphs for them, "Section 4: objections to form": `obvious` (פשיטא, 8.23.2), `might-have-thought`
+  (סלקא דעתן, 8.23.3), `redundant-part`, `self-contradictory` (הא גופא קשיא, 8.24.3), `misordered`
+  (תנא היכא קאי · ליערבינהו ולתנינהו · פתח בכד וסים בחבית, 8.24.5, "one icon, three text chips"). Not
+  drawn. These verses are their specification.
+- **CHART.** 8.22.3's two ways (the report as a whole; its parts) → 8.23 and 8.24 → the five formulae.
+  A small tree, mirroring the proof tree above it.
+- **WIDGET.** "It is obvious!" and its answer: show a mishnah clause, raise `פשיטא`, then reveal the
+  contrary view it exists to exclude (`סלקא דעתן`). The pair is the most common exchange in the Gemara
+  and the one a beginner most needs to recognise.
+- **SOURCE.** **Berachot 2a** (8.24.5, `תנא היכא קאי`), **Gittin 80b** (8.24.5, `ליערבינהו ולתנינהו`;
+  the `[ed.]` records that 1742 files it under Berachot 2), **Bava Kamma 27a** (8.24.5, the jug and the
+  barrel). All in the index.
+- **TERM.** `פשיטא`, `סלקא דעתך`, `הא גופא קשיא`, `תנא היכא קאי`, `ליערבינהו ולתנינהו`, `פתח בכד
+  וסים בחבית`: six formulae, all kept in the English. Formula cards.
+- **FIX.** 8.24.5 `(ברכות ב')::` doubled colon.
+
+### 8.25.1–8.26.1 · Transition to the parts of the sugyot
+
+- **UX.** 8.25.1 closes the "foundations" (chapters 2–8) and 8.26.1 opens the "structures" (chapter
+  9). The roadmap's last major boundary; light it.
+
+## Chapter 9
+
+Chapter 9 is `taxonomy.ts` in prose. The seven elements (9.1.1), their nineteen leaves (9.3–9.5), and
+one paragraph per leaf with definition, example and rule. Every construct is named by the text. The
+notes for this chapter are therefore mostly about *joining* the two: the verse and the data row.
+
+### 9.1.1–9.5.1 · The seven parts and their divisions
+
+- **CHART / WIDGET.** The 7 → 19 tree, from `LEAVES` in `taxonomy.ts`, rendered from these verses:
+  each node shows the text's Hebrew name (9.3.1–9.5.1), the site's English, the two-letter chip, and
+  the `Effect` (`raise` / `reject` / `discharge` / `unsettle` / `open`). Clicking a leaf scrolls to its
+  definition paragraph below. This is the same tree promised at 2.11 and drawn collapsed there; here
+  it opens fully.
+- **GUIDE, a gap in the text itself.** 9.4.3 lists three kinds of difficulty, but the chapter defines
+  only two (9.17 objection, 9.18 apparent contradiction); `תיובתא` is never defined. `taxonomy.ts`
+  records this as `UNDEFINED_IN_SOURCE` and notes the translator flags it. Say so at 9.4.3, and mark the
+  refutation's row in the tree as "listed, not defined".
+- **GUIDE.** Two naming variances inside the chapter: 9.5.1 `ישיבה` against 9.19.1 `הישוב`; 9.3.3
+  `פשיטית` against 9.12.1 `הפשיטות`. One footnote each.
+- **VISUAL.** The seven `ch9-moves` icons on 9.1.1, as at 2.2.1; ribbon between the two verses.
+
+### 9.5.2–9.20.5 · The leaves, one by one
+
+- **UX, the shape of every paragraph.** Definition (`… הוא – ש…`), example (`דרך משל`), rule
+  (`ומשפטו`/`ומשפטה`). The verses are cut on those seams; style the three roles in the margin as for
+  chapter 3's kinds. Where the rule is "like the rule of X" (9.12.3, 9.14.3), link to X.
+- **WIDGET, per leaf.** Beside each definition verse, draw the leaf's own example as one or two rows
+  of the waterfall with the right element icon and effect: 9.9.2 / 9.11.2 a query and its "yes"; 9.10.2
+  / 9.12.2 a question of principle and its determination; 9.13.2 a demonstration raising a statement;
+  9.14.2 a validation; 9.15.2 a direct contradiction rejecting; 9.16.2 `מאי לאו? — לא` as an opposition
+  unsettling; 9.17.2–9.17.3 objections; 9.18.2–9.18.3 an apparent contradiction; 9.19.2 its settlement
+  discharging; 9.20.3 an alternative unsettling. Nineteen tiny Sugyascades make the legend concrete.
+- **CHART.** Beside each definition, the `LEAVES` row: `plain` gloss ("states a ruling", "asks which
+  of two ways the law goes", …), chip, effect, Feldheim page. The `plain` line was written for a
+  reader "meeting the system cold" and is the right one-line companion to Ramchal's definition.
+- **GAP, recorded.** `METHODOLOGY.md` §13, "Part 4": eight leaves have distinct logical force and no
+  glyph (פירוש דחוק 9.6.5, אוקימתא 9.6.7, הגדה 9.8, אבעיא 9.10, פשיטות 9.12, סייעתא 9.14, דחיה 9.16,
+  שינויא 9.20); giving them glyphs "reverses the earlier 'leaf = text chip' ruling, so it needs
+  Alexander's call". The interlinear page is where that call can be made with the definitions in view.
+
+### 9.5.2–9.5.4 · The firsthand statement (שמועה)
+
+- **SOURCE.** **Berachot 20b** once more (the `[ed.]` records that 1742 attributes Rav Adda bar Ahavah's
+  words to R. Eliezer). The book's model statement, now as the model `statement/firsthand`; the
+  recurrence ribbon's fourth stop (3.1.3, 3.6.4, 6.3.4, 9.5.3).
+- **GUIDE.** 9.5.2 widens the leaf beyond halachah: "from the ethical teachings, or of whatever kind
+  of intelligible it may be". A note, since the shipped passages are all halachic.
+
+### 9.6.1–9.6.9 · The explanation: full, forced, rejected; the presumption
+
+- **WIDGET.** The "how forced?" slider: 9.6.4 full (agrees completely), 9.6.5 forced (we must say the
+  author "did not speak with precision"), 9.6.6 rejected. `taxonomy.ts` gives `explanation` the effect
+  `open` and `forcedExplanation` `unsettle`, with the comment that this is "a reading, not a quotation":
+  9.6.5 is the reading's source. Show the three positions and the effect each carries.
+- **GUIDE.** 9.6.7–9.6.9 define the `אוקימתא` (`statement/presumption`, effect `unsettle`): the words
+  are left as they are and the case is narrowed. This is the move most often mislabelled as an
+  explanation; the text's own contrast (9.6.7 "we do not elucidate the report and its words at all")
+  is the test. The two formulae `הכא במאי עסקינן` and `הא מני, ר' פלוני היא` are its markers.
+- **SOURCE.** **Berachot 22a** (9.6.2; R. Yehoshua ben Levi and the morning immersers), **Berachot 26a**
+  (9.6.9; the `[ed.]` notes the formula does not occur on 2a, where the 1742 places it), **Berachot 24b**
+  (9.6.9, `לא שנו אלא`). All in the index.
+- **TERM.** `הכי קאמר` "this is what he is saying" (9.6.2): the explanation's own marker; `לא שנו
+  אלא` (9.6.9): a second presumption marker. Formula cards.
+- **FIX.** 9.6.7 `נגמל המאמר` for `נגביל` ("we confine"). 9.6.9 has no closing quotation mark.
+
+### 9.7.1–9.7.2 · The inference (דיוק)
+
+- **SOURCE.** **Berachot 20b** again (the `[ed.]` records 1742's `רבא` for `רבינא`). Ribbon back to
+  chapter 5, which 9.7.2 cites by name.
+- **UX.** 9.7.2 could not be cut from its rule because the English joins them with an unspaced dash
+  (`רבא]—and its rules`); the verse therefore carries example and rule together. Recorded under
+  segmentation decisions.
+
+### 9.8.1–9.8.3 · The report (הגדה)
+
+- **GUIDE.** 9.8.1 defines the report as relating "what another felt, on his view, of the difficulties
+  or of the resolutions": this is the chapter 10 idea of an *ascribed* move (`METHODOLOGY.md` §13 plans
+  `ascribed-proof` and `ascribed-difficulty` for it), and 9.8.3's `תו קשיא ליה` is its model. Forward
+  link to chapter 10 when it is cut.
+- **SOURCE.** **Shabbat 19a** (9.8.2; the `[ed.]` records that the report there is R. Tzadok's, where
+  1742 prints R. Yehoshua ben Levi), **Bava Kamma 83b** (9.8.3; the Tanna's "further difficulty").
+- **FIX.** 9.8.2 `דרך משל. כשאמרו` stray period; 9.8.3 the quotation of `תו קשיא ליה` lacks its opening
+  mark.
+
+### 9.9.1–9.12.3 · Query, question of principle, answer, determination
+
+- **CHART.** Two pairs, side by side: query (9.9) → answer (9.11); question of principle (9.10) →
+  determination (9.12). 9.9.1 lists what a query may ask (is it so; place; time; reason) and 9.11.1
+  the matching answers (yes or no; the reason). A two-column of question-type → answer-type.
+- **SOURCE.** **Yevamot 102a** (9.9.2, 9.11.2), **Berachot 35a** (9.9.3), **Yevamot 112b** (9.9.4,
+  9.11.2; its fourth appearance), **Yevamot 58b–59a** (9.10.2, 9.12.2). All in the index; the Yevamot
+  58b entry explains why "betrothal or marriage" is a genuine two-sided question.
+- **TERM.** `בעא מיניה` "asked him" (9.10.2) is the marker of a question of principle; `מאי שנא`
+  "what is different" (9.9.4) of a query about a reason. Formula cards.
+
+### 9.13.1–9.14.3 · Demonstration and validation
+
+- **GUIDE.** 9.13.4 grades the demonstration: by necessity, "according to the laws of necessary proof",
+  or by sevara, "not as strong". The `theory` glyph on the proof edge is for the second (ICONS
+  REFERENCE §11b). 9.14 is the weaker cousin: a source that *agrees*, not one that *proves*; both carry
+  `raise` in `taxonomy.ts`, and the gloss "cites a source that agrees" is the distinction.
+- **SOURCE.** **Pesachim 16a** (9.13.2; `[ed.]` supplies the folio), **Yevamot 102b** (9.14.2, `תניא
+  כותיה דרבא`). Both in the index.
+- **TERM.** `תדע` "know it" (9.13.2), `מנא הני מילי` / `דתנו רבנן` (9.13.3), `תניא כותיה` (9.14.2):
+  formula cards; `תניא כותיה` is the validation's own marker.
+- **FIX.** 9.13.4 and 9.15.4 `שפיר` for `שפירשתי` ("that I explained"), twice.
+
+### 9.15.1–9.16.4 · Direct contradiction and opposition
+
+- **GUIDE.** The pair the rail's `Effect` was built to keep apart: 9.15 `reject` ("shows it to be
+  annulled", "absolutely"), 9.16 `unsettle` ("deflects the necessity … does not deny its
+  possibility", leaving the statement "doubtful and non-necessary", 9.16.3). Quote 9.16.3 in the
+  legend; it is the definition of the site's `weakened` standing.
+- **GUIDE.** 9.16.4 sets the floor for an opposition: what it proposes must "have a footing in the
+  subject" and not be "far-fetched in the extreme", else the statement stands "by force of sevara".
+  This is the `theory` glyph again, now on the `contradiction` edge for a `דחיה` (ICONS_REFERENCE
+  §11b says exactly this). Ribbon to 8.20.
+- **SOURCE.** **Pesachim 17b** (9.15.2). The index, from the Sefaria text, gives the reply to Rav Huna
+  son of Rav Natan; the 1742 prints `אמר ליה רב אשי`, and the English follows the print. No `[ed.]`
+  marks it; the card should.
+- **TERM.** `מאי לאו` / `לא`, `ודלמא`, `אימא` (9.16.2): the three opposition markers, named as such by
+  the text ("a sign of opposition"). Formula cards.
+
+### 9.17.1–9.18.3 · Objection and apparent contradiction
+
+- **GUIDE.** 9.17 is chapter 8's "report" section (8.22–8.24) as a leaf; ribbon both ways, and the
+  planned "objections to form" glyphs apply here too. 9.18 is the move chapter 4 exists to dissolve;
+  ribbon to 4.4's four conditions and to the `רמיא` edge that carries the relation tiles.
+- **SOURCE.** **Yevamot 117b** (9.17.2, `היינו הך`), **Yevamot 118a** (9.17.3), **Yevamot 120b** (9.18.2;
+  `[ed.]` corrects "121"), **Berachot 4a** with **Genesis 28:15 and 32:8** (9.18.3). All in the index.
+- **TERM.** `מאי קא משמע לן` / `היינו הך` (9.17.2), `ולפלוג … ברישא` (9.17.3), `ורמינהי` / `… רמי`
+  (9.18.2–9.18.3): formula cards; `ורמינהי` is the apparent contradiction's own marker.
+- **FIX.** 9.18.2 has no closing quotation mark.
+
+### 9.19.1–9.20.5 · Settlement and alternative
+
+- **GUIDE.** 9.20.2 is the sentence `taxonomy.ts` quotes for the resolution pair: an alternative "is
+  in truth similar to the opposition, except that the opposition is against a statement … while the
+  alternative is an opposition against a difficulty". So `settlement` discharges (9.19.1, "which the
+  answerer believes to be the truth") and `alternative` unsettles. Show the two effects beside the two
+  definitions.
+- **WIDGET.** The forcedness slider again (9.20.4–9.20.5): the more deficiency posited in the
+  statement, the more forced the alternative, until "its words truly cannot bear it" and it gets no
+  place. Pair with 9.6's slider; the two are one scale.
+- **SOURCE.** **Berachot 4a** (9.19.2; the text's example is truncated to `סבר וכו'`, and the index
+  gives the full settlement, "perhaps sin will cause it"), **Yevamot 104b** (9.20.3). Both in the index.
+- **TERM.** `דחו ואמרו: לאו` (9.20.3) is the alternative in the act; formula card.
+
 ## Cross-cutting mechanisms
 
 Things that would be built once and land on many verses.
 
-- **Citation card (SOURCE).** Every citation in chapters 1–6 has a Sugya Context Index entry. The card:
+- **Citation card (SOURCE).** Every citation in chapters 1–9 has a Sugya Context Index entry. The card:
   the 1742 citation as printed, the resolved locus (from the `[ed.]` or from the index), the entry's
-  text, a Sefaria link. Fourteen citations in chapters 1–3 carry an `[ed.]` correction, seven more in 4–6; the
+  text, a Sefaria link. Fourteen citations in chapters 1–3 carry an `[ed.]` correction, seven more in
+  4–6, fifteen more in 7–9; the
   correction itself is a fact worth showing, and the GUIDE that explains it is one paragraph: the 1742
   print cites the Bavli by folio, and cites the Mishnah by what appear to be the *leaf numbers of a
   printed Mishnah* rather than by chapter and mishnah (they climb through Seder Zera'im in order:
@@ -729,6 +1208,20 @@ Things that would be built once and land on many verses.
   18:21 · Yevamot 112b · Mishnah Ma'asrot 2:1 (ch. 6). In chapters 5 and 6 several citations are the
   translator's, in plain brackets, where the 1742 print names no source at all (Leviticus 11:2, II
   Samuel 23:1, Mishnah Shabbat 13:5, Bereshit Rabbah 51:3, Pesachim 50b); the card should say so.
+  Chapters 7–9: Shabbat 73a with Sanhedrin 53a · Shabbat 70a · Shabbat 43b · Sifra, Dibbura de-Chovah
+  parashah 5 (×3) · Keritot 26a · Horayot 10a · Pesachim 19a · Pesachim 5b · Bava Kamma 104a (ch. 7);
+  Sukkah 40a · Yevamot 40a · Sanhedrin 90a with Isaiah 60:21 · Yevamot 66a with Leviticus 22:11 ·
+  Horayot 9a · Berachot 58b (×2) · Chagigah 4a · Bava Kamma 83b (×3) with Leviticus 24:17–21 · Bava
+  Kamma 84a · Bava Kamma 29a · Bava Kamma 87a with 88a and Deuteronomy 25:11 (×2) · Sifra (משיח יוכיח)
+  · Shabbat 82a with Isaiah 30:14 · Chullin 19b · Pesachim 19b · Mishnah Parah 9:3 · Sifrei Bamidbar 7 ·
+  Zevachim 99a · Berachot 2a · Gittin 80b · Bava Kamma 27a (ch. 8); Berachot 20b (×2) · Berachot 22a ·
+  Berachot 26a · Berachot 24b · Shabbat 19a · Bava Kamma 83b · Yevamot 102a (×2) · Berachot 35a ·
+  Yevamot 112b (×2) · Yevamot 58b–59a (×2) · Pesachim 16a · Yevamot 102b · Pesachim 17b · Yevamot 117b ·
+  Yevamot 118a · Yevamot 120b · Berachot 4a (×2) with Genesis 28:15 · Yevamot 104b (ch. 9). In chapter 7
+  the print cites neither the Shabbat premises nor R. Yose nor the moving-from-the-side case; the
+  index supplies all three. Chapter 9's `[ed.]` brackets are mostly *attribution* corrections (R.
+  Eliezer → Rav Adda bar Ahavah; Rava → Ravina; R. Yehoshua ben Levi → R. Tzadok), a kind the card
+  should distinguish from a corrected folio.
 - **Recurrence ribbon (SOURCE / UX).** Passages the author reuses, per the index: Berachot 20b (ch. 3,
   6, 9 ×2), Chullin 2a (ch. 2, 3, 6), Pesachim 7b (ch. 3, 10), Mishnah Demai 1:2 (ch. 3, 6), Mishnah
   Ma'asrot 2:1 (ch. 3, 6), Exodus 12:16 (ch. 3, 6), Yevamot 112b (ch. 3, 6, 9 ×2), Ketubot 75a (ch. 3
@@ -737,6 +1230,13 @@ Things that would be built once and land on many verses.
   From chapters 4–6 add: Shabbat 57a (ch. 4 ×2), Yevamot 66a (ch. 4 ×3, ch. 8), Chagigah 15b (ch. 5
   ×2), Berachot 53a (ch. 5), Bava Kamma 117a (ch. 6), and the seven chapter 3 ↔ chapter 6 pairs listed
   under 6.3, which are the densest recurrence in the book and the first to build.
+  From chapters 7–9 add: Bava Kamma 83b (ch. 8 ×3, ch. 9; the book's single most-worked page, and
+  chapter 10 returns to it), the Sifra on the suspensive guilt offering (ch. 7 ×3, ch. 8), Berachot
+  58b (ch. 8 ×2, as disproof then as its rebuttal), Bava Kamma 87a–88a (ch. 8 ×2), Berachot 20b (ch. 9
+  ×2, its fifth and sixth appearances), Yevamot 112b (ch. 9 ×2), Yevamot 102a (ch. 9 ×2), Berachot 4a
+  (ch. 9 ×2, as apparent contradiction then as its settlement), Sanhedrin 90a (ch. 3, 8), Yevamot 66a
+  (ch. 4, 8). The move-and-counter-move pairs (Berachot 58b, Berachot 4a) deserve a two-ended ribbon
+  that names both roles.
 - **Abbreviation expansion (TERM).** Hover expansions for the print's abbreviations: `ש"ס`, `ד"מ`
   (דרך משל), `ע"י`, `אעפ"י`, `ג"כ`, `אח"כ`, `בעה"ב` (בעולם הבא), `חש"ו`, `וכו'`, `ר'`, `ד'` (דף), `פ"ד`
   (פרק ד'), `א'` (אחד). Cheap, and it removes the single biggest barrier for a reader with some Hebrew
@@ -746,6 +1246,16 @@ Things that would be built once and land on many verses.
   דלאו איהו מהל`, `מאי איכא למימר`, `אין הכי נמי`. A card that says what each *announces* in a sugya
   (not just what it means) is the bridge from this text to reading a page of Gemara. Chapters 4–6 add
   `אמרו דבר אחד`, `ואידי דתנן רישא … תנא סיפא נמי`, `בדין הוא`, `מכלל ד…` ("by implication").
+  Chapters 7–9 add the bulk of the Gemara's working vocabulary, and the text itself names several as
+  markers ("this is called…", "a sign of…"): `אינו דין`, `מה ל… שכן`, `… יוכיח`, `אי סלקא דעתך`, `שמע
+  מינה`, `היכי דמי`, `מנא ידעינן` (ch. 7); `והא אנן תנן`, `והא כתיב`, `והא קא חזינן`, `לא סלקא דעתך`,
+  `אלא מעתה`, `ממה נפשך`, `ולטעמך`, `ולדידך`, `אדרבא`, `היא הנותנת`, `משם ראיה`, `מסתברא`, `פשיטא`,
+  `סלקא דעתך`, `הא גופא קשיא`, `תנא היכא קאי`, `ליערבינהו ולתנינהו`, `פתח בכד וסים בחבית` (ch. 8);
+  `הכי קאמר`, `הכא במאי עסקינן`, `הא מני`, `לא שנו אלא`, `בעא מיניה`, `מאי שנא`, `תדע`, `מנא הני
+  מילי`, `דתנו רבנן`, `תניא כותיה`, `מאי לאו`, `ודלמא`, `אימא`, `מאי קא משמע לן`, `היינו הך`,
+  `ורמינהי` (ch. 9). Nearly fifty in all across the nine chapters. A formula card is therefore not a
+  nicety; built once, it lands on well over a hundred verses, and it is the single component that
+  turns this text into a reading aid for the Gemara itself.
 - **Two bracket kinds (UX).** `[ed. …]` is editorial (a source reading, always cited); plain `[…]` is
   the translator's clarifying insertion (`[i.e., Kiddush]`, `[bardelas]`, `[the sweat]`, `[Once]`,
   `[ketubah]`, `[as a sharecropper]`, `[Exodus 12:16]` …). Render them differently, and let the reader
@@ -771,6 +1281,15 @@ Things that would be built once and land on many verses.
   4.8.1 `obverse` · 4.9.1 `incongruent` · 5.1.6 the wide inference pair · 5.3.2 `inference-loose` ·
   5.3.5 `inference-necessary` · 5.4.8 `absolute-opposite` · 6.2.4 `figurative`. These are asset keys
   (file names in `icons_v3/`), not display names.
+  Chapters 7–9: 7.2.9 `syllogism`, `classical-syllogism` · 7.2.12–7.2.13 `fallacy-not-included` · 7.3.2
+  `analogism` · 7.3.4 `a-fortiori` · 7.3.8 `fallacy-not-similar` · 7.3.9 `fallacy-not-greater` · 7.3.11
+  `fallacy-counterexample` · 7.4.6 `hypothetical-syllogism`, `hypothetical-syllogism-tollens` · 7.5.6
+  `disjunctive-syllogism` · 8.5.1 `ground-axiom` · 8.6.1 `ground-sense` · 8.8.1 `ground-common-sense` ·
+  8.9.1 `ground-tradition` · 8.10.1 `ground-deduction` · 8.10.3 `via-opposite` · 8.15.3 `dilemma` ·
+  8.16.4, 8.16.5 `ground-does-not-reach` · 8.20.1 `theory` · 9.1.1 the seven `ch9-moves`. Planned, not
+  drawn (`METHODOLOGY.md` §13): 8.17.2, 8.18.2 the three rebuttals; 8.21.22 potential / actual;
+  8.23.2–8.24.5 and 9.17 the five objections to form; 9.6.5, 9.6.7, 9.8, 9.10, 9.12, 9.14, 9.16, 9.20 the
+  eight chapter 9 leaves awaiting a decision. Text chips there until then.
 - **Bidi (UX).** Every English verse that quotes Hebrew needs the isolation `build-text-docs.ts`
   already applies (`wrapInlineHebrew`); the interlinear renderer must reuse it, not reimplement it.
   The Hebrew verses need `dir="rtl"` on the verse, not on a block, since the two languages now
@@ -809,12 +1328,29 @@ print and its translation stand as they were" is kept.
 | 6.3.13 | `וכו''` | `וכו'` | Doubled geresh |
 | 6.3.22 | `מיבם”"` | `מיבם”` | Doubled closing quote |
 | ch. 6 | `–` (en dash) throughout | `—` as in chs. 1–5 | Keying inconsistency; treat as one mark |
+| 7.4.4 | `כרבי עקיבא. היה נמשך` | `כרבי עקיבא, היה נמשך` | Stray period splits the clause |
+| 7.5.4 | `בבא-קמא ק"ד):` | `(בבא-קמא ק"ד):` | Missing opening parenthesis |
+| 7.5.6 | `או נשוא זה או נשוא זה. יש בנושא זה` | no period | Stray period inside the clause; English smooths |
+| 8.6.3 | `וכל כל כיוצא בזה` | `וכן כל כיוצא בזה` | |
+| 8.10.3 | `אם תבוא לנו. ראיה עליו` | `אם תבוא לנו ראיה עליו` | Stray period |
+| 8.10.7 | `שאשת(!)` | `שאשתו`; `(!)` is the transcriber's sic mark | Render the mark as an editorial sign, not text |
+| 8.12.3 | `כשלא הביאו ראיה` | `כשהביאו ראיה` | English "when they brought"; sense |
+| 8.18.2 | `או:היא הנותנת",` | `או: “היא הנותנת”,` | Punctuation and quote garble |
+| 8.18.3 | `השיבו: אדרבא. דנין … מבהמה".` | `השיבו: “אדרבא, דנין … מבהמה”.` | Missing opening quote; stray period |
+| 8.20.1 | `מטה הדעת לא מן הצדדין` | `מטה הדעת לאחד מן הצדדין` | English "to one of the sides"; sense |
+| 8.24.5 | `(ברכות ב')::` | `(ברכות ב'):` | Doubled colon |
+| 9.6.7 | `נגמל המאמר` | `נגביל המאמר` | English "we confine"; sense |
+| 9.8.2 | `דרך משל. כשאמרו` | `דרך משל, כשאמרו` | Stray period |
+| 9.13.4, 9.15.4 | `שפיר` | `שפירשתי` | English "that I explained", twice |
+| 9.15.2 | `אמר ליה רב אשי` | (attribution) | The index, from Sefaria, gives the reply to Rav Huna son of Rav Natan; no `[ed.]` marks it |
+| chs. 7–9 | unmatched or mixed quotation marks | | 7.3.4, 7.3.8, 8.10.2, 8.10.5 (`בש”ס`), 8.13.2, 8.15.2, 8.20.3, 9.6.9, 9.8.3, 9.18.2: an opening or closing mark missing, or a curly closing quote keyed for gershayim |
 
 Also recorded, not artefacts: 3.9.2 prints `חלדה או ברדלס` where the Gemara has `וברדלס` (the index
 entry translates "a marten *and* a polecat"); and the `[ed.]` brackets at 2.12.4, 2.12.7, 3.4.2, 3.9.2,
-3.12.3, 3.13.2, 3.14.3, 3.14.4, 3.14.6, 3.14.11, 3.15.2, 3.16.2, 3.17.2, 3.18.2, and in chapters 4–6 at
-4.2.3, 4.2.5, 4.7.2, 5.3.3, 6.3.13, 6.3.17, 6.3.22, each record a citation or wording that differs from
-the source.
+3.12.3, 3.13.2, 3.14.3, 3.14.4, 3.14.6, 3.14.11, 3.15.2, 3.16.2, 3.17.2, 3.18.2, in chapters 4–6 at
+4.2.3, 4.2.5, 4.7.2, 5.3.3, 6.3.13, 6.3.17, 6.3.22, and in chapters 7–9 at 7.5.2, 8.11.1, 8.12.3, 8.16.3,
+8.21.5, 8.21.13, 8.21.19, 8.21.23, 8.24.5, 9.5.3, 9.6.9, 9.7.2, 9.8.2, 9.13.2, 9.18.2, each record a
+citation, wording or attribution that differs from the source.
 
 ## Segmentation decisions worth remembering
 
@@ -853,4 +1389,21 @@ the source.
 - **A shared dash closes both sides at 4.5.7 and 5.3.3.** Where Hebrew and English both break a
   sentence with `—` at the same point, the dash ends the first verse on both sides rather than opening
   the second, so no verse begins with a dash. In 5.3.3 the Hebrew's `”. —` therefore sits at the end
-  of the verse.
+  of the verse. The same rule puts a trailing `–` on the Hebrew of 7.3.9, 7.4.3, 9.11.2, 9.12.2 and
+  9.14.2, where the print has a dash after a closing quotation mark and the English has none.
+- **Cuts fall only where both sides have a space at the seam.** Re-joining a paragraph's verses with
+  single spaces must reproduce the parent exactly, so a seam with no whitespace in the original cannot
+  be cut. Chapter 9's English uses unspaced em dashes (`heart"—"Rava said`, `רבא]—and its rules`),
+  which is why 9.7.2 carries the inference's example and its rule in one verse where every other leaf
+  has them apart.
+- **8.14 is cut into its two chains** (8.14.4–8.14.8 "actual death"; 8.14.9–8.14.11 "giving"), each
+  step a verse, so the two Sugyascades the notes propose have one verse per row.
+- **8.21 is cut by aspect** (8.21.11, .12, .14, .16 the four definitions, each followed by its
+  example), and 8.21.22–8.21.25 by the four moves of the Zevachim exchange (statement, difficulty,
+  resolution, gloss), so the potential/actual widget has a verse per move.
+- **Chapter 9 is cut definition / example / rule** for every leaf (e.g. 9.13.1 / 9.13.2–9.13.3 /
+  9.13.4), and the four division sentences of 9.3–9.5 are one verse per element, so the 7 → 19 tree can
+  link each node to the verse that lists its leaves.
+- **9.5 keeps the print's odd paragraphing.** The parent joins the resolution's division (9.5.1) and
+  the first leaf's definition (9.5.2) in one paragraph; the interlinear keeps that paragraph and lets
+  the label say what it holds.
