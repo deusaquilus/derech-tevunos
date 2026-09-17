@@ -1,10 +1,9 @@
-import { useMemo, useState } from 'react';
-import { SugyaView } from '../rail/app/SugyaView.tsx';
+import { useMemo } from 'react';
+import { RailSheet } from './RailSheet.tsx';
 import { sugyaById } from '../rail/sugyot/index.ts';
-import '../rail/app/styles.css';
 
 /**
- * The rail visualization, embedded in a site page.
+ * A shipped passage, embedded in a site page.
  *
  * This is the whole integration surface, and it is deliberately thin. The
  * visualization used to be a standalone app with its own shell — a title, a
@@ -27,32 +26,21 @@ import '../rail/app/styles.css';
  *     passages; the switches stay wired to the controller because they are
  *     still React children of the view.
  *
- * `client:only` is the right directive rather than `client:load`: the
- * controller measures DOM geometry to place rails and elbows, so there is no
- * meaningful server render to hydrate from, and attempting one produces a
- * flash of unpositioned rows. It is also what makes resolving the legend host
- * synchronously safe below: this component never runs without a `document`.
+ * The drawing itself is `RailSheet.tsx`, which `/byo` shares. Resolving the
+ * passage here rather than there is what keeps the registry out of that
+ * route's bundle and out of this page's HTML: the id is three words, the
+ * passage is up to 31KB.
  */
 export type RailProps = {
   readonly id: string;
   /** Reveal this many sentences on arrival; the rest step in on demand. */
   readonly start?: number;
-  /**
-   * Id of the element the legend renders into. The stage's panel, on the site.
-   * Absent, or naming nothing in the document, the legend renders inline.
-   */
+  /** Id of the element the legend renders into. The stage's panel, on the site. */
   readonly legendHost?: string;
 };
 
 export const Rail = ({ id, start, legendHost }: RailProps): React.ReactElement => {
   const sugya = useMemo(() => sugyaById(id), [id]);
-  // Resolved once, on mount. The panel is server-rendered HTML, so it is in the
-  // document before this island is; resolving it in an effect instead would
-  // render the legend inline for a frame, measure the rows around it, then
-  // move it and measure again.
-  const [host] = useState<Element | undefined>(() =>
-    legendHost === undefined ? undefined : (document.getElementById(legendHost) ?? undefined),
-  );
 
   if (sugya === undefined) {
     return (
@@ -62,21 +50,7 @@ export const Rail = ({ id, start, legendHost }: RailProps): React.ReactElement =
     );
   }
 
-  return (
-    <SugyaView
-      // Remount on a passage or step change so the controller measures fresh
-      // geometry instead of reusing the previous passage's.
-      key={`${sugya.id}@${start ?? 1}`}
-      sugya={sugya}
-      header={false}
-      legendHost={host}
-      // No `hint` here on purpose. `SugyaView` only forwards it to
-      // `SugyaHeader`, which `header={false}` removes, so passing it would be
-      // inert. The four research passages that author one have it rendered by
-      // the Astro page instead — server-side, where it is crawlable.
-      options={start === undefined ? undefined : { start }}
-    />
-  );
+  return <RailSheet sugya={sugya} start={start} legendHost={legendHost} />;
 };
 
 export default Rail;

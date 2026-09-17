@@ -1,0 +1,21 @@
+---
+import Layout from '../layouts/Layout.astro';
+import ByoStage from '../components/ByoStage.astro';
+
+/**
+ * `noindex`, and excluded from the sitemap (`SITEMAP_EXCLUDE` in
+ * `astro.config.mjs` — keep the two in sync). Not because the page is
+ * private, but because it renders nothing at build time: its whole content is
+ * a file the reader supplies, so the crawler would index an empty drop zone
+ * under a title about drawing sugyot.
+ */
+---
+
+<Layout
+  title="Bring your own sugya — Derech Tevunos"
+  description="Open a sugya file of your own and draw it as a waterfall: every row, rail, fold and badge the shipped passages use. Read in your browser; nothing is uploaded."
+  noindex
+  bare
+>
+  <ByoStage />
+</Layout>

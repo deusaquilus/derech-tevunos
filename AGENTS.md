@@ -218,13 +218,14 @@ or *what is still exerting force* (standing).
 |---|---|
 | `DerechTevunos_benyehudah_bilingual_fixed.md` | The book, Hebrew and English, chapters 1–11 plus the Sugya Context Index. **Prefer this copy** for labelling; the terminology is aligned to the Diaspora Yeshiva translation. |
 | `DerechTevunos_benyehudah_bilingual.md` | The parent: same interleaving, pre-alignment English. |
-| `site/` | **The website, and the only npm package in the repo.** Astro + React, deployed to Vercel at `derechtevunos.com`. The rail visualization lives inside it at `site/src/rail/`. |
+| `site/` | **The website, and the only npm package in the repo.** Astro + React, deployed to Vercel at `derech-tevunos.com`. The rail visualization lives inside it at `site/src/rail/`. |
 | `web/` | Two computed visualizations (lattice interval under doubt, circumscription diff). Separate npm package. |
 | `icons_v3/` | The current glyph set — 104 SVGs. `ICONS_REFERENCE.md` is the contract for using them, `METHODOLOGY.md` for making them. `site/src/rail/glyphs.ts` is **generated** from these by `npm run glyphs`; edit the SVGs and regenerate, never the generated file. |
 | `renders/` | Exported PNGs and SVGs of the waterfall, embedded by the `SUGYA_WATERFALL_*` design documents. Was `viz/out/`. Keep the filenames — they are image references in markdown. |
 | `mascott/` | The mascot. Source of the site palette; see below. |
 | `DERECH_TEVUNOS_*.md`, `SUGYA_*.md` | The system and file format, written for a classifier. Roughly 1 MB; agent-facing, mostly not published. |
 | `nested_rail_research/` | The study that the v5 fold tree implements. |
+| `push-to-dev.sh`, `push-to-prod.sh` | Promote `main` to the `dev` / `prod` branches. Vercel production is `prod`, not `main`. See [Vercel publishing](#vercel-publishing--settled-2026-09-16). |
 
 There is **no** workspace root, so `npm install` at the repository root does
 nothing. `site/` and `web/` each have their own `package.json`; install inside
@@ -260,6 +261,55 @@ sitting one level below the repository root.
 
 Do not disable, `skip`, comment out, or delete a failing test. Fix the code or
 fix the test; if you believe a test is genuinely invalid, **ask first**.
+
+## Vercel publishing — settled 2026-09-16
+
+The live site is served by **Vercel** off the `prod` branch
+(`./push-to-prod.sh` is `git push origin main:prod`). Pushing `main` does not
+update production. That is the safety property, and it is a dashboard setting,
+not a script: Vercel's **Production Branch** must be `prod`, not the default
+`main`. If it is still `main`, the next `git push origin main` ships to
+`derech-tevunos.com`.
+
+The same model as `exobench-site`, minus the leftover GitHub Pages workflow
+and the on-demand feed functions. This site has no Pages path, and `/rss.xml`
+is a static file.
+
+| Branch | Role | How it moves |
+|---|---|---|
+| `main` | Working branch. A push here may get a throwaway preview URL. It must not update the public domain. | `git push origin main` |
+| `dev` | Staging. | `./push-to-dev.sh` (`git push origin main:dev`) |
+| `prod` | Production. `derech-tevunos.com`. | `./push-to-prod.sh` (`git push origin main:prod`) |
+
+The scripts live at the **repository** root because they operate on git, not
+the npm package. Do not put them in `site/`.
+
+The npm package is `site/`, not the repo root. Vercel still clones the whole
+repository, then `cd`s into the Root Directory for install and build. That
+matters: `build-text-docs.ts` reads `DerechTevunos_benyehudah_bilingual_fixed.md`
+from one level above `site/`, so a Root Directory of `site` still sees the
+source. `npm run glyphs` is not part of `build`; `glyphs.ts` is already
+committed.
+
+Under **Project → Settings → Build & Deployment**:
+
+| Setting | Required value | If wrong |
+|---|---|---|
+| Root Directory | `site` | No `package.json` at the repo root; the build never starts |
+| Framework Preset | Astro | Adapter output is ignored |
+| Output Directory | empty / default | Conflicts with `.vercel/output`; the site 404s |
+| Node.js Version | 22.x | Matches `site/package.json` `engines` |
+| Production Branch | `prod` | Pushing `main` becomes a production deploy |
+
+`site/vercel.json` stays exactly as it is — `$schema` and `trailingSlash:
+false`, nothing more. Do not add `outputDirectory`. Do not put a second
+`vercel.json` at the repository root; Vercel reads the one in the Root
+Directory. Do not set `output: 'server'` in `astro.config.mjs`.
+
+The public hostname is **`derech-tevunos.com`**. `astro.config.mjs`, the
+canonical fallback in `Layout.astro`, the RSS fallback, and `robots.txt` all
+emit that host. `derechtevunos.com` is a registrar/Vercel **redirect** onto
+it, not a second site and not a string that belongs in the repo.
 
 ## The mascot is the palette source — settled 2026-09-16
 
@@ -357,7 +407,7 @@ rail's bare names are left alone precisely because the site's are namespaced.
 
 ## The site — settled 2026-09-16
 
-`site/` is an Astro + React site deployed to Vercel at `derechtevunos.com`, a
+`site/` is an Astro + React site deployed to Vercel at `derech-tevunos.com`, a
 heavily stripped adaptation of `exobench-site`. It is built; what follows is why
 it is shaped the way it is.
 
@@ -531,6 +581,72 @@ tall and cannot fit the 666px scroller. That is the row grid inside
 `src/rail/app/`, not the stage: the stage's three pinned elements hold there
 too, and the frontier's foot still lands 10px above the foot control.
 
+### `/byo` draws a reader's own file, through the same parts — settled 2026-09-16
+
+**Bring Your Own** (nav, beside Sugyascade) is `/byo`: drop or paste a sugya
+file and it is drawn by the same waterfall the shipped passages get. There is
+no second implementation of anything, and that is the point — the page a
+reader's own file lands on is the page, not an imitation of it. Two extractions
+made it so, and both are the reuse seam to keep:
+
+- **`StageShell.astro` is the chrome; `RailStage.astro` and `ByoStage.astro`
+  are two fillings of it.** The strip, the overlaying panel, the sheet region,
+  the open/close script and every measurement in the section above moved there
+  verbatim when the second route appeared. Do not copy the strip into a third
+  page — add a slot.
+- **`RailSheet.tsx` is the island body; `Rail.tsx` and `Byo.tsx` are two ways
+  of getting a `Sugya` to it.** `RailSheet` takes the parsed passage, resolves
+  the legend host and renders `SugyaView`. `Rail.tsx` keeps the id→`SUGYOT`
+  lookup rather than accepting a passage, and that is deliberate: `client:only`
+  props are serialised into the page's HTML, so a `sugya` prop would inline up
+  to 31KB of passage into every `/sugya/<id>` response. Measured 2026-09-16:
+  `/byo` loads `Byo.js` 6KB plus the 162KB shared rail chunk; the other eight
+  passages stay in `/sugya`'s 115KB `Rail.js` and never reach `/byo`.
+
+Four details that look like tidying and are not:
+
+- **The strip's three texts wear `dt-strip-cite` / `-title` / `-meta`, which
+  are `:global()` in the shell.** Astro scopes a component's `<style>` to its
+  own template, and slotted content carries the *caller's* scope, so a scoped
+  `.cite` in the shell would never reach the span `RailStage.astro` writes.
+  `--dt`-prefixed because the rail's own stylesheet is unscoped and already
+  owns short names.
+- **`#byoStripText` is `display: contents`.** The island portals the three
+  spans into it, and a box between them and `.line-text` makes them one
+  anonymous flex item: measured before the rule, the strip read
+  "BAVA KAMMA 2A-3BAre the derivatives…77 sentences" with no space anywhere.
+  With it, both routes measure a 14px gap between each pair.
+- **The loader scrolls, and it is the one thing on a rail route besides
+  `.stage-rows` that may.** It is prose, not a drawing: there is no row
+  geometry on screen while it is showing and none of the three pinned elements
+  exist yet. The moment a file opens it is replaced by `RailSheet` and the
+  ordinary rule applies again.
+- **`/byo` is `noindex` and in `SITEMAP_EXCLUDE`** — not because it is private
+  but because it renders nothing at build time, so a crawler would index an
+  empty drop zone under a title about drawing sugyot. Keep the two in sync.
+
+Nothing is uploaded: `byoSession.ts` keeps the file — the file, via `toJson`,
+not the model — in `sessionStorage`, and `parseSugya` runs in the tab. What the
+page accepts and what the site ships are therefore the same format by
+construction rather than by agreement, and the fault list a refusal prints is
+`parseSugya`'s own, every fault at once with its JSON path and its "did you
+mean".
+
+The nav's fourth link does not fit a phone beside the wordmark. Measured at
+390px: logo 166 + links 206 + gap 12 + padding 32 = 416 against 390 available.
+Shrinking type and gaps lands at 391, which is not a margin, so the label has a
+short form ("Bring") below 640px and **the wordmark is hidden below 430px** —
+the mark alone is already the site's logo. 390px after: 290 used.
+
+Verified 2026-09-16 by 42 automated checks in a 1280×800 browser and 4 at
+390×844, with zero console errors: the loader, a 77-sentence file opened from
+disk, the strip and panel it fills, wheel moving `.stage-rows` while the window
+and the sheet stay at 0, the dock and foot not moving by a pixel, the panel not
+changing the sheet's height, survival across a reload, a refused file listing
+pathed faults, the bundled example round-tripping — plus the shipped route
+unregressed on the same measurements the re-cut recorded (dock 130–753, foot
+754–800, strip 40px, one left edge at 32px, title in the first response).
+
 ### Doctrine carried over from `exobench-site`
 
 - **Every URL the site emits about itself is slash-free**, the homepage `/`
@@ -626,6 +742,12 @@ caption.
 - Put anything below the sheet on a rail route, render the footer there, or let
   the strip's panel push the sheet instead of overlaying it. See "The rail
   owns the viewport".
+- Copy the strip, the panel or the sheet region into a new page instead of
+  adding a slot to `StageShell.astro`, write a second component that renders
+  `SugyaView` instead of going through `RailSheet.tsx`, or give `Rail.tsx` a
+  `sugya` prop — that inlines the passage into every page's HTML. Scope the
+  strip's `dt-strip-*` classes, or take `display: contents` off
+  `#byoStripText`. See "`/byo` draws a reader's own file".
 - Make anything but `.stage-rows` scroll on a rail route: no `overflow-y:
   auto` back on `.stage-sheet`, no `position: sticky` (or a `vh`/`cqh`
   height) on the state-of-play bar, the dock or the foot, no rendering the
@@ -649,3 +771,11 @@ caption.
 - `rmSync` the generated `src/content/docs/text/` directory. The generator
   writes in place and removes stale files; a vanishing directory makes a live
   `astro dev` drop every chapter route until restart.
+- Set Vercel's Production Branch back to `main`, add `outputDirectory` to
+  `vercel.json`, put a second `vercel.json` at the repository root, or set
+  `output: 'server'` in `astro.config.mjs`. The first ships every `main` push
+  to the public domain; the rest make the adapter's `.vercel/output` miss and
+  the site 404. See [Vercel publishing](#vercel-publishing--settled-2026-09-16).
+- Point `astro.config.mjs`, `Layout.astro`, `rss.xml.ts`, or `robots.txt` at
+  `derechtevunos.com`. That name is a redirect onto `derech-tevunos.com`, not
+  the host the site emits.

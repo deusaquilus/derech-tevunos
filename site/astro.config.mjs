@@ -34,7 +34,7 @@ import { fileURLToPath } from 'url';
 import path from 'path';
 
 /** Paths that must stay out of the index. Keep in sync with `noindex` on Layout.astro. */
-const SITEMAP_EXCLUDE = ['/docs/index/'];
+const SITEMAP_EXCLUDE = ['/docs/index/', '/byo/'];
 
 const configDir = path.dirname(fileURLToPath(import.meta.url));
 const lastmodPath = path.join(configDir, 'public', 'blog-lastmod.json');
@@ -44,7 +44,7 @@ const blogLastmod = existsSync(lastmodPath)
   : {};
 
 export default defineConfig({
-  site: 'https://derechtevunos.com',
+  site: 'https://derech-tevunos.com',
   adapter: vercel(),
   integrations: [
     mdx(),

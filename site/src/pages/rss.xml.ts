@@ -13,7 +13,7 @@ import { getCollection } from 'astro:content';
  * catalogue as new. `trailingSlash: false` is set as a second guard.
  */
 export const GET = async (context: APIContext) => {
-  const site = context.site ?? new URL('https://derechtevunos.com');
+  const site = context.site ?? new URL('https://derech-tevunos.com');
   const posts = await getCollection('blog', ({ data }) => !data.draft);
   const sorted = [...posts].sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
 

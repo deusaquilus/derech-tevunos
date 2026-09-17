@@ -8,6 +8,11 @@ const isHome = path === '/' || path.startsWith('/sugya');
 
 const links = [
   { href: '/', label: 'Sugyascade', active: isHome },
+  // The same drawing, fed a file the reader brings. Beside Sugyascade because
+  // that is what it is a second door to, not a section of its own. A fourth
+  // full-length label does not fit a 390px bar beside the wordmark, so this
+  // one carries a short form for the nav's own 640px breakpoint.
+  { href: '/byo', label: 'Bring Your Own', short: 'Bring', active: path.startsWith('/byo') },
   { href: '/docs', label: 'Docs', active: path.startsWith('/docs') },
   { href: '/blog', label: 'Notes', active: path.startsWith('/blog') },
 ];
@@ -29,7 +34,13 @@ const links = [
     <div class="links">
       {links.map((l) => (
         <a href={l.href} class={l.active ? 'on' : undefined} aria-current={l.active ? 'page' : undefined}>
-          {l.label}
+          {l.short ? (
+            <>
+              <span class="wide">{l.label}</span><span class="narrow">{l.short}</span>
+            </>
+          ) : (
+            l.label
+          )}
         </a>
       ))}
       <a
@@ -143,6 +154,11 @@ const links = [
     opacity: 0.85;
   }
 
+  /* A link that carries a short form shows one or the other, never both. */
+  .narrow {
+    display: none;
+  }
+
   @media (max-width: 900px) {
     .search {
       display: none;
@@ -165,6 +181,28 @@ const links = [
     }
 
     .links a.src {
+      display: none;
+    }
+
+    .wide {
+      display: none;
+    }
+
+    .narrow {
+      display: inline;
+    }
+  }
+
+  /* The fourth link does not fit beside the wordmark on a phone. Measured
+     2026-09-16 at 390px: logo 166 (mark 30 + wordmark ~126) + links 206 +
+     gap 12 + padding 32 = 416 against 390 available, and 360px is worse.
+     Shrinking type and gaps instead lands at 391 — one pixel over, which is
+     not a margin. So below 430px the brand is the mark alone: it is already
+     the site's logo mark in its own right (it is the favicon at five sizes,
+     and `mascott/just_beard_goggles.png` is where both come from), and the
+     wordmark is the first thing a phone can spare. 390px after: 290 used. */
+  @media (max-width: 430px) {
+    .wordmark {
       display: none;
     }
   }

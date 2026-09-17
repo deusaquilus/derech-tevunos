@@ -12,7 +12,7 @@ under the Apache License 2.0; see `LICENSE` and `NOTICE`.
 
 ## The site, and the rail visualization inside it
 
-`site/` is the whole thing: the website at [derechtevunos.com](https://derechtevunos.com),
+`site/` is the whole thing: the website at [derech-tevunos.com](https://derech-tevunos.com),
 which carries the rail visualization on its front page, the bilingual text in
 its docs, and notes in its blog.
 

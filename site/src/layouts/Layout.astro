@@ -39,7 +39,7 @@ const {
   bare = false,
 } = Astro.props;
 
-const site = Astro.site ?? new URL('https://derechtevunos.com');
+const site = Astro.site ?? new URL('https://derech-tevunos.com');
 // new URL() ignores the base when `image` is already absolute, so a
 // site-relative path and a full URL both work.
 const ogImage = new URL(image ?? '/social-card.png', site).href;

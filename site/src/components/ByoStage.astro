@@ -1,0 +1,79 @@
+---
+import Byo from './Byo';
+import StageShell from './StageShell.astro';
+
+/**
+ * A reader's own file on the stage.
+ *
+ * The same `StageShell.astro` a shipped passage wears, and the same
+ * `RailSheet` inside it — see `Byo.tsx`. Three of the shell's slots are empty
+ * here and filled by the island, because they describe a file the server has
+ * never seen: the strip's texts, the panel's actions, and the sheet. The
+ * static parts of the panel stay server-rendered, as they do on every other
+ * page.
+ *
+ * The strip's baseline group is empty in the first response, so the line
+ * carries only its chevron for the moment before the island mounts. That is
+ * the honest shape of this route rather than a regression to fix: the sheet is
+ * `client:only` for the same reason, and there is nothing to say about a file
+ * until one is chosen.
+ */
+---
+
+<StageShell moreLabel="file &amp; key" moreTitle="Open a file, and the key to the drawing">
+  {/* Filled by the island. See the note above. */}
+  <span slot="line" id="byoStripText"></span>
+
+  <Fragment slot="panel">
+    <div id="byoPanelActions"></div>
+    {/* The legend's host, in the same place in the panel as a shipped
+        passage's, so the key does not move between the two routes. */}
+    <div id="railLegend"></div>
+    <div class="links">
+      <a href="/sugya">The shipped passages</a>
+      <a href="/docs/text/chapter-09">The chapter 9 vocabulary</a>
+      <a href="/docs">The text</a>
+    </div>
+  </Fragment>
+
+  <Byo
+    stripHost="byoStripText"
+    panelHost="byoPanelActions"
+    legendHost="railLegend"
+    client:only="react"
+  />
+</StageShell>
+
+<style>
+  /* The island portals the cite, the title and the counts in here, so this
+     host must not be a box between them and the shell's `.line-text` flex
+     row: with a box in the way they are three inline spans of one anonymous
+     item, and the row's `0.9rem` gap applies once, around all three, instead
+     of between them — measured 2026-09-16 as "BAVA KAMMA 2A-3BAre the
+     derivatives…77 sentences", with no space anywhere. `display: contents`
+     makes them direct flex items, so this strip is laid out by exactly the
+     rules a shipped passage's is, including the title's ellipsis and the
+     counts disappearing at 720px. */
+  #byoStripText {
+    display: contents;
+  }
+
+  .links {
+    display: flex;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    margin-top: 1rem;
+    padding-top: 0.85rem;
+    border-top: 1px solid var(--dt-rule);
+    font-size: 0.8125rem;
+  }
+
+  .links a {
+    color: var(--dt-muted);
+    text-decoration: none;
+  }
+
+  .links a:hover {
+    color: var(--dt-brass);
+  }
+</style>

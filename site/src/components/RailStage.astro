@@ -1,6 +1,7 @@
 ---
 import PassageSwitcher from './PassageSwitcher.astro';
 import Rail from './Rail';
+import StageShell from './StageShell.astro';
 import { movementsOf, type Sugya } from '../rail/sugya.ts';
 import { markupToHtml } from '../rail/markup.ts';
 
@@ -9,33 +10,17 @@ interface Props {
 }
 
 /**
- * The rail, owning the viewport.
+ * A shipped passage on the stage.
  *
- * Three layout facts, all load-bearing:
+ * The chrome — the strip, the overlaying panel, the sheet region and every
+ * measurement behind them — is `StageShell.astro`. What is here is only what
+ * is true of a passage the site ships: its cite and counts in the strip, its
+ * authored `hint`, the switcher to its siblings, and the island that draws it.
+ * `ByoStage.astro` wears the same shell with a reader's own file instead.
  *
- *   1. THE ROWS ARE THE ONLY THING THAT SCROLLS. The page is clamped
- *      (`body.dt-stage` in Layout.astro), this component fills `main`, and
- *      `.stage-sheet` takes the remaining height as a flex column that clips
- *      — it does not scroll. The rail's article fills it and pins three things
- *      that never move: the state-of-play bar under this strip, the reveal
- *      dock down the right edge, the foot control at the bottom. Between them
- *      `.stage-rows` is the one scroll container, and the rail's one
- *      `scrollIntoView` moves it alone. Wheel and drag over the drawing move
- *      the drawing; nothing else on the page can move.
- *
- *   2. THE HEADER IS A STRIP THAT EXPANDS OVER THE SHEET, NOT ABOVE IT. When
- *      collapsed it is one 40px line — cite, title, counts. Hovering, focusing
- *      or tapping it reveals a panel with the passage switcher and the key.
- *      The panel is absolutely positioned so opening it never changes the
- *      sheet's height: the controller measures row geometry, and a header
- *      that pushed the sheet down would re-measure every rail and elbow on
- *      every hover.
- *
- *   3. THE KEY LIVES IN THE PANEL, NOT ON THE SHEET. `#railLegend` is an empty
- *      element here; the React island portals the legend and its switches
- *      into it (see `Rail.tsx`). Every icon in the rows already explains
- *      itself on hover, so the key showing all the time bought nothing for the
- *      ~90px it took from the drawing.
+ * The three strip texts use the shell's `dt-strip-*` global classes rather
+ * than names of their own: slotted content does not receive the shell's
+ * scope, and the byo route's React strip has to paint identically.
  */
 const { sugya } = Astro.props;
 const cite = `${sugya.tractate} ${sugya.folio}`;
@@ -43,256 +28,30 @@ const movements = movementsOf(sugya).length;
 const hintHtml = sugya.hint === undefined ? undefined : markupToHtml(sugya.hint);
 ---
 
-{/* Not `.stage`: the rail's global stylesheet owns that name for the band
-    inside its article, and a wrapper called `.stage` here took its rules —
-    a 4px `margin-top` under the nav, and it would take the band's hairline
-    now. Astro scopes this component's own rules; it cannot scope the rail's. */}
-<div class="rail-stage">
-  <header class="strip" id="railStrip">
-    <button
-      class="line"
-      type="button"
-      aria-expanded="false"
-      aria-controls="railPanel"
-      title="Show the passages and the key to the drawing"
-    >
-      {/* One group, so the three sit on a shared baseline and the group as a
-          whole is centred in the strip. Flattening these back into `.line`
-          puts them back at its top edge — see `.line-text` below. */}
-      <span class="line-text">
-        <span class="cite">{cite}</span>
-        <span class="title">{sugya.title}</span>
-        <span class="meta">{sugya.units.length} sentences · {movements} movements</span>
-      </span>
-      <span class="more" aria-hidden="true">
-        passages &amp; key
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="m6 9 6 6 6-6" />
-        </svg>
-      </span>
-    </button>
+<StageShell moreLabel="passages &amp; key" moreTitle="Show the passages and the key to the drawing">
+  <Fragment slot="line">
+    <span class="dt-strip-cite">{cite}</span>
+    <span class="dt-strip-title">{sugya.title}</span>
+    <span class="dt-strip-meta">{sugya.units.length} sentences · {movements} movements</span>
+  </Fragment>
 
-    <div class="panel" id="railPanel">
-      {hintHtml && <p class="hint" set:html={hintHtml} />}
-      <PassageSwitcher current={sugya.id} />
-      {/* The legend's host. Empty in the HTML; the island fills it. */}
-      <div id="railLegend"></div>
-      <div class="links">
-        <a href="/sugya">All passages</a>
-        <a href="/docs/text/chapter-09">The chapter 9 vocabulary</a>
-        <a href="/docs">The text</a>
-      </div>
+  <Fragment slot="panel">
+    {hintHtml && <p class="hint" set:html={hintHtml} />}
+    <PassageSwitcher current={sugya.id} />
+    {/* The legend's host. Empty in the HTML; the island fills it. */}
+    <div id="railLegend"></div>
+    <div class="links">
+      <a href="/sugya">All passages</a>
+      <a href="/byo">Bring your own</a>
+      <a href="/docs/text/chapter-09">The chapter 9 vocabulary</a>
+      <a href="/docs">The text</a>
     </div>
-  </header>
+  </Fragment>
 
-  <div class="stage-sheet sugya-sheet" id="railSheet">
-    <Rail id={sugya.id} legendHost="railLegend" client:only="react" />
-  </div>
-</div>
-
-<script>
-  // Hover opens the panel via CSS. This script covers what CSS cannot: a tap
-  // on a touch screen, Escape, a click elsewhere, and — the important one —
-  // the moment the reader starts using the drawing, which closes the panel so
-  // it never sits over the thing they are looking at.
-  const strip = document.getElementById('railStrip');
-  const line = strip?.querySelector<HTMLButtonElement>('.line');
-  const sheet = document.getElementById('railSheet');
-
-  if (strip && line && sheet) {
-    const set = (open: boolean): void => {
-      strip.classList.toggle('open', open);
-      line.setAttribute('aria-expanded', String(open));
-    };
-
-    line.addEventListener('click', () => set(!strip.classList.contains('open')));
-
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') set(false);
-    });
-
-    document.addEventListener('pointerdown', (e) => {
-      if (!strip.contains(e.target as Node)) set(false);
-    });
-
-    // Any engagement with the sheet clamps the stage: the panel goes away and
-    // the reader has the whole drawing. `passive` because we never cancel.
-    // The panel now holds the legend's switches, and a switch just clicked
-    // keeps focus — which `:focus-within` on the strip would turn into a panel
-    // that stays open over the drawing. A wheel does not move focus, so let go
-    // of it here; a pointer on the sheet moves it anyway.
-    const disengage = (): void => {
-      const focused = document.activeElement;
-      if (focused instanceof HTMLElement && strip.contains(focused)) focused.blur();
-      set(false);
-    };
-    for (const type of ['wheel', 'pointerdown', 'touchstart'] as const) {
-      sheet.addEventListener(type, disengage, { passive: true });
-    }
-  }
-</script>
+  <Rail id={sugya.id} legendHost="railLegend" client:only="react" />
+</StageShell>
 
 <style>
-  .rail-stage {
-    flex: 1;
-    min-height: 0;
-    display: flex;
-    flex-direction: column;
-    position: relative;
-    background: var(--dt-surface);
-  }
-
-  /* ── The strip ── */
-
-  /* The strip is the paper, one step deeper than the sheet, with a hairline
-     under it — a page edge, not a bar. It used to be ink with champagne caps
-     and a cyan hover, which made it a third palette between the gold nav and
-     the white sheet; on greige the whole region below the nav is one paper. */
-  .strip {
-    position: relative;
-    z-index: 20;
-    flex: none;
-    border-bottom: 1px solid var(--dt-rule);
-    background: var(--dt-surface-deep);
-  }
-
-  .line {
-    display: flex;
-    align-items: center;
-    gap: 0.9rem;
-    width: 100%;
-    height: 40px;
-    /* `2rem`, the site nav's gutter and the sheet's `--sheet-gutter`: the
-       nav's brand, this cite, the state-of-play bar, the rows and the foot
-       control all begin on one left edge. Do not tune this alone. */
-    padding: 0 2rem;
-    background: none;
-    border: 0;
-    color: inherit;
-    font: inherit;
-    text-align: left;
-    cursor: pointer;
-  }
-
-  /* The cite, the title and the counts are three sizes on one line, so they
-     have to share a baseline — centring each of them separately leaves the
-     11px caps riding high against the 15px title. But `align-items: baseline`
-     on a fixed-height flex line parks the whole baseline group at the TOP of
-     the cross axis: measured 2026-09-16, the title's ink sat 8px above the
-     40px strip's centre with all the slack under it. So the baseline group is
-     its own flex box, and `.line` centres that box. `flex: 1 1 auto` with
-     `min-width: 0` is what keeps the title's ellipsis working when the strip
-     is narrower than the three of them. */
-  .line-text {
-    display: flex;
-    align-items: baseline;
-    gap: 0.9rem;
-    flex: 1 1 auto;
-    min-width: 0;
-  }
-
-  .cite {
-    font-family: var(--dt-condensed);
-    font-size: 0.6875rem;
-    font-weight: 700;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: var(--dt-brass);
-    white-space: nowrap;
-  }
-
-  .title {
-    font-size: 0.9375rem;
-    font-weight: 500;
-    color: var(--dt-fg);
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    min-width: 0;
-  }
-
-  .meta {
-    font-family: var(--dt-condensed);
-    font-size: 0.75rem;
-    letter-spacing: 0.04em;
-    color: var(--dt-muted);
-    white-space: nowrap;
-  }
-
-  .more {
-    margin-left: auto;
-    display: inline-flex;
-    align-items: center;
-    gap: 0.3rem;
-    font-family: var(--dt-condensed);
-    font-size: 0.75rem;
-    font-weight: 600;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--dt-muted);
-    white-space: nowrap;
-    transition: color 0.15s ease;
-  }
-
-  .more svg {
-    width: 0.9em;
-    height: 0.9em;
-    transition: transform 0.18s ease;
-  }
-
-  .strip:hover .more,
-  .strip:focus-within .more,
-  .strip.open .more {
-    color: var(--dt-brass);
-  }
-
-  .strip:hover .more svg,
-  .strip:focus-within .more svg,
-  .strip.open .more svg {
-    transform: rotate(180deg);
-  }
-
-  /* ── The panel: absolutely positioned so the sheet never moves ── */
-
-  .panel {
-    position: absolute;
-    top: 100%;
-    left: 0;
-    right: 0;
-    padding: 1rem 2rem 1.25rem;
-    /* The page is clamped, so a panel taller than what is left of the
-       viewport would simply be cut off. Cap it and let it scroll inside
-       itself — with the scrollbar hidden, like the sheet. The 90px is the
-       nav plus this strip. */
-    max-height: calc(100dvh - 90px);
-    overflow-y: auto;
-    scrollbar-width: none;
-    background: var(--dt-surface);
-    /* The panel is paper, so its text is ink. Without this it inherits the
-       body's chrome colour — near-white, for the dark nav — which every
-       child here happened to override until the legend was portalled in
-       and its plain labels vanished into the paper. */
-    color: var(--dt-fg);
-    border-bottom: 1px solid var(--dt-rule);
-    box-shadow: 0 16px 40px rgba(42, 38, 34, 0.18);
-    visibility: hidden;
-    opacity: 0;
-    transform: translateY(-6px);
-    transition:
-      opacity 0.18s ease,
-      transform 0.18s ease,
-      visibility 0s linear 0.18s;
-  }
-
-  .strip:hover .panel,
-  .strip:focus-within .panel,
-  .strip.open .panel {
-    visibility: visible;
-    opacity: 1;
-    transform: none;
-    transition-delay: 0s;
-  }
-
   .hint {
     margin: 0 0 0.9rem;
     max-width: 78ch;
@@ -329,57 +88,5 @@ const hintHtml = sugya.hint === undefined ? undefined : markupToHtml(sugya.hint)
 
   .links a:hover {
     color: var(--dt-brass);
-  }
-
-  /* ── The sheet: the region the rail's article fills, and clips ── */
-
-  .stage-sheet {
-    flex: 1;
-    min-height: 0;
-    /* A flex column, not a scroller. The rail's article is its one child
-       (`astro-island` is `display: contents`) and takes the whole height with
-       `flex: 1; min-height: 0`; inside it the rows are the scroll container,
-       and the bar, dock and foot around them are pinned. This used to be
-       `overflow-y: auto` with the whole article scrolling under three sticky
-       elements, which drifted with the article's padding. `overflow: hidden`
-       here is a clip, never a scroll: nothing inside can be taller than it. */
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-    /* The article fills this region edge to edge (`.sheet` in the rail's
-       stylesheet: no border, no radius, no width cap). The region paints the
-       SAME `--surface` the article does, so there is no seam. `.sugya-sheet`
-       would otherwise paint the stone `--page` colour here and show as a
-       frame. No padding: padding was the dark frame. */
-    background: var(--surface);
-    padding: 0;
-  }
-
-  .panel::-webkit-scrollbar {
-    display: none;
-  }
-
-  /* The nav's breakpoint and the nav's narrow gutter, matching
-     `--sheet-gutter`'s own 640px rule. Kept separate from the 720px rule
-     below, which is about the counts not fitting, not about the margin. */
-  @media (max-width: 640px) {
-    .line {
-      padding: 0 1rem;
-    }
-
-    .panel {
-      padding: 0.85rem 1rem 1rem;
-    }
-  }
-
-  @media (max-width: 720px) {
-    .line,
-    .line-text {
-      gap: 0.6rem;
-    }
-
-    .meta {
-      display: none;
-    }
   }
 </style>

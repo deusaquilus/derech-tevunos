@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://derechtevunos.com/sitemap-index.xml
+Sitemap: https://derech-tevunos.com/sitemap-index.xml
