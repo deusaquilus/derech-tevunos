@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="-12 -12 24 24" role="img" aria-label="rebuttal-your-reasoning">
+  <title>rebuttal-your-reasoning: the same difficulty hits your view too, forcing a distinction that saves both (ולטעמיך)</title>
+  <defs><linearGradient id="fade-yours" x1="0" y1="-0.6" x2="0" y2="10.4" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#c026d3" stop-opacity="0.35"/><stop offset="0.42" stop-color="#c026d3" stop-opacity="0.95"/><stop offset="1" stop-color="#c026d3" stop-opacity="1"/></linearGradient></defs>
+  <path d="M -6.40 -0.6 H 6.40 L 9.6 10.4 H -9.6 Z" fill="url(#fade-yours)"/>
+  <path d="M -11.2 -0.6 H 11.2" fill="none" stroke="#c026d3" stroke-width="0.9" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M -9.39 -4.20 L -5.30 -7.42 L -1.21 -4.20 Z" fill="#c026d3"/>
+  <rect x="-8.28" y="-4.44" width="5.95" height="3.84" fill="#c026d3"/>
+  <path d="M 1.21 -4.20 L 5.30 -7.42 L 9.39 -4.20 Z" fill="#c026d3"/>
+  <rect x="2.32" y="-4.44" width="5.95" height="3.84" fill="#c026d3"/>
+  <path d="M -4.00 -11.80 L -5.80 -8.30 L -4.20 -7.90 L -6.10 -4.20" fill="none" stroke="#ffffff" stroke-width="3.3" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M -4.00 -11.80 L -5.80 -8.30 L -4.20 -7.90 L -6.10 -4.20" fill="none" stroke="#c026d3" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M 6.60 -11.80 L 4.80 -8.30 L 6.40 -7.90 L 4.50 -4.20" fill="none" stroke="#ffffff" stroke-width="3.3" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M 6.60 -11.80 L 4.80 -8.30 L 6.40 -7.90 L 4.50 -4.20" fill="none" stroke="#c026d3" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

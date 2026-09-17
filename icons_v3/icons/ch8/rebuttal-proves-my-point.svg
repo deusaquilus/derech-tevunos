@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   width="128"
+   height="128"
+   viewBox="-12 -12 24 24"
+   role="img"
+   aria-label="rebuttal-proves-my-point"
+   version="1.1"
+   id="svg848"
+   sodipodi:docname="rebuttal-proves-my-point.svg"
+   inkscape:version="1.2.2 (b0a8486541, 2022-12-01)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview850"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     showgrid="false"
+     inkscape:zoom="6.3671875"
+     inkscape:cx="59.838037"
+     inkscape:cy="64.157055"
+     inkscape:window-width="1854"
+     inkscape:window-height="1011"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg848" />
+  <title
+     id="title821">rebuttal-proves-my-point: your disproof text proves my view (משם ראיה / היא הנותנת)</title>
+  <defs
+     id="defs830">
+    <inkscape:path-effect
+       effect="perspective-envelope"
+       up_left_point="-5.49,2.88"
+       up_right_point="3.584839,2.2766104"
+       down_left_point="-5.489931,7.6766104"
+       down_right_point="3.584839,7.6766104"
+       id="path-effect973"
+       is_visible="true"
+       lpeversion="1"
+       deform_type="perspective"
+       horizontal_mirror="false"
+       vertical_mirror="true"
+       overflow_perspective="false" />
+    <linearGradient
+       id="fade-mine"
+       x1="0"
+       y1="-0.6"
+       x2="0"
+       y2="10.4"
+       gradientUnits="userSpaceOnUse">
+      <stop
+         offset="0"
+         stop-color="#c026d3"
+         stop-opacity="0.35"
+         id="stop823" />
+      <stop
+         offset="0.42"
+         stop-color="#c026d3"
+         stop-opacity="0.95"
+         id="stop825" />
+      <stop
+         offset="1"
+         stop-color="#c026d3"
+         stop-opacity="1"
+         id="stop827" />
+    </linearGradient>
+  </defs>
+  <path
+     d="M -6.40 -0.6 H 6.40 L 9.6 10.4 H -9.6 Z"
+     fill="url(#fade-mine)"
+     id="path832" />
+  <path
+     d="M -11.2 -0.6 H 11.2"
+     fill="none"
+     stroke="#c026d3"
+     stroke-width="0.9"
+     stroke-linecap="round"
+     stroke-linejoin="round"
+     id="path834" />
+  <path
+     d="M -9.39 -4.20 L -5.30 -7.42 L -1.21 -4.20 Z"
+     fill="#c026d3"
+     id="path836" />
+  <rect
+     x="-8.28"
+     y="-4.44"
+     width="5.95"
+     height="3.84"
+     fill="#c026d3"
+     id="rect838" />
+  <path
+     d="M 1.21 -4.20 L 5.30 -7.42 L 9.39 -4.20 Z"
+     fill="#c026d3"
+     fill-opacity="0.15"
+     stroke="#c026d3"
+     stroke-width="1.2"
+     stroke-linecap="round"
+     stroke-linejoin="round"
+     id="path840" />
+  <rect
+     x="2.32"
+     y="-4.44"
+     width="5.95"
+     height="3.84"
+     fill="#c026d3"
+     fill-opacity="0.15"
+     stroke="#c026d3"
+     stroke-width="1.2"
+     stroke-linecap="round"
+     stroke-linejoin="round"
+     id="rect842" />
+  <g
+     id="g971"
+     inkscape:path-effect="#path-effect973"
+     transform="translate(0.92795245,-0.45241564)">
+    <path
+       d="m 3.5848782,5.0057489 -7.5600653,0"
+       fill="none"
+       stroke="#ffffff"
+       stroke-width="1.7"
+       stroke-linecap="round"
+       stroke-linejoin="round"
+       id="path844"
+       inkscape:original-d="m 3.584839,4.6059816 h -7.56" />
+    <path
+       d="m -2.1419491,2.9796094 -3.348025,1.7613921 2.5800431,2.9356089"
+       fill="none"
+       stroke="#ffffff"
+       stroke-width="1.7"
+       stroke-linecap="round"
+       stroke-linejoin="round"
+       id="path846"
+       inkscape:original-d="m -2.141931,2.2766104 -3.348,2.025 2.58,3.375" />
+  </g>
+</svg>

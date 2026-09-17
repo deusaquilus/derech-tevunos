@@ -86,7 +86,7 @@ export const FAMILIES: Record<Family, FamilyInfo> = {
     chapter: "ch. 8",
     hue: "magenta",
     blurb:
-      "What a proof or disproof stands on — the mind's own axioms, the senses, common opinion, a received tradition, a deduction — and how it is turned aside: shown not to reach the claim, caught whichever way it is taken, or held up by a theory alone.",
+      "What a proof or disproof stands on — the mind's own axioms, the senses, common opinion, a received tradition, a deduction — and how it is turned aside: shown not to reach the claim, caught whichever way it is taken, held up by a theory alone, thrown back at the other view, or objected to as a matter of form; and whether a predicate is said of what can or of what does.",
   },
 };
 
@@ -156,7 +156,7 @@ export type AnatomyKey =
   | "fallacy-not-similar"
   | "fallacy-not-greater"
   | "fallacy-counterexample"
-  // ch. 8 — what a proof or disproof stands on, and how it is turned aside
+  // ch. 8 — what a proof stands on, how it is turned aside, form, potential / actual
   | "ground-axiom"
   | "ground-sense"
   | "ground-common-sense"
@@ -165,7 +165,20 @@ export type AnatomyKey =
   | "via-opposite"
   | "dilemma"
   | "ground-does-not-reach"
-  | "theory";
+  | "theory"
+  // ch. 8 — turning a difficulty back
+  | "rebuttal-your-reasoning"
+  | "rebuttal-just-the-opposite"
+  | "rebuttal-proves-my-point"
+  // ch. 8 — objections to form
+  | "obvious"
+  | "might-have-thought"
+  | "redundant-part"
+  | "self-contradictory"
+  | "misordered"
+  // ch. 8 — potential and actual
+  | "potential"
+  | "actual";
 
 export type AnatomyInfo = {
   readonly key: AnatomyKey;
@@ -221,6 +234,13 @@ const deduction = (e: Omit<Entry, "family" | "level" | "chapter">): Entry => ({
 const ground = (e: Omit<Entry, "family" | "level" | "chapter">): Entry => ({
   family: "grounds",
   level: "edge",
+  chapter: 8,
+  ...e,
+});
+/** Chapter 8 types that describe one sentence's predicate, not a move on a target. */
+const groundOnRow = (e: Omit<Entry, "family" | "level" | "chapter">): Entry => ({
+  family: "grounds",
+  level: "row",
   chapter: 8,
   ...e,
 });
@@ -761,10 +781,12 @@ const ENTRIES: Record<AnatomyKey, Entry> = {
     page: "Eng p102–104 · Heb p101",
   }),
 
-  // --- ch. 8: what a proof stands on, and how it is turned aside (Eng p112–144, Heb p111–143)
-  // Every picture is one landscape: a floor seen in depth, a house built on its
+  // --- ch. 8: what a proof stands on, and how it is turned aside (Eng p112–158, Heb p111–157)
+  // Sections 1–3 are the landscape: a floor seen in depth, a house built on its
   // horizon. The glyph cut into the floor says which source; the house's state
-  // says the statement's fate. `icons_v3/METHODOLOGY.md` §6.
+  // says the statement's fate. `icons_v3/METHODOLOGY.md` §6. Sections 4 and 5
+  // leave that picture: form objections are a speech bubble, potential and
+  // actual are a disc.
   "ground-axiom": ground({
     en: "ground: first axiom",
     he: "מושכלות ראשונים",
@@ -847,6 +869,106 @@ const ENTRIES: Record<AnatomyKey, Entry> = {
     definition:
       "Reasonableness as a weight: when the arguments balance, the mind leans to the more sensible side. It settles nothing on its own — a proof “on the strength of a theory” is admissible but weak (Eng p176), and a far-fetched opposition fails against it (Eng p180). The house leans; it has not fallen.",
     page: "Eng p142–144 · Heb p141–143",
+  }),
+  "rebuttal-your-reasoning": ground({
+    en: "according to your reasoning",
+    he: "ולטעמיך",
+    word: "ולטעמיך · ולדידך",
+    short: "hits your view too",
+    reads: "the same difficulty hits your view too; the distinction that answers it saves both",
+    definition:
+      "The difficulty raised against us lands on the dissenting view as well. The distinction that answers it is then shared: both houses stand, each with a bolt on the roof (Bava Kamma 88a).",
+    page: "Eng p136–138 · Heb p135",
+  }),
+  "rebuttal-just-the-opposite": ground({
+    en: "just the opposite",
+    he: "אדרבא",
+    word: "אדרבא",
+    short: "thrown back at them",
+    reads: "the difficulty is turned and thrown at the dissenting view",
+    definition:
+      "The difficulty leaves our side entirely and is thrown at the other view. The bolt arcs from our roof onto theirs, and their house is struck (Bava Kamma 83b).",
+    page: "Eng p138–140 · Heb p137",
+  }),
+  "rebuttal-proves-my-point": ground({
+    en: "that itself is the proof",
+    he: "משם ראיה",
+    word: "משם ראיה · היא הנותנת",
+    short: "your text proves mine",
+    reads: "the text of your disproof proves my view",
+    definition:
+      "The source brought to knock us down is the source that establishes us. Their house is an outline; an arrow on the floor runs from their side to ours (Shabbos 82a, the shard).",
+    page: "Eng p138–142 · Heb p137",
+  }),
+  obvious: ground({
+    en: "it is obvious",
+    he: "פשיטא",
+    word: "פשיטא",
+    short: "everyone already knew",
+    reads: "the whole statement adds nothing; everyone knew it",
+    definition:
+      "An objection to the report as a whole: the sentence teaches what nobody doubted. The speech bubble and its lines are drawn as a ghost.",
+    page: "Eng p156–158 · Heb p157",
+  }),
+  "might-have-thought": ground({
+    en: "one might have thought",
+    he: "סלקא דעתין",
+    word: "סלקא דעתין · מהו דתימא",
+    short: "excludes a thought",
+    reads: "the statement is there to exclude a thought one might have had",
+    definition:
+      "The answer to פשיטא: the sentence exists to keep out a view one might have held. The bubble stands; beside it a thought-cloud is struck.",
+    page: "Eng p156–158 · Heb p157",
+  }),
+  "redundant-part": ground({
+    en: "why do I need this too",
+    he: "הא תו למה לי",
+    word: "הא תו למה לי",
+    short: "a part repeats",
+    reads: "a part of the statement repeats another",
+    definition:
+      "An objection to the report in its parts: one clause says again what another already said. Two identical lines in the bubble, the second struck.",
+    page: "Eng p156–158 · Heb p157",
+  }),
+  "self-contradictory": ground({
+    en: "the statement itself is difficult",
+    he: "הא גופא קשיא",
+    word: "הא גופא קשיא",
+    short: "the words disagree",
+    reads: "the statement's own words disagree with each other",
+    definition:
+      "An objection to the report in its parts: the sentence's own halves cannot stand together. Two lines in the bubble run at each other.",
+    page: "Eng p156–158 · Heb p157",
+  }),
+  misordered: ground({
+    en: "wrong order",
+    he: "תנא היכא קאי",
+    word: "תנא היכא קאי · ליערבינהו וליתנינהו · פתח בכד וסיים בחבית",
+    short: "out of order",
+    reads: "split what belongs together, or the parts are out of sequence",
+    definition:
+      "One icon for three stock objections to order: the teaching starts from the wrong place (Berachos 2a), two clauses that belong together were split (Gittin), or it opened with one vessel and closed with another (Bava Kamma 27a). The chip names which.",
+    page: "Eng p156–158 · Heb p157",
+  }),
+  potential: groundOnRow({
+    en: "in potential",
+    he: "בכח",
+    word: "בכח",
+    short: "able, not doing",
+    reads: "said of what is able or eligible",
+    definition:
+      "The predicate is said of what can, or is fit to, not of what is now doing it — the Cohen who is eligible to sprinkle, not the one who sprinkles (Zevachim 99a). A dashed ring around a solid core.",
+    page: "Eng p154 · Heb p153",
+  }),
+  actual: groundOnRow({
+    en: "in actuality",
+    he: "בפועל",
+    word: "בפועל",
+    short: "actually does",
+    reads: "said of what actually does",
+    definition:
+      "The predicate is said of what is now doing it, not of what is merely able or eligible. A solid disc.",
+    page: "Eng p154 · Heb p153",
   }),
 };
 

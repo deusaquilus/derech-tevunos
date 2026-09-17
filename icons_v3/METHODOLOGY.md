@@ -32,10 +32,10 @@ Consequences for design:
 
 ## 2. The source and how constructs are found
 
-The text is the bilingual printed edition (Feldheim, 1988/2014). Even pages
-are English, odd pages Hebrew; page numbers in every note and in the
-reference follow that edition. The chapter outlines on pp. 249–254 are the
-fastest index of what the book contains.
+The text is the bilingual edition (`DerechTevunos_full_nonikud.md` in the
+project). Even pages are English, odd pages Hebrew; page numbers in every
+note and in the reference follow that edition. The chapter outlines on
+pp. 249–254 are the fastest index of what the book contains.
 
 Procedure for a chapter:
 
@@ -314,8 +314,10 @@ differ (this caught nothing wrong so far and is cheap).
 
 Done and approved: Part 1 (chapters 1 and 3, 24 icons), Part 2 (chapters 4 to
 7, 32 icons, including `fallacy-not-included`), Part 3 sections 1 and 2
-(chapter 8, 9 icons). The seven chapter 9 moves are shipped assets from the
-waterfall, not generated here.
+(chapter 8, 9 icons). Drawn and awaiting review: Part 3 sections 3 to 5
+(10 icons; see `notes/CONTACT_SHEET_PART3.md` for the choices made). The
+seven chapter 9 moves are shipped assets from the waterfall, not generated
+here.
 
 Recorded as no icon by decision: the three verdict states (row status, not
 badges; the chapter 8 state machine at Eng p142 is a widget), the chapter 5
@@ -325,11 +327,10 @@ syllogism-tollens` on a `contradiction` edge with `ground-deduction`).
 
 ## 13. What comes next, in order
 
-**Part 3, section 3: the rebuttals** (Eng p136–142). Badges on the
-`difficulty` edge that attacks a proof. They need a second actor, the
-opponent, in the landscape; the open design question is how to show "your
-position" against "mine" (a second house? a figure? a second plot of
-ground?). Ramchal's own idiom is that the opponent's proof is turned.
+**Part 3, section 3: the rebuttals** (Eng p136–142), drawn, pending review.
+The opponent is a second house on the horizon (mine left, theirs right, as
+in `via-opposite`); a difficulty is a lightning bolt. Ramchal's own idiom is
+that the opponent's proof is turned.
 
 | Key | Ramchal (Heb p) | Reads as |
 |---|---|---|
@@ -337,10 +338,11 @@ ground?). Ramchal's own idiom is that the opponent's proof is turned.
 | `rebuttal-just-the-opposite` | אדרבא (137) | the difficulty is thrown back entirely |
 | `rebuttal-proves-my-point` | משם ראיה / היא הנותנת (137) | your disproof text becomes my proof |
 
-**Section 4: objections to form** (Eng p156–158, Heb p157). These are
-chapter 9's `objection` leaf. Ramchal splits them into the statement as a
-whole and the statement in its parts; the parts can use the `compound`
-icon's bars.
+**Section 4: objections to form** (Eng p156–158, Heb p157), drawn, pending
+review. These are chapter 9's `objection` leaf. Ramchal splits them into the
+statement as a whole and the statement in its parts; the picture of "what
+was said" is a speech bubble (the same base `figurative` uses in chapter 6,
+one step further) with the sentence's lines inside.
 
 | Key | Ramchal | Reads as |
 |---|---|---|
@@ -350,10 +352,10 @@ icon's bars.
 | `self-contradictory` | הא גופא קשיא | the statement's own halves disagree |
 | `misordered` | תנא היכא קאי / ליערבינהו וליתנינהו / פתח בכד וסיים בחבית | wrong order, or split what belongs together; one icon, three text chips |
 
-**Section 5: potential and actual** (בכח / בפועל, Eng p154): two icons, a
-hollow shape against a filled one. The four aspects of a subject (p148–150)
-stay skipped: a learner tags a resolution as "different respect", which
-`differs-in-context` already covers.
+**Section 5: potential and actual** (בכח / בפועל, Eng p154), drawn, pending
+review: a dashed ring with a solid core against a solid disc. The four
+aspects of a subject (p148–150) stay skipped: a learner tags a resolution as
+"different respect", which `differs-in-context` already covers.
 
 **Part 4, chapter 9 leaves**: eight leaves with distinct logical force and
 no glyph (פירוש דחוק, אוקימתא, הגדה, אבעיא, פשיטות, סייעתא, דחיה, שינויא).

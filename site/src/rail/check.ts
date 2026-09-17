@@ -617,12 +617,12 @@ console.log("\nThe research skeletons — what each row says about itself");
 console.log("\nChapters 1–8 — the vocabulary");
 const inFamily = (family: string): number =>
   ANATOMY_KEYS.filter((k) => ANATOMY[k].family === family).length;
-check("sixty-four types", ANATOMY_KEYS.length, 64);
+check("seventy-four types", ANATOMY_KEYS.length, 74);
 check("three speakers", inFamily("speakers"), 3);
 check("twenty-seven forms of a statement", inFamily("anatomy"), 27);
 check("fourteen relations", inFamily("relations"), 14);
 check("eleven deductions", inFamily("deductions"), 11);
-check("nine grounds", inFamily("grounds"), 9);
+check("nineteen grounds", inFamily("grounds"), 19);
 check("five families, grounds last", FAMILY_ORDER.join(), "speakers,anatomy,relations,deductions,grounds");
 check("every type has a glyph", ANATOMY_KEYS.every((k) => GLYPHS[k].length > 0), true);
 check("no glyph without a type", Object.keys(GLYPHS).every((k) => k in ANATOMY), true);
@@ -631,18 +631,33 @@ check("no glyph without a type", Object.keys(GLYPHS).every((k) => k in ANATOMY),
 const HUES = /#(7c3aed|0d9488|475569|c026d3)/i;
 check("glyphs carry no hue of their own", Object.values(GLYPHS).every((g) => !HUES.test(g)), true);
 check("…nor does the tile", TILE_GLYPH.length > 0 && !HUES.test(TILE_GLYPH), true);
-check("the chapter 8 bodies carry their own gradient", ANATOMY_KEYS.filter((k) => ANATOMY[k].family === "grounds").every((k) => /<linearGradient id="fade-[a-z]+"/.test(GLYPHS[k]) && /stop-color="currentColor"/.test(GLYPHS[k])), true);
+const landscapes = ANATOMY_KEYS.filter((k) => /<linearGradient id="fade-/.test(GLYPHS[k]));
+check("twelve landscapes carry a floor fade", landscapes.length, 12);
+check("…with currentColor stops", landscapes.every((k) => /stop-color="currentColor"/.test(GLYPHS[k])), true);
 check("the busy glyphs are types", [...BUSY_GLYPHS].every((k) => k in ANATOMY), true);
 check("the wide glyphs are the three of chapter 5", [...WIDE_GLYPHS].sort().join(), "absolute-opposite,inference-loose,inference-necessary");
 check("…drawn half again as wide", glyphAspect("inference-necessary"), 1.5);
 check("…and a square one is square", glyphAspect("exception"), 1);
-check("every landscape falls back to a dot at bead size", ANATOMY_KEYS.filter((k) => ANATOMY[k].family === "grounds").every((k) => BUSY_GLYPHS.has(k)), true);
+check("every landscape falls back to a dot at bead size", landscapes.every((k) => BUSY_GLYPHS.has(k)), true);
 check(
-  "relations, deductions and grounds sit on edges, nothing else does",
-  ANATOMY_KEYS.every(
-    (k) =>
-      (ANATOMY[k].level === "edge") ===
-      (ANATOMY[k].family === "relations" || ANATOMY[k].family === "deductions" || ANATOMY[k].family === "grounds"),
+  "relations and deductions sit on edges",
+  ANATOMY_KEYS.filter((k) => ANATOMY[k].family === "relations" || ANATOMY[k].family === "deductions").every(
+    (k) => ANATOMY[k].level === "edge",
+  ),
+  true,
+);
+check(
+  "speakers and statement anatomy sit on rows",
+  ANATOMY_KEYS.filter((k) => ANATOMY[k].family === "speakers" || ANATOMY[k].family === "anatomy").every(
+    (k) => ANATOMY[k].level === "row",
+  ),
+  true,
+);
+check("potential and actual sit on the row", ANATOMY.potential.level === "row" && ANATOMY.actual.level === "row", true);
+check(
+  "every other ground sits on an edge",
+  ANATOMY_KEYS.filter((k) => ANATOMY[k].family === "grounds" && k !== "potential" && k !== "actual").every(
+    (k) => ANATOMY[k].level === "edge",
   ),
   true,
 );
@@ -829,7 +844,7 @@ check("bases", schema.$defs["basis"]?.enum?.join(), BASES.join());
 check("provenances", schema.$defs["provenance"]?.enum?.join(), PROVENANCES.join());
 check("elements", schema.$defs["move"]?.properties?.["element"]?.enum?.join(), ELEMENTS.join());
 check("the subtypes of every element", (schema.$defs["move"]?.allOf ?? []).map((c) => `${c.if.properties.element.const}: ${c.then.properties.subtype.enum.join()}`).join(" / "), ELEMENTS.map((e) => `${e}: ${SUBTYPES[e].join()}`).join(" / "));
-check("the ch. 1–8 labels, all sixty-four", schema.$defs["annotation"]?.properties?.["kind"]?.enum?.join(), ANATOMY_KEYS.join());
+check("the ch. 1–8 labels, all seventy-four", schema.$defs["annotation"]?.properties?.["kind"]?.enum?.join(), ANATOMY_KEYS.join());
 check("every file names the schema beside it", SUGYOT.every((s) => (JSON.parse(readText(`${s.id}.json`)) as { $schema?: string }).$schema === "./sugya.schema.json"), true);
 
 console.log("\nChapters 1–8 — the bead");

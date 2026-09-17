@@ -35,7 +35,7 @@ import { readdirSync, readFileSync, writeFileSync } from "node:fs";
 import { basename, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
-import { ANATOMY, ANATOMY_KEYS, type AnatomyKey } from "../src/rail/anatomy.ts";
+import { ANATOMY_KEYS, type AnatomyKey } from "../src/rail/anatomy.ts";
 
 const HERE = fileURLToPath(new URL(".", import.meta.url));
 const ICONS_DIR = join(HERE, "..", "..", "icons_v3", "icons");
@@ -76,6 +76,20 @@ const fail = (message: string): never => {
 /** SVG attribute values in single quotes become double-quoted, so a body is one string style throughout. */
 const normaliseQuotes = (s: string): string => s.replace(/=\s*'([^']*)'/g, '="$1"');
 
+/**
+ * Inkscape writes a `namedview` (page/desk colours), live path-effects and
+ * per-node ids into the file. None of that is the drawing; the namedview's
+ * `#000000` / `#d1d1d1` would fail the hue check, and a second copy of the
+ * same icon on one page would collide on `id="path1004"`. Keep only the
+ * `fade-*` gradient ids the chapter 8 landscapes need in order to share a page.
+ */
+const stripEditorChrome = (s: string): string =>
+  s
+    .replace(/<sodipodi:namedview\b[^>]*(?:\/>|>[\s\S]*?<\/sodipodi:namedview>)/gi, "")
+    .replace(/<inkscape:path-effect\b[^>]*(?:\/>|>[\s\S]*?<\/inkscape:path-effect>)/gi, "")
+    .replace(/\s+(?:inkscape|sodipodi):[\w-]+="[^"]*"/gi, "")
+    .replace(/\s+id="(?!fade-)[^"]*"/gi, "");
+
 const stripStroke = (attrs: string): string =>
   attrs.replace(/\s(stroke|stroke-width|stroke-linecap|stroke-linejoin|stroke-dasharray|stroke-opacity)="[^"]*"/g, "");
 
@@ -95,12 +109,14 @@ const extract = (file: string, dir: string): Extracted => {
   const inner = svg
     .replace(/^[\s\S]*?<svg\b[^>]*>/, "")
     .replace(/<\/svg>\s*$/, "")
-    .replace(/<title>[\s\S]*?<\/title>/, "");
-  const oneLine = inner
-    .split("\n")
-    .map((line) => line.trim())
-    .filter((line) => line.length > 0)
-    .join(" ");
+    .replace(/<title\b[^>]*>[\s\S]*?<\/title>/, "");
+  const oneLine = stripEditorChrome(
+    inner
+      .split("\n")
+      .map((line) => line.trim())
+      .filter((line) => line.length > 0)
+      .join(" "),
+  );
   const body = layerTint(normaliseQuotes(oneLine)).replace(FAMILY_HUES, "currentColor");
   const stray = body.match(/#[0-9a-f]{6}\b/gi)?.filter((hex) => hex.toLowerCase() !== SURFACE) ?? [];
   if (stray.length > 0) fail(`${file}: colour left behind: ${[...new Set(stray)].join(", ")}`);
@@ -128,8 +144,10 @@ const missing = ANATOMY_KEYS.filter((k) => !found.has(k));
 if (missing.length > 0) fail(`vocabulary entries with no icon: ${missing.join(", ")}`);
 
 const wide = ANATOMY_KEYS.filter((k) => found.get(k)!.viewBox === WIDE_BOX);
-const grounds = ANATOMY_KEYS.filter((k) => ANATOMY[k].family === "grounds");
-const busy = [...new Set<AnatomyKey>([...BUSY_BY_HAND, ...wide, ...grounds])].filter((k) => keySet.has(k));
+// A floor fade is the landscape. Speech bubbles and discs in chapter 8 have
+// none, and they still read at bead size, so they stay out of BUSY_GLYPHS.
+const landscapes = ANATOMY_KEYS.filter((k) => found.get(k)!.body.includes("<linearGradient"));
+const busy = [...new Set<AnatomyKey>([...BUSY_BY_HAND, ...wide, ...landscapes])].filter((k) => keySet.has(k));
 const inKeyOrder = (keys: readonly AnatomyKey[]): readonly AnatomyKey[] => ANATOMY_KEYS.filter((k) => keys.includes(k));
 
 const quote = (s: string): string => `'${s.replace(/\\/g, "\\\\").replace(/'/g, "\\'")}'`;

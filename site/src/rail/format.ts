@@ -162,7 +162,7 @@ const oneOf = <T extends string>(obj: Record<string, unknown>, key: string, allo
   if (v === undefined) return undefined;
   if ((allowed as readonly string[]).includes(v)) return v as T;
   const hint = nearest(v, allowed);
-  // A short list is spelt out; the sixty-four ch. 1–8 labels are not.
+  // A short list is spelt out; the ch. 1–8 labels are not.
   const expected = allowed.length <= 8
     ? allowed.map((a) => `"${a}"`).join(" | ")
     : `the ${allowed.length} values allowed for "${key}"`;

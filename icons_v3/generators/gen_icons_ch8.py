@@ -156,6 +156,8 @@ def house_at(c, x, scale=1.0, state="solid"):
                 f'<rect x="{walls[0]:.2f}" y="{walls[1]:.2f}" width="{walls[2]:.2f}" height="{walls[3]:.2f}" fill="{c}"/>')
     out = (f'<path d="{roof}" {tint(c, w=1.2)}/>\n  '
            f'<rect x="{walls[0]:.2f}" y="{walls[1]:.2f}" width="{walls[2]:.2f}" height="{walls[3]:.2f}" {tint(c, w=1.2)}/>\n  ')
+    if state == "outlined":
+        return out.rstrip()
     # the X sits inside the walls, so it never spills onto a neighbour
     x0, x1 = x - 3.2 * k, x + 3.2 * k; y0, y1 = HZ - 5.4 * k, HZ - 0.8 * k
     cross = f'M {x0:.2f} {y0:.2f} L {x1:.2f} {y1:.2f} M {x1:.2f} {y0:.2f} L {x0:.2f} {y1:.2f}'
@@ -204,6 +206,106 @@ icon("ground-does-not-reach", "the ground is real but does not reach the stateme
      plane(M, "reach", far=3.4) + "\n  " + house_at(M, 0, 1.0), M)
 # theory (Eng p142-144): inclines the mind when proofs are balanced; not a proof
 icon("theory", "a theory inclines the mind, it does not prove (סברא)", plane(M, "theory") + "\n  " + leaning_house(M), M)
+
+
+# ====================================================================================
+# Section 3 (Eng p136-142, Heb p135-137): the rebuttals. Two houses on the horizon, mine on the
+# left, the dissenting view on the right (the same left/right as via-opposite). A difficulty is
+# a lightning bolt.
+# ====================================================================================
+HS = 0.62          # scale of a house when two share the horizon
+HX = 5.3           # their distance from the centre
+
+def bolt(points, c, w=1.5):
+    """A lightning bolt through the sky, with a white halo so it reads across a house."""
+    d = "M " + " L ".join(f"{x:.2f} {y:.2f}" for x, y in points)
+    return f'<path d="{d}" {st("#ffffff", w + 1.8)}/>\n  <path d="{d}" {st(c, w)}/>'
+
+def strike_on(x, c):
+    """A bolt from the top of the sky into the house at x."""
+    return bolt([(x + 1.3, -11.8), (x - 0.5, -8.3), (x + 1.1, -7.9), (x - 0.8, -4.2)], c)
+
+def two_houses(c, right="solid"):
+    return house_at(c, -HX, HS) + "\n  " + house_at(c, HX, HS, state=right)
+
+# according to your reasoning: the same difficulty strikes both houses; both stand, because the
+# distinction that answers it saves both
+icon("rebuttal-your-reasoning", "the same difficulty hits your view too, forcing a distinction that saves both (ולטעמיך)",
+     plane(M, "yours") + "\n  " + two_houses(M) + "\n  " + strike_on(-HX, M) + "\n  " + strike_on(HX, M), M)
+# just the opposite: the bolt aimed at my house is turned and comes down on theirs
+icon("rebuttal-just-the-opposite", "the difficulty is thrown back at the dissenting view (אדרבא)",
+     plane(M, "opposite") + "\n  " + two_houses(M, right="struck") + "\n  " +
+     bolt([(-HX + 0.2, HZ - 11.0 * HS - 0.2), (-HX + 1.6, -10.6), (-0.6, -10.9), (0.6, -8.4), (HX - 1.6, -8.0), (HX + 0.9, -4.2)], M), M)
+
+def g_floor_arrow_left():
+    """an arrow on the floor from the dissenting side to mine: from there, a proof for me"""
+    return [dict(segs=[('M', (5.6, CY)), ('L', (-2.8, CY))], stroke=1.7),
+            dict(segs=[('M', (-1.0, CY - 3.0)), ('L', (-4.4, CY)), ('L', (-1.0, CY + 3.0))], stroke=1.7)]
+# that proves my point / from there is a proof: their text becomes my ground
+icon("rebuttal-proves-my-point", "your disproof text proves my view (משם ראיה / היא הנותנת)",
+     plane(M, "mine") + "\n  " + two_houses(M, right="outlined") + "\n  " + floor_glyph(g_floor_arrow_left(), xscale=1.2), M)
+
+# ====================================================================================
+# Section 4 (Eng p156-158, Heb p157): objections to form, not content. The picture of "what was
+# said" is a speech bubble; the parts of the sentence are its lines. The landscape is content
+# (what a claim stands on); the bubble is form (how it was said).
+# ====================================================================================
+def bubble(c, ghost=False):
+    d = 'M -8.6 -8.6 H 8.6 A 1.6 1.6 0 0 1 10.2 -7.0 V 3.6 A 1.6 1.6 0 0 1 8.6 5.2 H -2.6 L -6.2 9.0 V 5.2 H -8.6 A 1.6 1.6 0 0 1 -10.2 3.6 V -7.0 A 1.6 1.6 0 0 1 -8.6 -8.6 Z'
+    extra = " stroke-dasharray='1.8 1.4'" if ghost else ""
+    return f'<path d="{d}" fill="{c}" fill-opacity="0.15" stroke="{c}" stroke-width="1.45" stroke-linejoin="round"{extra}/>'
+
+def bars(c, rows, ghost=False):
+    """rows: (y, x0, x1) lines of the sentence inside the bubble"""
+    extra = " stroke-dasharray='1.8 1.4'" if ghost else ""
+    return "\n  ".join(f'<path d="M {x0} {y} H {x1}" {st(c, 1.7, extra=extra)}/>' for y, x0, x1 in rows)
+
+LINES = [(-5.0, -6.6, 6.6), (-1.6, -6.6, 2.4), (1.8, -6.6, 5.0)]
+
+# obvious: the whole thing is a ghost, everybody already had it
+icon("obvious", "the whole statement adds nothing; everyone knew it (פשיטא)", bubble(M, ghost=True) + "\n  " + bars(M, LINES, ghost=True), M)
+
+def thought(c, x, y, k=1.0):
+    """a thought cloud: what one might have thought"""
+    out = (f'<path d="M {x-3.4*k:.2f} {y+0.6*k:.2f} A 2.0 2.0 0 0 1 {x-2.6*k:.2f} {y-2.8*k:.2f} A 2.4 2.4 0 0 1 {x+1.6*k:.2f} {y-3.2*k:.2f} '
+           f'A 2.0 2.0 0 0 1 {x+3.6*k:.2f} {y-0.4*k:.2f} A 1.9 1.9 0 0 1 {x+1.4*k:.2f} {y+2.6*k:.2f} A 2.0 2.0 0 0 1 {x-3.4*k:.2f} {y+0.6*k:.2f} Z" '
+           f'fill="{c}" fill-opacity="0.15" stroke="{c}" stroke-width="1.3" stroke-dasharray="1.6 1.3"/>\n  '
+           f'<circle cx="{x-3.0*k:.2f}" cy="{y+4.0*k:.2f}" r="{0.9*k:.2f}" fill="{c}"/>\n  <circle cx="{x-4.6*k:.2f}" cy="{y+5.8*k:.2f}" r="{0.6*k:.2f}" fill="{c}"/>')
+    return out
+
+def bubble_small(c):
+    """a smaller bubble, lower left, leaving the upper right free for a thought cloud"""
+    d = 'M -8.8 -2.4 H 1.6 A 1.5 1.5 0 0 1 3.1 -0.9 V 6.0 A 1.5 1.5 0 0 1 1.6 7.5 H -3.6 L -6.8 10.6 V 7.5 H -8.8 A 1.5 1.5 0 0 1 -10.3 6.0 V -0.9 A 1.5 1.5 0 0 1 -8.8 -2.4 Z'
+    return f'<path d="{d}" fill="{c}" fill-opacity="0.15" stroke="{c}" stroke-width="1.45" stroke-linejoin="round"/>'
+
+# one might have thought: the statement (solid bubble) stands to exclude the crossed thought
+icon("might-have-thought", "one might have thought otherwise; the statement is there to exclude that (סלקא דעתין / מהו דתימא)",
+     bubble_small(M) + "\n  " + bars(M, [(0.6, -7.2, 0.0), (3.8, -7.2, -2.2)]) + "\n  " + thought(M, 5.0, -7.0, 1.15) +
+     f'\n  <path d="M 2.6 -9.6 L 7.4 -4.6 M 7.4 -9.6 L 2.6 -4.6" {st("#ffffff", 3.0)}/>\n  <path d="M 2.6 -9.6 L 7.4 -4.6 M 7.4 -9.6 L 2.6 -4.6" {st(M, 1.5)}/>', M)
+
+# why do I need this again: a line repeats, the repeat is struck
+icon("redundant-part", "a part of the statement repeats another (הא תו למה לי)",
+     bubble(M) + "\n  " + bars(M, [(-5.0, -6.6, 6.6), (-1.6, -6.6, 2.4), (1.8, -6.6, 2.4)]) +
+     f'\n  <path d="M -7.6 3.6 L -1.4 0.0" {st("#ffffff", 3.0)}/>\n  <path d="M -7.6 3.6 L -1.4 0.0" {st(M, 1.5)}/>', M)
+
+# self-contradictory: two lines of the sentence run at each other
+icon("self-contradictory", "the statement's own words disagree with each other (הא גופא קשיא)",
+     bubble(M) + "\n  " + bars(M, [(-5.0, -6.6, 6.6)]) +
+     f'\n  <path d="M -6.6 0.2 H -1.4" {st(M, 1.7)}/>\n  ' + arrowhead(-0.6, 0.2, 0, M, 2.2, 1.8) +
+     f'\n  <path d="M 6.6 0.2 H 2.6" {st(M, 1.7)}/>\n  ' + arrowhead(1.8, 0.2, 180, M, 2.2, 1.8), M)
+
+# misordered: the lines are out of order; a swap mark says which
+icon("misordered", "wrong order: what should be joined is split, or the parts are out of sequence (תנא היכא קאי / ליערבינהו וליתנינהו / פתח בכד וסיים בחבית)",
+     bubble(M) + "\n  " + bars(M, [(-5.0, -6.6, 1.2), (-1.6, -6.6, 6.6), (1.8, -6.6, 4.0)]) +
+     f'\n  <path d="M 5.2 -6.2 V -0.6" {st(M, 1.4)}/>\n  ' + arrowhead(5.2, -6.6, -90, M, 1.9, 1.6) + "\n  " + arrowhead(5.2, -0.2, 90, M, 1.9, 1.6), M)
+
+# ====================================================================================
+# Section 5 (Eng p154): the predicate said potentially or actually (בכח / בפועל)
+# ====================================================================================
+icon("potential", "said of what can, not of what does: eligible, able (בכח)",
+     f'<circle cx="0" cy="0" r="7.2" {st(M, 1.45)} stroke-dasharray="2.2 1.6"/>\n  <circle cx="0" cy="0" r="2.6" fill="{M}"/>', M)
+icon("actual", "said of what actually does (בפועל)",
+     f'<circle cx="0" cy="0" r="7.2" fill="{M}"/>', M)
 
 if __name__ == "__main__":
     write_icons(ICONS, OUT)

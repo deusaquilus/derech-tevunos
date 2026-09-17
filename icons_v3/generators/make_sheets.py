@@ -156,6 +156,17 @@ PART3 = {
     "section2": [("Part 3, chapter 8. Section 2: indirect routes, the dilemma, a ground that does not reach, and theory", [
         ("via-opposite", "via the opposite", "הפך"), ("dilemma", "either way it fails", "ממה נפשך"),
         ("ground-does-not-reach", "the ground does not reach it", ""), ("theory", "leans, does not prove", "סברא")])],
+    "sections3-5": [
+        ("Part 3, chapter 8. Section 3: the rebuttals (my house left, the dissenting view right)", [
+            ("rebuttal-your-reasoning", "hits you too", "ולטעמיך"), ("rebuttal-just-the-opposite", "thrown back", "אדרבא"),
+            ("rebuttal-proves-my-point", "your text proves my point", "משם ראיה")]),
+        ("Section 4: objections to form, what was said", [
+            ("obvious", "adds nothing", "פשיטא"), ("might-have-thought", "excludes a thought", "סלקא דעתין"),
+            ("redundant-part", "a part repeats", "הא תו למה לי"), ("self-contradictory", "words disagree", "הא גופא קשיא"),
+            ("misordered", "out of order", "תנא היכא קאי")]),
+        ("Section 5: the predicate said potentially or actually", [
+            ("potential", "can, is eligible", "בכח"), ("actual", "actually does", "בפועל")]),
+    ],
 }
 
 if __name__ == "__main__":
@@ -165,7 +176,7 @@ if __name__ == "__main__":
     contact_sheet(PART2, os.path.join(OUT, "contact-sheet-part2.png"))
     contact_sheet(PART2, os.path.join(OUT, "contact-sheet-part2-grey.png"), grey=True)
     for name, sec in PART3.items():
-        n = len(sec[0][1])
+        n = max(len(items) for _, items in sec)
         contact_sheet(sec, os.path.join(OUT, f"part3-{name}.png"), cols=n, cell=240, icon_h=120)
         contact_sheet(sec, os.path.join(OUT, f"part3-{name}-grey.png"), grey=True, cols=n, cell=240, icon_h=120)
     review_sheet([

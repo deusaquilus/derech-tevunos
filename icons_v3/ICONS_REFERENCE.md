@@ -1,6 +1,6 @@
 # Derech Tevunos icon set: reference
 
-72 SVG icons for building visualizations of the Ramchal's *Derech Tevunos*.
+82 SVG icons for building visualizations of the Ramchal's *Derech Tevunos*.
 This file is the contract for using them. It tells you what each icon means,
 where it attaches in a sugya model, and the visual grammar the icons share, so
 that anything you build on top of them stays legible.
@@ -15,7 +15,7 @@ where he gives it. Do not reinterpret an icon beyond its cited definition.
 icons/ch9-moves/     7   the moves of a debate (chapter 9)          24×24
 icons/ch1-3/        24   who speaks, and the anatomy of a statement  24×24
 icons/ch4-7/        32   relations, inferences, deductions           24×24, three at 36×24
-icons/ch8/           9   what a proof stands on, and how it fails     24×24 (Part 3, sections 1-2; in progress)
+icons/ch8/          19   what a proof stands on, how it fails, form   24×24 (Part 3; sections 3-5 pending review)
 contact-sheets/          every icon rendered, colour and greyscale
 generators/              Python that regenerates every SVG (see section 14)
 all-icons.svg            every icon as a <symbol>, for <use href="all-icons.svg#key">
@@ -307,9 +307,11 @@ follows Ramchal. Do not "correct" it.
 
 ## 11. Chapter 8: accepting and rejecting statements (icons/ch8/, magenta)
 
-Part 3, drawn section by section; sections 1 and 2 are done, sections 3 to 5
-are listed at the end of METHODOLOGY.md. Every icon is a variation of the
-landscape described in section 3.
+Part 3, drawn section by section. Sections 1 and 2 are approved; sections 3
+to 5 are drawn and awaiting Alexander's review (their rows below may change).
+Sections 1 to 3 are variations of the landscape described in section 3;
+section 4 uses a speech bubble, because those objections are about how a
+thing was said, not what it stands on; section 5 is a plain pair.
 
 ### 11a. What a proof stands on (Eng p112–116, Heb p111–115)
 
@@ -338,6 +340,44 @@ Reductio (אלא מעתה, Eng p126–130) has no icon of its own: Ramchal says 
 *is* the hypothetical syllogism on the denial; use `hypothetical-syllogism-tollens`
 on the `contradiction` edge with `ground-deduction`.
 
+### 11c. The rebuttals (Eng p136–142, Heb p135–137), pending review
+
+Two houses on the horizon: **mine on the left, the dissenting view on the
+right** (the same sides as `via-opposite`). A difficulty is a lightning bolt.
+Badge on the `difficulty` edge with which a disproof is turned aside.
+
+| Key | Ramchal (Heb p) | Reads as | Picture |
+|---|---|---|---|
+| `rebuttal-your-reasoning` | ולטעמיך / ולדידך (135) | the same difficulty hits your view too; the distinction that answers it saves both (Bava Kamma 88a) | a bolt strikes each house; both stand |
+| `rebuttal-just-the-opposite` | אדרבא (137) | the difficulty is turned and thrown at the dissenting view (Bava Kamma 83b) | the bolt arcs from my roof and comes down on their house, which is struck |
+| `rebuttal-proves-my-point` | משם ראיה / היא הנותנת (137) | the text of your disproof proves my view (Shabbos 82a, the shard) | my house solid, theirs outlined; an arrow on the floor from their side to mine |
+
+### 11d. Objections to form (Eng p156–158, Heb p157), pending review
+
+Ramchal's split: the statement as a whole, and in its parts. These are
+chapter 9's `objection` leaf. The picture of "what was said" is a speech
+bubble; the lines inside it are the sentence's parts. Badge on the
+`difficulty` edge.
+
+| Key | Ramchal (Heb p) | Reads as | Picture |
+|---|---|---|---|
+| `obvious` | פשיטא (157) | the whole statement adds nothing; everyone knew it | the bubble and its lines drawn as a ghost |
+| `might-have-thought` | סלקא דעתין (157); the Gemara's מהו דתימא | resolves פשיטא: the statement is there to exclude a thought one might have had | the bubble stands; beside it a thought cloud, struck |
+| `redundant-part` | הא תו למה לי (157) | a part repeats another | two identical lines, the second struck |
+| `self-contradictory` | הא גופא קשיא (157) | the words disagree with each other | two lines run at each other |
+| `misordered` | תנא היכא קאי (Berachos 2a), ליערבינהו וליתנינהו (Gittin), פתח בכד וסיים בחבית (Bava Kamma 27a) | wrong order: split what belongs together, or out of sequence; one icon, three text chips | uneven lines with a swap mark |
+
+### 11e. Potential and actual (Eng p154, Heb p153), pending review
+
+Whether a predicate is said of what *can* or of what *does* (Zevachim 99a,
+"the Cohen who sprinkles"). Badge on the predicate of a row, or on the
+`resolution` that draws the distinction.
+
+| Key | Ramchal | Reads as | Picture |
+|---|---|---|---|
+| `potential` | בכח | said of what is able or eligible | a dashed ring with a solid core |
+| `actual` | בפועל | said of what actually does | a solid disc |
+
 ## 12. Attested fixtures
 
 Passages Ramchal labels himself. Each can double as a test case for the icon
@@ -360,6 +400,9 @@ named beside it.
 | Pesachim 5b; Bava Kamma 104a | `disjunctive-syllogism` | Eng p108–110 |
 | "two is more than one"; "stones are hard"; "we have seen them pass" | `ground-axiom`, `ground-sense` | Eng p112 |
 | the verse that does not exempt him ("אחיו הוא במצוות"); "it was only their light" | `ground-does-not-reach` | Eng p132–136 |
+| Bava Kamma 88a, a slave as "brother"; Bava Kamma 83b, injury and manslaughter; Shabbos 82a, the shard | `rebuttal-your-reasoning`; `rebuttal-just-the-opposite`; `rebuttal-proves-my-point` | Eng p136–142 |
+| Zevachim 99a, the Cohen who sprinkles | `potential`, `actual` | Eng p154 |
+| Berachos 2a; Gittin; Bava Kamma 27a | `misordered` | Eng p158 |
 
 ## 13. Rules for using the set
 
@@ -384,8 +427,8 @@ named beside it.
    it in the generator (section 13) so the whole family moves together.
 7. **Missing icons are recorded, not improvised.** The chapter 8 verdicts,
    the chapter 5 limited contrapositive, and the chapter 3 style types have no
-   icons by decision; chapter 8 sections 3 to 5 are not drawn yet. If a case
-   needs one, say so rather than reusing a neighbour.
+   icons by decision. If a case needs one, say so rather than reusing a
+   neighbour.
 8. **The chapter 8 icons carry a gradient.** Each has its own gradient id
    (`fade-<key>`), so they can be inlined on one page; keep the ids if you
    copy the markup. They render in greyscale (see the grey contact sheets).
@@ -399,7 +442,7 @@ python3 gen_icons.py            # icons/ch1-3, 25 files (one of them, conditiona
 python3 gen_icons_part2.py      # icons/ch4-7, the 18 not built from the statement shape
 python3 gen_icons_ch4_tiles.py  # icons/ch4-7, the 11 chapter 4 relations
 python3 gen_icons_ch5.py        # icons/ch4-7, the 3 wide chapter 5 icons
-python3 gen_icons_ch8.py        # icons/ch8, the 9 chapter 8 icons (needs numpy; reads the two reference drawings from notes/)
+python3 gen_icons_ch8.py        # icons/ch8, the 19 chapter 8 icons (needs numpy; reads the two reference drawings from notes/)
 python3 make_sheets.py          # contact-sheets/, the contact sheets, the Part 3 section sheets and the review sheets
 python3 make_sprite.py          # all-icons.svg, every icon as a <symbol>
 ```

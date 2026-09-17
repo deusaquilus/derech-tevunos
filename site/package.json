@@ -9,7 +9,7 @@
   "scripts": {
     "dev": "npm run generate && astro dev",
     "build": "npm run generate && astro build",
-    "generate": "npm run build-text && npm run build-search-index && npm run build-blog-lastmod",
+    "generate": "npm run build-text && npm run build-search-index && npm run build-blog-lastmod && npm run glyphs",
     "build-text": "tsx scripts/build-text-docs.ts",
     "build-search-index": "tsx scripts/build-search-index.ts",
     "build-blog-lastmod": "tsx scripts/build-blog-lastmod.ts",

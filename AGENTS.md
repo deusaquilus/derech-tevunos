@@ -221,7 +221,7 @@ or *what is still exerting force* (standing).
 | `DerechTevunos_benyehudah_bilingual_fixed_interlinear.md` | The `_fixed` text cut into 641 verses with stable IDs; **the source of the chapter pages**. Its `_interlinear_notes.md` sibling says, per verse, what the interactive layer should attach. See "The text pages are interlinear". |
 | `site/` | **The website, and the only npm package in the repo.** Astro + React, deployed to Vercel at `derech-tevunos.com`. The rail visualization lives inside it at `site/src/rail/`. |
 | `web/` | Two computed visualizations (lattice interval under doubt, circumscription diff). Separate npm package. |
-| `icons_v3/` | The current glyph set — 104 SVGs. `ICONS_REFERENCE.md` is the contract for using them, `METHODOLOGY.md` for making them. `site/src/rail/glyphs.ts` is **generated** from these by `npm run glyphs`; edit the SVGs and regenerate, never the generated file. |
+| `icons_v3/` | The current glyph set — 114 SVGs (82 shipped icons). `ICONS_REFERENCE.md` is the contract for using them, `METHODOLOGY.md` for making them. `site/src/rail/glyphs.ts` is **generated** from these by `npm run glyphs` (part of `generate`); edit the SVGs, never the generated file. |
 | `renders/` | Exported PNGs and SVGs of the waterfall, embedded by the `SUGYA_WATERFALL_*` design documents. Was `viz/out/`. Keep the filenames — they are image references in markdown. |
 | `mascott/` | The mascot. Source of the site palette; see below. |
 | `DERECH_TEVUNOS_*.md`, `SUGYA_*.md` | The system and file format, written for a classifier. Roughly 1 MB; agent-facing, mostly not published. |
@@ -249,16 +249,18 @@ passages to their TypeScript fixtures as an oracle. A change that makes those
 disagree is a real regression, not a stale test. It resolves its own paths from
 `import.meta.url`, so it does not care about the working directory.
 
-`npm run build` runs the generators first — the chapter split, the search index
-and the blog lastmod map. Run the whole script; calling `astro build` directly
-leaves those inputs stale, and the chapter pages are **generated and
-gitignored**, so a bare `astro build` on a fresh clone produces a docs section
-with nothing in it.
+`npm run build` runs the generators first — the chapter split, the search index,
+the blog lastmod map, and the rail glyphs. Run the whole script; calling
+`astro build` directly leaves those inputs stale, and the chapter pages are
+**generated and gitignored**, so a bare `astro build` on a fresh clone produces
+a docs section with nothing in it.
 
-`npm run glyphs` regenerates `src/rail/glyphs.ts` from `icons_v3/icons/`. It is
-not part of the build — run it when the icon set changes. It resolves
-`icons_v3/` as `../../icons_v3` from `site/scripts/`, so it depends on the site
-sitting one level below the repository root.
+`npm run glyphs` regenerates `src/rail/glyphs.ts` from `icons_v3/icons/`. It
+runs as the last step of `generate`, so `dev` and `build` both refresh the
+bodies. It is a 1:1 lock: every SVG in `ch1-3` / `ch4-7` / `ch8` must have an
+`anatomy.ts` row, and every row must have an SVG. It resolves `icons_v3/` as
+`../../icons_v3` from `site/scripts/`, so it depends on the site sitting one
+level below the repository root.
 
 Do not disable, `skip`, comment out, or delete a failing test. Fix the code or
 fix the test; if you believe a test is genuinely invalid, **ask first**.
@@ -289,8 +291,9 @@ The npm package is `site/`, not the repo root. Vercel still clones the whole
 repository, then `cd`s into the Root Directory for install and build. That
 matters: `build-text-docs.ts` reads `DerechTevunos_benyehudah_bilingual_fixed.md`
 from one level above `site/`, so a Root Directory of `site` still sees the
-source. `npm run glyphs` is not part of `build`; `glyphs.ts` is already
-committed.
+source. `npm run glyphs` runs as part of `generate` (so a Vercel build
+refreshes `glyphs.ts` from the SVGs); the generated file is still committed
+so the bodies are readable without running the extractor.
 
 Under **Project → Settings → Build & Deployment**:
 

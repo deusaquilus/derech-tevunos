@@ -1,18 +1,154 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="-12 -12 24 24" role="img" aria-label="ground-axiom">
-  <title>ground-axiom: the mind dictates it, no training needed (מושכלות ראשונים)</title>
-  <defs><linearGradient id="fade-axiom" x1="0" y1="-0.6" x2="0" y2="10.4" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#c026d3" stop-opacity="0.35"/><stop offset="0.42" stop-color="#c026d3" stop-opacity="0.95"/><stop offset="1" stop-color="#c026d3" stop-opacity="1"/></linearGradient></defs>
-  <path d="M -6.4 -0.6 H 6.4 L 9.6 10.4 H -9.6 Z" fill="url(#fade-axiom)"/>
-  <path d="M -11.2 -0.6 H 11.2" fill="none" stroke="#c026d3" stroke-width="0.9" stroke-linecap="round" stroke-linejoin="round"/>
-  <path d="M -6.6 -6.4 L 0 -11.6 L 6.6 -6.4 Z" fill="#c026d3"/>
-  <rect x="-4.8" y="-6.8" width="9.6" height="6.20" fill="#c026d3"/>
-  <path d="M 1.924 4.600 C 2.035 5.537 1.179 6.379 -0.000 6.379 C -1.179 6.379 -2.035 5.537 -1.924 4.600 C -1.824 3.760 -0.967 3.141 -0.000 3.141 C 0.967 3.141 1.824 3.760 1.924 4.600 Z" fill="#ffffff"/>
-  <path d="M 3.341 4.600 L 4.860 4.600" fill="none" stroke="#ffffff" stroke-width="1.30" stroke-linecap="round" stroke-linejoin="round"/>
-  <path d="M 2.689 6.841 L 4.174 8.079" fill="none" stroke="#ffffff" stroke-width="1.30" stroke-linecap="round" stroke-linejoin="round"/>
-  <path d="M -0.000 7.962 L -0.000 10.000" fill="none" stroke="#ffffff" stroke-width="1.30" stroke-linecap="round" stroke-linejoin="round"/>
-  <path d="M -2.689 6.841 L -4.174 8.079" fill="none" stroke="#ffffff" stroke-width="1.30" stroke-linecap="round" stroke-linejoin="round"/>
-  <path d="M -3.341 4.600 L -4.860 4.600" fill="none" stroke="#ffffff" stroke-width="1.30" stroke-linecap="round" stroke-linejoin="round"/>
-  <path d="M -2.107 2.845 L -2.920 2.166" fill="none" stroke="#ffffff" stroke-width="1.30" stroke-linecap="round" stroke-linejoin="round"/>
-  <path d="M -0.000 2.224 L -0.000 1.360" fill="none" stroke="#ffffff" stroke-width="1.30" stroke-linecap="round" stroke-linejoin="round"/>
-  <path d="M 2.107 2.845 L 2.920 2.166" fill="none" stroke="#ffffff" stroke-width="1.30" stroke-linecap="round" stroke-linejoin="round"/>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   width="128"
+   height="128"
+   viewBox="-12 -12 24 24"
+   role="img"
+   aria-label="ground-axiom"
+   version="1.1"
+   id="svg1384"
+   sodipodi:docname="ground-axiom.svg"
+   inkscape:version="1.2.2 (b0a8486541, 2022-12-01)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview1386"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     showgrid="false"
+     inkscape:zoom="6.3671875"
+     inkscape:cx="64.078528"
+     inkscape:cy="64.157055"
+     inkscape:window-width="1854"
+     inkscape:window-height="1011"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg1384" />
+  <title
+     id="title1347">ground-axiom: the mind dictates it, no training needed (מושכלות ראשונים)</title>
+  <defs
+     id="defs1356">
+    <linearGradient
+       id="fade-axiom"
+       x1="0"
+       y1="-0.6"
+       x2="0"
+       y2="10.4"
+       gradientUnits="userSpaceOnUse">
+      <stop
+         offset="0"
+         stop-color="#c026d3"
+         stop-opacity="0.35"
+         id="stop1349" />
+      <stop
+         offset="0.42"
+         stop-color="#c026d3"
+         stop-opacity="0.95"
+         id="stop1351" />
+      <stop
+         offset="1"
+         stop-color="#c026d3"
+         stop-opacity="1"
+         id="stop1353" />
+    </linearGradient>
+  </defs>
+  <path
+     d="M -6.4 -0.6 H 6.4 L 9.6 10.4 H -9.6 Z"
+     fill="url(#fade-axiom)"
+     id="path1358" />
+  <path
+     d="M -11.2 -0.6 H 11.2"
+     fill="none"
+     stroke="#c026d3"
+     stroke-width="0.9"
+     stroke-linecap="round"
+     stroke-linejoin="round"
+     id="path1360" />
+  <path
+     d="M -6.6 -6.4 L 0 -11.6 L 6.6 -6.4 Z"
+     fill="#c026d3"
+     id="path1362" />
+  <rect
+     x="-4.8"
+     y="-6.8"
+     width="9.6"
+     height="6.20"
+     fill="#c026d3"
+     id="rect1364" />
+  <path
+     d="m 1.9115767,4.078681 c 0.111,0.937 -0.745,1.779 -1.92400001,1.779 -1.17899999,0 -2.03499999,-0.842 -1.92399999,-1.779 0.1,-0.84 0.95699999,-1.459 1.92399999,-1.459 0.967,0 1.82400001,0.619 1.92400001,1.459 z"
+     fill="#ffffff"
+     id="path1366" />
+  <path
+     d="m 3.3285767,4.078681 h 1.519"
+     fill="none"
+     stroke="#ffffff"
+     stroke-width="1.3"
+     stroke-linecap="round"
+     stroke-linejoin="round"
+     id="path1368" />
+  <path
+     d="m 2.6765767,6.319681 1.485,1.238"
+     fill="none"
+     stroke="#ffffff"
+     stroke-width="1.3"
+     stroke-linecap="round"
+     stroke-linejoin="round"
+     id="path1370" />
+  <path
+     d="m -0.01242331,7.440681 v 2.038"
+     fill="none"
+     stroke="#ffffff"
+     stroke-width="1.3"
+     stroke-linecap="round"
+     stroke-linejoin="round"
+     id="path1372" />
+  <path
+     d="m -2.7014233,6.319681 -1.485,1.238"
+     fill="none"
+     stroke="#ffffff"
+     stroke-width="1.3"
+     stroke-linecap="round"
+     stroke-linejoin="round"
+     id="path1374" />
+  <path
+     d="m -3.3534233,4.078681 h -1.519"
+     fill="none"
+     stroke="#ffffff"
+     stroke-width="1.3"
+     stroke-linecap="round"
+     stroke-linejoin="round"
+     id="path1376" />
+  <path
+     d="m -2.1194233,2.323681 -0.813,-0.679"
+     fill="none"
+     stroke="#ffffff"
+     stroke-width="1.3"
+     stroke-linecap="round"
+     stroke-linejoin="round"
+     id="path1378" />
+  <path
+     d="M -0.01242331,1.702681 V 0.83868098"
+     fill="none"
+     stroke="#ffffff"
+     stroke-width="1.3"
+     stroke-linecap="round"
+     stroke-linejoin="round"
+     id="path1380" />
+  <path
+     d="m 2.0945767,2.323681 0.813,-0.679"
+     fill="none"
+     stroke="#ffffff"
+     stroke-width="1.3"
+     stroke-linecap="round"
+     stroke-linejoin="round"
+     id="path1382" />
 </svg>
