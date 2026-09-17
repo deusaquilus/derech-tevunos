@@ -338,7 +338,23 @@ versions on purpose — the 3D renders read as a different hand beside them:
 | Homepage hero | `profile_detailed.png` |
 | `/docs` index | `full_post_tea_break.png` (reading a folio) |
 | 404 | `full_post_hoverboard.png` |
+| Light-page watermark | `full_pose_3d.png` → `site/public/mascot/pose3d.webp` (see below) |
 | Unused, reserved | `full_post_fixing_bug.png`, `just_face.png` |
+
+The watermark is the one deliberate 3D placement, settled 2026-09-17: a
+`.dt-page::after` ghost in `prose.css` on every light page (blog, docs, about,
+license — never the rail routes, which don't use `.dt-page`), fixed to the
+lower left at `opacity: 0.035` under `sepia(1)` with a radial mask fading its
+edges. Left because a blog post fills the column and the right margin is the
+first thing the prose eats. The sepia is what admits the 3D render — ghosted
+to warm monochrome there is no "different hand" to read, and no cool blue
+reaches the warm paper. The recipe is the exobench-site hero bear's, including
+its measured refusal of `mix-blend-mode` (a blended element re-composites
+every frame; ~17fps there). Hidden only below 640px (a phone has no gutter);
+an earlier 1100px cutoff vanished the figure the moment a desktop window
+narrowed. Tuned by screenshot: 0.06 read as a figure standing on the page.
+This is a placed image, not a paper texture — the "flat colour only"
+guardrail below still holds for backgrounds, rules and type.
 
 On the dark chrome the near-black robe dissolves into the ink, so every dark
 placement needs a radial lift behind the figure; the gold piping, cyan lenses

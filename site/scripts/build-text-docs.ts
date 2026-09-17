@@ -1,38 +1,56 @@
 /**
- * Split the bilingual Derech Tevunos into one docs page per chapter.
+ * Build the docs pages for the text of Derech Tevunos.
  *
- * Source: `../DerechTevunos_benyehudah_bilingual_fixed.md` — the copy whose
- * English terminology is aligned to the Diaspora Yeshiva translation, which
- * AGENTS.md says to prefer. Output: `src/content/docs/text/*.md`, which is
- * **generated and gitignored**. Do not hand-edit those files; edit the source
- * or this script.
+ * Two sources, one output directory (`src/content/docs/text/`, generated and
+ * gitignored — never hand-edit it; edit a source or this script):
  *
- * The source is organised as `## Chapter N · פרק א`, then `### עברית`, then
- * `### English`. The reader asked for the two stacked in that order, which is
- * also how the source reads, so this does not attempt to pair paragraphs into
- * columns. (It could: the languages run 174 paragraphs each in the same order.
- * But the longest Hebrew paragraph is 7211 characters, so a column layout
- * desynchronizes immediately and would need a per-paragraph grid. See
- * `prose.css`, "Bilingual chapter layout".)
+ *   - `../DerechTevunos_benyehudah_bilingual_fixed_interlinear.md` → one page
+ *     per chapter, **verse by verse**: each verse is the Hebrew, then the
+ *     English, under a stable ID such as `3.14.11` (chapter . paragraph .
+ *     verse). The paragraph numbers are the parent's own 174 paragraphs, so a
+ *     verse ID maps back onto the parent by construction.
+ *   - `../DerechTevunos_benyehudah_bilingual_fixed.md` (the parent) → the
+ *     "About this text" page from its preamble, and the Sugya Context Index
+ *     from its appendix. The parent is also the oracle: see the guardrail
+ *     below.
+ *
+ * ── THE GRAMMAR OF THE INTERLINEAR ──────────────────────────────────────────
+ *
+ *   ## Chapter N · פרק X        the parent's own chapter heading, verbatim
+ *   ### N.P · label             paragraph P of chapter N; P = 0 is the caption.
+ *                               The label is an editorial navigation aid.
+ *   #### N.P.S                  verse S; then one Hebrew paragraph, a blank
+ *                               line, one English paragraph. Anything after
+ *                               the English and before the next `####` is an
+ *                               insertion (a note, a figure) and not text.
+ *
+ * ── THE GUARDRAIL ───────────────────────────────────────────────────────────
+ *
+ * Re-joining a paragraph's verses with single spaces must reproduce the
+ * parent's paragraph exactly (whitespace runs aside), on both sides. The cut
+ * is lossless by design, and this build fails loudly if it stops being so —
+ * which is what happens when someone edits the text in one file and not the
+ * other. Fix the text; do not weaken the check.
  *
  * ── THE TWO THINGS THAT ARE EASY TO GET WRONG ───────────────────────────────
  *
- * 1. A whole-Hebrew paragraph needs `dir="rtl"`, and the wrapper has to be
- *    written so that CommonMark still parses its contents as Markdown. A raw
- *    HTML block swallows everything up to a blank line, so the wrapper is
- *    emitted with blank lines inside it — `<div …>\n\n …md… \n\n</div>` — which
- *    closes the HTML block and reopens Markdown parsing for the body. Wrapping
- *    tightly (`<div …>text</div>`) silently disables every link and emphasis
- *    inside the chapter.
+ * 1. Every wrapper is emitted with BLANK LINES inside it — `<div …>\n\n…\n\n</div>`
+ *    — so CommonMark closes the raw-HTML block and parses the body as
+ *    Markdown. Wrapping tightly (`<div>text</div>`) silently disables every
+ *    emphasis inside the verse, and, worse, turns the Hebrew into a block of
+ *    HTML that `build-search-index.ts` drops, so the Hebrew stops being
+ *    searchable. The Hebrew and the English are both Markdown paragraphs
+ *    inside `div` wrappers for exactly that reason.
  *
- * 2. A Hebrew phrase quoted inside an English sentence must be bidi-ISOLATED,
+ * 2. A Hebrew phrase quoted inside an English verse must be bidi-ISOLATED,
  *    not merely marked. `"…" (הוא מותיב לה והוא מפרק לה)` puts its parentheses
  *    on the wrong side otherwise, because parentheses, quotes and digits are
  *    bidi-neutral and resolve against whichever run wins. Measured on the
  *    source: 357 lines carry Hebrew, 172 of those also carry Latin, 205 carry
- *    parentheses and 166 carry digits. So this is the common case, not an edge
- *    case. `wrapInlineHebrew` emits `<span lang="he">` around each run and
- *    `prose.css` applies `unicode-bidi: isolate`.
+ *    parentheses and 166 carry digits. `wrapInlineHebrew` emits
+ *    `<span lang="he">` around each run and `prose.css` applies
+ *    `unicode-bidi: isolate`. The paragraph labels get the same treatment,
+ *    both in the heading and in the frontmatter the TOC is built from.
  */
 import fs from 'fs';
 import path from 'path';
@@ -41,6 +59,7 @@ import { fileURLToPath } from 'url';
 const here = path.dirname(fileURLToPath(import.meta.url));
 const repoRoot = path.join(here, '..', '..');
 const SOURCE = path.join(repoRoot, 'DerechTevunos_benyehudah_bilingual_fixed.md');
+const INTERLINEAR = path.join(repoRoot, 'DerechTevunos_benyehudah_bilingual_fixed_interlinear.md');
 const OUT_DIR = path.join(here, '..', 'src', 'content', 'docs', 'text');
 
 const CATEGORY = 'The text';
@@ -59,12 +78,34 @@ const HEBREW_RUN = /[\u0590-\u05FF\uFB1D-\uFB4F]+(?:[\s\u05BE'"״׳-]+[\u0590-\u
 
 type Language = 'he' | 'en';
 
-/** A run of paragraphs in one language. */
+/** One verse of the interlinear: the same span of thought in both languages. */
+type Verse = {
+  /** `3.14.11` — chapter, paragraph, verse. */
+  readonly id: string;
+  readonly he: string;
+  readonly en: string;
+};
+
+type Paragraph = {
+  /** Paragraph number within the chapter; 0 is the caption. */
+  readonly p: number;
+  /** Editorial navigation label; not part of the text. */
+  readonly label: string;
+  readonly verses: readonly Verse[];
+};
+
+type InterlinearChapter = {
+  readonly n: number;
+  readonly hebrew: string;
+  readonly paragraphs: readonly Paragraph[];
+};
+
+/** A run of paragraphs in one language, as the parent lays them out. */
 type LangBlock = {
   readonly lang: Language;
-  /** The block's own first line in the source, which is the chapter's summary. */
+  /** The block's own first line in the source, which is the chapter's caption. */
   readonly summary: string;
-  /** Everything after the summary line. */
+  /** Everything after the caption. */
   readonly body: readonly string[];
 };
 
@@ -72,7 +113,7 @@ type Section =
   | { readonly kind: 'chapter'; readonly n: number; readonly hebrew: string; readonly blocks: readonly LangBlock[] }
   | { readonly kind: 'plain'; readonly title: string; readonly paragraphs: readonly string[] };
 
-// ── Parsing (pure) ──────────────────────────────────────────────────────────
+// ── Parsing the parent (pure) ───────────────────────────────────────────────
 
 const paragraphsOf = (raw: string): readonly string[] =>
   raw
@@ -103,13 +144,13 @@ const toLangBlock = (lang: Language, raw: string): LangBlock => {
 };
 
 /**
- * Split the document on `## ` headings.
+ * Split the parent on `## ` headings.
  *
  * Returns the preamble (everything before the first `##`) separately, because
  * it is the source's own explanation of what the two files are and of the
  * `[ed.]` brackets — provenance the reader needs, and not a chapter.
  */
-const splitDocument = (
+const splitParent = (
   md: string,
 ): { readonly preamble: string; readonly sections: readonly Section[] } => {
   const parts = md.split(/^## (.+)$/m);
@@ -142,12 +183,131 @@ const splitDocument = (
   return { preamble, sections };
 };
 
+// ── Parsing the interlinear (pure) ──────────────────────────────────────────
+
+/** `3.14 · Kind 7 · compound …` → `{ p: 14, label: 'Kind 7 · compound …' }`, chapter checked by the caller. */
+const parseParagraphHeading = (
+  heading: string,
+): { readonly n: number; readonly p: number; readonly label: string } | undefined => {
+  const m = /^(\d+)\.(\d+)(?:\s*·\s*(.*))?$/.exec(heading.trim());
+  if (m === null) return undefined;
+  return { n: Number(m[1]), p: Number(m[2]), label: (m[3] ?? '').trim() };
+};
+
+const parseVerseHeading = (
+  heading: string,
+): { readonly n: number; readonly p: number; readonly s: number } | undefined => {
+  const m = /^(\d+)\.(\d+)\.(\d+)$/.exec(heading.trim());
+  return m === null ? undefined : { n: Number(m[1]), p: Number(m[2]), s: Number(m[3]) };
+};
+
+/**
+ * Every structural fault in the interlinear, with its location. Reported all
+ * at once rather than one per build, in the manner of `parseSugya`.
+ */
+const parseInterlinear = (
+  md: string,
+): { readonly chapters: readonly InterlinearChapter[]; readonly faults: readonly string[] } => {
+  const faults: string[] = [];
+  const chapters: InterlinearChapter[] = [];
+  const parts = md.split(/^## (.+)$/m);
+
+  for (let i = 1; i < parts.length; i += 2) {
+    const chapter = parseChapterHeading(parts[i] ?? '');
+    if (chapter === undefined) continue; // the file's own front matter has no `##` sections today, but be tolerant
+    const paragraphs: Paragraph[] = [];
+    const sub = (parts[i + 1] ?? '').split(/^### (.+)$/m);
+
+    for (let j = 1; j < sub.length; j += 2) {
+      const head = parseParagraphHeading(sub[j] ?? '');
+      if (head === undefined || head.n !== chapter.n) {
+        faults.push(`chapter ${chapter.n}: paragraph heading "${(sub[j] ?? '').trim()}" is not "${chapter.n}.P · label"`);
+        continue;
+      }
+      const verses: Verse[] = [];
+      const vsub = (sub[j + 1] ?? '').split(/^#### (.+)$/m);
+      for (let k = 1; k < vsub.length; k += 2) {
+        const at = `${chapter.n}.${head.p}`;
+        const v = parseVerseHeading(vsub[k] ?? '');
+        if (v === undefined || v.n !== chapter.n || v.p !== head.p) {
+          faults.push(`¶${at}: verse heading "${(vsub[k] ?? '').trim()}" does not belong to this paragraph`);
+          continue;
+        }
+        if (v.s !== verses.length + 1) faults.push(`¶${at}: verse ${v.s} is out of sequence (expected ${verses.length + 1})`);
+        // Only the first two paragraphs are text; anything after them is an insertion.
+        const [he, en, ...rest] = paragraphsOf(vsub[k + 1] ?? '');
+        if (he === undefined || en === undefined) {
+          faults.push(`verse ${at}.${v.s}: needs a Hebrew paragraph and an English paragraph`);
+          continue;
+        }
+        if (!HEBREW_CHAR.test(he)) faults.push(`verse ${at}.${v.s}: first paragraph is not Hebrew`);
+        if (!/[A-Za-z]/.test(en)) faults.push(`verse ${at}.${v.s}: second paragraph is not English`);
+        if (rest.length > 0) faults.push(`verse ${at}.${v.s}: ${rest.length} insertion(s) after the English; the renderer does not carry them yet`);
+        verses.push({ id: `${at}.${v.s}`, he, en });
+      }
+      paragraphs.push({ p: head.p, label: head.label, verses });
+    }
+    chapters.push({ n: chapter.n, hebrew: chapter.hebrew, paragraphs });
+  }
+
+  return { chapters, faults };
+};
+
+// ── The guardrail (pure) ────────────────────────────────────────────────────
+
+const normalise = (s: string): string => s.replace(/\s+/g, ' ').trim();
+
+/**
+ * Hold the interlinear to the parent: same chapters, same paragraph count,
+ * and every paragraph's verses re-joining to the parent's paragraph on both
+ * sides. Returns every disagreement, with the first differing character.
+ */
+const holdToParent = (
+  chapters: readonly InterlinearChapter[],
+  parent: readonly Extract<Section, { kind: 'chapter' }>[],
+): readonly string[] => {
+  const faults: string[] = [];
+  const byNumber = new Map(parent.map((c) => [c.n, c]));
+
+  for (const c of parent) {
+    if (!chapters.some((x) => x.n === c.n)) faults.push(`chapter ${c.n} is in the parent but not in the interlinear`);
+  }
+
+  for (const chapter of chapters) {
+    const src = byNumber.get(chapter.n);
+    if (src === undefined) {
+      faults.push(`chapter ${chapter.n} is in the interlinear but not in the parent`);
+      continue;
+    }
+    for (const lang of ['he', 'en'] as const) {
+      const block = src.blocks.find((b) => b.lang === lang);
+      const want = block === undefined ? [] : [block.summary, ...block.body];
+      if (want.length !== chapter.paragraphs.length) {
+        faults.push(`chapter ${chapter.n} [${lang}]: interlinear has ${chapter.paragraphs.length} paragraphs, parent has ${want.length}`);
+      }
+      for (const para of chapter.paragraphs) {
+        const expected = normalise(want[para.p] ?? '');
+        const got = normalise(para.verses.map((v) => v[lang]).join(' '));
+        if (expected === got) continue;
+        let d = 0;
+        while (d < expected.length && d < got.length && expected[d] === got[d]) d += 1;
+        faults.push(
+          `¶${chapter.n}.${para.p} [${lang}] diverges from the parent at character ${d}:\n` +
+            `      parent      …${expected.slice(Math.max(0, d - 40), d + 50)}…\n` +
+            `      interlinear …${got.slice(Math.max(0, d - 40), d + 50)}…`,
+        );
+      }
+    }
+  }
+  return faults;
+};
+
 // ── Rendering (pure) ────────────────────────────────────────────────────────
 
 /**
- * Isolate every inline Hebrew run in an otherwise-Latin paragraph.
+ * Isolate every inline Hebrew run in an otherwise-Latin string.
  *
- * Skipped when the paragraph is Hebrew-dominant — the enclosing block already
+ * Skipped when the text is Hebrew-dominant — the enclosing block already
  * carries `dir="rtl"` there, and wrapping every word would be noise. Skipped
  * inside backtick spans too: a code span is rendered verbatim, so injecting a
  * tag into one would print the tag.
@@ -169,75 +329,138 @@ export const wrapInlineHebrew = (text: string): string => {
 };
 
 /**
- * Wrap a run of paragraphs in a direction-carrying block.
- *
- * The blank lines after the opening tag and before the closing tag are
- * REQUIRED, not cosmetic: they terminate the raw-HTML block so CommonMark
- * resumes parsing Markdown for the body. See the file header.
+ * The English carries two kinds of square bracket: `[ed. …]` is the parent's
+ * editorial source-reading note, plain `[…]` is the translator's clarifying
+ * insertion. Mark the editorial kind so the stylesheet can set it apart; the
+ * translator's stays as it is. No `[ed.]` note contains a `]`, so the match
+ * is a simple span.
  */
-const langBlockHtml = (lang: Language, paragraphs: readonly string[]): string => {
-  const dir = lang === 'he' ? 'rtl' : 'ltr';
-  const body = paragraphs
-    .map((p) => (lang === 'he' ? p : wrapInlineHebrew(p)))
-    .join('\n\n');
-  return `<div class="dt-lang-block" lang="${lang}" dir="${dir}">\n\n${body}\n\n</div>`;
+const markEditorial = (html: string): string =>
+  html.replace(/\[ed\.[^\]]*\]/g, (m) => `<span class="dt-ed">${m}</span>`);
+
+const renderEnglish = (text: string): string => markEditorial(wrapInlineHebrew(text));
+
+const anchorOf = (id: string): string => `v${id.replace(/\./g, '-')}`;
+const paragraphAnchorOf = (n: number, p: number): string => `p${n}-${p}`;
+
+/**
+ * One verse. The Hebrew and the English are Markdown paragraphs inside `div`
+ * wrappers with blank lines — see the file header for why both halves of that
+ * sentence matter.
+ */
+const renderVerse = (v: Verse): string => {
+  const a = anchorOf(v.id);
+  return [
+    `<div class="dt-verse" id="${a}" data-verse="${v.id}">`,
+    '',
+    `<p class="dt-verse-id"><a href="#${a}">${v.id}</a></p>`,
+    '',
+    `<div class="dt-he" lang="he" dir="rtl">`,
+    '',
+    v.he,
+    '',
+    '</div>',
+    '',
+    `<div class="dt-en" lang="en">`,
+    '',
+    renderEnglish(v.en),
+    '',
+    '</div>',
+    '',
+    '</div>',
+  ].join('\n');
 };
 
-const LABEL: Record<Language, string> = { he: 'עברית · Hebrew', en: 'English' };
+/** The chapter's caption (paragraph 0), set as a lead rather than as a numbered verse. */
+const renderCaption = (para: Paragraph): string => {
+  const v = para.verses[0];
+  if (v === undefined) return '';
+  return [
+    `<div class="dt-caption" lang="he" dir="rtl">`,
+    '',
+    v.he,
+    '',
+    '</div>',
+    '',
+    `<div class="dt-caption dt-caption-en" lang="en">`,
+    '',
+    renderEnglish(v.en),
+    '',
+    '</div>',
+  ].join('\n');
+};
+
+const renderParagraph = (n: number, para: Paragraph): string => {
+  const id = `${n}.${para.p}`;
+  const heading =
+    `<h3 class="dt-para" id="${paragraphAnchorOf(n, para.p)}" data-paragraph="${id}">` +
+    `<span class="dt-para-num">${id}</span> ${wrapInlineHebrew(para.label)}</h3>`;
+  return [
+    `<section class="dt-paragraph">`,
+    '',
+    heading,
+    '',
+    para.verses.map(renderVerse).join('\n\n'),
+    '',
+    '</section>',
+  ].join('\n');
+};
 
 const yamlString = (s: string): string => `"${s.replace(/\\/g, '\\\\').replace(/"/g, '\\"')}"`;
 
-const frontmatter = (fields: Record<string, string | number>): string =>
-  ['---', ...Object.entries(fields).map(([k, v]) => `${k}: ${typeof v === 'number' ? v : yamlString(v)}`), '---'].join(
-    '\n',
-  );
+const frontmatter = (
+  fields: Readonly<Record<string, string | number>>,
+  paragraphs: readonly { readonly id: string; readonly label: string }[] = [],
+): string => {
+  const scalars = Object.entries(fields).map(([k, v]) => `${k}: ${typeof v === 'number' ? v : yamlString(v)}`);
+  const list =
+    paragraphs.length === 0
+      ? []
+      : ['paragraphs:', ...paragraphs.flatMap((p) => [`  - id: ${yamlString(p.id)}`, `    label: ${yamlString(p.label)}`])];
+  return ['---', ...scalars, ...list, '---'].join('\n');
+};
 
-/** Trim a summary line down to something that fits a meta description. */
+/** Trim a caption down to something that fits a meta description. */
 const asDescription = (s: string, fallback: string): string => {
   const clean = s.replace(/\s+/g, ' ').trim();
   if (clean.length === 0) return fallback;
   return clean.length <= 155 ? clean : `${clean.slice(0, 152).trimEnd()}…`;
 };
 
-const renderChapter = (
-  section: Extract<Section, { kind: 'chapter' }>,
-  order: number,
-): { readonly slug: string; readonly contents: string } => {
-  const english = section.blocks.find((b) => b.lang === 'en');
-  const summary = english?.summary ?? '';
+const renderChapter = (chapter: InterlinearChapter): { readonly slug: string; readonly contents: string } => {
+  const caption = chapter.paragraphs.find((p) => p.p === 0);
+  const body = chapter.paragraphs.filter((p) => p.p !== 0);
+  const description = asDescription(
+    caption?.verses[0]?.en ?? '',
+    `Derech Tevunos, chapter ${chapter.n}, Hebrew and English, verse by verse.`,
+  );
 
-  const body = section.blocks
-    .map((b) => {
-      const paragraphs = b.summary.length > 0 ? [b.summary, ...b.body] : [...b.body];
-      return [`<p class="dt-lang-heading">${LABEL[b.lang]}</p>`, '', langBlockHtml(b.lang, paragraphs)].join('\n');
-    })
-    .join('\n\n');
+  // The TOC is built from this list: stable anchors, labels already isolated.
+  const toc = body.map((p) => ({
+    id: paragraphAnchorOf(chapter.n, p.p),
+    label: `${chapter.n}.${p.p} · ${wrapInlineHebrew(p.label)}`,
+  }));
 
-  const slug = `chapter-${String(section.n).padStart(2, '0')}`;
-  const title = `Chapter ${section.n} · ${section.hebrew}`;
+  const slug = `chapter-${String(chapter.n).padStart(2, '0')}`;
+  const title = `Chapter ${chapter.n} · ${chapter.hebrew}`;
 
   return {
     slug,
     contents: [
-      frontmatter({
-        title,
-        description: asDescription(summary, `Derech Tevunos, chapter ${section.n}, Hebrew and English.`),
-        category: CATEGORY,
-        order,
-        kind: 'text',
-      }),
+      frontmatter({ title, description, category: CATEGORY, order: chapter.n, kind: 'text' }, toc),
       '',
-      body,
+      ...(caption === undefined ? [] : [renderCaption(caption), '']),
+      body.map((p) => renderParagraph(chapter.n, p)).join('\n\n'),
       '',
     ].join('\n'),
   };
 };
 
 /**
- * A `##` section that is not a chapter — today only the Sugya Context Index,
- * which has its own `### Seder …` structure and no language split. Its entries
- * mix Hebrew citations into English prose, so every paragraph goes through the
- * inline isolation.
+ * A `##` section of the parent that is not a chapter — today only the Sugya
+ * Context Index, which has its own `### Seder …` structure and no language
+ * split. Its entries mix Hebrew citations into English prose, so every
+ * paragraph goes through the inline isolation.
  */
 const renderPlain = (
   section: Extract<Section, { kind: 'plain' }>,
@@ -276,7 +499,7 @@ const renderAbout = (preamble: string): string =>
     frontmatter({
       title: 'About this text',
       description:
-        'What this edition of Derech Tevunos is: the 1742 Amsterdam Hebrew as keyed by Project Ben-Yehuda, and a clean-room English translation of it.',
+        'What this edition of Derech Tevunos is: the 1742 Amsterdam Hebrew as keyed by Project Ben-Yehuda, and a clean-room English translation of it, cut verse by verse.',
       category: CATEGORY,
       order: 0,
       kind: 'prose',
@@ -292,23 +515,40 @@ const renderAbout = (preamble: string): string =>
 
 // ── Effects ─────────────────────────────────────────────────────────────────
 
+const fail = (headline: string, faults: readonly string[]): never => {
+  console.error(`✗ ${headline}`);
+  for (const f of faults) console.error(`   - ${f}`);
+  process.exit(1);
+};
+
 const main = (): void => {
-  if (!fs.existsSync(SOURCE)) {
-    console.error(`✗ Source text not found: ${SOURCE}`);
-    process.exit(1);
+  for (const [label, file] of [
+    ['Source text', SOURCE],
+    ['Interlinear text', INTERLINEAR],
+  ] as const) {
+    if (!fs.existsSync(file)) {
+      console.error(`✗ ${label} not found: ${file}`);
+      process.exit(1);
+    }
   }
 
-  const md = fs.readFileSync(SOURCE, 'utf-8');
-  const { preamble, sections } = splitDocument(md);
-
-  const chapters = sections.filter(
+  const { preamble, sections } = splitParent(fs.readFileSync(SOURCE, 'utf-8'));
+  const parentChapters = sections.filter(
     (s): s is Extract<Section, { kind: 'chapter' }> => s.kind === 'chapter',
   );
   const plains = sections.filter((s): s is Extract<Section, { kind: 'plain' }> => s.kind === 'plain');
+  if (parentChapters.length === 0) fail('No chapters parsed from the source. Its headings may have changed shape.', []);
 
-  if (chapters.length === 0) {
-    console.error('✗ No chapters parsed. The source headings may have changed shape.');
-    process.exit(1);
+  const { chapters, faults } = parseInterlinear(fs.readFileSync(INTERLINEAR, 'utf-8'));
+  if (faults.length > 0) fail('The interlinear does not parse:', faults);
+  if (chapters.length === 0) fail('No chapters parsed from the interlinear. Its headings may have changed shape.', []);
+
+  const disagreements = holdToParent(chapters, parentChapters);
+  if (disagreements.length > 0) {
+    fail(
+      'The interlinear no longer reproduces the parent. The cut is meant to be lossless; fix the text, do not loosen this check.',
+      disagreements,
+    );
   }
 
   // Write in place, then remove what is stale — never `rmSync` the directory.
@@ -324,8 +564,8 @@ const main = (): void => {
   fs.writeFileSync(path.join(OUT_DIR, 'about.md'), renderAbout(preamble), 'utf-8');
   written.push('about');
 
-  for (const chapter of chapters) {
-    const { slug, contents } = renderChapter(chapter, chapter.n);
+  for (const chapter of [...chapters].sort((a, b) => a.n - b.n)) {
+    const { slug, contents } = renderChapter(chapter);
     fs.writeFileSync(path.join(OUT_DIR, `${slug}.md`), contents, 'utf-8');
     written.push(slug);
   }
@@ -341,8 +581,12 @@ const main = (): void => {
   for (const name of stale) fs.unlinkSync(path.join(OUT_DIR, name));
   if (stale.length > 0) console.log(`   removed ${stale.length} stale page(s): ${stale.join(', ')}`);
 
+  const verses = chapters.reduce((sum, c) => sum + c.paragraphs.reduce((s, p) => s + p.verses.length, 0), 0);
+  const paragraphs = chapters.reduce((sum, c) => sum + c.paragraphs.length, 0);
   console.log(`✅ Text docs: ${written.length} pages → src/content/docs/text/`);
-  console.log(`   ${chapters.length} chapters, ${plains.length} appended section(s)`);
+  console.log(
+    `   ${chapters.length} chapters, ${paragraphs} paragraphs, ${verses} verses, held to the parent; ${plains.length} appended section(s)`,
+  );
 };
 
 main();

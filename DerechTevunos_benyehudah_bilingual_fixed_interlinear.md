@@ -1,4 +1,4 @@
-# Derech Tevunos (דרך תבונות) — interlinear edition, chapters 1–9 of 11
+# Derech Tevunos (דרך תבונות) — interlinear edition, chapters 1–11
 
 Hebrew and English interleaved verse by verse. The text on both sides is that of
 `DerechTevunos_benyehudah_bilingual_fixed.md` (the copy whose English terminology is aligned to the
@@ -11,7 +11,9 @@ glyph, a figure, a widget) has an exact place to land. The companion file
 `DerechTevunos_benyehudah_bilingual_fixed_interlinear_notes.md` records where such attachments would earn
 their place.
 
-**Status:** chapters 1–9 are cut. Chapters 10–11 and the Sugya Context Index are not yet in this file.
+**Status:** all eleven chapters are cut. The Sugya Context Index (the parent's appendix, which has no
+Hebrew side and no verse structure of its own) is not in this file; the citation cards the notes propose
+draw on it directly from the parent.
 
 ## How this file is organised
 
@@ -3116,3 +3118,1157 @@ And the rule of the alternative is that it must be able to agree with the statem
 ואולם, כפי רבות החסרון שנצטרך להניח בו, כך יהיה השנוי יותר דחוק; ואם ירבה הזרות שמלותיו באמת לא תסבלנה אותו, לא נתן לו מקום כלל.
 
 But the more deficiency we must posit in it, the more forced the alternative will be; and if the strangeness grows so great that its words truly cannot bear it, we give it no place at all.
+
+## Chapter 10 · פרק י
+
+### 10.0 · Caption
+
+#### 10.0.1
+
+יבאר סדר העיון בסגיות ובחבורים
+
+Explains the order of study in sugyot and in compositions
+
+### 10.1 · From the parts of the sugyot to the order of study in them
+
+#### 10.1.1
+
+הנה עד הנה בארנו חלקי הסגיות והמכון בם.
+
+Now, thus far we have explained the parts of the sugyot and what is intended in them.
+
+#### 10.1.2
+
+עתה נבאר סדר העיון בהן להשיג כל דבר לפי מה שהוא.
+
+At this point we shall explain the order of study in them, so as to apprehend each thing according to what it is.
+
+### 10.2 · The ways of reporting are many, from three causes
+
+#### 10.2.1
+
+כבר הקדמתי לך, שדרכי ההגדה ואפני הדבור הם רבים; ואולם, זה נולד מסבות שונות:
+
+I have already set out for you that the ways of reporting and the modes of speech are many; but this arises from various causes:
+
+### 10.3 · The first cause: each person's own way
+
+#### 10.3.1
+
+הראשונה, שטבע האנשים נותן, זה שיהיה לכל אחד דרך פרטי ומיחד להגיד מחשבותיו, ולבטא מה שבלבו בכל שאר הענינים, הטבעים שמתחלפים בבני האדם כפי מזגיהם ותכונתם ונטית שכלם.
+
+The first: that human nature dictates that each one should have his own individual and distinctive way of stating his thoughts and expressing what is in his heart, as in all the other matters, the natures varying among men according to their temperaments, their character, and the inclination of their intellect.
+
+### 10.4 · The second cause: the art of rhetoric
+
+#### 10.4.1
+
+השנית, מה שמלאכת המליצה מלמדת להנעים ההגדה וליפותה, או להקל ההבנה לשומעים ולהכניס הדברים בלבם.
+
+The second: what the art of rhetoric teaches, in order to make the report pleasant and to beautify it, or to ease understanding for the hearers and to bring the words into their hearts.
+
+### 10.5 · The third cause: the custom of generations and lands
+
+#### 10.5.1
+
+השלישית, מה שמנהג הדורות או הארצות גורם; כי יש שנהגו לדבר בדרך אחד ויש שנהגו לדבר בדרך אחר. ועל הרב מתלמדים בני האדם לדבר כפי מנהג מקומם בזמנם.
+
+The third: what the custom of the generations or of the lands brings about; for there are those who were accustomed to speak in one way and those who were accustomed to speak in another way. And for the most part, men learn to speak according to the custom of their place in their time.
+
+### 10.6 · Every reader must learn the author's language and manner of reporting
+
+#### 10.6.1
+
+זה ממה שצריך כל קורא בחבור מן החבורים, שישתדל להבין לשון המחבר ההוא ודרך הגדתו –
+
+This is one of the things required of every reader of any composition: that he strive to understand the language of that author and his manner of reporting —
+
+#### 10.6.2
+
+כי מה שלפי אחד הלשונות או דרכי הדבור ירמוז לנו ענין אחד ונבין ממנו הבנה אחת, אפשר, שלפי לשון אחר ודרך אחר ירמז לנו ענין מתחלף מזה מאד, ונבין ממנו הבנה רחוקה מן האחרת.
+
+for what, according to one of the languages or modes of speech, points us to one matter, so that we derive from it one understanding, may, according to another language and another mode, point us to a matter very different from this, so that we derive from it an understanding far removed from the other.
+
+### 10.7 · The procedure: discern the parts; conceive the straightforward form; find the purpose of the statement; see how it accords; verify every premise, and the proofs of the proofs
+
+#### 10.7.1
+
+והנה בבואך לעין באחת מן הסגיות, תתחל בה מעט מעט, וכל דבור תקרא ממנה, תתבונן בו תחלה עד שתבחין חלקיו היטב, דהינו: הנושא והנשוא והדרך שיאמר הענין ההוא, דהינו, הנשוא באותו הנושא.
+
+Now, when you come to study one of the sugyot, begin with it little by little, and every utterance you read from it, reflect on it first until you discern its parts well, namely: the subject, the predicate, and the way in which that matter — namely, the predicate — is said of that subject.
+
+#### 10.7.2
+
+ואולם יהיה הדבור באיזה צורה שיהיה, צריך שתצירהו במחשבתך בצורת המאמרים הישרה.
+
+But whatever form the utterance may take, you must conceive it in your thought in the straightforward form of statements.
+
+#### 10.7.3
+
+פרוש: כי אם תמצא המאמר, בדרך תמיהה, או בדרך קשיא, באיזה דרך שיהיה – הנה תוציא תמצית כונתו במחשבתך, והינו, הענין שרצה לומר בעל המאמר ההוא, והנושא שבו רצה לומר הענין ההוא, ואז תצירהו בשכלך על הצורה הישרה שהיא, הנושא פלוני יש בו ענין פלוני.
+
+That is: if you find the statement in the manner of a rhetorical question, or in the manner of a difficulty, or in whatever manner it may be, then extract the gist of its intent in your thought, namely, the matter that the author of that statement wished to say and the subject of which he wished to say that matter; and then conceive it in your intellect in the straightforward form, which is: such-and-such a subject has in it such-and-such a matter.
+
+#### 10.7.4
+
+דרך משל: כשמצאת הדבור: “אבי הבן מאי אכא למימר?” – הנה זה הדבור בדרך קשיא, וכשתוציא תמצית כונתו, תמצא שהוא מתכון לומר, שאבי הבן צריך שיאמר למל את הבן, וזו היא הצורה הישרה של המאמר הזה וכן תצירהו במחשבתך.
+
+For example: when you find the utterance "The father of the son — what is there to say?" — now this utterance is in the manner of a difficulty, and when you extract the gist of its intent you will find that it means to say that the father of the son must say [in his blessing] "to circumcise the son"; this is the straightforward form of this statement, and thus you should conceive it in your thought.
+
+#### 10.7.5
+
+ואמנם, אחרי הכירך המאמר בחלקיו, אז צריך שתתבונן להכיר מהו התכלית באמירת אותו המאמר – אם הוא ענין בפני עצמו, דהינו, להודיע היות הענין ההוא בנושא ההוא או לשאל אם יש ענין אחד בנושא אחד, או אם הוא מתחבר ומתיחס אל מאמר אחר שנאמר;
+
+However, after you have recognized the statement in its parts, you must then reflect so as to recognize what the purpose is in saying that statement: whether it is a matter on its own, namely, to make known that that matter is in that subject, or to ask whether a certain matter is in a certain subject; or whether it is joined and related to another statement that has been said,
+
+#### 10.7.6
+
+ויהיה, או לפרשו, או להוכיח עליו, או להקשות עליו, או לתרץ קשיא שהקשית עליו, או להשיב על שאלה.
+
+and then it will be either to explain it, or to demonstrate it, or to raise a difficulty against it, or to resolve a difficulty that was raised against it, or to answer a question.
+
+#### 10.7.7
+
+כשתמצא ותכיר תכלית כונתו, אז צריך שתתבונן איך הוא מסכים עם התכלית באמת, פרוש, איך מכח המאמר הזה יפרש הראשון, או נוכיח עליו, או יתבאר היות בו קשי, או יוסר הקשי ממנו, או תהיה תשובה לשאלה.
+
+When you find and recognize the purpose of its intent, you must then reflect on how it truly accords with that purpose; that is, how by force of this statement the first one is explained, or we demonstrate it, or it becomes clear that there is a difficulty in it, or the difficulty is removed from it, or there is an answer to the question.
+
+#### 10.7.8
+
+ואמנם ממה שצריך שתתבונן הוא, כי הנה כל מאמר וכל הקדמה, צריך שתהיה מאמתת, וכמו שזכרתי למעלה.
+
+However, among the things on which you must reflect is this: that every statement and every premise must be verified, as I mentioned above.
+
+#### 10.7.9
+
+אך האמתת מאמר אחד, לפעמים, יהיה מכח מופתים רבים נמשכים זה אחר זה.
+
+But the verification of a single statement will at times come by force of many demonstrations following one after another.
+
+#### 10.7.10
+
+כי הנה תמצא הקדמה אחת מאמתת מאמר אחד וההקדמה ההיא תאמת מכח הקדמה אחרת והאחרת מאחרת, עד שיגיע הדבר אל המאמתים מצד עצמם או אל ההסכמה שפרשתי למעלה,
+
+For you will find one premise verifying one statement, and that premise is verified by force of another premise, and the other by another, until the thing reaches those that are verified in and of themselves, or the convention that I explained above;
+
+#### 10.7.11
+
+ואז נשוב למפרע על כל ההקדמות שהזכרנו עד הראשונה, כי נאמר: אם השלישית אמת – מכרח שהראשונה תהיה אמת, כיון שכלן תלויות זו מזו, וזה בין בהנחות ובין בקשיות.
+
+and then we go back in reverse over all the premises we have mentioned, up to the first, for we say: if the third is true, it is necessary that the first be true, since they all depend on one another — and this holds both in positing and in raising difficulties.
+
+#### 10.7.12
+
+והנה נמצא שיש המאמרים, וראיות המאמרים, וראיות הראיות, וראיות ראיות הראיות, ועל דרך זה יוכל הדבר למשך וללכת בהמשך גדול וכבר יאמרו אלה הדברים בדרך קצר, כפי לשון התלמוד.
+
+Now it turns out that there are the statements, and the proofs of the statements, and the proofs of the proofs, and the proofs of the proofs of the proofs; and in this way the thing can be drawn out and proceed at great length, and these things are often said in a brief manner, in keeping with the language of the Talmud.
+
+#### 10.7.13
+
+ואתה צריך שתציר ותתבונן במחשבתך את הכל בצורה הישרה, דהינו, צריך שתכיר ותבחין מה שהוא המאמר הנרצה ומה שהוא הראיה שעליו, ומה ראיות הראיה – וכן עד הסוף.
+
+And you must conceive and reflect upon all of it in your thought in the straightforward form; namely, you must recognize and discern what the intended statement is and what the proof for it is, and what the proofs of the proof are — and likewise to the end.
+
+### 10.8 · Statement and elucidation; the worked example, carrying out by way of a colonnade: the difficulty, unfolded into statement, proof, and proof of the proof
+
+#### 10.8.1
+
+עוד יש באור המאמרים, דהינו, שדבר אחד יאמר בקצרה או ברמיזה, ואחר כך יבאר ביותר הרחבה.
+
+There is also the elucidation of statements; namely, that one thing is said briefly or by allusion, and afterward it is elucidated at greater length.
+
+#### 10.8.2
+
+והנה אין הבאור אלא הדבר הראשון בעצמו, אמנם הוא בדרך יותר רחב מן הראשון. וגם זה צריך שתבחין מהו מאמר ומהו באור.
+
+Now the elucidation is nothing other than the first thing itself; however, it is in a more expansive manner than the first. And this too you must discern: what is a statement and what is an elucidation.
+
+#### 10.8.3
+
+מאמר, דרך משל, כשמצאת שאמרו (שבת ה'): “היכא אשכחנא כהאי גונא דחיב? אמר רב ספרא, אמר רבי אמי, אמר רבי יוחנן: מדי דהוה – אמעביר חפץ ברשות הרבים; התם לאו אף על גב דכמה דנקט לה ואזל – פטור, כי מנח לה – חיב. הכי נמי לא שנא”.
+
+For example, a statement — when you have found that they said (Shabbat 5): "Where do we find a case like this in which one is liable? Rav Safra said, R. Ami said, R. Yochanan said: It is just as with (מדי דהוה) one who carries an object in the public domain; there, is it not [so] that although as long as he holds it and walks he is exempt, when he sets it down he is liable? So too, it is no different."
+
+#### 10.8.4
+
+והקשו עוד: “מי דמי? – התם כל היכא דמנח לה – מקום חיוב, הכא – אי מנח לה בסטיו מקום פטור הוא”.
+
+And they raised a further difficulty: "Is it comparable (מי דמי)? There, wherever he sets it down is a place of liability; here, if he sets it down in the colonnade, it is a place of exemption."
+
+#### 10.8.5
+
+הנה בתחלה היה המאמר שהמוציא מחנות לפלטיא דרך סטיו, חיב.
+
+Now at the outset the statement was that one who carries out from a shop to the public square by way of a colonnade is liable.
+
+#### 10.8.6
+
+והקשה הש"ס על זה באמרו: “היכי אשכחנא כהאי גונא דחיב?”
+
+And the Gemara raised a difficulty against this by saying: "Where do we find a case like this in which one is liable?"
+
+#### 10.8.7
+
+כונתו, זה שמוציא מחנות לפלטיא דרך סטיו, הדעת נותן שלא יהיה חיב, וזה, לפי שמוציא מרשות לרשות שהוא חיב – הוא כשמוציא מרשות היחיד לרשות הרבים, או אפכא, ואין בין העקירה וההנחה ענין פטור, אך כשיש בין העקירה והנחה אמצעיות של פטור, אין לנו שיהיה חיב.
+
+Its intent: this one who carries out from a shop to the public square by way of a colonnade — it stands to reason that he should not be liable; and this is because the one who carries out from domain to domain who is liable is one who carries out from the private domain to the public domain, or the reverse, and there is no matter of exemption between the lifting and the setting down; but when there is an intervening exemption between the lifting and the setting down, we have no ground for him to be liable.
+
+#### 10.8.8
+
+והנה נכלל בזה מאמר, וראיה עליו, וראיה על הראיה, לפי שכונת "היכי אשכחנא וכו' " הוא שלא מצאנו מוציא מרשות לרשות כגון זה שיהיה חיב, ומובן מזה, שאם כן, אין פרוש מוציא מרשות לרשות כמו זה, אלא המוציא מרשות לרשות בלי אמצעיות פטור כלל, ומזה נוציא שהמוציא הזה ראוי שלא יהיה חיב.
+
+Now there is included in this a statement, and a proof for it, and a proof for the proof; for the intent of "Where do we find, etc." is that we have not found one who carries out from domain to domain such as this who is liable; and it is understood from this that, if so, the meaning of "one who carries out from domain to domain" is not [a case] such as this, but rather one who carries out from domain to domain without any intervening exemption at all; and from this we derive that this carrier ought not to be liable.
+
+#### 10.8.9
+
+ואולם אתה תציר כל זה במחשבתך בצורה הפשוטה הישרה, והינו, שהמוציא מחנות לפלטיא דרך סטיו אין לנו לחיבו,
+
+However, you should conceive all this in your thought in the simple, straightforward form, namely: one who carries out from a shop to the public square by way of a colonnade — we cannot hold him liable;
+
+#### 10.8.10
+
+וראיה לזה, אם אין אנו מוצאים בפרוש שהמוציא מרשות לרשות בהפסק ענין פטור באמצע יהיה חיב – אין לנו לחיבו. באמת אין אנו מוצאים בפרוש שהמוציא וכו' אין לנו לחיבו –
+
+and the proof for this: if we do not find explicitly that one who carries out from domain to domain with an interruption of a matter of exemption in the middle is liable, we cannot hold him liable; in truth, we do not find explicitly that one who carries out, etc.; [therefore] we cannot hold him liable.
+
+#### 10.8.11
+
+לפי שכל שאינו בכלל ההבנה הראשונה של אחד מהדינים, אין לנו להכניסו בכלל ההוא אלא אם כן יש לנו ראיה ברורה על זה – מוציא מרשות לרשות בהפסק פטור באמצע אינו בכלל ההבנה הראשונה של המוציא מרשות לרשות, אם כן אין לנו להכניסו בכלל ההוא אלא אם כן יש לנו ראיה ברורה, והינו אין לנו לחיבו
+
+For whatever is not within the primary understanding of one of the laws, we may not bring it into that class unless we have clear proof for this; one who carries out from domain to domain with an interruption of exemption in the middle is not within the primary understanding of "one who carries out from domain to domain"; if so, we may not bring it into that class unless we have clear proof, namely, we cannot hold him liable.
+
+#### 10.8.12
+
+ההקדמה שכל שאינו בכלל ההבנה הראשונה. וכן השני שמוציא מרשות לרשות בהפסק ענין פטור באמצע אינו בכלל ההבנה הראשונה וכו' אינן צריכות ראיה אחרת, כי הן מן המשכלות.
+
+The premise that "whatever is not within the primary understanding [of one of the laws, etc.]," and likewise the second, that "one who carries out from domain to domain with an interruption of a matter of exemption in the middle is not within the primary understanding, etc.," do not require any other proof, for they are among the intelligibles.
+
+#### 10.8.13
+
+נמצינו למדים שהמוציא מרשות לרשות בהפסק פטור באמצע אין לנו לחיבו, המוציא לפלטיא דרך סטיו הוא מוציא מרשות לרשות בהפסק פטור באמצע אם כן אין לנו לחיבו.
+
+We thereby learn: one who carries out from domain to domain with an interruption of exemption in the middle — we cannot hold him liable; one who carries out to the public square by way of a colonnade is one who carries out from domain to domain with an interruption of exemption in the middle; if so, we cannot hold him liable.
+
+#### 10.8.14
+
+והנה כל זה תוכל לכלל בקשר אחד שתמצאנה בו כל ההקדמות מתקשרות זו בזו לפניך עד צאת התולדה המבקשת ותאמר:
+
+Now all of this you can gather into a single chain, in which you will find all the premises linked one to another before you until the sought conclusion emerges, and you will say:
+
+#### 10.8.15
+
+מוציא מחנות לפלטיא דרך סטיו הוא מוציא מרשות לרשות בהפסק פטור (באמצע מוציא מרשות לרשות בהפסק פטור) באמצע אינו בכלל ההבנה הראשונה של המוציא מרשות לרשות, וגם אין לנו ראיה שיכלל בו מה שאינו בהבנה ראשונה של המוציא מרשות לרשות ואין ראיה שיכלל בו אין לנו לחיבו משמו, אם כן מוציא מחנות לפלטיא דרך סטיו אין לנו לחיבו משום מוציא מרשות לרשות.
+
+one who carries out from a shop to the public square by way of a colonnade is one who carries out from domain to domain with an interruption of exemption (in the middle; one who carries out from domain to domain with an interruption of exemption) in the middle is not within the primary understanding of "one who carries out from domain to domain," and also we have no proof that it is included in it; that which is not within the primary understanding of "one who carries out from domain to domain," and there is no proof that it is included in it — we cannot hold him liable on its account; if so, one who carries out from a shop to the public square by way of a colonnade — we cannot hold him liable on account of "one who carries out from domain to domain."
+
+### 10.9 · The worked example continued: the answer, its proof by similarity, and the elucidation of its premise
+
+#### 10.9.1
+
+אחר כך השיבו על זה: “מדי דהוה אמעביר חפץ” וכו' כונת זה, שראוי שהמוציא מרשות לרשות בהפסק פטור יהיה חיב – הפך מה שחשבנו ראוי שלא יהיה חיב.
+
+Afterward they answered this: "It is just as with one who carries an object," etc. The intent of this is that it is fitting that one who carries out from domain to domain with an interruption of exemption should be liable — the opposite of what we had thought, [that] it is fitting that he should not be liable.
+
+#### 10.9.2
+
+ראיה על זה: “המעביר ארבע אמות ברשות הרבים” ובאור זה, שהמעביר ברשות הרבים, הנה בין העקירה וההנחה יש ענין פטור – שהוא כל זמן שמוליכו, ואחר כך, כשמניח מתחיב אם כך גם כן נוכל לומר שיהיה חיוב, אף על פי שיש ההעברה דרך סטיו באמצע.
+
+A proof for this: "one who carries [an object] four cubits in the public domain [is liable]"; and the elucidation of this: one who carries in the public domain — between the lifting and the setting down there is a matter of exemption, which is the whole time that he is carrying it along, and afterward, when he sets it down, he becomes liable; if so, we can likewise say that there should be liability, even though the passage by way of the colonnade is in the middle.
+
+#### 10.9.3
+
+ונמצא שיש כאן מאמר וראיה ובאור המאמר הוא, שהמוציא מרשות לרשות בהפסק פטור שהוא חיב
+
+It thus turns out that there is here a statement, a proof, and an elucidation. The statement is that one who carries out from domain to domain with an interruption of exemption is liable.
+
+#### 10.9.4
+
+ראיה על זה, מכח דמיון: המוציא מרשות לרשות הוא דומה למעביר ברשות הרבים – מעביר ברשות הרבים הוא חיב, אף על פי שיש הפסק פטור בין עקירה להנחה. אם כן גם המוציא מרשות לרשות
+
+The proof for this, by force of a similarity: one who carries out from domain to domain is similar to one who carries in the public domain; one who carries in the public domain is liable, even though there is an interruption of exemption between lifting and setting down; if so, so too one who carries out from domain to domain.
+
+#### 10.9.5
+
+באור ההקדמה שהמעביר ברשות הרבים יש בו הפסק פטור וכו' שכל זמן שהוא מהלך פטור.
+
+The elucidation of the premise that one who carries in the public domain has in his case an interruption of exemption, etc.: that the whole time he is walking, he is exempt.
+
+### 10.10 · How brief the language of the sages is, and how much reflection it holds
+
+#### 10.10.1
+
+הנך רואה כמה לשונם של חכמים קצר, וכמה מן ההתבוננות נכלל בהם;
+
+You see how brief the language of the sages is, and how much reflection is included in it;
+
+#### 10.10.2
+
+ואולם, כל זה צריך שיצטיר בשכלך מכח המלות ההם, כי אם קצת מזה יעדר מציורך, היה לא צירת מה שכונו הם לומר.
+
+however, all this must be conceived in your intellect by force of those words, for if any part of this is lacking from your conception, then you will not have conceived what they intended to say.
+
+### 10.11 · Synonymous nouns and synonymous statements
+
+#### 10.11.1
+
+ומה שצריך שתתבונן עוד, הוא להכיר השמות הנרדפים שנתבארו אצל המדקדקים, וכן המאמרים הנרדפים, דהינו שמלותיהם שונות וענינם אחד.
+
+What you must further reflect upon is to recognize the synonymous nouns that have been explained by the grammarians, and likewise the synonymous statements, namely, those whose words are different and whose matter is one.
+
+#### 10.11.2
+
+כי הנה יקרה לפעמים שיהיו שני מאמרים סותרים זה את זה או מוכיחים זה על זה, ולא ירגיש בהם השכל בתחילת התבוננותו, מפני היות נושאיהם או עניניהם מזכרים במצות שונות אף על פי שהם אחד באמת; או סדרי מלותיהם מתחלפים.
+
+For it sometimes happens that two statements contradict one another or demonstrate one another, and the intellect does not perceive this at the beginning of its reflection, because their subjects or their matters are mentioned in different words even though they are truly one, or the order of their words differs.
+
+#### 10.11.3
+
+אמנם, כשיסתכל בהם היטב, וישיג סוף כונתם ימצא היותם באמת מתיחסים זה לזה.
+
+However, when one looks at them well and apprehends the sum of their intent, one will find that they are truly related to one another.
+
+#### 10.11.4
+
+דרך משל, אם יאמר אחד: “קדשי מזבח אין להם פדיון” ויאמר אחר: “הקרבנות יש להם פדיון” – הנה שני המאמרים הפכיים ודאי.
+
+For example, if one says: "Things consecrated to the altar have no redemption," and another says: "The sacrifices have redemption" — the two statements are certainly opposites.
+
+#### 10.11.5
+
+וכן כשיאמר אחד: “משקין בי מדבחיא – דכן” ויאמר אחר: “השמן והדם והיין והמים טהורים” – הנה שני המאמרים שוים, כי אחד הזכיר הסוג ואחד הזכיר המינים. – וכל כיוצא בזה.
+
+Likewise, when one says: "The liquids of the altar precinct [in the Temple] are pure," and another says: "The oil, the blood, the wine, and the water are pure" — the two statements are equivalent, for one mentioned the genus and the other mentioned the species. And so with everything of the like.
+
+### 10.12 · Two parts compounded together: demonstration and report; the ascribed difficulty (קשיא מגדת)
+
+#### 10.12.1
+
+והנה צריך שתדקדק בכל דבור ודבור לראות איזה חלק מחלקי הסגיות הוא – וכמו שהצעתי לפניך למעלה.
+
+Now, you must scrutinize each and every utterance to see which of the parts of the sugyot it is — as I set out before you above.
+
+#### 10.12.2
+
+ונמצא שלפעמים נרכבים שנים מן החלקים כאחד.
+
+And it turns out that sometimes two of the parts are compounded together.
+
+#### 10.12.3
+
+דרך משל: כשיובא לראיה על מאמר שנאמר הגדת אחד מן החכמים שמגיד מעשה שארע או מאמר אחד שנאמר, הנה תבחין שם שני חלקים נרכבים כאחד, והינו הוכחה והגדה – כי נוכיח המאמר בכח ההגדה שהגדה.
+
+For example: when the report of one of the sages, who reports an incident that occurred or a statement that was made, is brought as proof for a statement that was made, you will discern there two parts compounded together, namely demonstration and report — for we demonstrate the statement by the force of the report that he reported.
+
+#### 10.12.4
+
+וצריך[ שתבין תחלה ההגדה בפני עצמה ואחר כך תבין ההוכחה. פרוש איך ההגדה ההיא תהיה הוכחה למאמר שנרצה להוכיח.
+
+And you must first understand the report on its own, and afterwards understand the demonstration, that is, how that report serves as a demonstration for the statement we wish to demonstrate.
+
+#### 10.12.5
+
+וכבר אפשר שתסתר ההוכחה ויקשה עליה. ולא מפני זה יקשה על ההגדה אלא שנראה היות ההגדה זאת בלתי מוכחת המאמר, שחשבנו להוכיח ממנה,
+
+It is quite possible that the demonstration is rebutted and a difficulty is raised against it, and not on that account is a difficulty raised against the report; rather, it is shown that this report does not demonstrate the statement that we thought to demonstrate from it.
+
+#### 10.12.6
+
+ואפשר שתסתר ההגדה עצמה ויקשה עליה, אפילו שנודה על המאמר הראשון,
+
+And it is possible that the report itself is disproved and a difficulty is raised against it, even while we concede the first statement.
+
+#### 10.12.7
+
+ואפשר שנודה אפילו ההוכחה ואף על פי כן נקשה על ההגדה על מלותיה או על איזה ענין ממנה.
+
+And it is possible that we concede even the demonstration and nevertheless raise a difficulty against the report, concerning its words or concerning some matter in it.
+
+#### 10.12.8
+
+וכן כשירצה אחד מן החכמים לפרש טענה אחת שהרגיש חכם אחד באחד ממאמריו, הנה יזכיר הקשיה ההיא שהקשית לפי דעתו של החכם בעל המאמר, ותקרא זאת קשיא מגדת –
+
+Likewise, when one of the sages wishes to explain an argument that a certain sage felt in one of his own statements, he will mention that difficulty, which arose according to the opinion of the sage who is the author of the statement, and this is called an ascribed difficulty (*kushya muggedet*, a reported difficulty) —
+
+#### 10.12.9
+
+כי אינה קשיה יקשה אותו החכם על מאמר חברו, אלא זה החכם מגיד מה שהקשה לחברו.
+
+for it is not a difficulty that that sage raises against his colleague's statement; rather, this sage reports what was difficult for his colleague.
+
+#### 10.12.10
+
+וכבר יקרה שאותו חכם עצמו שהגיד הקשיה לא יסכים בה.
+
+And it may well happen that the very sage who reported the difficulty does not agree with it.
+
+#### 10.12.11
+
+ואפשר שמקשן אחר קשה על המגיד על הגדתו שיראה לו היות בלתי אפשר שבעל המאמר יכון למה שחשב הוא ולא מפני זה יסתר קשיתו אלא יסתר הגדתו.
+
+And it is possible that another questioner raises a difficulty against the reporter concerning his report, because it appears to him impossible that the author of the statement intended what he [the reporter] supposed — and not on that account is his difficulty rebutted; rather, his report is disproved.
+
+#### 10.12.12
+
+ואפשר שיקשה מקשה על הקשיה עצמה שהגיד המגיד ויסתר אותה.
+
+And it is possible that a questioner raises a difficulty against the very difficulty that the reporter reported, and rebuts it.
+
+#### 10.12.13
+
+וכן אפשר שיקשה על ההגדה או על הקשיה ולא מפני זה יכניס עצמו במאמר הראשון לא לאמתו ולא לכזבו.
+
+Likewise, it is possible that he raises a difficulty against the report or against the difficulty, and does not on that account enter into the first statement, neither to verify it nor to falsify it.
+
+#### 10.12.14
+
+על כן צריך שתתבונן מאד להבדיל בין מה שיאמר אומר מדעת עצמו ובין מה שיגיד מגיד מזולתו.
+
+Therefore you must reflect very carefully so as to distinguish between what a speaker says from his own mind and what a reporter reports from another.
+
+#### 10.12.15
+
+דרך משל, כשאמרו בש"ס: “מאי אם נפשך לומר?” השיב: " תו קא קשיא ליה לתנא" וכו' הנה זו קשיה מגדת שהגיד המגיד שהתנא הרגיש קשיה זו על דברי עצמו,
+
+For example, when they said in the Talmud: "What is [meant by] 'if you wish to say'?" (מאי אם נפשך לומר), and he answered: "Further, it was difficult for the Tanna" etc. — this is an ascribed difficulty, in that the reporter reported that the Tanna felt this difficulty against his own words;
+
+#### 10.12.16
+
+והקשו: “אמרי, דנין” וכו' הנה הוא קשיה על הגדת המגיד – מראה שאי אפשר שתהיה זאת כונת התנא שבאר הוא בהגדתו.
+
+and they raised the difficulty: "They say: one derives…" etc. — this is a difficulty against the reporter's report, showing that it is impossible that this was the intention of the Tanna which he [the reporter] explained in his report.
+
+#### 10.12.17
+
+ובכל הדברים האלה צריך שתשמר מאד כדי שתנקה מן הטעיות והערבובים.
+
+And in all these things you must guard yourself very carefully, so that you may be clear of errors and confusions.
+
+### 10.13 · After apprehending the sugya: check that every part stands within its limit; toil for the fitting settlement
+
+#### 10.13.1
+
+והנה אחר שהשגת כונת הסגיא אשר לפניך על פי כל הכללים האלה, אז תשוב להתבונן על כל חלק מחלקיה,
+
+Now, after you have apprehended the intent of the sugya before you according to all these general rules, you should then return to reflect upon each of its parts;
+
+#### 10.13.2
+
+ואם יראה לך שכלם עומדים בגבולם הראוי על פי המשפטים הטבעיים שזכרתי למעלה – הנה טוב מאד;
+
+and if it appears to you that all of them stand within their proper limits according to the natural rules that I mentioned above — that is very good;
+
+#### 10.13.3
+
+ואם יראה לך בחלק מחלקים שלא ישמר הגבול הראוי לו – אז תטרח ותעמל עד שתמצא לו הישוב ההגון והראוי שיסכים עם הלשון שלפניך ויסכים עם המאמת או המפרסם.
+
+but if it appears to you that in one of the parts the limit proper to it is not observed — then you must toil and labor until you find for it the fitting and proper settlement, one that accords with the wording before you and accords with what is verified or commonly accepted.
+
+## Chapter 11 · פרק יא
+
+### 11.0 · Caption
+
+#### 11.0.1
+
+יבאר כלל הבחנות שיש להבחין בנושאים וסדר הלמוד
+
+It explains the whole range of aspects that are to be distinguished in subjects, and the order of study.
+
+### 11.1 · From understanding the sugyot to the aspects to be distinguished in subjects
+
+#### 11.1.1
+
+עד הנה בארנו דרך הבנת הסגיות;
+
+Until now we have explained the way of understanding the sugyot;
+
+#### 11.1.2
+
+עתה נבאר ההבחנות שיש להבחין בנושאים שנראה לדון כפי הסגיות וההלכות או כפי השכל.
+
+now we shall explain the aspects that are to be distinguished in the subjects we see fit to examine, whether according to the sugyot and the halachot or according to the intellect.
+
+### 11.2 · The aspects are twenty-four
+
+#### 11.2.1
+
+כללי ההבחנות שאפשר להבחין בנושאים – עשרים וארבע ואלו הן:
+
+The general classes of aspects that can be distinguished in subjects are twenty-four, and these are they:
+
+### 11.3 · Aspect 1 · essence (מהות); the definition (גדר)
+
+#### 11.3.1
+
+הבחנה ראשונה –– המהות, והוא כלל ענינו של הנושא כפי מה שהוא באמת, שבו תבחינהו במחשבתך מכל שאר הנושאים המצירים בה.
+
+The first aspect — the essence (*mahut*, the quiddity), which is the whole matter of the subject as it truly is, by which you distinguish it in your thought from all the other subjects conceived therein.
+
+#### 11.3.2
+
+ובאור הענין הכללי הזה כראוי נקרא גדר.
+
+And the proper explanation of this comprehensive matter is called a definition.
+
+#### 11.3.3
+
+דרך משל: כשאמרו "איזהו כוללת – כל שאין בה לא כתף ולא נטף – זה נקרא גדרה של עוללת, והינו אשכול שאין לו לא כתף ולא נטף.
+
+For example: when they said "What is an olelet [a defective grape cluster]? Any [cluster] that has neither a shoulder nor a pendant" [ed. Mishnah Peah 7:4: איזוהי עוללת; 1742 prints איזהו כוללת] — this is called the definition of an olelet, namely, a cluster that has neither shoulder nor pendant.
+
+#### 11.3.4
+
+ומשפט הגדר הוא, שיבאר העקר מה שבעצמותו של הנושא, שהוא מה שעושה אותו מה שהוא. פרוש, שאלו היה דבר זה נעדר ממנו לא היה זה הנושא אלא נושא אחר.
+
+And the rule of the definition is that it set forth, above all, what lies in the essence of the subject, which is what makes it what it is. That is, if this thing were absent from it, it would not be this subject but another subject.
+
+### 11.4 · Aspect 2 · parts (חלקים)
+
+#### 11.4.1
+
+הבחנה שניה – החלקים: דרך משל: "שני עורות יש לו לושט; וכן: גליל העליון, גליל התחתון והעמק.
+
+The second aspect — the parts. For example: "The esophagus has two skins"; likewise: "Upper Galilee, Lower Galilee, and the Valley."
+
+### 11.5 · Aspect 3 · quality (איכות)
+
+#### 11.5.1
+
+הבחנה שלישית – האיכות. והוא תכונת הנושא ומזגו. כגון, אם הוא קר, אם הוא חם, אם לח ואם יבש, המראה שבו חזקו או חלשתו, וכיוצא בזה.
+
+The third aspect — quality, which is the disposition of the subject and its temperament, such as whether it is cold or hot, whether moist or dry, the color in it, its strength or its weakness, and the like.
+
+#### 11.5.2
+
+דרך משל: חיצון אדם ופנימי לבן. וכן: “אשיני הוו צמת הגידין, רכיכי לא הוון צמת הגידין”.
+
+For example: "the outer [skin of the esophagus] is red and the inner is white." Likewise: "[where they are] hard, they are the juncture of the sinews; [where] soft, they are not the juncture of the sinews."
+
+### 11.6 · Aspect 4 · quantity (כמות)
+
+#### 11.6.1
+
+הבחנה רביעית – הכמות. והוא המדה במה ששיך מדה ומנין במה ששיך מנין.
+
+The fourth aspect — quantity, which is measure in what admits of measure, and number in what admits of number.
+
+#### 11.6.2
+
+דרך משל: “הרי זה מקדש שש-עשרה אמה לכל רוח” או “הרי זה מקדש ארבעים וחמש גפנים” וכן כיוצא בזה.
+
+For example: "such a one renders forbidden sixteen cubits in every direction," or "such a one renders forbidden forty-five vines," and the like.
+
+### 11.7 · Aspect 5 · material (חמר)
+
+#### 11.7.1
+
+הבחנה חמשית – החמר. והוא מה שממנו נעשה הנושא.
+
+The fifth aspect — the material (*chomer*, the matter), which is that from which the subject is made.
+
+#### 11.7.2
+
+דרך משל: "כלי מתכות – חמרן הוא מתכת, כלי חרס – חמרו חרס.
+
+For example: metal vessels — their material is metal; an earthenware vessel — its material is earthenware.
+
+### 11.8 · Aspect 6 · form (צורה): definitive and physical
+
+#### 11.8.1
+
+הבחנה ששית – הצורה. היא משני מינים: האחד – עצמית והשני מרגשת.
+
+The sixth aspect — form. It is of two kinds: the one, definitive (essential), and the second, physical (sensible).
+
+#### 11.8.2
+
+העצמית היא מהותו של הנושא, דרך משל: צורת האדם הוא היותו בעל חיים מדבר. אמנם זה ענין משכל באדם – לא מרגש ונראה בו.
+
+The definitive form is the essence of the subject; for example, the form of man is his being a speaking [i.e., rational] animal. However, this is a matter grasped by the intellect in man — not sensed and seen in him.
+
+#### 11.8.3
+
+המרגשת היא תבנית הנושא כמו שיראוהו העינים. דרך משל: “כמין תבה פרוצה, כמין גם”.
+
+The physical form is the shape of the subject as the eyes see it. For example: "like a box that is open [on one side]", "like a gamma [the letter Γ]."
+
+### 11.9 · Aspect 7 · action (פעלה): natural and voluntary
+
+#### 11.9.1
+
+הבחנה שביעית – הפעלה. והוא מה שהוא פועל בזולתו. ויש בה שני מינים:
+
+The seventh aspect — action, which is what the subject does to another. There are two kinds of it:
+
+#### 11.9.2
+
+האחד טבעית, והוא מה שפועלים הנמצאים זה בזה בטבע. דרך משל: “דמנקרא להו למעיא”.
+
+the one, natural, which is what existing things do to one another by nature. For example: "that it pierces their intestines" [ed. Chullin 58b: דמינקבה להו למעיינה, "it perforates their intestines"; 1742 prints דמנקרא and gives no reference].
+
+#### 11.9.3
+
+השני רצונית, והוא מה שפועלים הבעלי חיים ברצונם. דרך משל: “הקורא קריאת שמע”.
+
+The second, voluntary, which is what animals do by their will. For example: "one who recites the Shema."
+
+### 11.10 · Aspect 8 · affection (הפעל)
+
+#### 11.10.1
+
+הבחנה שמינית – ההפעל. והוא רשם שנרשם בנושא ממה שפועלים בו אחרים.
+
+The eighth aspect — affection (*hipa'el*, passion), which is an impression impressed upon the subject by what others do to it.
+
+#### 11.10.2
+
+דרך משל: “מעים שנקבו וליחה סותמתה”, שהיד סולדת בו חם מקצתו חם כלו.
+
+For example: "intestines that were perforated and the mucus seals them"; "that the hand recoils from it"; "if part of it is hot, all of it is hot."
+
+### 11.11 · Aspect 9 · genus and species (סוג ומין)
+
+#### 11.11.1
+
+הבחנה תשיעית – הסוג והמין, דהינו מאיזה סוג הוא הנושא או מאיזה מין.
+
+The ninth aspect — genus and species, namely, of what genus the subject is or of what species.
+
+#### 11.11.2
+
+וכבר נתבאר ענין הסוג והמין אצל בעלי הדקדוק, והוא – שכלל הרבה נושאים משתפים בענין אחד, נקרא מין.
+
+Now the matter of genus and species has already been explained by the masters of grammar, and it is this: a class of many subjects that share in one matter is called a species.
+
+#### 11.11.3
+
+דרך משל: אדם הוא מין, כולל כל האנשים להיותם משתפים בענין האנושיות.
+
+For example: man is a species, including all human beings, since they share in the matter of humanity.
+
+#### 11.11.4
+
+ואולם מה שיכלל מינים רבים יקרא סוג.
+
+But that which includes many species is called a genus.
+
+#### 11.11.5
+
+דרך משל: בעלי חיים הוא סוג – שכולל מין האדם, מין הבהמות, מין העופות, מין הרמשים, מין הדגים.
+
+For example: animal is a genus — which includes the species man, the species of beasts, the species of birds, the species of creeping things, and the species of fish.
+
+#### 11.11.6
+
+וכשיהיה עוד כלל אחר, שיכלל סוגים רבים, יקרא סוג הסוג, והסוגים הנכללים בו יקראו לגבי מינים, ולגבי המינים הנכללים בהם יקראו סוגים.
+
+And when there is yet another class that includes many genera, it is called a higher genus; and the genera included in it are called species relative to it, while relative to the species included in them they are called genera.
+
+#### 11.11.7
+
+דרך משל: גשם הוא סוג כולל הבעלי חיים ובלתי בעלי החיים, וכל אחד משנים אלה הם סוגים שכוללים מינים הרבה.
+
+For example: body is a genus that includes animals and non-animals, and each of these two is a genus that includes many species.
+
+#### 11.11.8
+
+דרך משל: הבעלי חיים כולל המדבר ובלתי מדבר; הבלתי בעלי חיים כולל האבנים, המתכות והצמחים. ואמנם בעלי חיים לגבי גשם נקרא מין ולגבי מדבר נקרא סוג.
+
+For example: animal includes the speaking and the non-speaking; non-animal includes stones, metals, and plants. However, animal relative to body is called a species, and relative to the speaking [being] it is called a genus.
+
+#### 11.11.9
+
+כלי עץ הוא סוג כולל שני מינים, שהם פשוטי כלי עץ ומקבלי כלי עץ. וכן כל כיוצא בזה.
+
+Wooden vessel is a genus that includes two species, which are flat wooden vessels and wooden vessels that have a receptacle. And likewise everything of the kind.
+
+### 11.12 · Aspect 10 · cause (סבה): generative and effective
+
+#### 11.12.1
+
+הבחינה העשירית – הסבה, והוא מה שמכחה נולד ונמצא המסובב. ויש בה שני מינים: האחד – סבה מולדת והשני – פועלת.
+
+The tenth aspect — the cause, which is that by whose power the result is generated and comes into being. There are two kinds of it: the one — a generative cause, and the second — an effective [cause] (the efficient cause).
+
+#### 11.12.2
+
+דרך משל, העץ לפרי היוצא ממנו – סבה מולדת, והרי זה כמו האב שהוא סבה לבנו, שהוא המשך נמשך ממנו. –
+
+For example, the tree, relative to the fruit that issues from it, is a generative cause; and this is like the father, who is a cause of his son, who is an extension drawn from him. —
+
+#### 11.12.3
+
+“אך דאזלא מחמתה” הוא הסבה הפועלת, וכן: “חמרא וריחני פקחין” הם סבה פועלת. והרי זה ככל אמן לכלים שהוא עושה – שאינם המשך ממנו אך נפעלים ממנו.
+
+"But [where] it goes because of it" is the effective cause; likewise: "wine and fragrances make [one] keen" — these are an effective cause. And this is like any craftsman relative to the vessels he makes — which are not an extension of him but are produced by him.
+
+### 11.13 · Aspect 11 · means (אמצעי)
+
+#### 11.13.1
+
+הבחנה אחת עשרה – האמצעי שעל ידו פועלת הסבה את פעלתה.
+
+The eleventh aspect — the means, by which the cause performs its action.
+
+#### 11.13.2
+
+דרך משל: “דמעבד לה על ידי קיוהא דחמרא”.
+
+For example: "that one prepares it by means of the acidity of the wine" [ed. Ketubot 75a: אפשר לעברה בקיוהא דחמרא, "it is possible to remove it with wine vinegar"; 1742 prints דמעבד for דמעבר].
+
+### 11.14 · Aspect 12 · motive (מעורר)
+
+#### 11.14.1
+
+הבחנה שתים עשרה – המעורר, והוא מה שמעורר את הפועל ברצון שיפעל.
+
+The twelfth aspect — the motive, which is what rouses the voluntary agent to act.
+
+#### 11.14.2
+
+דרך משל: “– מה שמועה שמע ובא? – קריעת ים-סוף שמע ובא”. שמיעת קריעת ים-סוף היתה שהעירה את יתרו לשיבוא.
+
+For example: "— What report did he hear, that he came? — He heard of the splitting of the Red Sea and came." The hearing of the splitting of the Red Sea was what roused Jethro to come.
+
+### 11.15 · Aspect 13 · purpose (תכלית)
+
+#### 11.15.1
+
+הבחנה שלש עשרה – התכלית, והוא הכונה שמתכון הפועל בפעלתו. פרוש, מה שהוא מבקש להשיג על ידי פעלתו.
+
+The thirteenth aspect — the purpose, which is the intention the agent intends in his action; that is, what he seeks to attain by means of his action.
+
+#### 11.15.2
+
+דרך משל: הלומד על מנת לעשות – תכליתו בלמוד הוא להשיג היותו עושה מעשים טובים.
+
+For example: "one who studies in order to do" — his purpose in study is to attain his being a doer of good deeds.
+
+### 11.16 · Aspect 14 · result (מסובב)
+
+#### 11.16.1
+
+הבחנה ארבע עשרה – המסובב, והוא הנולד מן הנושא, שנמצא הנושא סבה לו.
+
+The fourteenth aspect — the result (*mesovav*, the effect), which is what is generated from the subject, the subject being found to be its cause.
+
+#### 11.16.2
+
+דרך משל: “דאזלא מחמתה”, ההליכה היא המסובב שלו. הבן הוא מסובב של האב; הכלי – מסובב של האמן.
+
+For example: "[where] it goes because of it" — the going is its result. The son is the result of the father; the vessel — the result of the craftsman.
+
+### 11.17 · Aspect 15 · attribute (מתחבר): in the subject; with it at one time; prior and posterior
+
+#### 11.17.1
+
+הבחנה חמש עשרה – המתחבר, והוא כל מקרה שיתלוה ויתחבר לנושא, נוסף על עצמותו, ויחלק לשלשה מינים:
+
+The fifteenth aspect — the attribute (*mitchaber*, the adjunct), which is every accident that accompanies and attaches to the subject over and above its essence; and it divides into three kinds.
+
+#### 11.17.2
+
+האחד, מה שמתחבר בעצמו של הנושא או עליו או אליו, כגון: החכמה בחכם, הקלות בדבר קל, הכבוד בנכבד; הצפוי על הכלי; הלבוש על האדם.
+
+The first: what attaches in the subject itself, or upon it, or to it, such as: wisdom in the wise man, lightness in a light thing, honor in an honored person; the plating upon a vessel; the garment upon a man.
+
+#### 11.17.3
+
+דרך משל: בהמה מסכנת – שיש בה מקרה הסכנה; מטפחת שרויה במים – שיש בה מקרה זה של היותה שרויה במים.
+
+For example: "an animal in danger [of dying]" — in which there is the accident of danger; "a cloth soaked in water" — in which there is this accident of its being soaked in water.
+
+#### 11.17.4
+
+השני – ענין שנמצא עם הנושא בזמן אחד. דרך משל: פת שאפאו עם הצלי. – וכן כל שהוא עקר ועמו טפלה.
+
+The second: a matter found together with the subject at one and the same time. For example: "bread that one baked together with the roast." — Likewise, "whatever is principal and has something subordinate with it."
+
+#### 11.17.5
+
+השלישי הוא הקודם והמאחר – והוא מה שיקדם לנושא או שיבוא אחריו.
+
+The third is the prior and the posterior — that which precedes the subject or comes after it.
+
+#### 11.17.6
+
+דרך משל: “נוטלים לידים ואחר כך מוזגים את הכוס”. – הנה נטילת-ידים הוא קדם למזיגת הכוס ומזיגת הכוס הוא הבא אחר נטילת הידים.
+
+For example: "they wash the hands and afterwards mix the cup." — Now, washing the hands is prior to mixing the cup, and mixing the cup is what comes after washing the hands.
+
+### 11.18 · Aspect 16 · place (מקום)
+
+#### 11.18.1
+
+הבחנה שש עשרה – המקום, דרך משל: שתי גזזטראות, זו למעלה מזו; שתי עירות, זו סמוכה לזו; עשרה בתים, זה לפנים מזה.
+
+The sixteenth aspect — place. For example: "two balconies, one above the other"; "two towns, one adjacent to the other"; "ten houses, one within the other."
+
+### 11.19 · Aspect 17 · posture (מצב)
+
+#### 11.19.1
+
+הבחנה שבע-עשרה – המצב, והוא תכונת התיצב הנושא במקומו.
+
+The seventeenth aspect — posture (*matzav*, position), which is the manner in which the subject stands in its place.
+
+#### 11.19.2
+
+דרך משל: “הקורא את המגילה – בין עומד בין יושב”: בערב, כל אדם יטו ויקראו ובבקר – יעמדו".
+
+For example: "one who reads the Megillah — whether standing or sitting"; "in the evening every person reclines and recites, and in the morning they stand."
+
+### 11.20 · Aspect 18 · movement (תנועה)
+
+#### 11.20.1
+
+הבחנה שמונה עשרה – התנועה, והוא מה שיעתק הנושא ממקום אל מקום.
+
+The eighteenth aspect — movement, which is the subject's passing from place to place.
+
+#### 11.20.2
+
+דרך משל: “ההולך ממקום שאין עושים למקום שעושים”.
+
+For example: "one who goes from a place where they do not work to a place where they do work."
+
+### 11.21 · Aspect 19 · time (זמן)
+
+#### 11.21.1
+
+הבחנה תשע עשרה – הזמן, דרך משל: “מאימתי קורין את שמע בערבית”: “כל אדם יטו ויקראו ובבקר יעמדו”.
+
+The nineteenth aspect — time. For example: "From when does one recite the Shema in the evening?"; "every person reclines and recites, and in the morning they stand."
+
+### 11.22 · Aspect 20 · relation (יחס)
+
+#### 11.22.1
+
+הבחנה עשרים – היחס, והוא מה שאחד מתיחס לזולתו.
+
+The twentieth aspect — relation, which is one thing's being related to another.
+
+#### 11.22.2
+
+דרך משל: "דורו של משה; זרעו של אברהם.
+
+For example: "the generation of Moses"; "the seed of Abraham."
+
+### 11.23 · Aspect 21 · the bearer (נושא)
+
+#### 11.23.1
+
+הבחנה עשרים ואחת – הנושא, והינו כשהנדון שלפנינו הוא מקרה מן המקרים שיהיה נשוא על אחד מן הנושאים, הנה נבקש מי הוא נושאו.
+
+The twenty-first aspect — the bearer (*nosé*, the subject), namely, when the case at hand before us is one of the accidents that is predicated of one of the subjects, we then seek which is its bearer.
+
+#### 11.23.2
+
+דרך משל, כשאמרו (פסחים י"ד): “איזהו דבר שחלוקה טמאתו בין מת לשרץ – הוי אומר, זה מתכת”.
+
+For example, when they said (Pesachim 14): "What is the thing whose impurity differs as between a corpse and a creeping animal? You must say: this is metal."
+
+### 11.24 · Aspect 22 · similarity (דמיון)
+
+#### 11.24.1
+
+הבחנה עשרים ושתים – הדמיון. דרך משל: “דמיא לסאסאה”; (שם): “חרב – הרי הוא כחלל”; “אדי ואדי – חד שעורא הוא”.
+
+The twenty-second aspect — similarity. For example: "it resembles an awn [of grain]"; (ibid.) "a sword — it is like the slain"; "this and that — it is one measure."
+
+### 11.25 · Aspect 23 · difference (הבדל)
+
+#### 11.25.1
+
+הבחנה עשרים ושלש – ההבדל, והוא העדר הדמיון.
+
+The twenty-third aspect — difference, which is the absence of similarity.
+
+#### 11.25.2
+
+דרך משל: (שם כ"ב): “שאני דם דאתקש למים, שאני אבר מן החי דאתקש לדם”.
+
+For example (ibid. 22): "blood is different, since it is compared [in Scripture] to water; a limb from a living animal is different, since it is compared to blood."
+
+### 11.26 · Aspect 24 · opposition (נגוד)
+
+#### 11.26.1
+
+הבחנה עשרים וארבע – הנגוד, והוא הפך הדמיון.
+
+The twenty-fourth aspect — opposition, which is the contrary of similarity.
+
+#### 11.26.2
+
+וכבר נתפרש למעלה הנגוד בכל מינין והבאנו משליהם, עין שם.
+
+Now opposition in all its kinds has already been explained above, and we have brought examples of them; see there.
+
+### 11.27 · Priority and posteriority are of three kinds
+
+#### 11.27.1
+
+וצריך שתדע שיש קדימה ואחור משלשה מינים: האחד – זמני והשני – שכלי והשלישי – טבעי.
+
+And you must know that there are priority and posteriority of three kinds: the first — temporal; the second — of rank (*sichli*, conceptual); and the third — natural.
+
+### 11.28 · Temporal, and of rank
+
+#### 11.28.1
+
+זמני – הוא מה שיקדים לזולתו בזמן;
+
+Temporal — is that which precedes another in time;
+
+#### 11.28.2
+
+שכלי – הוא מה שלא יקדם בזמן אלא במעלה שנתן לו.
+
+of rank — is that which does not precede in time, but in the rank that has been assigned to it.
+
+### 11.29 · Priority of rank: examples
+
+#### 11.29.1
+
+קדימה בשכל – דרך משל: המלך והעם – המלך קודם והעם מאחר; העליונים קודמים לתחתונים, וכן כיוצא בזה.
+
+Priority of rank — for example: the king and the people — the king is prior and the people posterior; the higher [beings] are prior to the lower, and likewise with the like.
+
+### 11.30 · Natural priority
+
+#### 11.30.1
+
+הטבעי – הוא מי שמציאותו תלוי במציאות חברו, אף על פי שימצאו שניהם כאחד, אותו שהוא סבה לחברו יקרא קודם והמסובב ממנו – מאחר.
+
+Natural — is [the case of] one whose existence depends on the existence of its fellow: even though both exist together, the one that is the cause of its fellow is called prior, and what results from it — posterior.
+
+### 11.31 · Order helps intellection, whether for learning or for teaching
+
+#### 11.31.1
+
+ומה שעוזר אל ההשכלה עזר גדול ומקל לה את הטרח הוא הסדר, וזה – בין ללמד ובין ללמד.
+
+And what gives great help to intellection and lightens its toil is order, and this — whether for learning or for teaching.
+
+#### 11.31.2
+
+כי הנה בזה מסקל את המסלה לפני השכל, שיוכל ללכת בדרכי ההתבוננות בלי מכשולות.
+
+For by this one clears the road before the intellect, so that it can walk in the ways of reflection without stumbling blocks.
+
+#### 11.31.3
+
+ואם לומד – הוא ישיג המשכלות שהוא מבקש על נכון, ואם מלמד – הוא יבאר מה שבדעתו לבאר באור מספיק, ויקל אל הלמד ממנו להשיג מה שילמדהו.
+
+And if he is learning — he will properly apprehend the intelligibles that he seeks; and if he is teaching — he will explain what he intends to explain with a sufficient explanation, and it will be easy for the one who learns from him to apprehend what he teaches him.
+
+### 11.32 · The principles of order are three: arrangement, definitions, division
+
+#### 11.32.1
+
+עקרי הסדר שלשה: הסדור, הגדרים והחלוק.
+
+The principles of order are three: arrangement (*siddur*), definitions, and division.
+
+### 11.33 · Arrangement (סדור): from the prior to the posterior, from the known to the obscure
+
+#### 11.33.1
+
+הסדור – הוא סדור הענינים מה שראוי להיות בתחלתן ומה שראוי להיות אחר כך.
+
+Arrangement — is the arrangement of the matters, what ought to be at their beginning and what ought to come afterward.
+
+#### 11.33.2
+
+והנה הסדור הנאות – הוא התהלך תמיד מן הענינים הקודמים אל מאחריהם, מהיותר נודעים אל הנעלמים יותר. פרוש: הכוללים הם תמיד קודמים ויותר נודעים מהמרכבים.
+
+Now the fitting arrangement is to proceed always from the prior matters to those posterior to them, from the better known to the more obscure. That is: the general matters are always prior to, and better known than, the compound.
+
+#### 11.33.3
+
+דרך משל: בחכמת הדקדוק הנה מה שראוי שידבר תחלה הוא בענין האותיות, אחר כך – התבות והנקדות, אחר כך – על חלקי הדבור, דהינו – השמות, הפעלים והמלות, אחר כך – על חבורי המאמרים אלה עם אלה.
+
+For example: in the science of grammar, what ought to be discussed first is the matter of the letters; afterward — the words and the vowel points; afterward — the parts of speech, namely — nouns, verbs, and particles; afterward — the joining of statements one with another.
+
+### 11.34 · The sciences are two: theoretical and practical
+
+#### 11.34.1
+
+ואמנם צריך שתדע, כי הנה מיני החכמות – שתים, והם השכליות והמעשיות.
+
+However, you must know that the kinds of sciences are two, and they are the theoretical and the practical.
+
+### 11.35 · Theoretical
+
+#### 11.35.1
+
+פרוש שכליות – מה שענינו ידיעת מדע אחד.
+
+That is, theoretical — that whose matter is the knowledge of a body of learning.
+
+### 11.36 · Practical
+
+#### 11.36.1
+
+מעשיות – מה שענינו ידיעת מלאכה אחת.
+
+Practical — that whose matter is the knowledge of a craft.
+
+### 11.37 · Astronomy and grammar as the two examples
+
+#### 11.37.1
+
+דרך משל: חכמת התכונה היא ידיעת הגלגלים וכוכביהם בסבוביהם; חכמת הדקדוק היא ידיעת מעשה הדבור המתקן.
+
+For example: the science of astronomy is the knowledge of the spheres and their stars in their revolutions; the science of grammar is the knowledge of the practice of correct speech.
+
+#### 11.37.2
+
+חכמת התכונה הנקרא שכליות, שאין בה אלא השכלת אחד מן הענינים שבמציאות כמו שהוא בו, וחכמת הדקדוק תקרא מעשיות, שהרי תכליתה הוא ללמד איך ראוי שידבר בלשון ההוא.
+
+The science of astronomy is what is called theoretical, for there is nothing in it but the intellection of one of the matters that exist, as it is in itself; and the science of grammar is called practical, for its purpose is to teach how one ought to speak in that language.
+
+### 11.38 · The proper order in theoretical studies
+
+#### 11.38.1
+
+ואולם הסדר הראוי בלמודים השכליים הוא – תחלת הכל, ידיעת הנושא שעליו נעסק, אחר כך – ידיעת חלקיו, אחר כך – ידיעת סבותיו, אחר כך – ידיעת עקריו לפי ההדרגה, דהינו, בתחלה הכוללים ואחר כך הפרטים; בתחלה הפשוטים ואחר כך המרכבים וכמו שזכרתי למעלה.
+
+But the proper order in theoretical studies is — first of all, knowledge of the subject with which we deal; afterward — knowledge of its parts; afterward — knowledge of its causes; afterward — knowledge of its principles by gradation, namely, first the general matters and afterward the particular ones; first the simple and afterward the compound, as I mentioned above.
+
+### 11.39 · The proper order in practical studies: the fixing of the months
+
+#### 11.39.1
+
+והסדר הראוי בלמודים המעשיים – הוא תחלת הכל ידיעת התכלית אשר נרצה להשיג, אחר כך – ידיעת האמצעים המצטרכים להבנת התכלית ההוא לפי ההדרגה.
+
+And the proper order in practical studies is — first of all, knowledge of the purpose that we wish to attain; afterward — knowledge of the means required for understanding that purpose, by gradation.
+
+#### 11.39.2
+
+דרך משל, כשנרצה ללמד קביעות חדשי השנה, הנה צריך שנבאר בתחלה התכלית, והוא – קביעות ראשי החדשים בזמן הראוי.
+
+For example, when we wish to teach the fixing of the months of the year, we must first explain the purpose, which is — the fixing of the beginnings of the months at the proper time.
+
+#### 11.39.3
+
+אחר כך נבאר האמצעים המצטרכים לזה, והוא – ידיעת ענין בחדשים החסרים והמלאים והשנים הסדורות והחסרות והשלמות, ענין הפשוטות והמעברות, חשבון המולדות וידיעת הדחיות.
+
+Afterward we explain the means required for this, which is — knowledge of the matter of the deficient and full months, and of the regular, deficient, and complete years; the matter of the common and the intercalated [leap] years; the reckoning of the conjunctions [moladot]; and knowledge of the postponements [dechiyot].
+
+### 11.40 · Do not explain the posterior before the prior, nor mention what is not yet explained
+
+#### 11.40.1
+
+וממה שצריך שתזהר מאד בסדור הוא, שלא תזכיר הענינים חוץ למקומם ומדרגתם, והינו, שלא תבאר המאחר לפני הקודם, כי יהיה בלתי אפשר להבין את אשר תלמדהו, מפני שיחסר ידיעת ענין מה שראוי שיקדם,
+
+And among the things about which you must be very careful in arrangement is that you not mention the matters outside their place and level — namely, that you not explain the posterior before the prior, for it will be impossible to understand what you teach, since knowledge of the matter that ought to come first will be lacking —
+
+#### 11.40.2
+
+או שלא תזכיר דבר אשר לא בארת – כי זה יבלבל דעת השומע וימנעהו מהשיג מה שתלמדהו,
+
+or that you not mention something you have not explained, for this will confuse the mind of the hearer and prevent him from apprehending what you teach him;
+
+#### 11.40.3
+
+אלא אם תכרח להביא דבר אשר לא בארתו עדין, הנה תזכיר אצלו מיד שעוד לפנים תבארהו. כי זה ממה שהשקיט דעת השומע, שלא ישוטט לבקש ידיעת הדבר ההוא שאי אפשר לו למצא אותה.
+
+unless you are compelled to bring in something you have not yet explained, in which case you should mention right there that you will explain it further on. For this is among the things that set the hearer's mind at rest, so that it does not wander about seeking knowledge of that thing, which it cannot find.
+
+#### 11.40.4
+
+דרך משל, אלו היית מבאר בלמוד קביעות החדשים תזכרנו ענין השנים הסדורות והחסרות ושלמות קדם ענין החדשים החסרים והמלאים – הנה זה חסרון סדר, כי ענין הסדורות החסרות והשלמות תלוי בענין חסרון החדשים ומלואם ואי אפשר שתוכל לבארו כראוי קדם שתבאר חסרון החדשים ומלואם.
+
+For example, if, when explaining the study of the fixing of the months, you were to mention the matter of the regular, deficient, and complete years before the matter of the deficient and full months — this is a deficiency of order, for the matter of the regular, deficient, and complete [years] depends on the matter of the deficiency and fullness of the months, and you cannot possibly explain it properly before you explain the deficiency and fullness of the months.
+
+### 11.41 · Definitions (גדרים)
+
+#### 11.41.1
+
+הגדרים – הוא שתתבונן מאד בכל הענינים שתזכיר לגדר אותם לאמתם בגדר שלם, שיכלל כל עקר ענינם עד שיכיר ציורם היטב בדעת השומע,
+
+Definitions — this is that you reflect very carefully on all the matters you mention, so as to define them according to their truth with a complete definition that embraces the whole principle of their matter, until their conception is well recognized in the mind of the hearer;
+
+#### 11.41.2
+
+ולא תקח הענינים במקריים תחת העצמיים, לגדר בהם ענינך, כי לא יתן זה ציור שלם אל שומעיך.
+
+and that you not take the matters in their accidental [features] in place of the essential ones, defining your matter by them, for this will not give a complete conception to your hearers.
+
+### 11.42 · Division (חלוק): no less and no more; by gradation; "two which are four"
+
+#### 11.42.1
+
+החלוק – הוא גם כן עקר גדול להקל ללמד השגת מבקשו.
+
+Division — this too is a great principle for making it easy for the learner to apprehend what he seeks.
+
+#### 11.42.2
+
+כי כל זמן שאין השכל משיג אלא הכללים אין השגתו שלמה, וכדי שתשתלם צריך שינתח לפניו הנושא לנתחיו. כדי שיוכל להביט על כלם ולהכירם כמו שהם, ואז יקרא שנצטיר בו הנושא ציור שלם.
+
+For as long as the intellect apprehends only the generals, its apprehension is not complete; and in order that it be made complete, the subject must be dissected before it into its parts, so that it can look upon all of them and recognize them as they are; and then it may be said that the subject has been conceived in it with a complete conception.
+
+#### 11.42.3
+
+ואמנם, מה שצריך שתשמר בזה הוא – שיהיו החלקים אשר תבחין כוללים כל נושאיך באמת, לא פחות ולא יותר. פרוש: שלא תניח חלק מנושאיך אשר לא תמנהו, וכן לא תמנה יותר על מה שיש בו באמת.
+
+However, what you must take care of in this is — that the parts you distinguish truly embrace your whole subject, no less and no more. That is: that you not leave any part of your subject that you do not count, and likewise that you not count more than is truly in it.
+
+#### 11.42.4
+
+והמבחר שבחלוק הוא – שתחלק נושאך לחלקים כוללים, ואחר כך תשוב ותחלק כל חלק מחלקיו לחלקים שניים, פרטיים מהראשונים, וכל אחד מן השניים לשלישיים, וכן על דרך זה.
+
+And the choicest form of division is — that you divide your subject into general parts, and afterward go back and divide each one of its parts into secondary parts, more specific than the first, and each one of the secondary into tertiary ones, and so on in this way.
+
+#### 11.42.5
+
+וטוב שתמעט במספר החלקים כל מה שאפשר לך, ותרבה בחלוק כל מה שאפשר. פרוש, שאם תוכל, תשתדל לכלל כל נושאך בשני חלקים או שלשה. וכן על דרך זה.
+
+And it is good that you minimize the number of parts as much as you can, and multiply the division as much as possible. That is, if you can, try to embrace your whole subject in two parts or three, and so on in this way.
+
+#### 11.42.6
+
+דרך משל: “יציאות השבת – שתים שהן ארבע בפנים ושתים שהן ארבע בחוץ”. –
+
+For example: "The carryings-out of the Sabbath — two which are four [for the one] inside, and two which are four [for the one] outside." —
+
+#### 11.42.7
+
+הנה כאן חלוק כלל יציאות השבת לשני חלקים, דהינו, בפנים ובחוץ. אחר כך חלוק כל אחד משני חלקים לשנים, וכל אחד מאלה השתים לשתים אחרים ונמצאו ארבע – וזהו “שתים שהן ארבע”.
+
+Here the class of the carryings-out of the Sabbath is divided into two parts, namely, inside and outside. Afterward each one of the two parts is divided into two, and each of these two into two others, and they come to four — and this is "two which are four."
+
+### 11.43 · Proceed by gradation; count nothing twice; the close of the book
+
+#### 11.43.1
+
+והנה תזהר בזה להתהלך בהדרגה הראויה, ולא תזכיר חלק שניים עם הראשונים ולא שלישיים עם השניים, וכן כיוצא בזה, אלא כל דבר במקומו ומדרגתו.
+
+Now be careful in this to proceed by the proper gradation, and do not mention a secondary part together with the primary ones, nor tertiary ones with the secondary, and likewise the like, but each thing in its place and its level.
+
+#### 11.43.2
+
+ויהיו החלקים כל אחד שונה מחברו ונבדל ממנו באמת, שלא תמנה ענין אחד שני פעמים.
+
+And let the parts each be different from its fellow and truly distinct from it, so that you do not count one matter twice.
+
+#### 11.43.3
+
+זה כלל דרך העיון וההתבוננות להבין ולהשיג כל משכל שיהיה לאמתו.
+
+This is the whole of the way of inquiry and reflection, to understand and apprehend every intelligible whatever it may be, according to its truth.
+
+#### 11.43.4
+
+וה' יתן חכמה, מפיו דעת ותבונה.
+
+And may God give wisdom; from His mouth, knowledge and understanding.
+
+### 11.44 · Colophon
+
+#### 11.44.1
+
+תם ונשלם שבח לאל בורא עולם
+
+Complete and finished; praise to God, Creator of the world.

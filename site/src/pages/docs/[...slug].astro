@@ -23,9 +23,19 @@ const { Content, headings } = await doc.render();
 const allDocs = await getCollection('docs');
 const { prev, next } = neighbours(allDocs, doc.slug);
 
-// A generated chapter has no h2/h3 — its language blocks are labelled with a
-// styled paragraph, not a heading — so the TOC would render an empty rail.
-const toc = doc.data.kind === 'text' ? [] : headings.filter((h) => h.depth === 2 || h.depth === 3);
+// A generated chapter carries its paragraph headings as raw HTML, which Astro
+// does not collect into `headings`, so its TOC comes from the `paragraphs`
+// list the generator writes into the frontmatter instead. Those labels arrive
+// with their inline Hebrew already wrapped for bidi isolation, hence `html`.
+// The Sugya Context Index is also `kind: 'text'` but has no `paragraphs`; its
+// `### Seder …` headings are ordinary Markdown and come through `headings`.
+type TocEntry = { readonly depth: number; readonly slug: string; readonly text: string; readonly html: boolean };
+const toc: readonly TocEntry[] =
+  doc.data.kind === 'text' && doc.data.paragraphs !== undefined
+    ? doc.data.paragraphs.map((p) => ({ depth: 2, slug: p.id, text: p.label, html: true }))
+    : headings
+        .filter((h) => h.depth === 2 || h.depth === 3)
+        .map((h) => ({ depth: h.depth, slug: h.slug, text: h.text, html: false }));
 ---
 
 <Layout title={`${doc.data.title} — Derech Tevunos`} description={doc.data.description}>

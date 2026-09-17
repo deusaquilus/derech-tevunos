@@ -2,7 +2,7 @@
 
 Companion to `DerechTevunos_benyehudah_bilingual_fixed_interlinear.md`. Every entry is keyed to a verse
 ID there (`chapter.paragraph.verse`), so each proposal names the exact span it would attach to. Written
-while cutting the verses, chapter by chapter; chapters 10–11 will be appended as they are cut.
+while cutting the verses, chapter by chapter; all eleven chapters are now covered.
 
 The notes point at what the repository already has, so that the interactive layer is assembled rather
 than invented:
@@ -10,7 +10,7 @@ than invented:
 | Asset | Where | What it gives chapters 1–3 |
 |---|---|---|
 | The glyph set | `icons_v3/icons/ch1-3/` (24), `icons_v3/icons/ch9-moves/` (7); contract in `icons_v3/ICONS_REFERENCE.md` §4–6 | One icon per speaker setting (ch. 1), per move (ch. 2), per quantity and per kind of statement (ch. 3) |
-| Sugya Context Index | Appendix of the parent file, `## Sugya Context Index` | A written entry, from the Sefaria text, for **every** passage chapters 1–9 cite. Nothing needs to be researched; it needs to be surfaced |
+| Sugya Context Index | Appendix of the parent file, `## Sugya Context Index` | A written entry, from the Sefaria text, for **every** passage the book cites. Nothing needs to be researched; it needs to be surfaced |
 | The rail taxonomy | `site/src/rail/taxonomy.ts` (`ELEMENTS`, `ELEMENT_GLOSS`, `LEAVES`) | The seven parts and their nineteen leaves as data, with a plain-English gloss each |
 | The agent card | `DERECH_TEVUNOS_FOR_AGENTS.md` §0 B (form table with intention counts), §4 (normalization example) | The eleven kinds as a table, with chapter 6's truth conditions already joined on |
 | The waterfall | `site/src/rail/`, mounted at `/sugya/<id>` and `/byo` | A renderer for any short sequence of moves, so a passage quoted in the text can be *drawn*, not described |
@@ -104,6 +104,29 @@ Added with chapters 7–9, ranked among themselves:
 21. **9.6 and 9.16 / 9.20 · "How forced?"** Full explanation → forced explanation → rejected (9.6.4–9.6.6),
     and the alternative that grows "more forced" with every deficiency posited (9.20.5): a graded slider,
     not a category, and the text says so. The `unsettle` effect on these leaves comes from these verses.
+
+Added with chapters 10–11, ranked among themselves:
+
+22. **10.7 · The procedure as the `/byo` authoring wizard.** Ramchal gives the order of study as steps
+    (discern the parts; conceive the straightforward form; find the statement's purpose; see how it
+    accords; verify every premise, and the proofs of the proofs). `METHODOLOGY.md` §13 already calls
+    the chapter "a checklist widget", and FOR_AGENTS §1 already restates it as an algorithm. The page
+    where a reader labels his own passage should walk him through 10.7.1–10.7.13 in order.
+23. **10.8–10.9 · Shabbat 5b–6a as a shipped passage.** The book's largest worked example, unfolded by
+    the author himself into statement, proof and proof of the proof. `DERECH_TEVUNOS_SUGYA_JSON_GUIDE.md`
+    §15 already holds the worked file; it is not among the nine passages in `site/src/rail/sugyot/`.
+    Ship it, and link every verse of 10.8–10.9 to its row.
+24. **10.7.10–10.7.13 · The fold tree's textual root.** "Statements, proofs of the statements, proofs of
+    the proofs, and proofs of the proofs of the proofs" is the nesting that `site/src/rail/folding.ts`
+    draws as folds. Quote these verses in the fold's own tooltip, and link them from the Sugyascade.
+25. **11.3–11.26 · The twenty-four aspects joined to `axis/*`.** FOR_AGENTS §7 already keys every one
+    (`axis/essence` … `axis/opposition`) and the passage schema carries them in `ext.axis`. One row per
+    aspect, the text's Hebrew and English, the key, the example verse, the index entry; and a "which
+    aspect is at issue?" picker trained on the text's own twenty-four examples.
+26. **11.42–11.43 · The partition editor.** Division "no less and no more", few parts at the top,
+    subdivided by level, levels never mixed, nothing counted twice. `METHODOLOGY.md` §13: "a partition
+    widget". It is also the discipline behind every tree the site already draws (the 7 → 19 leaves, the
+    compound tree of 3.14, the fold tree), so one editor serves the reader and the author alike.
 
 ## Chapter 1
 
@@ -1181,14 +1204,235 @@ notes for this chapter are therefore mostly about *joining* the two: the verse a
   gives the full settlement, "perhaps sin will cause it"), **Yevamot 104b** (9.20.3). Both in the index.
 - **TERM.** `דחו ואמרו: לאו` (9.20.3) is the alternative in the act; formula card.
 
+## Chapter 10
+
+Chapter 10 is method: how to read a sugya with everything chapters 1–9 built. It is the chapter the
+site's own procedure came from (FOR_AGENTS §1, "Ch 10 as algorithm"), and `METHODOLOGY.md` §13 plans
+two glyphs for it (`ascribed-proof`, `ascribed-difficulty`) and calls the rest "a checklist widget".
+Every construct is named by the text; the one new term is `קשיא מגדת`, the ascribed difficulty.
+
+### 10.1.1–10.6.2 · Why expression varies; learn the author's language
+
+- **CHART.** Three causes of variation (10.3 nature, 10.4 rhetoric, 10.5 custom) and the reader's duty
+  that follows (10.6). A small three-row figure; the chapter's one piece of pure preface.
+- **GUIDE.** 10.6.2 is the book's warrant for a *glossary of the author's own usage*: the same words
+  in another author's mouth "point us to a matter very different". Say so where the site's glossary
+  is introduced; it is why the tooltips carry Ramchal's sense and not a dictionary's.
+- **UX.** The roadmap's fourth stop: 10.1.2, "the order of study in them".
+
+### 10.7.1–10.7.13 · The procedure
+
+- **WIDGET, the wizard.** One step per verse group: 10.7.1 discern subject, predicate, manner (the 3.1
+  parser); 10.7.2–10.7.4 conceive the straightforward form (the 3.19 walkthrough, and its example is
+  Pesachim 7b again); 10.7.5–10.7.6 find the purpose (a matter on its own, or joined to another
+  statement as explanation, demonstration, difficulty, resolution or answer, which is the chapter 2
+  list); 10.7.7 see how it accords; 10.7.8–10.7.13 verify every premise back to the self-evident or the
+  received (chapter 8), following proofs of proofs to the end. This is the `/byo` page's missing
+  guidance, and it is the author's own order.
+- **GUIDE.** 10.7.6 lists five things a statement may do to another (explain, demonstrate, raise a
+  difficulty, resolve, answer). These are the chapter 2 elements minus the bare statement and question;
+  a callout that maps the five onto the seven `ch9-moves` icons.
+- **GUIDE, load-bearing.** 10.7.10–10.7.13: verification chains back "until the thing reaches those that
+  are verified in and of themselves, or the convention", and the chain is then read *in reverse* ("if
+  the third is true, the first is true"). This is the fold tree: a settled stretch of proofs behind a
+  summary. Quote 10.7.12 ("proofs of the proofs of the proofs") where the fold is explained; it is the
+  text the drawing came from.
+- **SOURCE.** **Pesachim 7b** (10.7.4; its second appearance, the index notes both). Ribbon to 3.19.13.
+- **FIX.** 10.7.4 `אכא` for `איכא` (as at 3.19.13) and `למל` for `למול`.
+
+### 10.8.1–10.9.5 · Statement and elucidation; the worked example
+
+- **WIDGET, the passage.** Ship the Shabbat 5b–6a file from `DERECH_TEVUNOS_SUGYA_JSON_GUIDE.md` §15
+  as a Sugyascade and link its rows from these verses: the baraita's statement (10.8.5), the objection
+  `היכא אשכחנא` (10.8.6) unfolded into statement, proof and proof of the proof (10.8.7–10.8.13), the
+  chain in one sentence (10.8.14–10.8.15), the answer `מידי דהוה` (10.9.1) with its proof by similarity
+  (10.9.4, an `analogism`) and the elucidation of its premise (10.9.5), and the further objection `מי
+  דמי` (10.8.4, a `fallacy-not-similar`). The guide's §15 already labels every one of these; the index
+  entry **Shabbat 5b–6a** explains the colonnade, the karmelit and Ben Azzai.
+- **CHART.** 10.8.15 is the whole argument as one syllogism chain, and the print's parenthesis marks
+  where the transcriber found a stretch repeated. Lay it out as premises → conclusion, one line per
+  premise, and the reader sees what the author means by "gather into a single chain".
+- **GUIDE.** 10.8.1–10.8.2 define *elucidation* (באור): the same statement said again at greater
+  length, "nothing other than the first thing itself". This is what distinguishes a restatement from
+  a new move, and it is the reason the guide's §15 file marks one row "restates … adding nothing".
+- **GUIDE.** Realia: the shop, the public square and the colonnade as private, public and exempt
+  domains; lifting and setting down as the two ends of the labor of carrying; four cubits in the
+  public domain. One panel, from the index entry.
+- **TERM.** `היכא אשכחנא`, `מידי דהוה`, `מי דמי`, `הכי נמי לא שנא`: formula cards; `מי דמי` is the
+  standard opening of an attack on an analogy.
+- **FIX.** 10.8.15's parenthetical `(באמצע מוציא מרשות לרשות בהפסק פטור)` is a repeated stretch that
+  the transcriber bracketed; the English reproduces it. Fold or dim it as at 6.2.3.
+
+### 10.10.1–10.11.5 · The sages' brevity; synonymous statements
+
+- **GUIDE, a pull-quote.** 10.10.1, "how brief the language of the sages is, and how much reflection
+  is included in it", beside the Shabbat 5b chain it describes.
+- **WIDGET.** The synonym detector (10.11): two statements in different words, judged equivalent or
+  opposite once their "sum of intent" is reached. 10.11.4 (opposites) and 10.11.5 (equivalent, genus
+  against species) are the two presets. Ribbon to 4.2 (equivalent statements) and 11.11 (genus and
+  species).
+- **SOURCE.** **Pesachim 17a** (10.11.5; the index explains `משקי בי מדבחיא` and the four altar
+  liquids). 10.11.4's pair is the author's own example, not a citation.
+- **FIX.** 10.10.2 `היה לא צירת` for `הרי לא צירת`. 10.11.2 `במצות שונות` ("in different commandments")
+  for `במלות שונות` ("in different words"), the same slip as 3.19.12; the English translates the
+  intended word.
+
+### 10.12.1–10.12.17 · Compounded parts; the ascribed difficulty
+
+- **CHART, the attack surface.** A demonstration carried by a report (10.12.3) can be attacked in
+  three ways (10.12.5 the demonstration, not the report; 10.12.6 the report, conceding the statement;
+  10.12.7 the report, conceding even the demonstration); an ascribed difficulty (10.12.8–10.12.9) in
+  four (10.12.10 the reporter himself may not hold it; 10.12.11 the report of it, not the difficulty;
+  10.12.12 the difficulty itself; 10.12.13 either, without touching the statement). A matrix of what is
+  attacked against what stands, one row per verse.
+- **GAP, recorded.** `METHODOLOGY.md` §13 plans `ascribed-proof` and `ascribed-difficulty`, "one move
+  carried by reported information", not drawn. These verses specify them. The chapter 9 leaf
+  `statement/reported` (9.8) is the report half; ribbon.
+- **SOURCE.** **Bava Kamma 83b** (10.12.15–10.12.16; `מאי אם נפשך לומר`, `תו קא קשיא ליה לתנא`, `אמרי
+  דנין`; the index entry names this exactly as "the ascribed difficulty and the difficulty raised
+  against the report of it"). Its fifth appearance in the book.
+- **TERM.** `קשיא מגדת` (10.12.8) is the chapter's one coinage; `אם נפשך לומר` and `תו קא קשיא ליה` are
+  the Gemara's markers for it. Formula cards.
+- **FIX.** 10.12.4 `וצריך[` stray bracket. 10.12.15 `" תו קא קשיא` stray space after the opening quote.
+
+### 10.13.1–10.13.3 · The final check
+
+- **GUIDE, a pull-quote.** 10.13.3: when a part does not "stand within its limit", "toil and labor
+  until you find for it the fitting and proper settlement, one that accords with the wording before
+  you and accords with what is verified". This is the criterion for 9.6's full-against-forced and
+  9.19's settlement in one sentence; ribbon to both, and to the `/byo` wizard's last step.
+
+## Chapter 11
+
+Chapter 11 is a catalogue (the twenty-four aspects), a short excursus (priority), and a method for
+presenting (order). FOR_AGENTS §7 already keys all of it (`axis/*`, `priority/*`, and "Order — for
+the agent's own output"); `METHODOLOGY.md` §13 draws no icons for it and calls the division section "a
+partition widget". Every construct is named by the text.
+
+### 11.1.1–11.2.1 · Twenty-four aspects
+
+- **CHART.** The master table: aspect number · the text's Hebrew · the English · the `axis/*` key ·
+  the example verse · the index entry. One row per paragraph 11.3–11.26, since the paragraphs map one
+  to one onto the aspects (aspect k is paragraph k + 2). FOR_AGENTS §7 is this table already; join on
+  the verse IDs.
+- **WIDGET.** "Which aspect is at issue?" Show a Talmudic quotation, ask for the axis; the text's own
+  examples are the training set and the check. In the Sugyascade, the `ext.axis` badge on a row should
+  link to the aspect's verse here.
+- **GUIDE.** The text does not group the twenty-four; any grouping shown (what a thing is; what it
+  does and suffers; its causes and ends; its circumstances; its comparisons) is editorial and must be
+  labelled so. FOR_AGENTS §7 records the one relation the site relies on: `differs-in-time` is aspect
+  19, `differs-in-place` aspect 16, and `differs-in-context` "whichever axis carries the respect".
+- **UX.** Twenty-four short paragraphs read as a list; give the chapter a sticky index of the
+  twenty-four so the reader can jump, and show the aspect number in the margin of each definition.
+
+### 11.3.1–11.26.2 · The aspects, one by one
+
+- **UX.** Each aspect's paragraph is definition, then example (`דרך משל`); the verses are cut on that
+  seam, so the margin roles used in chapters 3 and 9 apply here too.
+- **GUIDE, essence and definition (11.3).** 11.3.2 names the definition (`גדר`) and 11.3.4 gives its
+  rule (essentials, not accidents); 8.21.11's essence and 11.41's definitions are the same idea from
+  two sides. Ribbon all three. The example's `[ed.]` (11.3.3, `כוללת` for `עוללת`) is a source-reading
+  view; the index entry **Mishnah Peah 7:4** explains shoulder and pendant on a grape cluster.
+- **GUIDE, form (11.8).** Two kinds, definitive (man as "speaking animal") and physical (the box, the
+  gamma). The physical is the one the `axis/form` examples in shipped passages use; the definitive is
+  11.3's essence again. Say so.
+- **GUIDE, action and affection (11.9–11.10).** Natural action (`דמנקרא להו למעיא`, with its `[ed.]`
+  and no printed reference) against voluntary (`הקורא קריאת שמע`); affection as the impression left
+  (`שהיד סולדת בו`, `חם מקצתו חם כלו`). Realia from the index: asafoetida piercing the gut; the hand
+  recoiling as the Talmud's measure of "hot".
+- **CHART, genus and species (11.11).** The text builds a small tree: body → animal, non-animal;
+  animal → speaking, non-speaking; non-animal → stones, metals, plants; and separately wooden vessel →
+  flat, with a receptacle. Draw it, and mark how "animal" is a species relative to body and a genus
+  relative to man (11.11.8). This is also the vocabulary 10.11.5 used (genus against species).
+- **CHART, the causal cluster (11.12–11.16).** Cause (generative and effective), means, motive, purpose,
+  result: five aspects that describe one event from five sides. One figure with the text's own
+  examples (the tree and its fruit; the vinegar; Jethro's hearing; studying in order to do; the
+  walking, the son, the vessel). The index entries **Bava Metzia 8b**, **Yoma 76b**, **Ketubot 75a**,
+  **Zevachim 116a** carry the realia.
+- **GUIDE, attribute (11.17).** Three kinds (in or on the subject; coincident in time; before or
+  after), each with its example. The third, prior and posterior, is what 11.27–11.30 then analyses.
+  Ribbon.
+- **CHART, the circumstantial cluster (11.18–11.22).** Place, posture, movement, time, relation: the
+  text's examples are all mishnayot a beginner will recognise (two balconies, reading the Megillah
+  standing or sitting, the traveller between towns, "from when does one recite the Shema", the
+  generation of Moses). Small figure.
+- **GUIDE, bearer (11.23).** The one aspect stated as a *question* ("we seek which is its bearer"):
+  given an accident, what carries it; Pesachim 14b's metal. Note the answer is 11.7's material.
+- **GUIDE, the comparative triad (11.24–11.26).** Similarity, difference, opposition, the last sent
+  back to chapter 4 ("see there", 11.26.2). Ribbon to 4.4–4.6 and to 7.3's analogism, which is
+  similarity used as a warrant.
+- **SOURCE.** Every example has an index entry: **Mishnah Peah 7:4** (11.3.3), **Chullin 43a** (11.4.1,
+  11.5.2), **Mishnah Shevi'it 9:2** (11.4.1), **Chullin 76a** (11.5.2), **Mishnah Kilayim 5:5** (11.6.2),
+  **Menachot 94b** and **Mishnah Kelim 28:7** (11.8.3), **Chullin 58b** (11.9.2), **Berachot 15a**
+  (11.9.3), **Chullin 50a**, **Shabbat 40b**, **Pesachim 74a** (11.10.2), **Bava Metzia 8b** (11.12.3,
+  11.16.2), **Yoma 76b** (11.12.3), **Ketubot 75a** (11.13.2), **Zevachim 116a** (11.14.2), **Pesachim
+  76b** and **Berachot 35b** (11.17.4), **Berachot 51b** (11.17.6), **Eruvin 87b** and **Eruvin 75b**
+  (11.18.1), **Megillah 21a** and **Berachot 10b** (11.19.2), **Pesachim 50a** (11.20.2), **Berachot 2a**
+  and **Berachot 10b** (11.21.1), **Pesachim 14b** (11.23.2), **Chullin 17b**, **Shabbat 101b**, **Ketubot
+  60a** (11.24.1), **Pesachim 22a and 22b** (11.25.2). Two cards need a note: 11.18.1's "two towns, one
+  adjacent to the other" does not stand on Eruvin 87b (the index gives Mishnah Eruvin 5:2 as the
+  nearest source); and 11.24.1's `(שם)` before "a sword is like the slain" points at the previous
+  citation, Pesachim 14b, where the maxim also occurs, while the index files it under Shabbat 101b.
+- **FIX.** 11.5.2 `חיצון אדם` ("the outer is a man") for `אדום` ("red"); the English translates "red".
+  11.3.3, 11.4.1, 11.7.2, 11.22.2 open a quotation and never close it; 11.10.2 runs two quotations
+  together without marks; 11.14.2 opens with `“–`; 11.19.2's second quotation has a closing mark and
+  no opening one.
+
+### 11.27.1–11.30.1 · Priority and posteriority
+
+- **CHART.** Three kinds with the text's examples: temporal (earlier in time); of rank (the king and
+  the people, the higher and the lower); natural (cause before effect "even though both exist
+  together"). FOR_AGENTS §7 keys them `priority/temporal`, `priority/rank`, `priority/natural`.
+- **GUIDE.** Natural priority (11.30.1) is the cause/result pair of 11.12 and 11.16 seen as an
+  ordering; ribbon. It is also the principle behind the Sugyascade's row order when two moves are
+  simultaneous in the text but one depends on the other.
+- **TERM.** `שכלי` rendered "of rank (*sichli*, conceptual)": the translator's double gloss deserves
+  a tooltip, since the word means "intellectual" and the sense here is precedence in dignity.
+
+### 11.31.1–11.40.4 · Order: arrangement, and the two kinds of science
+
+- **GUIDE.** 11.31–11.32 name the three principles (arrangement, definitions, division) that the rest
+  of the chapter expounds; FOR_AGENTS §7 "Order — for the agent's own output" is their restatement.
+  This is Ramchal's rule for *presenting* an analysis, and therefore the rule the site's own documents
+  follow (general before particular, prior before posterior, no term before its definition). A note
+  saying so, at 11.33.2.
+- **CHART.** 11.33.3's grammar example (letters → words and points → parts of speech → joining of
+  statements) and 11.38.1's theoretical order (subject → parts → causes → principles, general before
+  particular, simple before compound) as two ordered lists side by side.
+- **GUIDE, realia.** 11.39.2–11.40.4's calendar example needs one panel: deficient and full months
+  (29 or 30 days), regular, deficient and complete years, common and leap years, the conjunction
+  (`מולד`) and the four postponements (`דחיות`). Without it the example is opaque, and it is the one
+  place the book touches astronomy.
+- **GUIDE.** 11.40.3 is a rule the book itself follows: when a term must be used before it is
+  explained, "mention right there that you will explain it further on" (compare 2.11.1, 2.17.1, 3.1.6).
+  A UX consequence: the glossary tooltip on a forward reference should say "defined at N.P", which is
+  the book's own courtesy made mechanical.
+- **TERM.** `שכליות` / `מעשיות` "theoretical" / "practical" (11.34–11.37): the astronomy-and-grammar
+  pair is the text's own illustration; glossary roots.
+
+### 11.41.1–11.44.1 · Definitions, division, and the close
+
+- **GUIDE.** 11.41 (define by essentials, not accidents) is 11.3.4 and 8.21.11 once more; ribbon.
+- **WIDGET, the partition editor.** 11.42.3 (exhaustive and disjoint, "no less and no more"), 11.42.4
+  (divide, then subdivide by level), 11.42.5 (few parts at the top, as much subdivision as needed),
+  11.43.1 (never mix levels), 11.43.2 (count nothing twice). An editor that enforces these five while
+  the user builds a tree, with 11.42.6–11.42.7's `יציאות השבת` as the preset. `METHODOLOGY.md` §13
+  names this widget. The same five rules govern every tree the site already shows (the 7 → 19 leaves,
+  the compound tree of 3.14, the fold tree), so the editor doubles as the author's tool.
+- **CHART.** The "two which are four" tree (11.42.6–11.42.7): carryings-out → inside, outside; each →
+  two; each of those → two. The index entry **Shabbat 2a** explains what the four cases are.
+- **UX.** 11.43.3–11.43.4 are the book's last sentence and its blessing, and 11.44.1 the colophon. End
+  the reading experience there deliberately: a full stop, the colophon set apart, and the Sugya
+  Context Index reachable as an appendix rather than as a twelfth chapter.
+
 ## Cross-cutting mechanisms
 
 Things that would be built once and land on many verses.
 
-- **Citation card (SOURCE).** Every citation in chapters 1–9 has a Sugya Context Index entry. The card:
+- **Citation card (SOURCE).** Every citation in the book has a Sugya Context Index entry. The card:
   the 1742 citation as printed, the resolved locus (from the `[ed.]` or from the index), the entry's
   text, a Sefaria link. Fourteen citations in chapters 1–3 carry an `[ed.]` correction, seven more in
-  4–6, fifteen more in 7–9; the
+  4–6, fifteen more in 7–9, three more in 10–11 (thirty-nine in all); the
   correction itself is a fact worth showing, and the GUIDE that explains it is one paragraph: the 1742
   print cites the Bavli by folio, and cites the Mishnah by what appear to be the *leaf numbers of a
   printed Mishnah* rather than by chapter and mishnah (they climb through Seder Zera'im in order:
@@ -1222,6 +1466,14 @@ Things that would be built once and land on many verses.
   index supplies all three. Chapter 9's `[ed.]` brackets are mostly *attribution* corrections (R.
   Eliezer → Rav Adda bar Ahavah; Rava → Ravina; R. Yehoshua ben Levi → R. Tzadok), a kind the card
   should distinguish from a corrected folio.
+  Chapters 10–11: Pesachim 7b · Shabbat 5b–6a · Pesachim 17a · Bava Kamma 83b (ch. 10); Mishnah Peah
+  7:4 · Chullin 43a (×2) · Mishnah Shevi'it 9:2 · Chullin 76a · Mishnah Kilayim 5:5 (×2) · Menachot 94b ·
+  Mishnah Kelim 28:7 · Chullin 58b · Berachot 15a · Chullin 50a · Shabbat 40b · Pesachim 74a · Bava
+  Metzia 8b (×2) · Yoma 76b · Ketubot 75a · Zevachim 116a · Pesachim 76b · Berachot 35b · Berachot 51b ·
+  Eruvin 87b (×2) · Eruvin 75b · Megillah 21a · Berachot 10b (×2) · Pesachim 50a · Berachot 2a · Pesachim
+  14b · Chullin 17b · Shabbat 101b · Ketubot 60a · Pesachim 22a–22b · Shabbat 2a (ch. 11). Chapter 11
+  cites almost nothing by folio (only Pesachim 14 and "ibid. 22"); the index locates all thirty-odd
+  examples, and the card must say the locus is the index's, not the print's.
 - **Recurrence ribbon (SOURCE / UX).** Passages the author reuses, per the index: Berachot 20b (ch. 3,
   6, 9 ×2), Chullin 2a (ch. 2, 3, 6), Pesachim 7b (ch. 3, 10), Mishnah Demai 1:2 (ch. 3, 6), Mishnah
   Ma'asrot 2:1 (ch. 3, 6), Exodus 12:16 (ch. 3, 6), Yevamot 112b (ch. 3, 6, 9 ×2), Ketubot 75a (ch. 3
@@ -1237,6 +1489,12 @@ Things that would be built once and land on many verses.
   (ch. 9 ×2, as apparent contradiction then as its settlement), Sanhedrin 90a (ch. 3, 8), Yevamot 66a
   (ch. 4, 8). The move-and-counter-move pairs (Berachot 58b, Berachot 4a) deserve a two-ended ribbon
   that names both roles.
+  From chapters 10–11 add: Pesachim 7b (ch. 3, 10), Bava Kamma 83b (ch. 8 ×3, 9, 10: its fifth
+  appearance), Pesachim 17a (ch. 10), Berachot 15a (ch. 2, 11), Ketubot 75a (ch. 3 ×2, 11), Berachot
+  10b (ch. 11 ×2), Bava Metzia 8b (ch. 11 ×2), Berachot 2a (ch. 8, 11), Shabbat 2a (ch. 11), and the
+  whole of 10.8–10.9 against the guide's Shabbat 5b file. Across the book the most-reused passages
+  are Berachot 20b (six times), Bava Kamma 83b (five), Yevamot 112b (five) and Chullin 2a (three); a
+  "most cited" panel on the Sugya Context Index page is a one-query CHART.
 - **Abbreviation expansion (TERM).** Hover expansions for the print's abbreviations: `ש"ס`, `ד"מ`
   (דרך משל), `ע"י`, `אעפ"י`, `ג"כ`, `אח"כ`, `בעה"ב` (בעולם הבא), `חש"ו`, `וכו'`, `ר'`, `ד'` (דף), `פ"ד`
   (פרק ד'), `א'` (אחד). Cheap, and it removes the single biggest barrier for a reader with some Hebrew
@@ -1253,7 +1511,8 @@ Things that would be built once and land on many verses.
   `סלקא דעתך`, `הא גופא קשיא`, `תנא היכא קאי`, `ליערבינהו ולתנינהו`, `פתח בכד וסים בחבית` (ch. 8);
   `הכי קאמר`, `הכא במאי עסקינן`, `הא מני`, `לא שנו אלא`, `בעא מיניה`, `מאי שנא`, `תדע`, `מנא הני
   מילי`, `דתנו רבנן`, `תניא כותיה`, `מאי לאו`, `ודלמא`, `אימא`, `מאי קא משמע לן`, `היינו הך`,
-  `ורמינהי` (ch. 9). Nearly fifty in all across the nine chapters. A formula card is therefore not a
+  `ורמינהי` (ch. 9); `היכא אשכחנא`, `מידי דהוה`, `מי דמי`, `הכי נמי לא שנא`, `אם נפשך לומר`, `תו קא
+  קשיא ליה` (ch. 10). Some fifty-five in all across the book. A formula card is therefore not a
   nicety; built once, it lands on well over a hundred verses, and it is the single component that
   turns this text into a reading aid for the Gemara itself.
 - **Two bracket kinds (UX).** `[ed. …]` is editorial (a source reading, always cited); plain `[…]` is
@@ -1289,7 +1548,10 @@ Things that would be built once and land on many verses.
   8.16.4, 8.16.5 `ground-does-not-reach` · 8.20.1 `theory` · 9.1.1 the seven `ch9-moves`. Planned, not
   drawn (`METHODOLOGY.md` §13): 8.17.2, 8.18.2 the three rebuttals; 8.21.22 potential / actual;
   8.23.2–8.24.5 and 9.17 the five objections to form; 9.6.5, 9.6.7, 9.8, 9.10, 9.12, 9.14, 9.16, 9.20 the
-  eight chapter 9 leaves awaiting a decision. Text chips there until then.
+  eight chapter 9 leaves awaiting a decision; 10.12.3 and 10.12.8 the two chapter 10 composites
+  (`ascribed-proof`, `ascribed-difficulty`). Text chips there until then. Chapter 11 has no glyphs by
+  decision; its badges are the `axis/*` and `priority/*` keys of FOR_AGENTS §7, one per aspect
+  paragraph 11.3–11.26 and per kind 11.28–11.30.
 - **Bidi (UX).** Every English verse that quotes Hebrew needs the isolation `build-text-docs.ts`
   already applies (`wrapInlineHebrew`); the interlinear renderer must reuse it, not reimplement it.
   The Hebrew verses need `dir="rtl"` on the verse, not on a block, since the two languages now
@@ -1344,13 +1606,22 @@ print and its translation stand as they were" is kept.
 | 9.13.4, 9.15.4 | `שפיר` | `שפירשתי` | English "that I explained", twice |
 | 9.15.2 | `אמר ליה רב אשי` | (attribution) | The index, from Sefaria, gives the reply to Rav Huna son of Rav Natan; no `[ed.]` marks it |
 | chs. 7–9 | unmatched or mixed quotation marks | | 7.3.4, 7.3.8, 8.10.2, 8.10.5 (`בש”ס`), 8.13.2, 8.15.2, 8.20.3, 9.6.9, 9.8.3, 9.18.2: an opening or closing mark missing, or a curly closing quote keyed for gershayim |
+| 10.7.4 | `מאי אכא למימר`; `למל את הבן` | `איכא`; `למול` | As at 3.19.13; English "to circumcise" |
+| 10.8.15 | `(באמצע מוציא מרשות לרשות בהפסק פטור)` | (repeated stretch) | The transcriber bracketed a duplicated run; both sides reproduce it |
+| 10.10.2 | `היה לא צירת` | `הרי לא צירת` | Sense |
+| 10.11.2 | `במצות שונות` | `במלות שונות` | English "in different words"; the same slip as 3.19.12 |
+| 10.12.4 | `וצריך[` | `וצריך` | Stray bracket |
+| 10.12.15 | `" תו קא קשיא` | `“תו קא קשיא` | Stray space after the opening quote |
+| 11.5.2 | `חיצון אדם` | `חיצון אדום` | English "red"; the keyed word means "man" |
+| ch. 11 | unmatched quotation marks | | 11.3.3, 11.4.1, 11.7.2, 11.22.2 open and never close; 11.10.2 runs two quotations together unmarked; 11.14.2 opens `“–`; 11.19.2's second quotation closes without opening |
 
 Also recorded, not artefacts: 3.9.2 prints `חלדה או ברדלס` where the Gemara has `וברדלס` (the index
 entry translates "a marten *and* a polecat"); and the `[ed.]` brackets at 2.12.4, 2.12.7, 3.4.2, 3.9.2,
 3.12.3, 3.13.2, 3.14.3, 3.14.4, 3.14.6, 3.14.11, 3.15.2, 3.16.2, 3.17.2, 3.18.2, in chapters 4–6 at
-4.2.3, 4.2.5, 4.7.2, 5.3.3, 6.3.13, 6.3.17, 6.3.22, and in chapters 7–9 at 7.5.2, 8.11.1, 8.12.3, 8.16.3,
-8.21.5, 8.21.13, 8.21.19, 8.21.23, 8.24.5, 9.5.3, 9.6.9, 9.7.2, 9.8.2, 9.13.2, 9.18.2, each record a
-citation, wording or attribution that differs from the source.
+4.2.3, 4.2.5, 4.7.2, 5.3.3, 6.3.13, 6.3.17, 6.3.22, in chapters 7–9 at 7.5.2, 8.11.1, 8.12.3, 8.16.3,
+8.21.5, 8.21.13, 8.21.19, 8.21.23, 8.24.5, 9.5.3, 9.6.9, 9.7.2, 9.8.2, 9.13.2, 9.18.2, and in chapter 11
+at 11.3.3, 11.9.2, 11.13.2, each record a citation, wording or attribution that differs from the
+source. Thirty-nine in all; chapter 10 has none.
 
 ## Segmentation decisions worth remembering
 
@@ -1407,3 +1678,18 @@ citation, wording or attribution that differs from the source.
 - **9.5 keeps the print's odd paragraphing.** The parent joins the resolution's division (9.5.1) and
   the first leaf's definition (9.5.2) in one paragraph; the interlinear keeps that paragraph and lets
   the label say what it holds.
+- **10.7 is cut to the steps of the procedure** (10.7.1 parts · 10.7.2–10.7.4 straightforward form ·
+  10.7.5–10.7.7 purpose and accord · 10.7.8–10.7.13 verification and the chain), so the wizard the
+  notes propose has one verse per step.
+- **10.8 is cut so that the author's own unfolding is visible:** the Gemara's words (10.8.3–10.8.4),
+  the statement (10.8.5), the objection (10.8.6), its intent (10.8.7), the three parts it contains
+  (10.8.8), the straightforward form (10.8.9–10.8.13), the chain (10.8.14–10.8.15). Where the Hebrew
+  runs on without punctuation at a seam (10.8.10 / 10.8.11, 10.8.11 / 10.8.12, 10.9.3 / 10.9.4, 10.9.4 /
+  10.9.5) the cut still falls on a space, and the English's semicolons and periods mark the same
+  places.
+- **Chapter 11 is cut definition / example for each aspect**, one paragraph per aspect as the print
+  has it, so the `axis/*` table joins on paragraph number (aspect k = paragraph k + 2). The genus and
+  species paragraph (11.11) is cut to its tree; the attribute paragraph (11.17) to its three kinds;
+  the division paragraph (11.42) to its five rules and its example.
+- **The colophon is its own paragraph and verse (11.44.1)**, as in the parent, so a renderer can set
+  it apart from the text.

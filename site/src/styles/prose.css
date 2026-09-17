@@ -22,6 +22,47 @@
      cannot drift apart. */
   padding-top: var(--dt-nav-clearance);
   color: var(--dt-fg-strong);
+  /* Stacking context for the watermark below: its z-index: -1 must land above
+     this element's gradient but below every child. Without the context it
+     would fall behind the page background and vanish. */
+  position: relative;
+  z-index: 0;
+}
+
+/* The mascot, ghosted into the paper — every light page, never the rail
+   routes (those don't use .dt-page). Same recipe as the exobench-site hero
+   bear: a fixed low-opacity figure with a radial mask fading its edges, and
+   deliberately NO mix-blend-mode — a blended element cannot be cached as its
+   own GPU layer and re-composites every frame (measured there at ~17fps).
+   `sepia(1)` turns the 3D render's blues monochrome-warm, so what reaches the
+   paper is a brass-toned watermark rather than a cool gray smudge — the
+   "nothing cool on warm paper" rule applies to the ghost too. Left, not
+   right: a blog post fills the column, so the right margin is the first
+   thing the prose eats. Hidden only on a phone, where it would sit under
+   every line; the old 1100px cutoff killed it the moment a desktop window
+   narrowed a few pixels. */
+.dt-page::after {
+  content: '';
+  position: fixed;
+  z-index: -1;
+  /* Settled in-browser 2026-09-17: further left so the gyro sits in the
+     gutter, a step up from the first drop so the head is fully in frame. */
+  left: -120px;
+  bottom: -220px;
+  width: 560px;
+  /* 1040:1512, the source's aspect. */
+  height: 814px;
+  background: url('/mascot/pose3d.webp') center / contain no-repeat;
+  opacity: 0.035;
+  filter: sepia(1);
+  pointer-events: none;
+  -webkit-mask-image: radial-gradient(ellipse 72% 68% at 50% 48%, black 25%, transparent 72%);
+  mask-image: radial-gradient(ellipse 72% 68% at 50% 48%, black 25%, transparent 72%);
+}
+
+/* A phone has no gutter. Desktop narrowing is not a phone. */
+@media (max-width: 640px) {
+  .dt-page::after { display: none; }
 }
 
 /* ===========================================
