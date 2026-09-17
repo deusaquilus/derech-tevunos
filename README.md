@@ -1,4 +1,4 @@
-# Derech Tevunos Public
+# Derech Tevunos
 
 Ramchal's *Derech Tevunos* (*The Ways of Reason*) as a system for labelling
 dialectical text — and a visualization that draws a sugya as a lattice of those
