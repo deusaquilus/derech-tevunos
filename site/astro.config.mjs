@@ -53,12 +53,31 @@ const blogLastmod = existsSync(lastmodPath)
 // server. Measured 2026-09-16: homepage, `/sugya/pesachim-liquids`
 // and `/sugya/bk-2a-toldos` all empty with the shared cache; all
 // three draw after the split.
+//
+// The first split left the dev server on that default path. Measured
+// 2026-09-17: a config restart rewrote `.vite/deps/react_jsx-dev-runtime.js`
+// as the production stub again (`exports.jsxDEV = void 0`; 1138 bytes,
+// same shape as `.vite-build`). Vitest and `@vitejs/plugin-react` also
+// resolve Vite 7 onto `node_modules/.vite`, so anything that prebundles
+// there can recapture the astro-dev cache. Two further isolations: the
+// dev cache lives at `.vite-dev`, off the default path, and the
+// optimizer's `NODE_ENV` is pinned to development so a leftover
+// production value cannot recapture the prebundle.
 const isBuild = process.argv.includes('build');
 
 export default defineConfig({
   site: 'https://derech-tevunos.com',
   vite: {
-    cacheDir: isBuild ? './node_modules/.vite-build' : './node_modules/.vite',
+    cacheDir: isBuild ? './node_modules/.vite-build' : './node_modules/.vite-dev',
+    ...(!isBuild && {
+      optimizeDeps: {
+        esbuildOptions: {
+          define: {
+            'process.env.NODE_ENV': '"development"',
+          },
+        },
+      },
+    }),
   },
   adapter: vercel(),
   integrations: [
