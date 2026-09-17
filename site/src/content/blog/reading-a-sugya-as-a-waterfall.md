@@ -35,11 +35,12 @@ into the argument it sits: a difficulty steps in from the statement it troubles,
 a resolution steps back out. Ramchal's own worked examples are short enough that
 this is the whole picture.
 
-An opening sugya is not short. In *Bava Metzia* 2a the argument runs
-fifty-seven sentences, and a difficulty raised in the fourth row does not get
-its answer until the thirty-first. On a staircase that connector has nowhere
-sensible to go: draw it straight and it crosses twenty-six unrelated rows;
-leave it out and the reader cannot see that the question was ever answered.
+An opening sugya is not short. In *Bava Metzia* 21b-22b the argument runs
+fifty-seven sentences: Abaye's claim in the first row comes under attack ten
+separate times, and the support that finally settles it does not arrive until
+the fifty-first. On a staircase that connector has nowhere sensible to go: draw
+it straight and it crosses forty-nine unrelated rows; leave it out and the
+reader cannot see that the claim was ever supported.
 
 ## What the rail does
 

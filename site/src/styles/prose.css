@@ -538,8 +538,22 @@
 
 /* An inline Hebrew run inside an English paragraph must not inherit the
    block's RTL alignment or the 1.9 line-height meant for whole Hebrew
-   paragraphs — that would make English lines jump around it. */
-.dt-prose p:not([dir='rtl']) span[lang='he'] {
+   paragraphs — that would make English lines jump around it.
+
+   `bdi` is in the selector for the same reason it is in the isolation rule
+   above: hand-authored markdown writes `<bdi lang="he">`, and only the
+   generator writes `<span lang="he">`. It was missing here until the first
+   hand-authored post carried inline Hebrew. Measured 2026-09-16 on a blog
+   paragraph quoting three Hebrew terms: without this rule the run's
+   line-height computes to 37.1px against the paragraph's 28.9px and the
+   paragraph stands 161px tall; with it, 33.2px and 153px.
+
+   The residual 33.2px over 28.9px is not a bug this rule can reach. `[lang=he]`
+   in Layout.astro also sets `font-size: 1.15em`, and `.dt-prose` declares its
+   line-height as a unitless number, so the inherited number is multiplied by
+   the run's own larger font size. `span` has always carried that same residual;
+   this rule makes `bdi` match `span`, it does not make either one flat. */
+.dt-prose p:not([dir='rtl']) :is(span, bdi)[lang='he'] {
   line-height: inherit;
 }
 

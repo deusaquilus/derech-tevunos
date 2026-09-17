@@ -1,0 +1,133 @@
+---
+import Layout from '../layouts/Layout.astro';
+import '../styles/prose.css';
+
+/**
+ * The standing answer to "what am I looking at", which the nav's parenthetical
+ * points at.
+ *
+ * It is a page and not only a blog post because it is the site's account of
+ * itself, and a dated entry in a feed is the wrong shape for that: a reader who
+ * arrives in a year should not be reading something filed under a month. The
+ * long first-person version is the post; this states the claim and stops.
+ */
+const POST = '/blog/the-most-underrated-sefer-i-own';
+---
+
+<Layout
+  title="What this is — Derech Tevunos"
+  description="A site that draws a sugya as a picture of its own argument, using Ramchal's Derech Tevunos as the labelling system. Why it exists, and why the labelling only became practical now."
+>
+  <div class="dt-page">
+    <article class="wrap">
+      <header>
+        <h1 class="dt-page-title">What this is</h1>
+        <p class="dt-page-description">
+          A drawing of a sugya's argument, and the 1742 sefer that says what to draw.
+        </p>
+      </header>
+
+      <div class="dt-prose">
+        <div class="callout">
+          <p class="callout-label">In short</p>
+          <p>
+            Ramchal's <em>Derech Tevunos</em> gives every sentence of a sugya a
+            label: what the sentence <strong>does</strong> to the one before it,
+            what it <strong>is</strong> once you state it plainly, and how it is
+            <strong>warranted</strong>. This site labels passages that way and
+            draws the result, so the shape of an argument is something you can
+            look at instead of hold in your head.
+          </p>
+          <p>
+            I built it because the labelling is enormous, patient, mechanical
+            work, and that is the first kind of work machines got good at.
+          </p>
+        </div>
+
+        <h2>The sefer</h2>
+        <p>
+          <em>Derech Tevunos</em>, <em>The Ways of Reason</em>, is a manual for
+          reading how a sugya moves. Chapter 9 gives the moves a closed
+          vocabulary: 7 elements and 19 leaves, each one a thing a sentence does
+          to an earlier sentence, each with a test that separates it from the
+          label sitting next to it. Chapter 3 reduces any utterance, however it
+          was phrased, to a subject and a predicate in one of 11 manners. Chapter
+          4 says how two statements can stand to each other, and when an apparent
+          dispute is not one. Chapters 7 and 8 say what a proof has to accomplish
+          to land, what a rebuttal does to the claim it hits, and where a claim
+          sits when nothing has been established about it.
+        </p>
+        <p>
+          Closed vocabularies, a procedure, and a discriminating test for each
+          label against its nearest neighbour. That is a specification, written
+          284 years before anything could execute it.
+        </p>
+
+        <h2>Why it went unused</h2>
+        <p>
+          The work is enormous. In chapter 10 Ramchal takes four short Aramaic
+          sentences from <em>Shabbos</em> 5b and reconstructs what is underneath
+          them: two claims, four syllogisms and an elucidation, roughly a dozen
+          steps, none of them written in the Gemara and every one of them
+          required. It is the most impressive passage in the sefer and it is also
+          the bill. Four sentences took him pages. Nobody has the hours to do
+          that to a daf, let alone a masechta.
+        </p>
+
+        <h2>What changed</h2>
+        <p>
+          The labelling stopped being expensive. The question a model answers
+          here is narrow: what does this sentence do to the sentence before it?
+          The answer has to be one of 19 labels, it has to name the sentence it
+          acts on, and it has to survive Ramchal's own test for telling that
+          label from its nearest neighbour. An answer outside the vocabulary
+          fails validation and the file never draws.
+        </p>
+        <p>
+          A model still gets things wrong, so every passage here was checked by
+          hand. The drawing is what makes checking fast: a sentence labelled
+          wrong takes the picture with it, and you catch it before you have
+          finished reading the row.
+        </p>
+
+        <h2>Why a drawing</h2>
+        <p>
+          Two reasons, and the second one is the honest one. A picture is the
+          quickest way to check a labelling. And a great many more people will
+          look at a well-made drawing than will ever read an argument about
+          dialectical method. If this sefer gets used, it will be because
+          somebody saw the shape of an argument, found it beautiful, and got
+          curious about what produced it.
+        </p>
+
+        <h2>Where to start</h2>
+        <p>
+          The <a href="/sugya">passages</a> are worked examples, 5 of Ramchal's
+          own and 4 opening sugyot. The <a href="/docs">sefer itself</a> is here
+          in Hebrew and English, all 11 chapters, with
+          <a href="/docs/text/chapter-09">chapter 9</a> as the vocabulary the
+          drawing reads. A file you label yourself gets
+          <a href="/byo">drawn by the same code</a> the shipped passages get.
+        </p>
+        <p>
+          The longer version of the argument on this page is
+          <a href={POST}>the most underrated sefer I own</a>.
+        </p>
+      </div>
+    </article>
+  </div>
+</Layout>
+
+<style>
+  .wrap {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 2rem 2rem 4rem;
+  }
+
+  header { margin-bottom: 2.5rem; }
+
+  @media (max-width: 768px) {
+    .wrap { padding: 1.5rem 1rem 3rem; }
+  }
+</style>

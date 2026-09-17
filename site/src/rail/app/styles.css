@@ -15,6 +15,12 @@
      page without being mistaken for the red of a refutation or the amber of a
      doubt. Prussian rather than electric indigo: ink on paper. */
   --rail: #3b4f8a;
+  /* Peeked-row mark. Distinct from --rail so a highlighted row's left-edge
+     does not sit on the Prussian connector and disappear into it. Brass
+     rather than the mascot gold `#fdc223`: that value is for dark chrome
+     (AGENTS.md); as a 3px stroke on the paper it vanishes. Same hex as
+     the site's `--dt-brass`. */
+  --peek: #8a5a00;
   /* The chapter 1–8 layer, one hue per family (see anatomy.ts). Violet for
      chapters 3–6, teal for chapter 7, magenta for chapter 8, slate — the
      statement icon's grey — for chapter 1. None is a verdict colour; none but
@@ -882,8 +888,8 @@
 }
 
 .row-peeked {
-  background: color-mix(in srgb, var(--rail) 7%, transparent);
-  box-shadow: inset 3px 0 0 var(--rail);
+  background: color-mix(in srgb, var(--peek) 8%, transparent);
+  box-shadow: inset 3px 0 0 var(--peek);
 }
 
 /* A handle with an edge badge attached: the two sit flush, the handle squared

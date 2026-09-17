@@ -9,7 +9,7 @@
  * on. The two are different levels and stay apart: nothing here is a move,
  * nothing here has an effect, and no label here touches a verdict. On the page
  * it is a second layer of badges over the lattice — switched on and off as
- * one, and off by default.
+ * one, and on by default.
  *
  * Every type is defined by an everyday phrase rather than a term of logic,
  * following the book's own habit: Ramchal fixes nearly every type by a stock

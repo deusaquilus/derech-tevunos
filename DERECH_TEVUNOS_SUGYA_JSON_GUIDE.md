@@ -1090,7 +1090,7 @@ The second opinion of a Mishnah dispute, as a statement that targets the first s
   "id": "t8-pin",
   "short": "where the difficulty bites",
   "he": "בשלמא גזלן וירדן, דקא חזי להו ומיאש. אלא גנב, מי קא חזי ליה דמיאש?",
-  "en": "Granted for the robber and the Jordan, whom the owner sees and so despairs; but a thief — does the owner see him, that he should despair?",
+  "en": "Granted for the robber and the Jordan River, whom the owner sees and so despairs; but a thief — does the owner see him, that he should despair?",
   "move": { "element": "statement", "subtype": "inference", "target": "t8-ask", "attested": false },
   "provenance": "derivation",
   "note": "A `דיוק`: it reads out of the baraita which clause actually bears on the dispute. It adds no force of its own."
@@ -2253,7 +2253,7 @@ Surface forms vary — long or short, plain, rhetorical, figurative; the intende
 [
   { "id": "kerem", "he": "כלאי הכרם אסורין מלזרוע ומלקיים ואסורין בהנאה.", "en": "Mixed seeds of the vineyard are forbidden to sow, to maintain, and to benefit from.", "move": { "element": "statement", "subtype": "firsthand" }, "provenance": "tradition", "anatomy": [{ "kind": "compound", "basis": "marked", "note": "Three predicates of one subject, equally novel; all must hold." }], "ext": { "form": { "parts": ["forbidden to sow", "forbidden to maintain", "forbidden to benefit from"] } } },
   { "id": "terumos", "he": "אין תורמין לא במדה ולא במשקל ולא במנין.", "en": "One does not separate terumah by measure, by weight, or by count.", "move": { "element": "statement", "subtype": "firsthand" }, "provenance": "tradition", "anatomy": [{ "kind": "compound", "basis": "marked" }] },
-  { "id": "t8-ask", "short": "the thief who passed it on", "he": "תא שמע: הגנב שנטל מזה ונתן לזה … מה שנטל נטל ומה שנתן נתן", "en": "Come and hear: a thief who took from this one and gave to that one, and likewise a robber, and likewise the Jordan — what he took he took and what he gave he gave.", "move": { "element": "difficulty", "subtype": "objection", "target": "abaye", "marker": "תא שמע", "attested": false }, "provenance": "tradition", "anatomy": [{ "kind": "contradictory" }, { "kind": "compound", "note": "Three subjects joined: the thief, the robber, and the Jordan." }] }
+  { "id": "t8-ask", "short": "the thief who passed it on", "he": "תא שמע: הגנב שנטל מזה ונתן לזה … מה שנטל נטל ומה שנתן נתן", "en": "Come and hear: a thief who took from this one and gave to that one, and likewise a robber, and likewise the Jordan River — what he took he took and what he gave he gave.", "move": { "element": "difficulty", "subtype": "objection", "target": "abaye", "marker": "תא שמע", "attested": false }, "provenance": "tradition", "anatomy": [{ "kind": "contradictory" }, { "kind": "compound", "note": "Three subjects joined: the thief, the robber, and the Jordan River." }] }
 ]
 ```
 

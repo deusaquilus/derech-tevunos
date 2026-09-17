@@ -52,6 +52,26 @@
   color: var(--muted);
 }
 
+/* Two ledes are one block of prose, so they sit a paragraph apart. The full
+   1.75rem is the gap between the block and the drop zone, not an internal one. */
+.lede + .lede {
+  margin-top: -0.85rem;
+}
+
+/* A link inside the prose has to declare itself: the global `a { color:
+   inherit }` would leave it identical to the muted text around it. Same
+   colour as `.help a`, plus the underline a sentence-internal link needs. */
+.lede a {
+  color: var(--fg);
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
+  text-decoration-color: var(--border);
+}
+
+.lede a:hover {
+  text-decoration-color: currentColor;
+}
+
 .drop {
   display: flex;
   flex-direction: column;

@@ -242,6 +242,14 @@ export const Byo = ({ stripHost, panelHost, legendHost }: ByoProps): JSX.Element
               the shipped passages use — every row, rail, fold and badge. Nothing is uploaded:
               the file is read in this tab and kept for this browser session only.
             </p>
+            <p className={styles.lede}>
+              This page is the end of a loop, and the loop is the point. Ramchal's chapter 9
+              vocabulary is closed and its tests are mechanical, so labelling a passage is work a
+              language model can do: point one at the guide below, hand it a sugya, and it comes
+              back with a file. Drop the file here and the drawing is how you check it. A sentence
+              labelled wrong takes the picture with it, and you catch it before you have finished
+              reading the row. <a href="/about">Why this exists</a>.
+            </p>
 
             <div
               className={`${styles.drop}${over ? ` ${styles.dropOver}` : ''}`}

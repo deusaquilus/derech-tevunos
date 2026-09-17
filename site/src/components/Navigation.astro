@@ -6,6 +6,12 @@ const isDocs = Astro.url.pathname.startsWith('/docs');
 const path = Astro.url.pathname;
 const isHome = path === '/' || path.startsWith('/sugya');
 
+// The standing answer to "what am I looking at". It sits beside the brand and
+// not in the link row on purpose: it is a question about the site, not a
+// fourth section of it, and the row's four labels are already measured to the
+// edge of a 390px bar.
+const isAbout = path.startsWith('/about');
+
 const links = [
   { href: '/', label: 'Sugyascade', active: isHome },
   // The same drawing, fed a file the reader brings. Beside Sugyascade because
@@ -14,16 +20,25 @@ const links = [
   // one carries a short form for the nav's own 640px breakpoint.
   { href: '/byo', label: 'Bring Your Own', short: 'Bring', active: path.startsWith('/byo') },
   { href: '/docs', label: 'Docs', active: path.startsWith('/docs') },
-  { href: '/blog', label: 'Notes', active: path.startsWith('/blog') },
+  { href: '/blog', label: 'Blog', active: path.startsWith('/blog') },
 ];
 ---
 
 <nav>
   <div class="bar">
-    <a href="/" class="logo" aria-label="Derech Tevunos, home">
-      <img src="/mark-64.png" alt="" width="64" height="64" />
-      <span class="wordmark">Derech Tevunos</span>
-    </a>
+    <div class="brand">
+      <a href="/" class="logo" aria-label="Derech Tevunos, home">
+        <img src="/mark-64.png" alt="" width="64" height="64" />
+        <span class="wordmark">Derech Tevunos</span>
+      </a>
+      {/* A sibling of the logo, never a child: an anchor inside an anchor is
+          invalid and the inner one stops being clickable. */}
+      <a
+        href="/about"
+        class={`what${isAbout ? ' on' : ''}`}
+        aria-current={isAbout ? 'page' : undefined}
+      >(What is this?)</a>
+    </div>
 
     {isDocs && (
       <div class="search">
@@ -82,12 +97,62 @@ const links = [
     gap: 1.5rem;
   }
 
+  .brand {
+    display: flex;
+    /* Centred, not `baseline`: `.logo` is itself a flex box whose first item is
+       the mark, so its baseline is the image's bottom edge, not the wordmark's
+       baseline — aligning to it drops this text below the bar's centre. */
+    align-items: center;
+    gap: 0.6rem;
+    flex-shrink: 0;
+    min-width: 0;
+  }
+
   .logo {
     display: flex;
     align-items: center;
     gap: 0.6rem;
     text-decoration: none;
     flex-shrink: 0;
+  }
+
+  /* The quietest thing in the bar, deliberately. It is an aside to the brand,
+     so it sits on the brand's baseline at the dimmest chrome colour and only
+     picks up the champagne on hover — the same hover the section links use, so
+     it is discoverable without competing with them for attention. */
+  .what {
+    font-size: 0.8125rem;
+    font-weight: 400;
+    color: var(--dt-chrome-dim);
+    text-decoration: none;
+    white-space: nowrap;
+    transition: color 0.2s ease;
+  }
+
+  .what:hover {
+    color: var(--dt-champagne);
+  }
+
+  .what.on {
+    color: var(--dt-cyan);
+  }
+
+  /* There is no room for this between the width where the link row goes back
+     to its full-length labels and the width where the bar is wide enough to
+     carry both. Measured 2026-09-16 by stepping the viewport 5px at a time
+     from 620 to 1000: with this link the bar's content overflows its box from
+     645px through 755px and fits from 760px up, so the true fitting threshold
+     lies in (755, 760]. Below 641px the links wear their short forms and there
+     is room again, verified down to 360px.
+
+     Note for whoever measures this next: with the link hidden, the same scan
+     still overflows from 645px to 660px. That 16px band is pre-existing, it is
+     the four full-length labels against the wordmark, and this rule neither
+     causes it nor fixes it. */
+  @media (min-width: 641px) and (max-width: 759px) {
+    .what {
+      display: none;
+    }
   }
 
   .logo img {

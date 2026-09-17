@@ -375,7 +375,7 @@ export const bavaMetziaYeush: Sugya = {
     {
       id: "t8-ask",
       short: "the thief who passed it on",
-      en: "Come and hear: a thief who took from this one and gave to that one, and likewise a robber, and likewise the Jordan — what he took he took and what he gave he gave; the recipient need not return it.",
+      en: "Come and hear: a thief who took from this one and gave to that one, and likewise a robber, and likewise the Jordan River — what he took he took and what he gave he gave; the recipient need not return it.",
       he: "תא שמע: הגנב שנטל מזה ונתן לזה … מה שנטל נטל ומה שנתן נתן",
       move: { element: "difficulty", subtype: "objection" },
       target: "abaye",
@@ -384,13 +384,13 @@ export const bavaMetziaYeush: Sugya = {
       attested: false,
       anatomy: [
         { kind: "contradictory" },
-        { kind: "compound", note: "Three subjects joined: the thief, the robber, and the Jordan." },
+        { kind: "compound", note: "Three subjects joined: the thief, the robber, and the Jordan River." },
       ],
     },
     {
       id: "t8-pin",
       short: "where the difficulty bites",
-      en: "Granted for the robber and the Jordan, whom the owner sees and so despairs; but a thief — does the owner see him, that he should despair?",
+      en: "Granted for the robber and the Jordan River, whom the owner sees and so despairs; but a thief — does the owner see him, that he should despair?",
       he: "בשלמא גזלן וירדן, דקא חזי להו ומיאש. אלא גנב, מי קא חזי ליה דמיאש?",
       move: { element: "statement", subtype: "inference" },
       target: "t8-ask",

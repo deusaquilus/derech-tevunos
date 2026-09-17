@@ -20,13 +20,14 @@ export type AnatomyLayerState = {
 };
 
 /**
- * Off until the reader turns it on. The layer is a second vocabulary over the
- * one the page already asks a first-time reader to learn, and the legend is
- * where they will find the switch.
+ * On until the reader turns it off. The layer is a second vocabulary over the
+ * chapter 9 moves, and a first visit should show both; the legend is where
+ * they will find the switch.
  */
-export const DEFAULT_LAYER: AnatomyLayerState = { on: false, lenses: ALL_LENSES };
+export const DEFAULT_LAYER: AnatomyLayerState = { on: true, lenses: ALL_LENSES };
 
-const STORAGE_KEY = "sugya-lattice.anatomy";
+/** v2 defaults on. v1 wrote `{on: false}` on first visit, so it cannot stand for a choice. */
+const STORAGE_KEY = "sugya-lattice.anatomy.v2";
 
 /**
  * A remembered lens setting, family by family. A family the stored record
