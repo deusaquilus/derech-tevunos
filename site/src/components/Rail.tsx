@@ -1,5 +1,7 @@
 import { useMemo } from 'react';
+import { PassageTour } from './PassageTour.tsx';
 import { RailSheet } from './RailSheet.tsx';
+import { tourOf } from '../lib/passageTour.ts';
 import { sugyaById } from '../rail/sugyot/index.ts';
 
 /**
@@ -29,7 +31,9 @@ import { sugyaById } from '../rail/sugyot/index.ts';
  * The drawing itself is `RailSheet.tsx`, which `/byo` shares. Resolving the
  * passage here rather than there is what keeps the registry out of that
  * route's bundle and out of this page's HTML: the id is three words, the
- * passage is up to 31KB.
+ * passage is up to 31KB. The foot's next-visualization links are built here
+ * the same way — `tourOf(id)` — so `/byo` never sees them: a dropped file is
+ * not a stop in the gallery.
  */
 export type RailProps = {
   readonly id: string;
@@ -41,6 +45,7 @@ export type RailProps = {
 
 export const Rail = ({ id, start, legendHost }: RailProps): React.ReactElement => {
   const sugya = useMemo(() => sugyaById(id), [id]);
+  const tour = useMemo(() => tourOf(id), [id]);
 
   if (sugya === undefined) {
     return (
@@ -50,7 +55,14 @@ export const Rail = ({ id, start, legendHost }: RailProps): React.ReactElement =
     );
   }
 
-  return <RailSheet sugya={sugya} start={start} legendHost={legendHost} />;
+  return (
+    <RailSheet
+      sugya={sugya}
+      start={start}
+      legendHost={legendHost}
+      footExtra={tour === undefined ? undefined : <PassageTour tour={tour} />}
+    />
+  );
 };
 
 export default Rail;

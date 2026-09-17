@@ -225,6 +225,7 @@ or *what is still exerting force* (standing).
 | `renders/` | Exported PNGs and SVGs of the waterfall, embedded by the `SUGYA_WATERFALL_*` design documents. Was `viz/out/`. Keep the filenames — they are image references in markdown. |
 | `mascott/` | The mascot. Source of the site palette; see below. |
 | `DERECH_TEVUNOS_*.md`, `SUGYA_*.md` | The system and file format, written for a classifier. Roughly 1 MB; agent-facing, mostly not published. |
+| `skills/derech-tevunos-sugya-json/` | **The skill a reader installs to write a sugya file** (settled 2026-09-17). `SKILL.md` is the short entry (workflow, the nineteen leaves, the smallest valid file); `DERECH_TEVUNOS_SUGYA_JSON_GUIDE.md` beside it is the complete reference, moved here from the repository root so the folder is self-contained. The layout is the one `npx skills add deusaquilus/derech-tevunos` and the `.cursor/skills/` · `.claude/skills/` · `.agents/skills/` conventions all read: `skills/<name>/SKILL.md`. `/byo` links the folder; the guide is not copied anywhere else. |
 | `nested_rail_research/` | The study that the v5 fold tree implements. |
 | `push-to-dev.sh`, `push-to-prod.sh` | Promote `main` to the `dev` / `prod` branches. Vercel production is `prod`, not `main`. See [Vercel publishing](#vercel-publishing--settled-2026-09-16). |
 
@@ -503,8 +504,11 @@ drag meant for the sheet moved the document instead. So on every rail route
   sibling in `.stage`, stretched to the band's height, so it is exactly as
   tall as the space between the bar and the foot. The foot control is the
   column's last child, always rendered — "next sentence" is `disabled` at the
-  end rather than gone — and only as wide as its buttons, with the hairline
-  above it on `.stage` running the full width. Measured 2026-09-16 at
+  end rather than gone — with the sentence controls on the left and, on a
+  shipped passage, a "Next visualization" link on the right (a smaller
+  back-arrow to the previous drawing beside it). `/byo` has no tour: a file
+  the reader brought is not a stop in the gallery. The hairline above the
+  foot on `.stage` runs the full width. Measured 2026-09-16 at
   1280×800: bar 92–130, dock 130–753, foot 754–800, rows scroller 622px tall
   (it was 448px on the homepage with the legend and bar inside it). None of
   the three moved by a pixel across wheel, "next sentence", "what happens
@@ -652,6 +656,20 @@ construction rather than by agreement, and the fault list a refusal prints is
 `parseSugya`'s own, every fault at once with its JSON path and its "did you
 mean".
 
+**The loader is a four-step how-to, and the drop zone is step four** — settled
+2026-09-17. `ByoSteps.tsx` is the prose (what the page is for; get the text
+from Sefaria, by its public MCP endpoint `https://mcp.sefaria.org/sse` or by
+hand; install the skill in `skills/derech-tevunos-sugya-json/`; run it; open
+the file here) and takes the controls as its `open` slot, so "put the file
+here" is read where the controls are. `Byo.tsx` keeps the loading loop and
+is the drop target for the **whole loader**, not just the zone: a reader with
+a file in hand should not have to scroll past three steps to drop it. The
+`onDragLeave` guard on `relatedTarget` is what stops the zone flickering as
+the drag crosses child elements. The skills paragraph is deliberately brief —
+where each agent looks (`.cursor/skills/`, `.claude/skills/`,
+`.agents/skills/`, and the same under `~`) and the one `npx skills add`
+command; the page is not a skills tutorial.
+
 The nav's fourth link does not fit a phone beside the wordmark. Measured at
 390px: logo 166 + links 206 + gap 12 + padding 32 = 416 against 390 available.
 Shrinking type and gaps lands at 391, which is not a margin, so the label has a
@@ -741,6 +759,27 @@ Three things about the generator that look like tidying and are not:
   `set:html`), because raw-HTML headings are invisible to Astro's `headings`.
   Verse anchors are `v3-14-11`; the exact ID is on `data-verse`, which is
   what the interactive layer should key on.
+
+**Construct cards and "drawn" links — 2026-09-17.** `site/src/lib/textAnchors.ts`
+is the first layer on top of the verses: `CONSTRUCTS` says which verse defines
+or names which construct (an `anatomy.ts` key, the statement tile, one of the
+seven parts, or a chapter 9 leaf) and `DRAWN` which verses quote a shipped
+passage. The generator turns each anchor into a card drawn from the rail's own
+data — glyph body from `glyphs.ts` (the seven element icons from `icons.ts`
+through `render.ts`'s exported `primitiveToSvg`), name, marker and gloss from
+`anatomy.ts` / `taxonomy.ts`, hue from `theme.ts` inlined on the `<svg>` — so
+the card is the Sugyascade's own picture and cannot drift from it, and no
+family hue is written into `prose.css`. Measured 2026-09-17: 129 cards on 105
+verses, 7 "drawn" links to 4 passages; `RailStage.astro` shows the reverse
+("Discussed in the text at 9.18.3 · 9.19.2") from the same table. Two rules:
+an anchor goes on the verse that **names** the construct where the text names
+it, otherwise the verse that **defines** it, never on an example; and a card is
+emitted as one contiguous HTML block with no blank line inside, or CommonMark
+parses the SVG. Both tables are validated at build: a verse ID not in the
+interlinear, or a passage ID not in `src/rail/sugyot/`, fails `npm run build-text`.
+The card selectors carry the `.dt-prose` prefix on purpose: `.dt-prose figure`
+sets a 1.75rem margin for blog screenshots and would otherwise win (measured
+before the prefix: three cards at 7.3.7 wrapped with a 60px gap).
 
 ### The Hebrew is the largest piece of new work
 
@@ -832,6 +871,10 @@ caption.
  make such an edit pass; cut a verse where the two sides have no space at
  the seam; or emit a verse's Hebrew as one-line raw HTML. See "The text pages
  are interlinear".
+- Put a construct card on an example verse, write a family hue into
+ `prose.css`, draw a card's glyph from anything but `glyphs.ts` / `icons.ts`,
+ or put a blank line inside a card's HTML. See "Construct cards and 'drawn'
+ links".
 - Lighten the site's brass toward the rail's `--doubt` amber, emit a
   trailing-slash canonical or sitemap entry, replace an `HtmlFigure` with a PNG,
   or declare an un-namespaced CSS custom property. Each has its reasoning above;

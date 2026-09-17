@@ -963,11 +963,11 @@ each verse whether a glyph exists or is only planned.
 
 ### 8.17.1–8.18.4 · Turning the difficulty back; turning the proof around
 
-- **GAP, recorded.** No glyphs exist for these. `METHODOLOGY.md` §13 plans three, "Part 3, section
-  3: the rebuttals": `rebuttal-your-reasoning` (ולטעמך · ולדידך, 8.17.2), `rebuttal-just-the-opposite`
-  (אדרבא, 8.18.2), `rebuttal-proves-my-point` (משם ראיה · היא הנותנת, 8.18.2), and names the open
-  design question (how to show the opponent's position in the landscape). These verses are the
-  specification for that work; the interlinear page should render text chips until the glyphs exist.
+- **VISUAL.** Drawn 2026-09-17 (ICONS_REFERENCE §11, "turning a difficulty back"): `rebuttal-your-reasoning`
+  (ולטעמך · ולדידך, 8.17.2: a bolt strikes each house, both stand), `rebuttal-just-the-opposite` (אדרבא,
+  8.18.2: the bolt arcs from my roof onto theirs), `rebuttal-proves-my-point` (משם ראיה · היא הנותנת,
+  8.18.2: an arrow on the floor from their side to mine). One per naming verse; the three pictures
+  are the two-step figure the GUIDE below asks for.
 - **GUIDE.** 8.17.1 is subtle: the difficulty turned back does not defeat the opponent, it forces
   *both* sides to adopt a distinction that saves both. 8.18.1 is the stronger move: the difficulty
   leaves our side entirely, or the opponent's proof becomes ours. A two-step figure (shared escape;
@@ -1015,9 +1015,9 @@ each verse whether a glyph exists or is only planned.
   acting or acted upon. `METHODOLOGY.md` §13 records that these four "stay skipped" in the glyph set
   because `differs-in-context` covers what a learner needs; the chart is therefore the only place the
   four are ever shown, and the interlinear is where it belongs.
-- **GAP, recorded.** Potentiality and actuality (8.21.22–8.21.25) are planned as two glyphs
-  (`METHODOLOGY.md` §13, "Section 5: a hollow shape against a filled one"), not drawn. Text chips until
-  then; FOR_AGENTS §6 "Modality — בכח / בפועל" already carries the distinction as data.
+- **VISUAL.** Drawn 2026-09-17: `potential` (בכח, a dashed ring with a solid core) and `actual` (בפועל,
+  a solid disc) on 8.21.22; `anatomy.ts` carries both. The Zevachim exchange (8.21.23–8.21.25) is the
+  pair's worked example: the questioner reads "sprinkles" as `actual`, the answer as `potential`.
 - **GUIDE.** 8.21.1's list, "the generating statements and the conclusions, the verifying and the
   verified, the disproved and the disproving", is the rule that every edge in the Sugyascade must join
   two statements taken *in the same aspect*. Say so; it is the reason `differs-in-context` exists as a
@@ -1034,11 +1034,13 @@ each verse whether a glyph exists or is only planned.
 
 ### 8.22.1–8.24.5 · Agreement from the report, not the matter
 
-- **GAP, recorded.** These are chapter 9's `objection` leaf (9.17), and `METHODOLOGY.md` §13 plans
-  five glyphs for them, "Section 4: objections to form": `obvious` (פשיטא, 8.23.2), `might-have-thought`
-  (סלקא דעתן, 8.23.3), `redundant-part`, `self-contradictory` (הא גופא קשיא, 8.24.3), `misordered`
-  (תנא היכא קאי · ליערבינהו ולתנינהו · פתח בכד וסים בחבית, 8.24.5, "one icon, three text chips"). Not
-  drawn. These verses are their specification.
+- **VISUAL.** Drawn 2026-09-17 (ICONS_REFERENCE §11, "objections to form"): `obvious` (פשיטא, 8.23.2:
+  the speech bubble as a ghost), `might-have-thought` (סלקא דעתן, 8.23.3: a thought cloud, struck),
+  `self-contradictory` (הא גופא קשיא, 8.24.3: two lines run at each other), `misordered` (תנא היכא
+  קאי · ליערבינהו ולתנינהו · פתח בכד וסים בחבית, 8.24.5, one glyph with three text chips), and
+  `redundant-part` (הא תו למה לי), whose formula this chapter does not quote but which belongs to
+  8.24.1's "nothing superfluous or repeated". These are also chapter 9's `objection` leaf (9.17);
+  the same glyphs serve there.
 - **CHART.** 8.22.3's two ways (the report as a whole; its parts) → 8.23 and 8.24 → the five formulae.
   A small tree, mirroring the proof tree above it.
 - **WIDGET.** "It is obvious!" and its answer: show a mishnah clause, raise `פשיטא`, then reveal the
@@ -1524,8 +1526,13 @@ Things that would be built once and land on many verses.
   ha-inyanim*. Each is a glossary anchor; the glossary should also carry the terms the text names but
   the English does not transliterate (the other six parts of ch. 2; כולל / פרטי / קצתי / סתמי; מדמה;
   and the names of the four unnamed kinds, see 3.7).
-- **Glyph placement (VISUAL).** Where a verse *names* a construct (every `ונקרא…` verse, and the
-  defining verse where there is no name), place the glyph in the margin. The cut puts each naming
+- **Glyph placement (VISUAL) — built 2026-09-17.** Where a verse *names* a construct (every `ונקרא…`
+  verse, and the defining verse where there is no name), the generator now places the construct's
+  card: glyph, name, marker word and gloss from `anatomy.ts` / `taxonomy.ts`. The table below has
+  moved into code as `CONSTRUCTS` in `site/src/lib/textAnchors.ts` (129 cards on 105 verses), which is
+  now the source of truth; the list here is kept as the record of how it was arrived at. `DRAWN` in
+  the same module carries the seven chapter 9 verses whose passage the site ships, as "drawn in the
+  Sugyascade" links, with the reverse link on the passage page. The cut puts each naming
   clause in its own verse for exactly this reason. Keys, by verse: 1.2.1 `party-group` · 1.2.3
   `party-individual` · 1.3.3 `party-talmud` · 2.4.1–2.10.1 the seven `ch9-moves` · 3.1.4
   `statement-tile` · 3.4.1 `categorical` · 3.5.1 `particular` · 3.6.1 `partial` · 3.6.3 `unqualified` ·
@@ -1545,13 +1552,16 @@ Things that would be built once and land on many verses.
   `fallacy-counterexample` · 7.4.6 `hypothetical-syllogism`, `hypothetical-syllogism-tollens` · 7.5.6
   `disjunctive-syllogism` · 8.5.1 `ground-axiom` · 8.6.1 `ground-sense` · 8.8.1 `ground-common-sense` ·
   8.9.1 `ground-tradition` · 8.10.1 `ground-deduction` · 8.10.3 `via-opposite` · 8.15.3 `dilemma` ·
-  8.16.4, 8.16.5 `ground-does-not-reach` · 8.20.1 `theory` · 9.1.1 the seven `ch9-moves`. Planned, not
-  drawn (`METHODOLOGY.md` §13): 8.17.2, 8.18.2 the three rebuttals; 8.21.22 potential / actual;
-  8.23.2–8.24.5 and 9.17 the five objections to form; 9.6.5, 9.6.7, 9.8, 9.10, 9.12, 9.14, 9.16, 9.20 the
-  eight chapter 9 leaves awaiting a decision; 10.12.3 and 10.12.8 the two chapter 10 composites
-  (`ascribed-proof`, `ascribed-difficulty`). Text chips there until then. Chapter 11 has no glyphs by
-  decision; its badges are the `axis/*` and `priority/*` keys of FOR_AGENTS §7, one per aspect
-  paragraph 11.3–11.26 and per kind 11.28–11.30.
+  8.16.4, 8.16.5 `ground-does-not-reach` · 8.17.2 `rebuttal-your-reasoning` · 8.18.2
+  `rebuttal-just-the-opposite`, `rebuttal-proves-my-point` · 8.20.1 `theory` · 8.21.22 `potential`,
+  `actual` · 8.23.2 `obvious` · 8.23.3 `might-have-thought` · 8.24.1 `redundant-part` · 8.24.3
+  `self-contradictory` · 8.24.5 `misordered` · 9.1.1 the seven `ch9-moves` · 9.17.1 the five objection
+  glyphs again. All of these exist as of 2026-09-17: `anatomy.ts` has 74 keys and `glyphs.ts` a body
+  for every one (measured with a one-line import). Still planned, not drawn (`METHODOLOGY.md` §13):
+  9.6.5, 9.6.7, 9.8, 9.10, 9.12, 9.14, 9.16, 9.20 the eight chapter 9 leaves awaiting a decision;
+  10.12.3 and 10.12.8 the two chapter 10 composites (`ascribed-proof`, `ascribed-difficulty`). Text
+  chips there until then. Chapter 11 has no glyphs by decision; its badges are the `axis/*` and
+  `priority/*` keys of FOR_AGENTS §7, one per aspect paragraph 11.3–11.26 and per kind 11.28–11.30.
 - **Bidi (UX).** Every English verse that quotes Hebrew needs the isolation `build-text-docs.ts`
   already applies (`wrapInlineHebrew`); the interlinear renderer must reuse it, not reimplement it.
   The Hebrew verses need `dir="rtl"` on the verse, not on a block, since the two languages now

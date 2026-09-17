@@ -518,7 +518,11 @@
    size this band to what is left rather than to its content; without it the
    scroller would be as tall as the rows and nothing would scroll. The rule
    under it is the foot's: it runs the width of the sheet where the scroller
-   ends, while the foot itself is only as wide as its buttons. */
+   ends. The foot stretches that full width too, so the sentence controls can
+   stay on the left while the next-visualization links sit on the right —
+   they used to be `width: max-content` when the foot was only those
+   controls. Stretching is not the old sticky-bar bug: that was `position:
+   sticky` plus the article's bottom padding, which is gone. */
 .stage {
   display: flex;
   flex: 1;
@@ -1385,20 +1389,25 @@
 /* --- foot control --------------------------------------------------------- */
 
 /* The last child of the sheet's column, pinned to the bottom on every passage
-   and at every step. It is as wide as its contents, not the sheet: two
-   buttons and a count at the left margin, with a hairline above them that
-   runs the width of the sheet to mark where the scroller ends. It used to be
-   `position: sticky; bottom: 0` at the end of the scrolling article and
-   stretched across it with the count pushed to the far right — and it moved:
-   the article's bottom padding sat under it at the end of the scroll and not
-   before, so it stepped up and down as the reader passed the last row. */
+   and at every step. Sentence controls stay at the left margin; the tour
+   (`.sheet-tour`) is `margin-left: auto` so "Next visualization" reads as
+   the way out of this drawing. It used to be `width: max-content` and only
+   as wide as the buttons — that was right when the foot had nothing to put
+   on the right. It also used to be `position: sticky; bottom: 0` at the end
+   of the scrolling article and stretched across it with the count pushed to
+   the far right — and it moved: the article's bottom padding sat under it
+   at the end of the scroll and not before, so it stepped up and down as the
+   reader passed the last row. Stretching again is fine; sticky is not.
+   `flex-wrap` is for a long passage on a 390px phone, where "next sentence"
+   + "rest of this movement" + the tour do not fit one line. */
 .sheet-foot {
   display: flex;
   flex: none;
-  align-self: flex-start;
+  align-self: stretch;
   align-items: center;
+  flex-wrap: wrap;
   gap: 8px;
-  width: max-content;
+  width: 100%;
   max-width: 100%;
   padding: 7px var(--sheet-gutter) 9px;
 }
@@ -1407,6 +1416,64 @@
   color: var(--muted);
   font-size: 11px;
   font-variant-numeric: tabular-nums;
+}
+
+/* Site chrome, painted with the rail's tokens because it lives on the sheet.
+   Links, not `.advance` pills: they leave the page. Next is the discovery
+   affordance (ink, labelled); back is the quieter reverse (muted, chevron
+   only). The marks are SVGs because a "←" glyph at this size on the paper
+   vanished. */
+.sheet-tour {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.sheet-tour-back,
+.sheet-tour-next {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25em;
+  color: var(--muted);
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.sheet-tour-back {
+  padding: 4px 6px;
+}
+
+.sheet-tour-next {
+  font-size: 12px;
+  color: var(--fg);
+  box-shadow: inset 0 -1px 0 transparent;
+}
+
+.sheet-tour-chevron {
+  width: 0.95em;
+  height: 0.95em;
+  flex: none;
+}
+
+.sheet-tour-back .sheet-tour-chevron {
+  width: 14px;
+  height: 14px;
+}
+
+.sheet-tour-back:hover,
+.sheet-tour-next:hover {
+  color: var(--fg);
+}
+
+.sheet-tour-next:hover {
+  box-shadow: inset 0 -1px 0 var(--fg);
+}
+
+.sheet-tour-back:focus-visible,
+.sheet-tour-next:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
 }
 
 /* Not yet revealed: legible as structure, unreadable as text. */

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, type ReactNode } from 'react';
 import { SugyaView } from '../rail/app/SugyaView.tsx';
 import type { Sugya } from '../rail/sugya.ts';
 import '../rail/app/styles.css';
@@ -28,9 +28,15 @@ export type RailSheetProps = {
    * Absent, or naming nothing in the document, the legend renders inline.
    */
   readonly legendHost?: string;
+  /**
+   * Extra controls on the right of the foot. The shipped route puts the
+   * next/previous visualization links here; `/byo` omits it, because a file
+   * the reader brought is not a stop in the gallery.
+   */
+  readonly footExtra?: ReactNode;
 };
 
-export const RailSheet = ({ sugya, start, legendHost }: RailSheetProps): React.ReactElement => {
+export const RailSheet = ({ sugya, start, legendHost, footExtra }: RailSheetProps): React.ReactElement => {
   // Resolved once, on mount. The panel is server-rendered HTML, so it is in the
   // document before this island is; resolving it in an effect instead would
   // render the legend inline for a frame, measure the rows around it, then
@@ -52,6 +58,7 @@ export const RailSheet = ({ sugya, start, legendHost }: RailSheetProps): React.R
       // inert. The four research passages that author one have it rendered by
       // the Astro page instead — server-side, where it is crawlable.
       options={start === undefined ? undefined : { start }}
+      footExtra={footExtra}
     />
   );
 };

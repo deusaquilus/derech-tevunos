@@ -29,6 +29,12 @@ export type SugyaViewProps = {
   readonly legendHost?: Element;
   /** Controller options, e.g. `{ beads: false }` to keep edge badges off the elbows. */
   readonly options?: ControllerOptions;
+  /**
+   * Extra controls on the right of the foot. The site's next/previous
+   * visualization links live here so they sit in the pinned foot rather than
+   * below the sheet (which would break the viewport rule). Absent on `/byo`.
+   */
+  readonly footExtra?: ReactNode;
 };
 
 /**
@@ -42,7 +48,7 @@ export type SugyaViewProps = {
  * a compact timeline, a single movement, two sugyot side by side — without
  * touching this.
  */
-export const SugyaView = ({ sugya, hint, header, legendHost, options }: SugyaViewProps): JSX.Element => {
+export const SugyaView = ({ sugya, hint, header, legendHost, options, footExtra }: SugyaViewProps): JSX.Element => {
   const {
     units,
     total,
@@ -258,7 +264,9 @@ export const SugyaView = ({ sugya, hint, header, legendHost, options }: SugyaVie
       {/* Always present and never moving: the one control that is in the same
           place at every step. It used to be sticky inside the scroller and
           rendered only on a long passage with sentences left, so it drifted
-          with the sheet's bottom padding and vanished at the end. */}
+          with the sheet's bottom padding and vanished at the end. Sentence
+          controls stay on the left; `footExtra` (the next-visualization
+          links, on a shipped passage) is pushed to the right. */}
       <div className="sheet-foot">
         <button
           type="button"
@@ -276,6 +284,7 @@ export const SugyaView = ({ sugya, hint, header, legendHost, options }: SugyaVie
         <span className="sheet-foot-count">
           {revealed} of {total}
         </span>
+        {footExtra}
       </div>
     </article>
   );

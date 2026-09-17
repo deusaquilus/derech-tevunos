@@ -26,7 +26,8 @@ Nine passages ship: five from Ramchal's own examples, and four opening sugyot
 used to study nested folds and rails.
 
 The format it reads is `derech-tevunos/sugya`, version `1`. The complete
-reference is `DERECH_TEVUNOS_SUGYA_JSON_GUIDE.md`; the file-only document is
+reference is `skills/derech-tevunos-sugya-json/DERECH_TEVUNOS_SUGYA_JSON_GUIDE.md`,
+which ships as an agent skill (see below); the file-only document is
 `SUGYA_JSON_FORMAT.md`. How the page looks, and why, is the waterfall series
 (`SUGYA_WATERFALL_VISUALIZATION_V1.md` through `SUGYA_WATERFALL_V6_ADDITIONAL_ICONS.md`).
 
@@ -71,8 +72,8 @@ it.
 
 | File | What it is |
 |---|---|
-| `DERECH_TEVUNOS_FOR_AGENTS.md` | The system, rewritten for a classifier: five layers (move, form, relation, warrant, axis), the closed vocabularies, the procedure. |
-| `DERECH_TEVUNOS_SUGYA_JSON_GUIDE.md` | The system *and* the file format, in one document. Use this to write a sugya file. |
+| `skills/derech-tevunos-sugya-json/` | **The skill.** `SKILL.md` is the entry an agent reads; `DERECH_TEVUNOS_SUGYA_JSON_GUIDE.md` beside it is the system *and* the file format in one document. `npx skills add deusaquilus/derech-tevunos` installs it, or copy the folder into `.cursor/skills/`, `.claude/skills/` or `.agents/skills/`. Then: "Using the derech-tevunos-sugya-json skill, fetch Bava Metzia 2a from Sefaria and write it as a sugya file", and open the result at [derech-tevunos.com/byo](https://derech-tevunos.com/byo). |
+| `DERECH_TEVUNOS_FOR_AGENTS.md` | The system, rewritten for a classifier: five layers (move, form, relation, warrant, axis), the closed vocabularies, the procedure. Superseded by the guide above. |
 | `SUGYA_JSON_FORMAT.md` | The file alone: fields, enums, validation, how a file is loaded. |
 
 ### Plans and earlier visualizations

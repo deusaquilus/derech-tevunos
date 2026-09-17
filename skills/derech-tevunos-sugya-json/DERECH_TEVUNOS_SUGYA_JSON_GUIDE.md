@@ -14,6 +14,8 @@
 - `[supplied]` marks a definition, recognizer, or effect the book implies or omits and this guide fills in, in Ramchal's style. `[constructed]` marks an example sentence written for illustration rather than quoted. Weight confidence accordingly.
 - JSON examples are **valid fragments of a file**: a whole file, a unit, a list of units, a `move`, or a list of `anatomy` labels. A unit whose `move.target` names an id not shown is acting on an earlier unit left out for brevity. Nothing in a JSON block is commentary; commentary is in the surrounding prose or in `note` fields.
 
+**Where this lives.** This file is the reference half of the agent skill `derech-tevunos-sugya-json`; `SKILL.md` beside it is the entry point an agent reads first, and points back here by section. `npx skills add deusaquilus/derech-tevunos` installs both.
+
 **How to load.** §1–§4 suffice to write a valid file with the enums. §7 (the card) suffices to label. Part II (§8–§13) gives every construct with its tests and at least two JSON examples, and the status reducer as implemented; Part III (§14–§18) the procedure and four worked files — Shabbos 5b from the book, Berachos 20b, Berachos 2b, and a non-Talmudic dialogue; Part IV (§19–§21) the gaps, aliases, calibration set and the pre-ship checklist. Every JSON block in this guide has been run through the file's own validator (`parseSugya`) and, for the whole files, the reducer.
 
 **Five layers, kept apart.** A sentence is annotated on independent layers; a label on one never implies a label on another.

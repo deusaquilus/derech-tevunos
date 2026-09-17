@@ -61,7 +61,13 @@ const wrap = (text: string, maxChars: number): readonly string[] => {
 const truncate = (text: string, maxChars: number): string =>
   text.length <= maxChars ? text : `${text.slice(0, Math.max(0, maxChars - 1))}…`;
 
-const primitiveToSvg = (p: IconPrimitive, colour: string, surface: string): string => {
+/**
+ * One icon primitive as SVG markup. Exported because the docs generator
+ * (`scripts/build-text-docs.ts`) draws the seven element icons beside the
+ * verses of chapters 2 and 9 that define them, and it must draw them from
+ * the same geometry the waterfall does.
+ */
+export const primitiveToSvg = (p: IconPrimitive, colour: string, surface: string): string => {
   if (p.el === "text") {
     return `<text x="0" y="${p.dy}" text-anchor="middle" font-size="${p.fontSize}" font-weight="700" fill="${colour}">${esc(p.text)}</text>`;
   }

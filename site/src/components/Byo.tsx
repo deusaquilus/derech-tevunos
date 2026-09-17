@@ -2,6 +2,7 @@ import { useState, type ChangeEvent, type DragEvent, type JSX, type ReactNode } 
 import { createPortal } from 'react-dom';
 
 import { RailSheet } from './RailSheet.tsx';
+import { ByoSteps } from './ByoSteps.tsx';
 import { parseSugya, stringify, SugyaFormatError } from '../rail/format.ts';
 import { movementsOf, type Sugya } from '../rail/sugya.ts';
 import { readOpened, writeOpened, type Opened } from '../lib/byoSession.ts';
@@ -174,6 +175,23 @@ export const Byo = ({ stripHost, panelHost, legendHost }: ByoProps): JSX.Element
     setAttempt({ kind: 'waiting' });
   };
 
+  // ── Dragging onto the sheet ──────────────────────────────────────────────
+  // The whole loader is the drop target, not just the zone: the zone sits in
+  // the last of four steps, and a reader who has a file in hand should not
+  // have to scroll to it. The zone is what lights up.
+  const onDragOver = (event: DragEvent<HTMLElement>): void => {
+    event.preventDefault();
+    setOver(true);
+  };
+
+  const onDragLeave = (event: DragEvent<HTMLElement>): void => {
+    // Moving from the loader onto one of its children fires this too; only a
+    // departure from the loader itself — or from the window — ends the drag.
+    const to = event.relatedTarget;
+    if (to instanceof Node && event.currentTarget.contains(to)) return;
+    setOver(false);
+  };
+
   const onDrop = (event: DragEvent<HTMLElement>): void => {
     event.preventDefault();
     setOver(false);
@@ -183,6 +201,48 @@ export const Byo = ({ stripHost, panelHost, legendHost }: ByoProps): JSX.Element
 
   const faults =
     attempt.kind === 'refused' ? <Faults source={attempt.source} faults={attempt.faults} /> : null;
+
+  // ── The controls: the drop zone, the paste box, the faults ───────────────
+  // Rendered into the how-to's last step by `ByoSteps`.
+  const open: ReactNode = (
+    <>
+      <div className={`${styles.drop}${over ? ` ${styles.dropOver}` : ''}`}>
+        <p className={styles.dropLead}>Drop a .json file here</p>
+        <FilePick label="Choose a file…" lead onFile={loadFile} />
+      </div>
+
+      <details className={styles.paste}>
+        <summary>Or paste the JSON</summary>
+        <textarea
+          className={styles.pasteBox}
+          value={pasted}
+          spellCheck={false}
+          rows={10}
+          placeholder='{ "format": "derech-tevunos/sugya", "version": 1, … }'
+          onChange={(event) => setPasted(event.currentTarget.value)}
+        />
+        <p className={styles.acts}>
+          <button
+            type="button"
+            className="advance advance-lead"
+            disabled={pasted.trim() === ''}
+            onClick={() => load(pasted, 'pasted text')}
+          >
+            Draw it
+          </button>
+          <button
+            type="button"
+            className="advance"
+            onClick={() => setPasted(stringify(parseSugya(example, 'the example')))}
+          >
+            Fill with the two-sentence example
+          </button>
+        </p>
+      </details>
+
+      {faults}
+    </>
+  );
 
   // ── The strip's three texts ──────────────────────────────────────────────
   // The shell's `dt-strip-*` classes, so this line is pixel-for-pixel the line
@@ -234,81 +294,14 @@ export const Byo = ({ stripHost, panelHost, legendHost }: ByoProps): JSX.Element
       {hosts.panel === undefined ? null : createPortal(panel, hosts.panel)}
 
       {opened === undefined ? (
-        <div className={styles.loader}>
+        <div
+          className={styles.loader}
+          onDragOver={onDragOver}
+          onDragLeave={onDragLeave}
+          onDrop={onDrop}
+        >
           <div className={styles.inner}>
-            <h1 className={styles.head}>Bring your own sugya</h1>
-            <p className={styles.lede}>
-              A passage written in the sugya file format is drawn here with the same waterfall
-              the shipped passages use — every row, rail, fold and badge. Nothing is uploaded:
-              the file is read in this tab and kept for this browser session only.
-            </p>
-            <p className={styles.lede}>
-              This page is the end of a loop, and the loop is the point. Ramchal's chapter 9
-              vocabulary is closed and its tests are mechanical, so labelling a passage is work a
-              language model can do: point one at the guide below, hand it a sugya, and it comes
-              back with a file. Drop the file here and the drawing is how you check it. A sentence
-              labelled wrong takes the picture with it, and you catch it before you have finished
-              reading the row. <a href="/about">Why this exists</a>.
-            </p>
-
-            <div
-              className={`${styles.drop}${over ? ` ${styles.dropOver}` : ''}`}
-              onDragOver={(event) => {
-                event.preventDefault();
-                setOver(true);
-              }}
-              onDragLeave={() => setOver(false)}
-              onDrop={onDrop}
-            >
-              <p className={styles.dropLead}>Drop a .json file here</p>
-              <FilePick label="Choose a file…" lead onFile={loadFile} />
-            </div>
-
-            <details className={styles.paste}>
-              <summary>Or paste the JSON</summary>
-              <textarea
-                className={styles.pasteBox}
-                value={pasted}
-                spellCheck={false}
-                rows={10}
-                placeholder='{ "format": "derech-tevunos/sugya", "version": 1, … }'
-                onChange={(event) => setPasted(event.currentTarget.value)}
-              />
-              <p className={styles.acts}>
-                <button
-                  type="button"
-                  className="advance advance-lead"
-                  disabled={pasted.trim() === ''}
-                  onClick={() => load(pasted, 'pasted text')}
-                >
-                  Draw it
-                </button>
-                <button
-                  type="button"
-                  className="advance"
-                  onClick={() => setPasted(stringify(parseSugya(example, 'the example')))}
-                >
-                  Fill with the two-sentence example
-                </button>
-              </p>
-            </details>
-
-            {faults}
-
-            <p className={styles.help}>
-              To write one: the field-by-field reference is{' '}
-              <a href="https://github.com/deusaquilus/derech-tevunos/blob/main/SUGYA_JSON_FORMAT.md">
-                SUGYA_JSON_FORMAT.md
-              </a>
-              , and the long guide an agent can work from is{' '}
-              <a href="https://github.com/deusaquilus/derech-tevunos/blob/main/DERECH_TEVUNOS_SUGYA_JSON_GUIDE.md">
-                DERECH_TEVUNOS_SUGYA_JSON_GUIDE.md
-              </a>
-              . The vocabulary of moves is{' '}
-              <a href="/docs/text/chapter-09">chapter 9</a>; the nine{' '}
-              <a href="/sugya">shipped passages</a> are worked examples, and any of them will
-              open here unchanged.
-            </p>
+            <ByoSteps open={open} />
           </div>
         </div>
       ) : (

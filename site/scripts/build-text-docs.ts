@@ -51,16 +51,53 @@
  *    `<span lang="he">` around each run and `prose.css` applies
  *    `unicode-bidi: isolate`. The paragraph labels get the same treatment,
  *    both in the heading and in the frontmatter the TOC is built from.
+ *
+ * ── CONSTRUCT CARDS AND "DRAWN" LINKS ───────────────────────────────────────
+ *
+ * `src/lib/textAnchors.ts` says which verse defines or names which construct
+ * (a chapter 1–8 badge, the statement tile, one of the seven parts, or a
+ * chapter 9 leaf), and which verses quote a passage the site ships. The
+ * generator turns each anchor into a card drawn from the rail's own data —
+ * glyph body from `glyphs.ts`, name, marker and gloss from `anatomy.ts` or
+ * `taxonomy.ts`, hue from `theme.ts` — so the card beside the definition is
+ * the same picture the Sugyascade uses, from the same source. A card is one
+ * contiguous block of HTML with no blank line inside it, so CommonMark passes
+ * the SVG through untouched. Both tables are validated here: a verse ID that
+ * is not in the interlinear, or a passage ID that is not in `src/rail/sugyot/`,
+ * fails the build.
  */
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
+
+import { ANATOMY, FAMILIES, type AnatomyKey } from '../src/rail/anatomy.ts';
+import { GLYPHS, TILE_GLYPH, glyphBox, SQUARE_BOX } from '../src/rail/glyphs.ts';
+import { shapesFor } from '../src/rail/icons.ts';
+import { primitiveToSvg } from '../src/rail/render.ts';
+import {
+  ELEMENT_GLOSS,
+  LEAVES,
+  SUBTYPES,
+  UNDEFINED_IN_SOURCE,
+  type Element,
+  type MoveKey,
+} from '../src/rail/taxonomy.ts';
+import { LIGHT } from '../src/rail/theme.ts';
+import {
+  CONSTRUCTS,
+  DRAWN,
+  ELEMENT_HEBREW,
+  TILE_CARD,
+  type ConstructAnchor,
+  type Drawn,
+} from '../src/lib/textAnchors.ts';
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 const repoRoot = path.join(here, '..', '..');
 const SOURCE = path.join(repoRoot, 'DerechTevunos_benyehudah_bilingual_fixed.md');
 const INTERLINEAR = path.join(repoRoot, 'DerechTevunos_benyehudah_bilingual_fixed_interlinear.md');
 const OUT_DIR = path.join(here, '..', 'src', 'content', 'docs', 'text');
+const SUGYOT_DIR = path.join(here, '..', 'src', 'rail', 'sugyot');
 
 const CATEGORY = 'The text';
 
@@ -343,13 +380,167 @@ const renderEnglish = (text: string): string => markEditorial(wrapInlineHebrew(t
 const anchorOf = (id: string): string => `v${id.replace(/\./g, '-')}`;
 const paragraphAnchorOf = (n: number, p: number): string => `p${n}-${p}`;
 
+// ── Construct cards (pure) ──────────────────────────────────────────────────
+
+/** Text that goes inside an attribute or a text node of the card's HTML. */
+const esc = (s: string): string =>
+  s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+
+/** An inline SVG, coloured through `currentColor` so one body serves every hue. */
+const svgOf = (body: string, box: string, label: string, colour: string): string =>
+  `<svg class="dt-glyph" viewBox="${box}" role="img" aria-label="${esc(label)}" style="color:${colour}">${body}</svg>`;
+
+/** The seven element icons, from the same geometry the waterfall draws. */
+const elementIcon = (element: Element): string =>
+  svgOf(
+    shapesFor(element)
+      .map((p) => primitiveToSvg(p, LIGHT.element[element], LIGHT.surface))
+      .join(''),
+    SQUARE_BOX,
+    element,
+    LIGHT.element[element],
+  );
+
+/** What every card shows: a picture, a name, an optional Hebrew name and marker, a reading, a meta line. */
+type Card = {
+  readonly key: string;
+  readonly icon: string;
+  readonly en: string;
+  readonly he?: string;
+  readonly word?: string;
+  readonly reads: string;
+  readonly meta?: string;
+  /** Shown on hover; the fuller definition where the data has one. */
+  readonly title?: string;
+};
+
+const intentions = (parts: number): string => (parts === 1 ? '1 intention' : `${parts} intentions`);
+
+const anatomyCard = (key: AnatomyKey): Card => {
+  const info = ANATOMY[key];
+  const colour = LIGHT.hue[FAMILIES[info.family].hue];
+  return {
+    key,
+    icon: svgOf(GLYPHS[key], glyphBox(key), info.en, colour),
+    en: info.en,
+    he: info.he,
+    word: info.word,
+    reads: info.reads,
+    meta: info.parts === undefined ? undefined : `${intentions(info.parts)} · ch. 6`,
+    title: info.definition,
+  };
+};
+
+const tileCard = (): Card => ({
+  key: 'statement-tile',
+  icon: svgOf(TILE_GLYPH, SQUARE_BOX, TILE_CARD.en, LIGHT.hue.violet),
+  en: TILE_CARD.en,
+  he: TILE_CARD.he,
+  reads: TILE_CARD.reads,
+});
+
+const elementCard = (element: Element): Card => {
+  const kinds = SUBTYPES[element].length;
+  return {
+    key: element,
+    icon: elementIcon(element),
+    en: element,
+    he: ELEMENT_HEBREW[element],
+    reads: ELEMENT_GLOSS[element],
+    meta: `divides into ${kinds} in ch. 9`,
+  };
+};
+
+const leafCard = (key: MoveKey): Card => {
+  const info = LEAVES[key];
+  const element = key.split('/')[0] as Element;
+  const undefinedInSource = UNDEFINED_IN_SOURCE.includes(key);
+  return {
+    key,
+    icon: elementIcon(element),
+    en: info.en,
+    he: info.he,
+    reads: undefinedInSource ? 'listed here, and never defined' : info.plain,
+    meta: `a kind of ${element} · effect: ${info.effect}`,
+  };
+};
+
+const cardOf = (anchor: ConstructAnchor): Card => {
+  switch (anchor.kind) {
+    case 'anatomy':
+      return anatomyCard(anchor.key);
+    case 'tile':
+      return tileCard();
+    case 'element':
+      return elementCard(anchor.key);
+    case 'leaf':
+      return leafCard(anchor.key);
+    default: {
+      const exhaustive: never = anchor;
+      return exhaustive;
+    }
+  }
+};
+
+/**
+ * One card as HTML. No blank lines anywhere in it: the whole `<aside>` must
+ * stay a single raw-HTML block so CommonMark leaves the SVG alone.
+ */
+const renderCard = (card: Card): string => {
+  const he = card.he === undefined ? '' : `<span class="dt-construct-he" lang="he">${esc(card.he)}</span>`;
+  const word =
+    card.word === undefined || card.word === card.he
+      ? ''
+      : `<span class="dt-construct-word" lang="he">${esc(card.word)}</span>`;
+  const meta = card.meta === undefined ? '' : `<span class="dt-construct-meta">${esc(card.meta)}</span>`;
+  const title = card.title === undefined ? '' : ` title="${esc(card.title)}"`;
+  return (
+    `<figure class="dt-construct" data-key="${esc(card.key)}"${title}>` +
+    card.icon +
+    `<figcaption>` +
+    `<span class="dt-construct-name">${esc(card.en)}</span>${he}${word}` +
+    `<span class="dt-construct-reads">${esc(card.reads)}</span>` +
+    meta +
+    `</figcaption>` +
+    `</figure>`
+  );
+};
+
+const renderConstructs = (anchors: readonly ConstructAnchor[]): string =>
+  `<aside class="dt-constructs" aria-label="Constructs this verse defines">` +
+  anchors.map((a) => renderCard(cardOf(a))).join('') +
+  `</aside>`;
+
+// ── "Drawn" links (pure, given the passages' metadata) ──────────────────────
+
+type PassageMeta = { readonly id: string; readonly title: string; readonly cite: string };
+
+const renderDrawn = (drawn: readonly Drawn[], passages: ReadonlyMap<string, PassageMeta>): string =>
+  `<p class="dt-drawn">` +
+  drawn
+    .map((d) => {
+      const p = passages.get(d.sugya);
+      if (p === undefined) return ''; // validated before rendering; unreachable in a passing build
+      return (
+        `Drawn in the Sugyascade as ${esc(d.role)}: ` +
+        `<a href="/sugya/${esc(p.id)}">${esc(p.title)}<span class="dt-drawn-cite"> · ${esc(p.cite)}</span></a>`
+      );
+    })
+    .join(' ') +
+  `</p>`;
+
+// ── Verses (pure) ───────────────────────────────────────────────────────────
+
 /**
  * One verse. The Hebrew and the English are Markdown paragraphs inside `div`
  * wrappers with blank lines — see the file header for why both halves of that
- * sentence matter.
+ * sentence matter. The construct cards and the "drawn" line follow the
+ * English, each as its own raw block.
  */
-const renderVerse = (v: Verse): string => {
+const renderVerse = (v: Verse, passages: ReadonlyMap<string, PassageMeta>): string => {
   const a = anchorOf(v.id);
+  const anchors = CONSTRUCTS[v.id];
+  const drawn = DRAWN[v.id];
   return [
     `<div class="dt-verse" id="${a}" data-verse="${v.id}">`,
     '',
@@ -366,6 +557,8 @@ const renderVerse = (v: Verse): string => {
     renderEnglish(v.en),
     '',
     '</div>',
+    ...(drawn === undefined ? [] : ['', renderDrawn(drawn, passages)]),
+    ...(anchors === undefined ? [] : ['', renderConstructs(anchors)]),
     '',
     '</div>',
   ].join('\n');
@@ -390,7 +583,7 @@ const renderCaption = (para: Paragraph): string => {
   ].join('\n');
 };
 
-const renderParagraph = (n: number, para: Paragraph): string => {
+const renderParagraph = (n: number, para: Paragraph, passages: ReadonlyMap<string, PassageMeta>): string => {
   const id = `${n}.${para.p}`;
   const heading =
     `<h3 class="dt-para" id="${paragraphAnchorOf(n, para.p)}" data-paragraph="${id}">` +
@@ -400,7 +593,7 @@ const renderParagraph = (n: number, para: Paragraph): string => {
     '',
     heading,
     '',
-    para.verses.map(renderVerse).join('\n\n'),
+    para.verses.map((v) => renderVerse(v, passages)).join('\n\n'),
     '',
     '</section>',
   ].join('\n');
@@ -427,7 +620,10 @@ const asDescription = (s: string, fallback: string): string => {
   return clean.length <= 155 ? clean : `${clean.slice(0, 152).trimEnd()}…`;
 };
 
-const renderChapter = (chapter: InterlinearChapter): { readonly slug: string; readonly contents: string } => {
+const renderChapter = (
+  chapter: InterlinearChapter,
+  passages: ReadonlyMap<string, PassageMeta>,
+): { readonly slug: string; readonly contents: string } => {
   const caption = chapter.paragraphs.find((p) => p.p === 0);
   const body = chapter.paragraphs.filter((p) => p.p !== 0);
   const description = asDescription(
@@ -450,10 +646,32 @@ const renderChapter = (chapter: InterlinearChapter): { readonly slug: string; re
       frontmatter({ title, description, category: CATEGORY, order: chapter.n, kind: 'text' }, toc),
       '',
       ...(caption === undefined ? [] : [renderCaption(caption), '']),
-      body.map((p) => renderParagraph(chapter.n, p)).join('\n\n'),
+      body.map((p) => renderParagraph(chapter.n, p, passages)).join('\n\n'),
       '',
     ].join('\n'),
   };
+};
+
+// ── The anchors' guardrail (pure, given what exists) ────────────────────────
+
+/**
+ * Every verse the anchor tables name must exist, and every passage `DRAWN`
+ * names must be shipped. A table entry that points at nothing is a card or a
+ * link that silently never renders, which is the failure mode this catches.
+ */
+const holdAnchors = (
+  chapters: readonly InterlinearChapter[],
+  passages: ReadonlyMap<string, PassageMeta>,
+): readonly string[] => {
+  const verses = new Set(chapters.flatMap((c) => c.paragraphs.flatMap((p) => p.verses.map((v) => v.id))));
+  const missingVerses = [...Object.keys(CONSTRUCTS), ...Object.keys(DRAWN)]
+    .filter((id) => !verses.has(id))
+    .map((id) => `anchor at verse ${id}, which is not in the interlinear`);
+  const missingPassages = Object.entries(DRAWN)
+    .flatMap(([id, drawn]) => drawn.map((d) => [id, d.sugya] as const))
+    .filter(([, sugya]) => !passages.has(sugya))
+    .map(([id, sugya]) => `verse ${id} is "drawn" by passage ${sugya}, which is not in src/rail/sugyot/`);
+  return [...missingVerses, ...missingPassages];
 };
 
 /**
@@ -521,6 +739,29 @@ const fail = (headline: string, faults: readonly string[]): never => {
   process.exit(1);
 };
 
+/**
+ * The shipped passages' id, title and cite, read from their JSON directly.
+ * The registry (`src/rail/sugyot/index.ts`) would parse and validate every
+ * file at import; for three strings a page can print, the raw JSON is enough,
+ * and it keeps this script from depending on the whole rail.
+ */
+const readPassages = (): ReadonlyMap<string, PassageMeta> =>
+  new Map(
+    fs
+      .readdirSync(SUGYOT_DIR)
+      .filter((name) => name.endsWith('.json') && name !== 'sugya.schema.json')
+      .flatMap((name): readonly (readonly [string, PassageMeta])[] => {
+        const raw: unknown = JSON.parse(fs.readFileSync(path.join(SUGYOT_DIR, name), 'utf-8'));
+        if (typeof raw !== 'object' || raw === null) return [];
+        const r = raw as Record<string, unknown>;
+        const { id, title, tractate, folio } = r;
+        if (typeof id !== 'string' || typeof title !== 'string' || typeof tractate !== 'string' || typeof folio !== 'string') {
+          return [];
+        }
+        return [[id, { id, title, cite: `${tractate} ${folio}` }]];
+      }),
+  );
+
 const main = (): void => {
   for (const [label, file] of [
     ['Source text', SOURCE],
@@ -551,6 +792,10 @@ const main = (): void => {
     );
   }
 
+  const passages = readPassages();
+  const dangling = holdAnchors(chapters, passages);
+  if (dangling.length > 0) fail('src/lib/textAnchors.ts points at things that do not exist:', dangling);
+
   // Write in place, then remove what is stale — never `rmSync` the directory.
   // `astro dev` watches this directory, and a delete-and-recreate makes its
   // content layer drop every chapter and not pick the new files up: the
@@ -565,7 +810,7 @@ const main = (): void => {
   written.push('about');
 
   for (const chapter of [...chapters].sort((a, b) => a.n - b.n)) {
-    const { slug, contents } = renderChapter(chapter);
+    const { slug, contents } = renderChapter(chapter, passages);
     fs.writeFileSync(path.join(OUT_DIR, `${slug}.md`), contents, 'utf-8');
     written.push(slug);
   }
@@ -583,9 +828,14 @@ const main = (): void => {
 
   const verses = chapters.reduce((sum, c) => sum + c.paragraphs.reduce((s, p) => s + p.verses.length, 0), 0);
   const paragraphs = chapters.reduce((sum, c) => sum + c.paragraphs.length, 0);
+  const cards = Object.values(CONSTRUCTS).reduce((sum, anchors) => sum + anchors.length, 0);
+  const drawnLinks = Object.values(DRAWN).reduce((sum, drawn) => sum + drawn.length, 0);
   console.log(`✅ Text docs: ${written.length} pages → src/content/docs/text/`);
   console.log(
     `   ${chapters.length} chapters, ${paragraphs} paragraphs, ${verses} verses, held to the parent; ${plains.length} appended section(s)`,
+  );
+  console.log(
+    `   ${cards} construct cards on ${Object.keys(CONSTRUCTS).length} verses; ${drawnLinks} "drawn" links to ${new Set(Object.values(DRAWN).flat().map((d) => d.sugya)).size} passages`,
   );
 };
 

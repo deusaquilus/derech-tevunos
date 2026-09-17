@@ -4,6 +4,7 @@ import Rail from './Rail';
 import StageShell from './StageShell.astro';
 import { movementsOf, type Sugya } from '../rail/sugya.ts';
 import { markupToHtml } from '../rail/markup.ts';
+import { versesDrawing, verseHref } from '../lib/textAnchors.ts';
 
 interface Props {
   sugya: Sugya;
@@ -26,6 +27,10 @@ const { sugya } = Astro.props;
 const cite = `${sugya.tractate} ${sugya.folio}`;
 const movements = movementsOf(sugya).length;
 const hintHtml = sugya.hint === undefined ? undefined : markupToHtml(sugya.hint);
+// The verses of the interlinear that quote this passage, so the drawing can
+// send the reader back to the words that discuss it. Empty for the research
+// passages, which the book does not discuss.
+const inText = versesDrawing(sugya.id);
 ---
 
 <StageShell moreLabel="passages &amp; key" moreTitle="Show the passages and the key to the drawing">
@@ -40,6 +45,17 @@ const hintHtml = sugya.hint === undefined ? undefined : markupToHtml(sugya.hint)
     <PassageSwitcher current={sugya.id} />
     {/* The legend's host. Empty in the HTML; the island fills it. */}
     <div id="railLegend"></div>
+    {inText.length > 0 && (
+      <p class="in-text">
+        Discussed in the text at{' '}
+        {inText.map((verse, i) => (
+          <>
+            {i > 0 && ' · '}
+            <a href={verseHref(verse)}>{verse}</a>
+          </>
+        ))}
+      </p>
+    )}
     <div class="links">
       <a href="/sugya">All passages</a>
       <a href="/byo">Bring your own</a>
@@ -69,6 +85,22 @@ const hintHtml = sugya.hint === undefined ? undefined : markupToHtml(sugya.hint)
   .hint :global(i) {
     font-style: italic;
     color: var(--dt-fg);
+  }
+
+  .in-text {
+    margin: 1rem 0 0;
+    font-size: 0.8125rem;
+    color: var(--dt-muted);
+  }
+
+  .in-text a {
+    color: var(--dt-brass);
+    font-weight: 600;
+    text-decoration: none;
+  }
+
+  .in-text a:hover {
+    text-decoration: underline;
   }
 
   .links {
