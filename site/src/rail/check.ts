@@ -67,7 +67,7 @@ import {
   LATTICE_BUDGET,
   MIN_INDENT,
 } from "./layout.ts";
-import { ELEMENTS, LEAVES, SUBTYPES } from "./taxonomy.ts";
+import { ELEMENTS, LEAVES, MOVE_KEYS, SUBTYPES } from "./taxonomy.ts";
 import {
   ANATOMY,
   ANATOMY_KEYS,
@@ -83,6 +83,7 @@ import {
   speakerBadge,
 } from "./anatomy.ts";
 import { BUSY_GLYPHS, GLYPHS, glyphAspect, TILE_GLYPH, WIDE_GLYPHS } from "./glyphs.ts";
+import { moveGlyph } from "./moveGlyphs.ts";
 import { FIXTURES } from "./fixtures/index.ts";
 import { FORMAT, FORMAT_VERSION, parseSugya, stringify, SugyaFormatError, toJson } from "./format.ts";
 import { renderSugya } from "./render.ts";
@@ -609,21 +610,26 @@ console.log("\nThe research skeletons — what each row says about itself");
   check("a named row gets no speaker badge", all.filter((u) => u.speaker !== undefined).every((u) => speakerBadge(u) === undefined), true);
 }
 
-// --- chapters 1–8: the anatomy layer ----------------------------------------
+// --- every chapter but the ninth: the anatomy layer -------------------------
 // A second vocabulary over the ch. 9 moves. None of it enters the analysis, so
 // what there is to check is the vocabulary itself, where a label may sit, what
 // the fixtures carry, and the geometry of the bead.
 
-console.log("\nChapters 1–8 — the vocabulary");
+console.log("\nThe anatomy layer — the vocabulary");
 const inFamily = (family: string): number =>
   ANATOMY_KEYS.filter((k) => ANATOMY[k].family === family).length;
-check("seventy-four types", ANATOMY_KEYS.length, 74);
+check("one hundred and six types", ANATOMY_KEYS.length, 106);
 check("three speakers", inFamily("speakers"), 3);
 check("twenty-seven forms of a statement", inFamily("anatomy"), 27);
 check("fourteen relations", inFamily("relations"), 14);
 check("eleven deductions", inFamily("deductions"), 11);
 check("nineteen grounds", inFamily("grounds"), 19);
-check("five families, grounds last", FAMILY_ORDER.join(), "speakers,anatomy,relations,deductions,grounds");
+check("two reported moves", inFamily("reports"), 2);
+// Ramchal's twenty-four numbered הבחנות, plus Attribute's three branches and
+// the perceptible branch of Form, plus the three senses of priority that
+// follow the list. Twenty-four is the count of distinctions, not of drawings.
+check("thirty subject distinctions", inFamily("subjects"), 30);
+check("seven families, in the book's order", FAMILY_ORDER.join(), "speakers,anatomy,relations,deductions,grounds,reports,subjects");
 check("every type has a glyph", ANATOMY_KEYS.every((k) => GLYPHS[k].length > 0), true);
 check("no glyph without a type", Object.keys(GLYPHS).every((k) => k in ANATOMY), true);
 // The icon set's own hues (icons_v3/ICONS_REFERENCE.md §2), none of which may
@@ -639,6 +645,39 @@ check("the wide glyphs are the three of chapter 5", [...WIDE_GLYPHS].sort().join
 check("…drawn half again as wide", glyphAspect("inference-necessary"), 1.5);
 check("…and a square one is square", glyphAspect("exception"), 1);
 check("every landscape falls back to a dot at bead size", landscapes.every((k) => BUSY_GLYPHS.has(k)), true);
+// Chapter 10's two composites are a slate document carrying a ch. 9 glyph. The
+// carrier gives up its hue like every other badge; the payload keeps the
+// colour that move is in every row, which is the whole point of the drawing.
+check("the ascribed proof keeps its thumb green", GLYPHS["ascribed-proof"].includes(LIGHT.element.proof), true);
+check("…and the ascribed difficulty its triangle orange", GLYPHS["ascribed-difficulty"].includes(LIGHT.element.difficulty), true);
+check("…and both are too dense for a bead", BUSY_GLYPHS.has("ascribed-proof") && BUSY_GLYPHS.has("ascribed-difficulty"), true);
+check(
+  "no other glyph smuggles in an element colour",
+  ANATOMY_KEYS.filter((k) => ANATOMY[k].family !== "reports").every(
+    (k) => !Object.values(LIGHT.element).some((c) => GLYPHS[k].includes(c)),
+  ),
+  true,
+);
+
+console.log("\nChapter 9 — the subtype drawings");
+// Seven of the nineteen leaves have a picture of their own; the other twelve
+// wear the parent move's, with their name beside it. The row draws whichever
+// applies (`app/components/MoveIcon.tsx`, `renderMoveIcon` in `render.ts`).
+const drawnLeaves = MOVE_KEYS.filter((k) => moveGlyph(k) !== undefined);
+check("seven of the nineteen leaves draw themselves", drawnLeaves.length, 7);
+check(
+  "…one per element that has a picture, and none for statement, question or answer",
+  drawnLeaves.join(),
+  "proof/demonstration,proof/validation,contradiction/opposition,difficulty/objection,difficulty/apparentContradiction,resolution/settlement,resolution/alternative",
+);
+check("direct contradiction shares the parent's red X on purpose", moveGlyph("contradiction/direct"), undefined);
+check(
+  "a subtype drawing is one colour throughout, so a pending row can grey it",
+  drawnLeaves.every((k) => !/#[0-9a-f]{3,6}\b/i.test(moveGlyph(k)!)),
+  true,
+);
+check("…and carries the element's tint at the badge opacity", moveGlyph("proof/demonstration")!.includes('fill-opacity="0.15"'), true);
+check("every leaf without a drawing still has a name to show", MOVE_KEYS.filter((k) => moveGlyph(k) === undefined).every((k) => LEAVES[k].en.length > 0), true);
 check(
   "relations and deductions sit on edges",
   ANATOMY_KEYS.filter((k) => ANATOMY[k].family === "relations" || ANATOMY[k].family === "deductions").every(
@@ -655,6 +694,16 @@ check(
 );
 check("potential and actual sit on the row", ANATOMY.potential.level === "row" && ANATOMY.actual.level === "row", true);
 check(
+  "a reported move is an edge: both halves of it act on something",
+  ANATOMY_KEYS.filter((k) => ANATOMY[k].family === "reports").every((k) => ANATOMY[k].level === "edge"),
+  true,
+);
+check(
+  "chapter 11 is row-level throughout, priority included",
+  ANATOMY_KEYS.filter((k) => ANATOMY[k].family === "subjects").every((k) => ANATOMY[k].level === "row"),
+  true,
+);
+check(
   "every other ground sits on an edge",
   ANATOMY_KEYS.filter((k) => ANATOMY[k].family === "grounds" && k !== "potential" && k !== "actual").every(
     (k) => ANATOMY[k].level === "edge",
@@ -665,6 +714,8 @@ check("chapter 7 is teal", hueOf("a-fortiori"), "teal");
 check("chapters 3–6 are violet", hueOf("exception"), "violet");
 check("chapter 1 is slate", hueOf("party-talmud"), "slate");
 check("chapter 8 is magenta", hueOf("ground-tradition"), "magenta");
+check("chapter 10 is slate too: a report is about whose words these are", hueOf("ascribed-proof"), "slate");
+check("chapter 11 is violet", hueOf("subject-quantity"), "violet");
 check("…and no badge is a verdict colour", Object.values(LIGHT.hue).every((h) => h !== LIGHT.accepted && h !== LIGHT.rejected && h !== LIGHT.doubt), true);
 check("every type cites a page", ANATOMY_KEYS.every((k) => /p\d/.test(ANATOMY[k].page)), true);
 check("every type reads in everyday words", ANATOMY_KEYS.every((k) => ANATOMY[k].short.length <= 26), true);
@@ -676,7 +727,7 @@ check(
   "2213",
 );
 
-console.log("\nChapters 1–8 — where a label may sit");
+console.log("\nThe anatomy layer — where a label may sit");
 check("an edge label needs a target", annotationErrors({ id: "x", anatomy: [{ kind: "contradictory" }] }).length, 1);
 check("so does a ground", annotationErrors({ id: "x", anatomy: [{ kind: "ground-tradition" }] }).length, 1);
 check("a row label does not", annotationErrors({ id: "x", anatomy: [{ kind: "categorical" }] }).length, 0);
@@ -715,7 +766,7 @@ check(
 );
 check("…and keeps declaration order", badgesOf([{ kind: "compound" }, { kind: "partial" }], "row").map((b) => b.info.key).join(), "compound,partial");
 
-console.log("\nChapters 1–8 — what the fixtures carry");
+console.log("\nThe anatomy layer — what the fixtures carry");
 check("every fixture names its party", FIXTURES.every((s) => s.party !== undefined), true);
 check("Bava Metzia: rabbis in dispute", bm.party, "party-group");
 check("Berachos: one man asks and answers himself", FIXTURES.find((s) => s.id === "berachos-yaakov")?.party, "party-individual");
@@ -844,10 +895,10 @@ check("bases", schema.$defs["basis"]?.enum?.join(), BASES.join());
 check("provenances", schema.$defs["provenance"]?.enum?.join(), PROVENANCES.join());
 check("elements", schema.$defs["move"]?.properties?.["element"]?.enum?.join(), ELEMENTS.join());
 check("the subtypes of every element", (schema.$defs["move"]?.allOf ?? []).map((c) => `${c.if.properties.element.const}: ${c.then.properties.subtype.enum.join()}`).join(" / "), ELEMENTS.map((e) => `${e}: ${SUBTYPES[e].join()}`).join(" / "));
-check("the ch. 1–8 labels, all seventy-four", schema.$defs["annotation"]?.properties?.["kind"]?.enum?.join(), ANATOMY_KEYS.join());
+check("the anatomy labels, all one hundred and six", schema.$defs["annotation"]?.properties?.["kind"]?.enum?.join(), ANATOMY_KEYS.join());
 check("every file names the schema beside it", SUGYOT.every((s) => (JSON.parse(readText(`${s.id}.json`)) as { $schema?: string }).$schema === "./sugya.schema.json"), true);
 
-console.log("\nChapters 1–8 — the bead");
+console.log("\nThe anatomy layer — the bead");
 check("a bead needs a run of 44px", BEAD_MIN_RUN, 44);
 check("two adjacent rows, 60px apart, hold one", beadFits({ x: 0, y: 0 }, { x: 34, y: 60 }), true);
 check("a run of 30px does not", beadFits({ x: 0, y: 0 }, { x: 34, y: 30 }), false);

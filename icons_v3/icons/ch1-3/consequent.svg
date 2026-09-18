@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="-12 -12 24 24" role="img" aria-label="consequent">
   <title>consequent: this happened, so that happened (נמשך)</title>
-  <rect x="-9.8" y="-3.0" width="4.4" height="10.2" rx="1.1" fill="#7c3aed" fill-opacity="1.0" stroke="#7c3aed" stroke-width="1.45" stroke-linejoin="round" transform="rotate(40 -9.8 7.2)"/>
-  <rect x="-0.6" y="-2.8" width="4.4" height="10.0" rx="1.1" fill="#7c3aed" fill-opacity="1.0" stroke="#7c3aed" stroke-width="1.45" stroke-linejoin="round" transform="rotate(84 -0.6 7.2)"/>
-  <path d="M -10.5 8.6 H 9.5" fill="none" stroke="#7c3aed" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"/>
+  <rect x="-8.6" y="-5.2" width="4.4" height="10.0" rx="1.1" fill="#7c3aed" fill-opacity="1.0" stroke="#7c3aed" stroke-width="1.45" stroke-linejoin="round" transform="rotate(40 -8.6 4.8)"/>
+  <rect x="-.5" y="3.9" width="9.5" height="4.4" rx="1.1" fill="#7c3aed"/>
+  <path d="M -9.0 9.0 H 9.0" fill="none" stroke="#7c3aed" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"/>
 </svg>

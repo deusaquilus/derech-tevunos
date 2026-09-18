@@ -221,7 +221,7 @@ or *what is still exerting force* (standing).
 | `DerechTevunos_benyehudah_bilingual_fixed_interlinear.md` | The `_fixed` text cut into 641 verses with stable IDs; **the source of the chapter pages**. Its `_interlinear_notes.md` sibling says, per verse, what the interactive layer should attach. See "The text pages are interlinear". |
 | `site/` | **The website, and the only npm package in the repo.** Astro + React, deployed to Vercel at `derech-tevunos.com`. The rail visualization lives inside it at `site/src/rail/`. |
 | `web/` | Two computed visualizations (lattice interval under doubt, circumscription diff). Separate npm package. |
-| `icons_v3/` | The current glyph set — 114 SVGs (82 shipped icons). `ICONS_REFERENCE.md` is the contract for using them, `METHODOLOGY.md` for making them. `site/src/rail/glyphs.ts` is **generated** from these by `npm run glyphs` (part of `generate`); edit the SVGs, never the generated file. |
+| `icons_v3/` | The current glyph set — 121 shipped icons across eight directories. `ICONS_REFERENCE.md` is the contract for the 82 of chapters 1–9; `ICONS_REFERENCE_V2.md` beside it covers the 39 added on 2026-09-18 (chapter 9 subtypes, chapter 10 composites, chapter 11 subject analysis) and the 13 base drawings revised in the same pass. `METHODOLOGY.md` is for making them. `site/src/rail/glyphs.ts` and `moveGlyphs.ts` are **generated** from these by `npm run glyphs` (part of `generate`); edit the SVGs, never the generated files. |
 | `renders/` | Exported PNGs and SVGs of the waterfall, embedded by the `SUGYA_WATERFALL_*` design documents. Was `viz/out/`. Keep the filenames — they are image references in markdown. |
 | `mascott/` | The mascot. Source of the site palette; see below. |
 | `DERECH_TEVUNOS_*.md`, `SUGYA_*.md` | The system and file format, written for a classifier. Roughly 1 MB; agent-facing, mostly not published. |
@@ -256,12 +256,22 @@ the blog lastmod map, and the rail glyphs. Run the whole script; calling
 **generated and gitignored**, so a bare `astro build` on a fresh clone produces
 a docs section with nothing in it.
 
-`npm run glyphs` regenerates `src/rail/glyphs.ts` from `icons_v3/icons/`. It
-runs as the last step of `generate`, so `dev` and `build` both refresh the
-bodies. It is a 1:1 lock: every SVG in `ch1-3` / `ch4-7` / `ch8` must have an
-`anatomy.ts` row, and every row must have an SVG. It resolves `icons_v3/` as
-`../../icons_v3` from `site/scripts/`, so it depends on the site sitting one
-level below the repository root.
+`npm run glyphs` regenerates `src/rail/glyphs.ts` and `src/rail/moveGlyphs.ts`
+from `icons_v3/icons/`. It runs as the last step of `generate`, so `dev` and
+`build` both refresh the bodies. It is a 1:1 lock twice over: every SVG in
+`ch1-3` / `ch4-7` / `ch8` / `ch10-composites` / `ch11-subjects` /
+`ch11-priority` must have an `anatomy.ts` row and every row must have an SVG,
+and every SVG in `ch9-subtypes` must name a `taxonomy.ts` leaf. `ch9-moves` is
+skipped: those seven are the app's own geometry (`icons.ts`), copied *into* the
+set rather than read out of it. It resolves `icons_v3/` as `../../icons_v3`
+from `site/scripts/`, so it depends on the site sitting one level below the
+repository root.
+
+The extractor strips the editors' chrome by **namespace URI, not by prefix**.
+The v2 package was round-tripped through a serializer that rewrote
+`sodipodi:` and `inkscape:` to `ns1:` and `ns2:`; matching the literal prefix
+silently stopped stripping anything and the namedview's `#000000` reached the
+hue check. Do not put the prefixes back.
 
 Do not disable, `skip`, comment out, or delete a failing test. Fix the code or
 fix the test; if you believe a test is genuinely invalid, **ask first**.
@@ -769,13 +779,31 @@ data — glyph body from `glyphs.ts` (the seven element icons from `icons.ts`
 through `render.ts`'s exported `primitiveToSvg`), name, marker and gloss from
 `anatomy.ts` / `taxonomy.ts`, hue from `theme.ts` inlined on the `<svg>` — so
 the card is the Sugyascade's own picture and cannot drift from it, and no
-family hue is written into `prose.css`. Measured 2026-09-17: 129 cards on 105
-verses, 7 "drawn" links to 4 passages; `RailStage.astro` shows the reverse
+family hue is written into `prose.css`. `RailStage.astro` shows the reverse
 ("Discussed in the text at 9.18.3 · 9.19.2") from the same table. Two rules:
 an anchor goes on the verse that **names** the construct where the text names
 it, otherwise the verse that **defines** it, never on an example; and a card is
 emitted as one contiguous HTML block with no blank line inside, or CommonMark
-parses the SVG. Both tables are validated at build: a verse ID not in the
+parses the SVG.
+
+| Measured | Cards | Verses | "Drawn" links | What changed |
+|---|---:|---:|---:|---|
+| 2026-09-17 | 129 | 105 | 7 to 4 passages | The table as first written: chapters 1–9. |
+| 2026-09-18 | 163 | 139 | 7 to 4 passages | Chapters 10 and 11 anchored, with the v2 icons. Every one of the 106 anatomy kinds and all 19 chapter 9 leaves now has at least one card; `CONSTRUCTS` covers the vocabulary completely. |
+
+Chapters 10 and 11 follow the same two rules, and three of their readings are
+worth stating because the next editor will otherwise undo them. **Chapter 11's
+Form (aspect 6) has no card of its own**: the text says the definitive form
+*is* the essence, so 11.8.2 carries `essence-definition` and 11.8.3 carries
+`perceptible-form`, and 11.8.1, which only announces the division, carries
+neither. **Attribute's three branches are anchored at 11.17.2 / .4 / .5, not
+at their examples** (11.17.3 and 11.17.6). And **the three senses of priority
+are one card each, at 11.28.1, 11.28.2 and 11.30.1** — deliberately *not* the
+4.4.3 pattern of also carrying all three on the verse that enumerates them.
+11.27.1 sits two verses above the definitions, and a triple there followed by
+a repeat immediately below read as a duplication rather than an overview
+(screenshotted 2026-09-18 both ways). Each sense is named and defined at its
+own verse, so one anchor satisfies the rule. Both tables are validated at build: a verse ID not in the
 interlinear, or a passage ID not in `src/rail/sugyot/`, fails `npm run build-text`.
 The card selectors carry the `.dt-prose` prefix on purpose: `.dt-prose figure`
 sets a 1.75rem margin for blog screenshots and would otherwise win (measured

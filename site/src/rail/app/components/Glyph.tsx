@@ -12,7 +12,7 @@ export type GlyphProps = {
 };
 
 /**
- * One chapter 1–8 glyph, in its family's hue. The bodies are the generated
+ * One anatomy-layer glyph, in its family's hue. The bodies are the generated
  * SVG in `glyphs.ts`, drawn in `currentColor`, so the hue is one CSS colour
  * set here and nowhere else. The three wide chapter 5 icons are drawn in
  * their own 36×24 frame, so `size` is a height and the width follows.

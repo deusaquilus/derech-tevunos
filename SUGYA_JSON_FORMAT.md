@@ -16,8 +16,10 @@ A file is a **sugya**: a passage's metadata, then its **units** — the sentence
 in the order they are said. A unit carries the sentence in Hebrew and English,
 who says it, the **move** it makes (Derech Tevunos ch. 9: what the sentence
 *does* to an earlier one), where its authority comes from (ch. 8), and, as a
-separate layer, its **anatomy** (ch. 1–8: what the sentence *is*, how it
-stands to the one it acts on, and what a proof or disproof stands on).
+separate layer, its **anatomy** (every chapter but the ninth: what the
+sentence *is*, how it stands to the one it acts on, what a proof or disproof
+stands on, when a report is itself the argument, and which aspect of its
+subject it examines).
 
 Everything else on the page is derived from that and is *not* in the file:
 depth (from the chain of targets), standing and status (from the moves that
@@ -72,7 +74,7 @@ The only required keys are `format`, `version`, `id`, `title`, `tractate`,
 `folio`, `discussedAt` and `units`; within a unit, `id`, `en` and `move`; within
 a move, `element` and `subtype`. A file can be as bare as that. Everything the
 page can show beyond the lattice itself — speakers, Hebrew, markers, the
-ch. 1–8 badges — is opt-in per unit.
+anatomy badges — is opt-in per unit.
 
 ---
 
@@ -107,7 +109,7 @@ The format was drawn up by going through each passage and listing every
 construct it relies on, so that nothing on any page lacks a home in the file.
 Counts are units unless stated.
 
-| passage | units | party | speaker | he | short | target | marker | attested | note | anatomy | ch. 1–8 families | leaves used | hint |
+| passage | units | party | speaker | he | short | target | marker | attested | note | anatomy | anatomy families | leaves used | hint |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|
 | `pesachim-liquids` — Pesachim 16a/18b | 4 | group | 4 | 4 | — | 3 | 1 | 3 true, 1 false | 2 | 6 labels on 4 | anatomy, relations, deductions, grounds | 4 | — |
 | `berachos-yaakov` — Berachos 4a | 4 | individual | 4 | 4 | — | 2 | 1 | 4 true | 1 | 5 on 4 | anatomy, relations | 3 | — |
@@ -136,7 +138,7 @@ What each passage contributed to the format:
 - **Bava Metzia 21b–22b** adds scale: `short` on every unit (bands, handles
   and headings need it once a passage is long enough to fold), sixteen of the
   nineteen leaves, `attested: false` throughout with the `marker` carrying the
-  checkability instead, labels whose `basis` is `marked` on the ch. 1–8 layer
+  checkability instead, labels whose `basis` is `marked` on the anatomy layer
   (six), `provenance: tradition` on the challenges from mishnayos, and a
   five-paragraph editorial preface explaining two places the taxonomy was
   stretched — which is what `about` is for.
@@ -199,7 +201,7 @@ two-letter move codes — the files hold the expanded moves.
 | `en` | string | **yes** | The sentence in English, phrased as one move. | The row's text. |
 | `move` | move | **yes** | Ch. 9: what the sentence does. See §4.3. | Icon, colour, label, gloss, edge style, indent, folding, rails, analysis. |
 | `provenance` | `sense` · `axiom` · `endoxa` · `tradition` · `derivation` · `asserted` | no | Ch. 8: where the sentence's authority comes from. The first four enter the debate already accepted; `derivation` and `asserted` start in doubt and must earn acceptance. Absent: `asserted`. | The unit's starting status, hence its verdict. On a proof, contradiction or difficulty that acts on something, the first four also draw a magenta ground badge (`ground-sense`, `ground-axiom`, `ground-common-sense`, `ground-tradition`) unless the unit already carries an explicit ch. 8 label. `derivation` and `asserted` do not auto-map. |
-| `anatomy` | annotation[] | no | The ch. 1–8 layer, any number of labels. See §4.4. | The anatomy layer's chips, beads and tooltips; off by default. |
+| `anatomy` | annotation[] | no | The anatomy layer, any number of labels. See §4.4. | The anatomy layer's chips, beads and tooltips; off by default. |
 | `note` | string | no | Why the label; a doubt; where the taxonomy was stretched; a cross-reference (*returns fifty sentences later as the verse that refutes Rava*). | Nothing — documentation, and material for the checks. |
 | `ext` | object | no | See §7. | Nothing. |
 
@@ -251,22 +253,23 @@ The nineteen leaves, with the effect each has on its target when it lands:
 explanation targets what it explains, a reported aside targets what it hangs
 off. The target places the row; the effect decides what happens to the target.
 
-### 4.4 An annotation (the ch. 1–8 layer)
+### 4.4 An annotation (the anatomy layer)
 
 | key | type | required | what it is |
 |---|---|---|---|
-| `kind` | one of sixty-four | **yes** | The label. The full list, by family, is in §5.2. |
+| `kind` | one of a hundred and six | **yes** | The label. The full list, by family, is in §5.2. |
 | `basis` | `attested` · `marked` · `inferred` | no | How the label was arrived at: Ramchal's own labelling of this passage; the type's stock word is in the text (`כל` for categorical, `אף על גב ד` for discrepancy, `מה … אף` for analogism); ours alone. Absent: `inferred`. |
 | `note` | string | no | Why this label — the words that carry it, or the reading. Shown in the chip's tooltip. |
 
 Two rules the reader enforces. A **row-level** kind (speakers, statement
-anatomy, ch. 5–6) describes the sentence alone and may go on any unit. An
-**edge-level** kind (relations, deductions, grounds) describes the sentence's
-move on its `target` and is a fault on a unit whose move has no target. A unit
-may carry several labels: a `differs-in-context` relation and a
-`qualified-possible` form on the same resolution is the normal case. An
-explicit ch. 8 label on a proof, contradiction or difficulty suppresses the
-ground the page would otherwise derive from `provenance`.
+anatomy, ch. 5–6, and the whole of ch. 11) describes the sentence alone and may
+go on any unit. An **edge-level** kind (relations, deductions, grounds, and
+both ch. 10 composites) describes the sentence's move on its `target` and is a
+fault on a unit whose move has no target. A unit may carry several labels: a
+`differs-in-context` relation and a `qualified-possible` form on the same
+resolution is the normal case. An explicit ch. 8 label on a proof,
+contradiction or difficulty suppresses the ground the page would otherwise
+derive from `provenance`.
 
 ---
 
@@ -284,7 +287,7 @@ asserts the schema's enums equal them, so the three cannot drift: the reader
 - `provenance` (on units): `sense` · `axiom` · `endoxa` · `tradition` · `derivation` · `asserted` — ch. 8, pp. 112–140.
 - `basis` (on annotations): `attested` · `marked` · `inferred`.
 
-### 5.2 The sixty-four `anatomy.kind` values
+### 5.2 The hundred and six `anatomy.kind` values
 
 *Row-level — about the sentence alone.*
 
@@ -296,6 +299,9 @@ asserts the schema's enums equal them, so the three cannot drift: the reader
 | ch. 4 · opposite terms | `no-middle` `has-middle` |
 | ch. 5 · what a statement implies | `inference-necessary` `inference-loose` `absolute-opposite` |
 | ch. 6 · not meant literally | `figurative` |
+| ch. 8 · potential and actual | `potential` `actual` |
+| ch. 11 · which aspect of the subject | `essence-definition` `subject-parts` `subject-quality` `subject-quantity` `subject-material` `perceptible-form` `subject-action` `subject-being-affected` `kind-species` `subject-cause` `subject-means` `subject-motive` `subject-purpose` `subject-result` `subject-attribute` `attribute-in-attached` `attribute-concurrent` `attribute-before-after` `subject-place` `subject-orientation` `subject-movement` `subject-time` `subject-relation` `subject-bearer` `subject-similarity` `subject-difference` `subject-opposition` |
+| ch. 11 · in what sense one thing is prior | `priority-temporal` `priority-conceptual` `priority-natural` |
 
 *Edge-level — about the move on `target`; a target is required.*
 
@@ -306,6 +312,9 @@ asserts the schema's enums equal them, so the three cannot drift: the reader
 | ch. 7 · deriving a conclusion | `syllogism` `classical-syllogism` `analogism` `a-fortiori` `hypothetical-syllogism` `hypothetical-syllogism-tollens` `disjunctive-syllogism` |
 | ch. 7 · why a derivation fails | `fallacy-not-included` `fallacy-not-similar` `fallacy-not-greater` `fallacy-counterexample` |
 | ch. 8 · what a proof or disproof stands on | `ground-axiom` `ground-sense` `ground-common-sense` `ground-tradition` `ground-deduction` `via-opposite` `dilemma` `ground-does-not-reach` `theory` |
+| ch. 8 · turning a difficulty back | `rebuttal-your-reasoning` `rebuttal-just-the-opposite` `rebuttal-proves-my-point` |
+| ch. 8 · objections to form | `obvious` `might-have-thought` `redundant-part` `self-contradictory` `misordered` |
+| ch. 10 · a report that is also an argument | `ascribed-proof` `ascribed-difficulty` |
 
 Definitions, stock words, pages and the number of separable intentions each
 form has are in `site/src/rail/anatomy.ts`, one entry per kind; the chip labels and
@@ -315,6 +324,15 @@ of certainty that match `provenance` (`sense`, `axiom`, `endoxa`, `tradition`)
 are usually derived, not written; write `ground-deduction`, `via-opposite`,
 `dilemma`, `ground-does-not-reach` or `theory` when the page cannot read them
 off another field.
+
+Three distinctions the vocabulary insists on, because the same English word
+names two different things. `subject-time` says *when* a sentence's subject is
+at issue; `differs-in-time` says two sentences speak of different times;
+`priority-temporal` says one thing is earlier than another. The same three-way
+split holds for place, minus the priority. And `subject-opposition` is
+chapter 11's general נגוד, a relation between things, while
+`contradiction/opposition` is chapter 9's דחיה, a move one sentence makes on
+another — distinct keys on purpose, however the English coincides.
 
 ---
 
@@ -329,7 +347,7 @@ prefixed with the JSON path it sits at. It refuses, in this order of discovery:
    suggests the nearest allowed key when one is within two edits.
 3. Missing required keys; wrong types; empty required strings.
 4. Values outside a vocabulary, with the allowed values listed (or counted,
-   for the sixty-four labels) and a suggestion when one is close.
+   for the hundred and six labels) and a suggestion when one is close.
 5. A `subtype` that is not a leaf of its `element`.
 6. Then the structural rules, from the analysis itself: duplicate unit ids; a
    `target` that names no unit; a `target` that names a *later* unit; an
@@ -343,7 +361,7 @@ bad.json: 5 faults
   $.folio: required
   $.units[0].colour: unknown key
   $.units[1].move.subtype: "objection" is not a subtype of "answer" (expected "answer" | "determination")
-  $.units[1].anatomy[0].kind: "consequant" is not one of the 64 values allowed for "kind" (did you mean "consequent"?)
+  $.units[1].anatomy[0].kind: "consequant" is not one of the 106 values allowed for "kind" (did you mean "consequent"?)
 ```
 
 The same list appears on the *Open* page when a file offered there is refused.
@@ -362,7 +380,7 @@ agent's richer annotation (`DERECH_TEVUNOS_FOR_AGENTS.md` §2) will want a
 home. Three things are arranged so that growth is additive.
 
 **Layers are separate keys.** A unit's ch. 9 layer is the one key `move`; its
-ch. 1–8 layer is the one key `anatomy`. A new layer is a new sibling key on the
+anatomy layer is the one key `anatomy`. A new layer is a new sibling key on the
 unit — `form`, `warrant`, `relation`, `axis`, `inference` are the natural
 names, matching the agents' guide — and nothing existing changes. Within
 `move`, likewise: a `composite` or a `reportedOf` is a new optional key.
@@ -381,7 +399,7 @@ the reader learns its shape, the check suite gets a case, and `version` steps
 if any existing file would read differently. A key is *never* added loosely at
 the top level: outside `ext`, unknown is a fault, on purpose.
 
-**Vocabularies are lists in one place.** Adding a ch. 1–8 kind is one entry
+**Vocabularies are lists in one place.** Adding an anatomy kind is one entry
 in `ENTRIES` in `anatomy.ts` (its family, level, words, definition, glyph) plus
 its name in the schema's enum; the test that the two lists agree fails until
 both are done. A new leaf of ch. 9 is one entry in `LEAVES` in `taxonomy.ts`

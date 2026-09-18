@@ -37,7 +37,7 @@ Nothing outside these lists is valid outside `ext`. The reader refuses an unknow
 
 **`party`** (on the sugya): `party-group` · `party-individual` · `party-talmud`.
 
-**`anatomy[].kind`**: one of the sixty-four in guide §3.3, each with `basis` `marked` or `inferred`. Optional. Leave it out rather than guess.
+**`anatomy[].kind`**: one of the hundred and six in guide §3.3, each with `basis` `marked` or `inferred`. Optional. Leave it out rather than guess.
 
 ## The smallest valid file
 

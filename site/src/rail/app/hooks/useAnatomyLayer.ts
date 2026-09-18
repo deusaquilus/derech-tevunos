@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from "react";
 
 import { FAMILY_ORDER, type Family } from "../../anatomy.ts";
 
-/** Which families of the chapter 1–8 layer are showing. */
+/** Which families of the anatomy layer are showing. */
 export type Lenses = Record<Family, boolean>;
 
 export const ALL_LENSES: Lenses = {
@@ -11,6 +11,8 @@ export const ALL_LENSES: Lenses = {
   relations: true,
   deductions: true,
   grounds: true,
+  reports: true,
+  subjects: true,
 };
 
 /** The layer's switchable state, as the reader left it. */
@@ -32,8 +34,9 @@ const STORAGE_KEY = "sugya-lattice.anatomy.v2";
 /**
  * A remembered lens setting, family by family. A family the stored record
  * does not know — one added since the reader last visited, as `grounds` was
- * in v6 — is shown, which is what every family is by default; the reader's
- * choices about the others are kept.
+ * in v6 and as `reports` and `subjects` were when the chapter 10 and 11
+ * drawings arrived — is shown, which is what every family is by default; the
+ * reader's choices about the others are kept.
  */
 const lensesOf = (value: unknown): Lenses => {
   const stored = typeof value === "object" && value !== null ? (value as Record<string, unknown>) : {};

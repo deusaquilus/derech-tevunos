@@ -30,7 +30,7 @@ export type Palette = {
   readonly rejected: string;
   readonly element: Record<Element, string>;
   /**
-   * The chapter 1–8 layer, one hue per family. None of these is a verdict
+   * The anatomy layer, one hue per family. None of these is a verdict
    * colour, and none is an element colour except slate, which the speaker
    * badges share with `statement` on purpose: they too are about who speaks.
    * The values are the icon set's own (`icons_v3/ICONS_REFERENCE.md` §2).

@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-12 -12 24 24" width="128" height="128" role="img" aria-label="Demonstration: monitor with thumbs up">
+<title>Demonstration: monitor with thumbs up</title><desc>A demonstration is represented by a monitor containing the Proof family’s thumbs-up symbol. The move seeks to establish a statement; the icon does not certify the argument.</desc>
+
+<g fill="none" stroke="#16a34a" stroke-width="1.45" stroke-linecap="round" stroke-linejoin="round">
+<rect x="-9.8" y="-9.8" width="19.6" height="15" rx="1.65"/>
+<path d="M0 5.2v4.1M-4.7 9.3h9.4"/>
+</g>
+<g transform="translate(0 -2.4) scale(.70)" fill="#16a34a" fill-opacity="0.15" stroke="#16a34a" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+<rect x="-8.4" y="-1.4" width="4.8" height="9.6" rx="1.3"/>
+<path d="M -2.1 8.2 L -2.1 -0.6 C -1 -0.9, -0.3 -1.7, 0 -2.7 L 1.1 -6.6 C 1.4 -7.8, 3.5 -7.7, 3.5 -6.1 L 3.5 -2.5 L 6.3 -2.5 C 7.7 -2.5, 8.5 -1.2, 8.1 0.1 L 6.5 6.3 C 6.2 7.5, 5.3 8.2, 4.2 8.2 Z"/>
+</g>
+</svg>

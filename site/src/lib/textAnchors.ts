@@ -3,8 +3,9 @@
  *
  * Derech Tevunos defines, one by one, the constructs the Sugyascade draws:
  * the speakers of chapter 1, the seven parts of chapter 2, the kinds of
- * statement of chapter 3, the relations of chapter 4, and so on through the
- * nineteen leaves of chapter 9. The interlinear edition
+ * statement of chapter 3, the relations of chapter 4, the nineteen leaves of
+ * chapter 9, the two composites of chapter 10 and the twenty-four aspects of
+ * chapter 11. The interlinear edition
  * (`DerechTevunos_benyehudah_bilingual_fixed_interlinear.md`) cuts the text so
  * that each definition, and each naming clause (`ונקרא…`, "and this is
  * called…"), is its own verse. This module says, verse by verse, which
@@ -30,7 +31,7 @@ export type VerseId = string;
 
 /**
  * One construct card. Four sources, because the site keeps them apart:
- * `anatomy` is a chapter 1–8 badge (`anatomy.ts`, with a glyph in
+ * `anatomy` is an anatomy-layer badge (`anatomy.ts`, with a glyph in
  * `glyphs.ts`); `tile` is the statement shape itself (subject and predicate,
  * chapter 3's first paragraph); `element` is one of the seven parts of a
  * sugya (chapter 2, `taxonomy.ts`); `leaf` is one of their nineteen kinds
@@ -209,6 +210,64 @@ export const CONSTRUCTS: Readonly<Record<VerseId, readonly ConstructAnchor[]>> =
   "9.18.1": leaf("difficulty/apparentContradiction"),
   "9.19.1": leaf("resolution/settlement"),
   "9.20.1": leaf("resolution/alternative"),
+
+  // ── ch. 10 — two sentences' work done by one ─────────────────────────────
+  // 10.11 is the fourth chapter's `equivalent` met again from the reader's
+  // side: two statements whose words differ and whose matter is one. Ramchal's
+  // point here is that the reader must *recognise* the identity before the
+  // relation can be read at all.
+  "10.11.1": anatomy("equivalent"),
+  // "והינו הוכחה והגדה" — the composite named in the text's own words.
+  "10.12.3": anatomy("ascribed-proof"),
+  // "ותקרא זאת קשיא מגדת" — a naming clause, so the anchor goes here and not
+  // on 10.12.15, which is the Talmudic example of it.
+  "10.12.8": anatomy("ascribed-difficulty"),
+
+  // ── ch. 11 — the twenty-four aspects, each at the verse that names it ────
+  "11.3.1": anatomy("essence-definition"),
+  "11.4.1": anatomy("subject-parts"),
+  "11.5.1": anatomy("subject-quality"),
+  "11.6.1": anatomy("subject-quantity"),
+  "11.7.1": anatomy("subject-material"),
+  // Aspect 6 splits, and the text says the definitive form *is* the essence —
+  // which is why that branch reuses the essence glyph and only the perceptible
+  // one has a drawing of its own. A card each, on the verse that defines it;
+  // 11.8.1, which only announces the division, carries neither.
+  "11.8.2": anatomy("essence-definition"),
+  "11.8.3": anatomy("perceptible-form"),
+  "11.9.1": anatomy("subject-action"),
+  "11.10.1": anatomy("subject-being-affected"),
+  "11.11.1": anatomy("kind-species"),
+  "11.12.1": anatomy("subject-cause"),
+  "11.13.1": anatomy("subject-means"),
+  "11.14.1": anatomy("subject-motive"),
+  "11.15.1": anatomy("subject-purpose"),
+  "11.16.1": anatomy("subject-result"),
+  // Aspect 15 and its three branches. 11.17.3 and 11.17.6 are examples.
+  "11.17.1": anatomy("subject-attribute"),
+  "11.17.2": anatomy("attribute-in-attached"),
+  "11.17.4": anatomy("attribute-concurrent"),
+  "11.17.5": anatomy("attribute-before-after"),
+  "11.18.1": anatomy("subject-place"),
+  "11.19.1": anatomy("subject-orientation"),
+  "11.20.1": anatomy("subject-movement"),
+  "11.21.1": anatomy("subject-time"),
+  "11.22.1": anatomy("subject-relation"),
+  "11.23.1": anatomy("subject-bearer"),
+  "11.24.1": anatomy("subject-similarity"),
+  "11.25.1": anatomy("subject-difference"),
+  "11.26.1": anatomy("subject-opposition"),
+
+  // ── ch. 11 — the three senses of priority ────────────────────────────────
+  // One card each, and not the 4.4.3 pattern of also carrying all three on
+  // the verse that enumerates them: 11.27.1 is only two verses above the
+  // definitions, so a triple there and a repeat immediately below read as a
+  // duplication rather than an overview. Each sense is named *and* defined at
+  // its own verse, which is what the rule asks for. 11.29.1 is the king and
+  // the people, an example, and carries nothing.
+  "11.28.1": anatomy("priority-temporal"),
+  "11.28.2": anatomy("priority-conceptual"),
+  "11.30.1": anatomy("priority-natural"),
 };
 
 /** A shipped passage that draws the exchange a verse quotes, and the role that exchange plays in it. */

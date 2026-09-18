@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-12 -12 24 24" width="128" height="128" role="img" aria-label="Apparent contradiction: two opposing chevrons inside a warning triangle">
+<title>Apparent contradiction: two opposing chevrons inside a warning triangle</title><desc>Two equally weighted shapes press toward each other inside the Difficulty triangle. Both sides remain present; their apparent conflict calls for reconciliation.</desc>
+<path d="M 0 -8.6 L 8.2 6.5 C 8.7 7.5, 8.1 8.4, 7.1 8.4 L -7.1 8.4 C -8.1 8.4, -8.7 7.5, -8.2 6.5 Z" fill="#ea580c" fill-opacity="0.15" stroke="#ea580c" stroke-width="1.45" stroke-linecap="round" stroke-linejoin="round"/>
+<g fill="none" stroke="#ea580c" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+<path d="M-3.55 1.2l2.2 2.4-2.2 2.4"/>
+<path d="M3.55 1.2l-2.2 2.4 2.2 2.4"/>
+</g>
+
+</svg>

@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-12 -12 24 24" width="128" height="128" role="img" aria-label="Temporal priority / זמני">
+<title>Temporal priority / זמני</title>
+<desc>Chapter 11, Hebrew p235, English p236. One thing precedes another in time. A clock accompanies two equal units in a directional sequence. The clock reading is illustrative. This is a relation of temporal precedence, separate from the Time subject badge and the Different Times statement badge.</desc>
+<g stroke="#7c3aed" stroke-width="1.45" stroke-linecap="round" stroke-linejoin="round" fill="none">
+<circle cx="0" cy="-4.9" r="4.3" fill="#7c3aed" fill-opacity=".15"/>
+<path d="M0-7.2v2.3l1.7 1"/>
+<rect x="-9.4" y="3.1" width="5.2" height="5.2" rx=".85" fill="#7c3aed" fill-opacity=".15"/>
+<rect x="4.2" y="3.1" width="5.2" height="5.2" rx=".85" fill="#7c3aed" fill-opacity=".15"/>
+<path d="M-2 5.7H2M.3 4L2 5.7.3 7.4"/>
+</g></svg>

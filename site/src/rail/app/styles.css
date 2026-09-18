@@ -21,11 +21,12 @@
      (AGENTS.md); as a 3px stroke on the paper it vanishes. Same hex as
      the site's `--dt-brass`. */
   --peek: #8a5a00;
-  /* The chapter 1–8 layer, one hue per family (see anatomy.ts). Violet for
-     chapters 3–6, teal for chapter 7, magenta for chapter 8, slate — the
-     statement icon's grey — for chapter 1. None is a verdict colour; none but
-     slate is an element colour. The hues are the icon set's own
-     (`icons_v3/ICONS_REFERENCE.md` §2), inked one step deeper for the paper. */
+  /* The anatomy layer, one hue per family (see anatomy.ts). Violet for
+     chapters 3–6 and 11, teal for chapter 7, magenta for chapter 8, slate —
+     the statement icon's grey — for chapters 1 and 10. None is a verdict
+     colour; none but slate is an element colour. The hues are the icon set's
+     own (`icons_v3/ICONS_REFERENCE.md` §2 and `ICONS_REFERENCE_V2.md` §4.1),
+     inked one step deeper for the paper. */
   --violet: #6f4fb0;
   --teal: #237f76;
   --slate: #66605a;
@@ -192,7 +193,7 @@
   color: var(--muted);
 }
 
-/* The switches — the fold policy's and the chapter 1–8 layer's — at the right
+/* The switches — the fold policy's and the anatomy layer's — at the right
    end of the legend, where a reader looking up what the icons mean will find
    them. */
 .legend-switches {
@@ -276,6 +277,24 @@
 
 .legend-tip-leaves {
   color: var(--muted);
+}
+
+/* An element's kinds, each beside the picture the rows draw for it. Two
+   columns because seven of the nineteen leaves have a drawing of their own
+   and the rest repeat the parent: side by side, which is which is the first
+   thing the eye gets, and that is the point of showing them at all. */
+.legend-tip-kinds {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4px 10px;
+}
+
+.legend-tip-kind {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--muted);
+  line-height: 1.25;
 }
 
 /* --- lenses: one pill per family of the layer ----------------------------- */
@@ -657,13 +676,20 @@
   height: 100%;
 }
 
+/* 26px, not the 22 it was until the chapter 9 subtype drawings arrived. Seven
+   of the nineteen leaves now draw their own picture — the proof thumb inside a
+   monitor, two chevrons inside the difficulty triangle — and the icon set
+   measures that internal detail as needing 24–32px to read
+   (`icons_v3/ICONS_REFERENCE_V2.md` §4.3). The rail and the elbows are laid
+   out from the measured box (`useIconPositions`), so the four pixels move the
+   connectors with them and nothing here needs to know. */
 .row-icon {
   position: absolute;
   top: 0;
   display: grid;
   place-items: center;
-  width: 22px;
-  height: 22px;
+  width: 26px;
+  height: 26px;
 }
 
 .row-body {
@@ -932,7 +958,7 @@
   background: color-mix(in srgb, var(--rail) 6%, transparent);
 }
 
-/* --- the chapter 1–8 layer: badges ------------------------------------------
+/* --- the anatomy layer: badges ----------------------------------------------
    Hue is the family; shape is the type; a dashed outline is an inferred label,
    as "inferred" in the meta line is for the ch. 9 move. Every badge explains
    itself on hover or focus. */

@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-12 -12 24 24" width="128" height="128" role="img" aria-label="subject-time">
+<title>Time: when the subject or event is considered</title><desc>Chapter 11, Hebrew p233, English p234. A clock represents when, including a time of day or a starting time. The illustrated clock reading is arbitrary and is not a ruling about any religious practice.</desc>
+<g stroke="#7c3aed" stroke-width="1.45" stroke-linecap="round" stroke-linejoin="round" fill="none">
+<circle cx="0" cy="0" r="8.7" fill="#7c3aed" fill-opacity=".15"/>
+<path d="M0-5.5V0l3.7 2.3M0-8.7v1M8.7 0h-1M0 8.7v-1M-8.7 0h1"/>
+<circle cx="0" cy="0" r=".8" fill="#7c3aed" stroke="none"/>
+</g></svg>

@@ -1,9 +1,18 @@
 # Derech Tevunos icon set: reference
 
-82 SVG icons for building visualizations of the Ramchal's *Derech Tevunos*.
+121 SVG icons for building visualizations of the Ramchal's *Derech Tevunos*.
 This file is the contract for using them. It tells you what each icon means,
 where it attaches in a sugya model, and the visual grammar the icons share, so
 that anything you build on top of them stays legible.
+
+**This file covers the 82 icons of chapters 1–9.** The 39 added on 18 September
+2026 — the chapter 9 subtype drawings, the two chapter 10 composites and the
+chapter 11 subject analysis — are documented in
+[`ICONS_REFERENCE_V2.md`](ICONS_REFERENCE_V2.md) beside this one, which also
+records the thirteen existing drawings that were revised in the same pass and
+is the authority where the two overlap. The section numbers this file's
+consumers cite (§2 for the family colours, §3 for the chapter 4 tile grammar)
+are unchanged.
 
 Page numbers follow the bilingual edition of *Derech Tevunos*: even pages are
 English, odd pages Hebrew. Every meaning below is Ramchal's, cited to the page
@@ -16,6 +25,10 @@ icons/ch9-moves/     7   the moves of a debate (chapter 9)          24×24
 icons/ch1-3/        24   who speaks, and the anatomy of a statement  24×24
 icons/ch4-7/        32   relations, inferences, deductions           24×24, three at 36×24
 icons/ch8/          19   what a proof stands on, how it fails, form   24×24 (Part 3; sections 3-5 pending review)
+icons/ch9-subtypes/  7   the seven leaves that draw themselves (V2)  24×24
+icons/ch10-composites/ 2 a report that is also an argument (V2)     24×24
+icons/ch11-subjects/ 27  which aspect of the subject (V2)           24×24
+icons/ch11-priority/ 3   in what sense one thing is prior (V2)      24×24
 contact-sheets/          every icon rendered, colour and greyscale
 generators/              Python that regenerates every SVG (see section 14)
 all-icons.svg            every icon as a <symbol>, for <use href="all-icons.svg#key">

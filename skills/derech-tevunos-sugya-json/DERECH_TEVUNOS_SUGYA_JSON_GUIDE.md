@@ -4,7 +4,7 @@
 
 **What this is.** A self-contained reference for an agent whose job is to take a passage — Talmudic or otherwise — segment it, normalize each utterance, classify what it *is*, what it *does*, how it is *warranted*, and along which *distinction* it turns (the system of *Derech Tevunos*, R. Moshe Chaim Luzzatto, *The Ways of Reason*), and then write the result as a **sugya file**: format `derech-tevunos/sugya`, version `1`, the JSON the visualization reads. It supersedes the two documents it consolidates, `DERECH_TEVUNOS_FOR_AGENTS.md` (the system) and `SUGYA_JSON_FORMAT.md` (the file), and carries everything in both.
 
-**The one fact to hold in mind throughout.** The file format is younger than the system. Every one of Ramchal's constructs has a key in this guide, but only some of them have a home in the file today: the nineteen moves, the six provenances, the three parties, and sixty-four "anatomy" labels (the forms of a statement, the relations between two, the kinds of derivation and their failures, and what a proof or disproof stands on). The rest — the normalized subject and predicate, the premises of a proof, the remaining rebuttal and style kinds, aspects, modality, the twenty-four axes, composites — are **pending**: they are written into the file's `ext` bag under the field names given here, are carried through untouched, and will move into the schema proper as each earns a renderer. §4 is the complete inventory of what is present and what is pending; every construct's own entry in Part II says which it is and shows the JSON either way.
+**The one fact to hold in mind throughout.** The file format is younger than the system. Every one of Ramchal's constructs has a key in this guide, but only some of them have a home in the file today: the nineteen moves, the six provenances, the three parties, and a hundred and six "anatomy" labels (the forms of a statement, the relations between two, the kinds of derivation and their failures, what a proof or disproof stands on, the two ways a report is itself an argument, and the twenty-four aspects of a subject). The rest — the normalized subject and predicate, the premises of a proof, the remaining rebuttal and style kinds, aspects, modality — are **pending**: they are written into the file's `ext` bag under the field names given here, are carried through untouched, and will move into the schema proper as each earns a renderer. §4 is the complete inventory of what is present and what is pending; every construct's own entry in Part II says which it is and shows the JSON either way.
 
 **Conventions.**
 - `key` — stable ASCII id. The keys in §7 (the card) and §3 (the vocabularies) are the complete vocabulary; emit them exactly as written.
@@ -22,11 +22,11 @@
 
 | Layer | Question | Source | In the file | § |
 |---|---|---|---|---|
-| A · Move | What does this utterance *do* to an earlier one? | Ch 1, 2, 9, 10 | `move` — present | 8 |
+| A · Move | What does this utterance *do* to an earlier one? | Ch 1, 2, 9, 10 | `move` — present; the two ch. 10 composites are `anatomy` edge kinds | 8 |
 | B · Form | What proposition *is* it, once normalized? | Ch 3, 5, 6 | `anatomy` row-level kinds — present; subject/predicate/parts — pending, `ext.form` | 9 |
 | C · Relation | How do two propositions stand to each other? | Ch 4 | `anatomy` edge-level kinds — present | 10 |
 | D · Warrant | How is a proof or disproof *supposed to work*, and does it? | Ch 7, 8 | `anatomy` deduction kinds and `provenance` — present; premises, rebuttals, style, aspect, modality — pending, `ext.warrant` | 11 |
-| E · Axis | Along which distinction is a subject examined or split? | Ch 11 | pending, `ext.axis` | 12 |
+| E · Axis | Along which distinction is a subject examined or split? | Ch 11 | `anatomy` subject kinds — present | 12 |
 
 ---
 
@@ -34,7 +34,7 @@
 
 ## §1 · What a file is
 
-A file is a **sugya**: a passage's metadata, then its **units** — the sentences in the order they are said. A unit carries the sentence in Hebrew and English, who says it, the **move** it makes (Layer A: what the sentence *does* to an earlier one), where its authority comes from (`provenance`), and, as a separate layer, its **anatomy** (Layers B, C, D: what the sentence *is*, how it stands to the one it acts on, and how it derives). Whatever has no home yet goes in `ext`.
+A file is a **sugya**: a passage's metadata, then its **units** — the sentences in the order they are said. A unit carries the sentence in Hebrew and English, who says it, the **move** it makes (Layer A: what the sentence *does* to an earlier one), where its authority comes from (`provenance`), and, as a separate layer, its **anatomy** (Layers B, C, D, E: what the sentence *is*, how it stands to the one it acts on, how it derives, and which aspect of its subject it examines). Whatever has no home yet goes in `ext`.
 
 Everything else on the page is **derived** and is *not* in the file: depth (from the chain of targets), standing and status (from the moves that land on a unit — §13), the verdict pill, the movements a passage divides into, the folds, the bands, the rails, the handles, whether a label reads *attested*, *marked* or *inferred*, and the *Talmud itself* badge on a sentence with no speaker. If two files have the same units they draw the same page. Do not emit status or standing.
 
@@ -259,11 +259,11 @@ Two moves that open, two that act:
 
 | key | type | required | what it is |
 |---|---|---|---|
-| `kind` | one of sixty-four | **yes** | The label. The full list, by family and level, is §3.3. |
+| `kind` | one of a hundred and six | **yes** | The label. The full list, by family and level, is §3.3. |
 | `basis` | `attested` · `marked` · `inferred` | no | How the label was arrived at: Ramchal's own labelling of this passage; the type's stock word is in the text (`כל` for categorical, `אף על גב ד` for discrepancy, `מה … אף` for analogism); ours alone. Absent: `inferred`. |
 | `note` | string | no | Why this label — the words that carry it, or the reading. Shown in the chip's tooltip. |
 
-Two rules the reader enforces. A **row-level** kind (speakers, statement anatomy, opposite terms, inference, figurative) describes the sentence alone and may go on any unit. An **edge-level** kind (relations, opposition tests, deductions, fallacies) describes the sentence's move on its `target` and is a fault on a unit whose move has no target. A unit may carry several labels: a `differs-in-context` relation and a `qualified-possible` form on the same resolution is the normal case.
+Two rules the reader enforces. A **row-level** kind (speakers, statement anatomy, opposite terms, inference, figurative, modality, and the whole of ch. 11) describes the sentence alone and may go on any unit. An **edge-level** kind (relations, opposition tests, deductions, fallacies, grounds, rebuttals, form objections, and the two ch. 10 composites) describes the sentence's move on its `target` and is a fault on a unit whose move has no target. A unit may carry several labels: a `differs-in-context` relation and a `qualified-possible` form on the same resolution is the normal case.
 
 ```json
 [
@@ -325,7 +325,7 @@ Every closed list in the file is a constant in the code, and `npm test` asserts 
 
 Effects for the four adjudicating elements are fixed by the text. Ramchal pins the resolution pair at Heb p185: a שינוי "is truly a דחיה, except that a דחיה falls on a statement or a proof and a שינוי falls on a difficulty" — so it weakens where a יישוב closes. Effects on the `statement` subtypes are a reading, not a quotation: Ramchal treats a forced explanation and an אוקימתא as costs paid to keep a statement standing, so both are recorded as weakening it.
 
-### 3.3 The sixty-four `anatomy.kind` values
+### 3.3 The hundred and six `anatomy.kind` values
 
 *Row-level — about the sentence alone; may go on any unit.*
 
@@ -337,6 +337,9 @@ Effects for the four adjudicating elements are fixed by the text. Ramchal pins t
 | opposite terms | ch. 4 | `no-middle` `has-middle` |
 | what a statement implies | ch. 5 | `inference-necessary` `inference-loose` `absolute-opposite` |
 | not meant literally | ch. 6 | `figurative` |
+| potential and actual | ch. 8 | `potential` `actual` |
+| which aspect of the subject — the 24 הבחנות, with Attribute's three branches and the perceptible branch of Form | ch. 11 | `essence-definition` `subject-parts` `subject-quality` `subject-quantity` `subject-material` `perceptible-form` `subject-action` `subject-being-affected` `kind-species` `subject-cause` `subject-means` `subject-motive` `subject-purpose` `subject-result` `subject-attribute` `attribute-in-attached` `attribute-concurrent` `attribute-before-after` `subject-place` `subject-orientation` `subject-movement` `subject-time` `subject-relation` `subject-bearer` `subject-similarity` `subject-difference` `subject-opposition` |
+| in what sense one thing is prior | ch. 11 | `priority-temporal` `priority-conceptual` `priority-natural` |
 
 *Edge-level — about the move on `target`; a target is required.*
 
@@ -347,6 +350,9 @@ Effects for the four adjudicating elements are fixed by the text. Ramchal pins t
 | deriving a conclusion | ch. 7 | `syllogism` `classical-syllogism` `analogism` `a-fortiori` `hypothetical-syllogism` `hypothetical-syllogism-tollens` `disjunctive-syllogism` |
 | why a derivation fails | ch. 7 | `fallacy-not-included` `fallacy-not-similar` `fallacy-not-greater` `fallacy-counterexample` |
 | what a proof or disproof stands on | ch. 8 | `ground-axiom` `ground-sense` `ground-common-sense` `ground-tradition` `ground-deduction` `via-opposite` `dilemma` `ground-does-not-reach` `theory` |
+| turning a difficulty back | ch. 8 | `rebuttal-your-reasoning` `rebuttal-just-the-opposite` `rebuttal-proves-my-point` |
+| objections to form | ch. 8 | `obvious` `might-have-thought` `redundant-part` `self-contradictory` `misordered` |
+| a report that is also an argument | ch. 10 | `ascribed-proof` `ascribed-difficulty` |
 
 Definitions, stock words, pages and the number of separable intentions each form has are in `site/src/rail/anatomy.ts`, one entry per kind; the chip labels and tooltips on the page come from there. Three names differ from the older agents' guide: the guide's `converse-complete` is `converse` here; the guide's `infer/opposite` on a partial statement is `absolute-opposite` here; and `syllogism` (a derivation that fits no more specific kind) exists only here. The guide's one `variant` is two kinds here (`variant` / `variant-subjects`). Four warrant keys have icons under different names: `proof/indirect` is `via-opposite`, `disproof/dilemma` is `dilemma`, `rebuttal/irrelevant` is `ground-does-not-reach`, `sevara` is `theory`. The four sources of certainty that match `provenance` are usually derived, not written.
 
@@ -367,7 +373,7 @@ The system has more constructs than the file has homes. This section is the inve
 | A | Basis attested / marked / inferred | present (derived) | `move.attested` + `move.marker` |
 | A | Basis `supplied` | pending | `ext.move.basis: "supplied"` and a `note` |
 | A | Party — group / individual / talmud | present | `party` on the sugya (the passage as a whole); `anatomy[].kind` ∈ `party-*` on a unit whose exchange differs from the whole |
-| A | Composites — ascribed proof, ascribed difficulty | pending | `ext.move.composite` |
+| A | Composites — ascribed proof, ascribed difficulty | present | `anatomy` edge kinds `ascribed-proof` · `ascribed-difficulty`; keep `ext.move.reportedOf` for whose view is reported |
 | A | Whose view a report reports | pending | `ext.move.reportedOf` |
 | B | Subject, predicate, normalized proposition, parts | pending | `ext.form.subject`, `.predicate`, `.normalized`, `.parts` |
 | B | Quantity of the subject (4) | present | `anatomy[].kind` |
@@ -400,13 +406,13 @@ The system has more constructs than the file has homes. This section is the inve
 | D | The four aspects | pending | `ext.warrant.aspect` |
 | D | Modality potential / actual | pending | `ext.warrant.modality` |
 | D | The six `style/*` objection kinds | pending | `ext.warrant.kind` on a `difficulty/objection` |
-| E | The twenty-four axes | pending | `ext.axis` (a list of `axis/*` keys) |
-| E | Priority temporal / rank / natural | pending | `ext.priority` |
+| E | The twenty-four axes | present | `anatomy`, as the `subject-*` / `essence-definition` / `kind-species` / `perceptible-form` / `attribute-*` kinds; §12 maps each `axis/*` key to its kind |
+| E | Priority temporal / rank / natural | present | `anatomy`: `priority-temporal` · `priority-conceptual` · `priority-natural` |
 | — | Order, definition, division (Ramchal's rules for presenting) | guidance | shape `about`, `short`, and how units are split |
 
 ### 4.2 The `ext` convention
 
-`ext` may sit on the sugya or on any unit. The reader checks only that it is an object; the page reads nothing from it; `toJson` writes it back. Inside it, use the field names of the older guide's §2 record, because those are the names the format will adopt (`SUGYA_JSON_FORMAT.md` §7 named `form`, `warrant`, `relation`, `axis`, `inference` as "the natural names"). The complete shape:
+`ext` may sit on the sugya or on any unit. The reader checks only that it is an object; the page reads nothing from it; `toJson` writes it back. Inside it, use the field names of the older guide's §2 record, because those are the names the format will adopt (`SUGYA_JSON_FORMAT.md` §7 named `form`, `warrant`, `relation`, `inference` as "the natural names"; `axis` was on that list until chapter 11 graduated into `anatomy`). The complete shape:
 
 ```json
 {
@@ -420,7 +426,6 @@ The system has more constructs than the file has homes. This section is the inve
   "move": {
     "targets": ["primary-id", "second-id"],
     "basis": "supplied",
-    "composite": "ascribed-proof",
     "reportedOf": "whose view is reported"
   },
   "warrant": {
@@ -431,9 +436,7 @@ The system has more constructs than the file has homes. This section is the inve
     "defeat": "fallacy-not-similar"
   },
   "relation": { "to": "other-id", "kind": "diametrically-opposed", "dissolvedBy": "figurative" },
-  "axis": ["axis/time", "axis/place"],
-  "inference": { "of": "source-id", "kind": "infer/contrapositive", "necessary": true },
-  "priority": "priority/temporal"
+  "inference": { "of": "source-id", "kind": "infer/contrapositive", "necessary": true }
 }
 ```
 
@@ -441,11 +444,11 @@ Rules:
 
 1. **What has a home goes in its home, and is not repeated in `ext`.** A `categorical` form goes in `anatomy`, not in `ext.form`. An `a-fortiori` goes in `anatomy`, not in `ext.warrant.kind`. `ext.warrant.kind` is written only for a kind the anatomy vocabulary lacks, or to keep the classifier key beside premises when the icon has a different name (`via-opposite` / `proof/indirect`, `dilemma` / `disproof/dilemma`, `ground-does-not-reach` / `rebuttal/irrelevant`, `theory` / `sevara`). The remaining `rebuttal/*`, `style/*`, `disproof/indirect`, `disproof/reductio`, and a bare source kind still live only in `ext`. `ext.warrant.defeat` likewise only when the defeat cannot be an edge label (the unit has no target). The one deliberate repetition is `ext.move.targets`, which lists **every** target, primary first — so that `move.target` and `ext.move.targets[0]` agree and graduation to a list is a straight copy.
 2. **Omit what is absent; write `null` for what was asked and is unknown.** Aspect and modality are `null` when the respect cannot be determined — never a guessed default. A key not applicable to the unit is simply not written.
-3. **Keys inside `ext` are the guide's, verbatim.** `axis/` and `aspect/` and `infer/` prefixes are kept; kinds are the strings in §7.
+3. **Keys inside `ext` are the guide's, verbatim.** The `aspect/` and `infer/` prefixes are kept; kinds are the strings in §7. The `axis/` and `priority/` prefixes are gone from the file: chapter 11 has `anatomy` kinds of its own (§12), and §12's table maps every old classifier key to one.
 4. **`ext` is never a substitute for a home that exists.** A file that puts `"kind": "consequent"` in `ext.form` and nothing in `anatomy` is valid but wrong: the page will not show the form.
 5. **A stretched label is explained in `note`, not hidden in `ext`.** `ext` holds structured data; `note` holds the reasoning.
 
-Three units with `ext`, showing the three commonest cases — a pending layer (axis, form), a pending warrant kind, and a pending move attribute (composite, second target):
+Three units with `ext`, showing the three commonest cases — a pending layer (form), a pending warrant kind, and a pending move attribute (second target, whose view is reported):
 
 ```json
 [
@@ -456,10 +459,9 @@ Three units with `ext`, showing the three commonest cases — a pending layer (a
     "en": "From when does one recite the Shema in the evening? From the time the priests enter to eat their terumah.",
     "move": { "element": "statement", "subtype": "firsthand" },
     "provenance": "tradition",
-    "anatomy": [{ "kind": "unqualified" }, { "kind": "simple" }],
+    "anatomy": [{ "kind": "unqualified" }, { "kind": "simple" }, { "kind": "subject-time" }],
     "ext": {
-      "form": { "normalized": "the evening Shema's time begins when priests enter to eat terumah", "subject": "the time of the evening Shema", "predicate": "begins when the priests enter to eat their terumah" },
-      "axis": ["axis/time"]
+      "form": { "normalized": "the evening Shema's time begins when priests enter to eat terumah", "subject": "the time of the evening Shema", "predicate": "begins when the priests enter to eat their terumah" }
     }
   },
   {
@@ -477,9 +479,9 @@ Three units with `ext`, showing the three commonest cases — a pending layer (a
     "en": "It happened that Queen Heleni's sukkah in Lod was higher than twenty cubits, and the elders went in and out of it and said nothing to her.",
     "move": { "element": "proof", "subtype": "demonstration", "target": "yehudah", "marker": "מעשה ב…" },
     "provenance": "tradition",
-    "anatomy": [{ "kind": "syllogism", "note": "The elders' silence is treated as a ruling: had the sukkah been invalid they would have objected." }],
+    "anatomy": [{ "kind": "syllogism", "note": "The elders' silence is treated as a ruling: had the sukkah been invalid they would have objected." }, { "kind": "ascribed-proof" }],
     "ext": {
-      "move": { "composite": "ascribed-proof", "targets": ["yehudah", "mishnah-a"] },
+      "move": { "targets": ["yehudah", "mishnah-a"] },
       "warrant": { "premises": [
         { "text": "the elders entered a sukkah above twenty cubits and did not object", "provenance": "tradition" },
         { "text": "sages do not silently use an invalid sukkah", "provenance": "endoxa" }
@@ -514,7 +516,7 @@ Adding a Layer B/C/D kind is one entry in `ENTRIES` in `anatomy.ts` (its family,
 1. Not an object; wrong `format`; a `version` it does not understand.
 2. **Unknown keys**, at every level — a misspelt key would otherwise vanish silently, and these files are written by hand and by agents. The message suggests the nearest allowed key when one is within two edits.
 3. Missing required keys; wrong types; empty required strings.
-4. Values outside a vocabulary, with the allowed values listed (or counted, for the sixty-four labels) and a suggestion when one is close.
+4. Values outside a vocabulary, with the allowed values listed (or counted, for the hundred and six labels) and a suggestion when one is close.
 5. A `subtype` that is not a leaf of its `element`.
 6. Then the structural rules, from the analysis itself: duplicate unit ids; a `target` that names no unit; a `target` that names a *later* unit; an edge-level label on a unit whose move acts on nothing; no units at all.
 
@@ -526,7 +528,7 @@ bad.json: 5 faults
   $.folio: required
   $.units[0].colour: unknown key
   $.units[1].move.subtype: "objection" is not a subtype of "answer" (expected "answer" | "determination")
-  $.units[1].anatomy[0].kind: "consequant" is not one of the 64 values allowed for "kind" (did you mean "consequent"?)
+  $.units[1].anatomy[0].kind: "consequant" is not one of the 106 values allowed for "kind" (did you mean "consequent"?)
 ```
 
 The same list appears on the *Open* page (§5.3) when a file offered there is refused. The JSON Schema expresses the same rules as far as JSON Schema can (shape, required keys, enums, the element→subtype pairing, `additionalProperties: false` everywhere but `ext`). It cannot express the structural rules in item 6; those need the reader.
@@ -535,8 +537,8 @@ Faults an agent makes most often, and the fix:
 
 | fault | fix |
 |---|---|
-| `$.units[3].anatomy[0].kind: "converse-complete" is not one of the 64 values` | the file's name is `converse` |
-| `$.units[3].anatomy[0].kind: "axis/time" is not one of the 64 values` | axes are pending: `ext.axis: ["axis/time"]` |
+| `$.units[3].anatomy[0].kind: "converse-complete" is not one of the 106 values` | the file's name is `converse` |
+| `$.units[3].anatomy[0].kind: "axis/time" is not one of the 106 values` | `axis/…` is this guide's classifier name, not the file's: write `subject-time` (§12 has the table) |
 | `$.units[4].warrant: unknown key` | pending layers go inside `ext`: `ext.warrant` |
 | `$.units[5].move.target: expected a string, got ["a","b"]` | one target in `move.target`; all of them in `ext.move.targets` |
 | `$.units: unit "t1-ask" carries the edge-level label "contradictory" but acts on nothing` | a relation or deduction needs `move.target` |
@@ -569,7 +571,7 @@ node -e 'import("./site/src/rail/format.ts").then(m => { m.parseSugya(JSON.parse
 | `site/src/rail/sugyot/*.json` | the nine shipped passages |
 | `site/src/rail/sugyot/index.ts` | loads them: `SUGYOT`, `sugyaById`, `ofCollection` |
 | `site/src/rail/taxonomy.ts` | the seven elements, nineteen leaves, effects (`LEAVES`) |
-| `site/src/rail/anatomy.ts` | the sixty-four kinds (`ENTRIES`), families, levels |
+| `site/src/rail/anatomy.ts` | the hundred and six kinds (`ENTRIES`), families, levels |
 | `site/src/rail/markers.ts` | the stock-phrase lexicon Ramchal himself gives, one leaf per phrase |
 | `site/src/rail/sugya.ts` | `analyze`: depth, standing, status, movements — the reducer of §13 |
 | `site/src/rail/app/sugyot.ts` | `useSugyot` is the shipped lattice; `useOpened` / `openSugya` are the loader page's session |
@@ -649,7 +651,7 @@ Seven elements, nineteen leaves. A key is `element/subtype`; emit the two halves
 
 Label attacks by outcome, not by opening word: `מיתיבי` / `תא שמע` / `והא תניא` introduce a source-based attack — a סתירה (source shows falsity) or רומיא (sources set against each other) if it is then answered; `difficulty/refutation` only when the Gemara closes with `תיובתא`.
 
-Composites (Ch 10, p214): `composite/ascribed-proof` — an הגדה carrying an הוכחה; `composite/ascribed-difficulty` (קושיא מגדת) — an הגדה carrying a קושיא → `ext.move.composite`. Parties (Ch 1, p10): `party-group` many speakers; `party-individual` one speaker on both sides (הוא מותיב לה והוא מפרק לה); `party-talmud` the anonymous voice → `party` on the sugya, `anatomy` on a unit.
+Composites (Ch 10, p214): `ascribed-proof` — an הגדה carrying an הוכחה; `ascribed-difficulty` (קושיא מגדת) — an הגדה carrying a קושיא → `anatomy`, edge-level. Parties (Ch 1, p10): `party-group` many speakers; `party-individual` one speaker on both sides (הוא מותיב לה והוא מפרק לה); `party-talmud` the anonymous voice → `party` on the sugya, `anatomy` on a unit.
 
 ### B · Form — one normalized proposition
 
@@ -713,11 +715,11 @@ Aspects (p148–150) → `ext.warrant.aspect`: `aspect/essence` מה שבעצמ�
 
 Stylistic objections (p156–158) → `ext.warrant.kind` on a `difficulty/objection`: whole — `style/obvious` פשיטא (answered by סלקא דעתך); parts — `style/redundant` הא תו למה לי · `style/self-contradictory` הא גופא קשיא · `style/order-context` תנא היכא קאי · `style/order-combine` ליערבינהו וליתנינהו · `style/order-inconsistent` פתח בכד וסיים בחבית.
 
-### E · Axes — the 24 הבחנות (Ch 11, p222–236) → `ext.axis`
+### E · Axes — the 24 הבחנות (Ch 11, p222–236) → `anatomy`, row-level
 
-Keys are `axis/<name>`: 1 `essence` מהות → definition גדר · 2 `parts` חלקים · 3 `quality` איכות · 4 `quantity` כמות · 5 `material` חומר · 6 `form` צורה (definitive עצמית / physical מורגשת) · 7 `action` פעולה (natural טבעית / voluntary רצונית) · 8 `affection` הפעל · 9 `genus-species` סוג ומין (סוג הסוג) · 10 `cause` סיבה (generative מולדת / effective פועלת) · 11 `means` אמצעי · 12 `motive` מעורר · 13 `purpose` תכלית · 14 `result` מסובב · 15 `attribute` מתחבר (inherent / coincident / before-after) · 16 `place` מקום · 17 `posture` מצב · 18 `movement` תנועה · 19 `time` זמן · 20 `relation` יחס · 21 `bearer` נושא · 22 `similarity` דמיון · 23 `difference` הבדל · 24 `opposition` ניגוד.
+Kinds are the `subject-*` family (§12 maps each to this guide's older `axis/<name>`): 1 `essence-definition` מהות → definition גדר · 2 `parts` חלקים · 3 `quality` איכות · 4 `quantity` כמות · 5 `material` חומר · 6 `form` צורה (definitive עצמית / physical מורגשת) · 7 `action` פעולה (natural טבעית / voluntary רצונית) · 8 `affection` הפעל · 9 `genus-species` סוג ומין (סוג הסוג) · 10 `cause` סיבה (generative מולדת / effective פועלת) · 11 `means` אמצעי · 12 `motive` מעורר · 13 `purpose` תכלית · 14 `result` מסובב · 15 `attribute` מתחבר (inherent / coincident / before-after) · 16 `place` מקום · 17 `posture` מצב · 18 `movement` תנועה · 19 `time` זמן · 20 `relation` יחס · 21 `bearer` נושא · 22 `similarity` דמיון · 23 `difference` הבדל · 24 `opposition` ניגוד.
 
-Priority (p236) → `ext.priority`: `priority/temporal` זמני · `priority/rank` שכלי · `priority/natural` טבעי.
+Priority (p236) → `anatomy`, row-level: `priority-temporal` זמני · `priority-conceptual` שכלי · `priority-natural` טבעי.
 
 ### Invariants
 
@@ -880,9 +882,8 @@ The anonymous voice taking over inside a named dispute — Bava Metzia 21b, the 
   "en": "A sukkah higher than twenty cubits is invalid.",
   "move": { "element": "statement", "subtype": "firsthand" },
   "provenance": "tradition",
-  "anatomy": [{ "kind": "unqualified" }, { "kind": "simple" }],
-  "ext": { "axis": ["axis/quantity"] }
-}
+  "anatomy": [{ "kind": "unqualified" }, { "kind": "simple" }, { "kind": "subject-quantity" }]
+  }
 ```
 
 ```json
@@ -893,9 +894,8 @@ The anonymous voice taking over inside a named dispute — Bava Metzia 21b, the 
   "en": "Behold I am with you and will protect you wherever you go.",
   "move": { "element": "statement", "subtype": "firsthand", "attested": true },
   "provenance": "tradition",
-  "anatomy": [{ "kind": "categorical", "basis": "marked", "note": "`בכל אשר תלך`: protection everywhere, the whole class of places." }],
-  "ext": { "axis": ["axis/place"] }
-}
+  "anatomy": [{ "kind": "categorical", "basis": "marked", "note": "`בכל אשר תלך`: protection everywhere, the whole class of places." }, { "kind": "subject-place" }]
+  }
 ```
 
 The second opinion of a Mishnah dispute, as a statement that targets the first so the relation can be labelled (the alternative — `contradiction/opposition` — is under דחיה below):
@@ -908,9 +908,8 @@ The second opinion of a Mishnah dispute, as a statement that targets the first s
   "en": "And the Sages say: until midnight.",
   "move": { "element": "statement", "subtype": "firsthand", "target": "eliezer" },
   "provenance": "tradition",
-  "anatomy": [{ "kind": "variant", "note": "Same subject (the deadline of the evening Shema), a different value of the same variable; neither denies the other's predicate." }],
-  "ext": { "axis": ["axis/time"] }
-}
+  "anatomy": [{ "kind": "variant", "note": "Same subject (the deadline of the evening Shema), a different value of the same variable; neither denies the other's predicate." }, { "kind": "subject-time" }]
+  }
 ```
 
 ### statement/explanation — פירוש מרווח · perush meruvach · full explanation
@@ -998,7 +997,7 @@ The second opinion of a Mishnah dispute, as a statement that targets the first s
 - he · `באור תנאי במאמר, דהינו שלא נבאר כלל ההגדה ומלותיה, אלא נניח כמשמעו הפשוט, אבל נגביל המאמר באחד התנאים`
 - means · Keeps the plain sense but restricts the statement to a case or to an opinion-holder, supplying an unstated assumption. Generality is surrendered to keep the statement standing → unsettle [effect supplied].
 - markers · `הכא במאי עסקינן` · `הא מני? רבי פלוני היא` · `לא שנו אלא …` · `במאי עסקינן` · `כי פליגי ב…` when it narrows the dispute to a case.
-- axis · Record which הבחנה (§12) the restriction uses — time, place, subject, quantity, attribute — in `ext.axis`.
+- axis · Record which הבחנה (§12) the restriction uses — `subject-time`, `subject-place`, `subject-bearer`, `subject-quantity`, `subject-attribute` — in `anatomy`.
 - file · `statement/presumption`, `target` = the statement restricted. When the same phrase lands on a *difficulty*, it is a `resolution/settlement` (or `alternative`), not a presumption — see the rule at the head of this section.
 - ex · Berachos 24b — `לא שנו אלא שיכול לכוין את לבו בלחש`.
 - src · 164–166
@@ -1011,9 +1010,8 @@ The second opinion of a Mishnah dispute, as a statement that targets the first s
   "en": "Rav Huna said: they taught this only of one who can concentrate when praying quietly; one who cannot may raise his voice.",
   "move": { "element": "statement", "subtype": "presumption", "target": "baraita-kol", "marker": "לא שנו אלא …" },
   "provenance": "derivation",
-  "note": "The baraita (`המשמיע קולו בתפלתו הרי זה מקטני אמנה`) keeps its plain sense and loses its generality: it now speaks only of one who can concentrate quietly.",
-  "ext": { "axis": ["axis/bearer"] }
-}
+  "anatomy": [{ "kind": "subject-bearer" }], "note": "The baraita (`המשמיע קולו בתפלתו הרי זה מקטני אמנה`) keeps its plain sense and loses its generality: it now speaks only of one who can concentrate quietly."
+  }
 ```
 
 ```json
@@ -1023,9 +1021,8 @@ The second opinion of a Mishnah dispute, as a statement that targets the first s
   "en": "Where they disagree is over an item with no distinguishing mark.",
   "move": { "element": "statement", "subtype": "presumption", "target": "abaye", "marker": "כי פליגי ב…" },
   "provenance": "derivation",
-  "note": "Bava Metzia 21b. The dispute is restricted to unmarked items; each side's statement keeps its words and loses its generality. The shipped file labels the same sentence `statement/explanation`; both readings are defensible, and the difference is whether one holds that the restriction was already implicit (explanation) or is supplied here (presumption).",
-  "ext": { "axis": ["axis/attribute"] }
-}
+  "anatomy": [{ "kind": "subject-attribute" }], "note": "Bava Metzia 21b. The dispute is restricted to unmarked items; each side's statement keeps its words and loses its generality. The shipped file labels the same sentence `statement/explanation`; both readings are defensible, and the difference is whether one holds that the restriction was already implicit (explanation) or is supplied here (presumption)."
+  }
 ```
 
 ```json
@@ -1101,7 +1098,7 @@ The second opinion of a Mishnah dispute, as a statement that targets the first s
 
 ### statement/reported — הגדה · haggadah · reported information
 - he · `שיגיד אחד מעשה או מאמר זולתו … וכן נכלל במין הזה כשיגיד מחשבת זולתו`
-- means · Reports another's deed, statement, or reasoning — including what another *must have* found difficult or answered. Often a carrier for a proof or a difficulty (composites, below): when it is, the move is the proof or the difficulty and the report is recorded as `ext.move.composite`.
+- means · Reports another's deed, statement, or reasoning — including what another *must have* found difficult or answered. Often a carrier for a proof or a difficulty (composites, below): when it is, the move is the proof or the difficulty and the report is recorded as the `anatomy` kind `ascribed-proof` or `ascribed-difficulty`.
 - markers · `כך היה מנהגו של …` · `מעשה ב…` · `תו קא קשיא ליה לתנא` · `דתניא / דתנן` when adduced as report rather than as proof · `במערבא … לא שמיע להו` · `אמר ליה … הכי אמר פלוני`.
 - file · `statement/reported`, `target` optional (what the aside hangs off). `provenance: tradition` for a reported deed or ruling. `ext.move.reportedOf` names whose view is reported.
 - ex · Shabbos 19a — `אמר רבי צדוק: כך היה מנהגו של בית רבן גמליאל`. Bava Kamma 83b — `תו קא קשיא ליה לתנא: מאי חזית דילפת ממכה בהמה – לילף ממכה אדם` (reports the Tanna's own difficulty).
@@ -1327,9 +1324,7 @@ The second opinion of a Mishnah dispute, as a statement that targets the first s
   "he": "אמר ליה: חייב, ואינו דומה לידו.",
   "en": "He said to him: he is liable, and it is not like his hand.",
   "move": { "element": "answer", "subtype": "determination", "target": "rav-asks" },
-  "provenance": "asserted",
-  "ext": { "axis": ["axis/difference"] }
-}
+  "provenance": "asserted", "anatomy": [{ "kind": "subject-difference" }] }
 ```
 
 ```json
@@ -1360,7 +1355,7 @@ The second opinion of a Mishnah dispute, as a statement that targets the first s
 - means · Brings evidence that establishes a stated claim by the laws of proof (§11): from nature, from convention, or by syllogism. A proof from סברא counts but is weaker (p176).
 - test · Argues *to* the truth of the claim → הוכחה. Merely cites an agreeing source → סייעתא.
 - markers · `תדע, שהרי …` · `מנא הני מילי? … דתנו רבנן` · `שנאמר` · `דאמר מר` · `דכתיב` · `מדקאמר … שמע מינה` · `גמר … מ…`.
-- file · `proof/demonstration`, `target` = the claim proved. Effect `raise`: the target becomes accepted (defeasibly). `provenance`: `tradition` when the proof is a verse or source, `derivation` when it is reasoning. `anatomy`: the syllogism kind (edge-level). Premises in `ext.warrant.premises`. A report carrying the proof: `ext.move.composite: "ascribed-proof"`.
+- file · `proof/demonstration`, `target` = the claim proved. Effect `raise`: the target becomes accepted (defeasibly). `provenance`: `tradition` when the proof is a verse or source, `derivation` when it is reasoning. `anatomy`: the syllogism kind (edge-level). Premises in `ext.warrant.premises`. A report carrying the proof: the `anatomy` kind `ascribed-proof`.
 - ex · Pesachim 16a — `רבי אלעזר אומר: אין טומאה למשקין כל עיקר! תדע, שהרי העיד יוסי בן יועזר איש צרידה על איל קמצא דכן ועל משקין בית מטבחיא דכן`.
 - src · 174–176
 
@@ -1372,9 +1367,9 @@ The second opinion of a Mishnah dispute, as a statement that targets the first s
   "en": "Know this, for Yosi ben Yo'ezer of Zeredah testified that the ayil locust is clean and that the liquids of the Temple slaughterhouse are clean.",
   "move": { "element": "proof", "subtype": "demonstration", "target": "eleazar", "marker": "תדע, שהרי", "attested": true },
   "provenance": "tradition",
-  "anatomy": [{ "kind": "hypothetical-syllogism-tollens", "note": "If liquids could become unclean by Torah law, the liquids of the Temple slaughterhouse would be unclean; Yosi ben Yo'ezer testified they are clean; so they cannot." }],
+  "anatomy": [{ "kind": "hypothetical-syllogism-tollens", "note": "If liquids could become unclean by Torah law, the liquids of the Temple slaughterhouse would be unclean; Yosi ben Yo'ezer testified they are clean; so they cannot." }, { "kind": "ascribed-proof" }],
   "ext": {
-    "move": { "composite": "ascribed-proof", "reportedOf": "Yosi ben Yo'ezer" },
+    "move": { "reportedOf": "Yosi ben Yo'ezer" },
     "warrant": { "premises": [
       { "text": "if liquids were unclean by Torah law, the Temple slaughterhouse liquids would be unclean", "provenance": "derivation" },
       { "text": "Yosi ben Yo'ezer testified that they are clean", "provenance": "tradition" }
@@ -1412,9 +1407,8 @@ The second opinion of a Mishnah dispute, as a statement that targets the first s
   "en": "It is learned from 'taking' in the field of Ephron: here it is written 'when a man takes a wife', and there 'I have given the money of the field, take it from me'.",
   "move": { "element": "proof", "subtype": "demonstration", "target": "kesef-question", "marker": "גמר … מ…" },
   "provenance": "tradition",
-  "anatomy": [{ "kind": "analogism", "basis": "marked", "note": "Kiddushin 2a. A גזירה שווה: the shared word licenses carrying 'acquired with money' from Ephron's field to betrothal." }],
-  "ext": { "axis": ["axis/similarity"] }
-}
+  "anatomy": [{ "kind": "analogism", "basis": "marked", "note": "Kiddushin 2a. A גזירה שווה: the shared word licenses carrying 'acquired with money' from Ephron's field to betrothal." }, { "kind": "subject-similarity" }]
+  }
 ```
 
 The query + demonstration pair, with Ramchal's own marker for the pair (Heb p175): the question asks for the source, the baraita is the proof of the ruling asked about — not an `answer/answer`, because what comes back is a proof, and the ruling is what it raises.
@@ -1764,10 +1758,9 @@ Ramchal's other marker for the leaf (Heb p181), in the lexicon's spelling `ור�
     "en": "And they set against it: a man does not convey impurity until his soul departs — even if cut through, even if dying!",
     "move": { "element": "difficulty", "subtype": "apparentContradiction", "target": "meidin-meguyad", "marker": "ורמינהי" },
     "provenance": "tradition",
-    "anatomy": [{ "kind": "contradictory", "note": "For testimony he is dead; for impurity he is alive: the same subject, opposed predicates — as posed." }],
-    "note": "Yebamos 120b, Ramchal's example at Heb p181. Both sources stand; the reconciliation that follows (he will die of it, but has not yet) is a יישוב by `differs-in-time`.",
-    "ext": { "axis": ["axis/time"] }
-  }
+    "anatomy": [{ "kind": "contradictory", "note": "For testimony he is dead; for impurity he is alive: the same subject, opposed predicates — as posed." }, { "kind": "subject-time" }],
+    "note": "Yebamos 120b, Ramchal's example at Heb p181. Both sources stand; the reconciliation that follows (he will die of it, but has not yet) is a יישוב by `differs-in-time`."
+    }
 ]
 ```
 
@@ -1943,9 +1936,9 @@ A `תיובתא` that stamps a `תא שמע` (the shape when the attack and the 
 
 ### Composites (Ch 10, p214–218)
 
-**composite/ascribed-proof** — `הוכחה והגדה` · a proof carried by reported information: "as R. X said / did …" adduced to prove a claim. The move is the proof; the report is `ext.move.composite: "ascribed-proof"` and `ext.move.reportedOf`. A later attack may deny that the report proves the claim (report intact), attack the report itself (claim intact), or grant the proof and still fault the report's wording.
+**ascribed-proof** — `הוכחה והגדה` · a proof carried by reported information: "as R. X said / did …" adduced to prove a claim. The move is the proof; the report is the `anatomy` kind `ascribed-proof`, with `ext.move.reportedOf` for whose words they are. A later attack may deny that the report proves the claim (report intact), attack the report itself (claim intact), or grant the proof and still fault the report's wording.
 
-**composite/ascribed-difficulty** — `קושיא מגדת` · a speaker reports the difficulty another *must have* felt; the speaker may not endorse it. The move is `statement/reported` (the speaker reports) or the difficulty (when the speaker also presses it); `ext.move.composite: "ascribed-difficulty"`. A later objection may say the author could not have meant this (attacks the ascription), or that it is no difficulty (attacks the difficulty), or both — without engaging the original claim's truth.
+**composite/ascribed-difficulty** — `קושיא מגדת` · a speaker reports the difficulty another *must have* felt; the speaker may not endorse it. The move is `statement/reported` (the speaker reports) or the difficulty (when the speaker also presses it); the `anatomy` kind is `ascribed-difficulty`. Being edge-level it needs a target, which is what the reported difficulty is aimed at. A later objection may say the author could not have meant this (attacks the ascription), or that it is no difficulty (attacks the difficulty), or both — without engaging the original claim's truth.
 - ex · Bava Kamma 83b — `ומאי "אם נפשך לומר"?` → `תו קא קשיא ליה לתנא: מאי חזית דילפת ממכה בהמה, לילף ממכה אדם` (ascribed difficulty) → `אמרי: דנין ניזקין מניזקין ואין דנין ניזקין ממיתה` (objection to the ascription: the Tanna had an obvious answer, so this cannot have been his difficulty).
 
 ```json
@@ -1963,8 +1956,8 @@ A `תיובתא` that stamps a `תא שמע` (the shape when the attack and the 
     "en": "The Tanna had a further difficulty: why do you learn from one who strikes an animal — learn from one who strikes a man!",
     "move": { "element": "statement", "subtype": "reported", "target": "im-nafshecha", "marker": "תו קא קשיא ליה לתנא" },
     "provenance": "derivation",
-    "note": "The Gemara reports the difficulty the Tanna must have felt. The reporter's voice and the reported difficulty are kept apart: the move is a report, the carried difficulty is in ext.",
-    "ext": { "move": { "composite": "ascribed-difficulty", "reportedOf": "the Tanna of the baraita" } }
+    "anatomy": [{ "kind": "ascribed-difficulty" }], "note": "The Gemara reports the difficulty the Tanna must have felt. The reporter's voice and the reported difficulty are kept apart: the move is a report, the carried difficulty is in ext.",
+    "ext": { "move": { "reportedOf": "the Tanna of the baraita" } }
   },
   {
     "id": "danin",
@@ -1985,8 +1978,8 @@ A `תיובתא` that stamps a `תא שמע` (the shape when the attack and the 
   "en": "R. Yehudah said: it happened that Queen Heleni's sukkah in Lod was higher than twenty cubits, and the elders went in and out of it and said nothing to her.",
   "move": { "element": "proof", "subtype": "demonstration", "target": "yehudah", "marker": "מעשה ב…" },
   "provenance": "tradition",
-  "anatomy": [{ "kind": "syllogism", "note": "The elders' silence is treated as a ruling." }],
-  "ext": { "move": { "composite": "ascribed-proof", "reportedOf": "the elders in Lod" } }
+  "anatomy": [{ "kind": "syllogism", "note": "The elders' silence is treated as a ruling." }, { "kind": "ascribed-proof" }],
+  "ext": { "move": { "reportedOf": "the elders in Lod" } }
 }
 ```
 
@@ -1997,7 +1990,7 @@ A `תיובתא` that stamps a `תא שמע` (the shape when the attack and the 
   "en": "Blackstone must have found this passage difficult — how can a rule bind those who never saw it? — and that is why he adds his gloss on notice.",
   "move": { "element": "statement", "subtype": "reported", "target": "passage" },
   "provenance": "derivation",
-  "ext": { "move": { "composite": "ascribed-difficulty", "reportedOf": "Blackstone" } }
+  "anatomy": [{ "kind": "ascribed-difficulty" }], "ext": { "move": { "reportedOf": "Blackstone" } }
 }
 ```
 
@@ -2060,8 +2053,8 @@ Predicates are unary; relational content is packed into the predicate term. Quan
   "en": "Jerusalem does not become impure through leprous marks.",
   "move": { "element": "statement", "subtype": "firsthand" },
   "provenance": "tradition",
-  "anatomy": [{ "kind": "particular" }, { "kind": "simple" }],
-  "ext": { "form": { "normalized": "Jerusalem lacks susceptibility to leprous impurity", "subject": "ירושלים", "predicate": "אינה מטמאה בנגעים" }, "axis": ["axis/place"] }
+  "anatomy": [{ "kind": "particular" }, { "kind": "simple" }, { "kind": "subject-place" }],
+  "ext": { "form": { "normalized": "Jerusalem lacks susceptibility to leprous impurity", "subject": "ירושלים", "predicate": "אינה מטמאה בנגעים" } }
 }
 ```
 
@@ -2135,7 +2128,7 @@ Surface forms vary — long or short, plain, rhetorical, figurative; the intende
 ```json
 [
   { "id": "rava", "speaker": "Rava", "en": "Chalitzah may be performed by a mute man or woman, since only their power of speech is impaired.", "move": { "element": "statement", "subtype": "firsthand", "attested": true }, "provenance": "asserted", "anatomy": [{ "kind": "unqualified", "note": "No quantity stated: any mute, with the force of a categorical." }] },
-  { "id": "or", "speaker": "Mishnah", "he": "אור לארבעה עשר בודקין את החמץ לאור הנר.", "en": "On the eve of the fourteenth one searches for leaven by the light of a lamp.", "move": { "element": "statement", "subtype": "firsthand" }, "provenance": "tradition", "anatomy": [{ "kind": "unqualified" }, { "kind": "simple" }], "ext": { "axis": ["axis/time"] } }
+  { "id": "or", "speaker": "Mishnah", "he": "אור לארבעה עשר בודקין את החמץ לאור הנר.", "en": "On the eve of the fourteenth one searches for leaven by the light of a lamp.", "move": { "element": "statement", "subtype": "firsthand" }, "provenance": "tradition", "anatomy": [{ "kind": "unqualified" }, { "kind": "simple" }, { "kind": "subject-time" }] }
 ]
 ```
 
@@ -2224,7 +2217,7 @@ Surface forms vary — long or short, plain, rhetorical, figurative; the intende
 ```json
 [
   { "id": "kenasah", "he": "כנסה, הרי היא כאשתו לכל דבר – ובלבד שתהא כתובתה על נכסי בעלה הראשון.", "en": "If he married her, she is as his wife in every respect — provided that her marriage settlement is a lien on her first husband's property.", "move": { "element": "statement", "subtype": "firsthand" }, "provenance": "tradition", "anatomy": [{ "kind": "conditional", "basis": "marked", "note": "`ובלבד ש`: the main claim and the condition; a difficulty against the condition leaves the main claim standing." }], "ext": { "form": { "parts": ["she is as his wife in every respect", "her kesubah is on the first husband's property"] } } },
-  { "id": "f1", "he": "יוצאין בקב הקיטע — ובלבד שלא יצא בו לרשות הרבים.", "en": "One may go out with an amputee's wooden leg — provided that he does not go out with it into the public domain.", "move": { "element": "statement", "subtype": "firsthand" }, "provenance": "tradition", "anatomy": [{ "kind": "conditional", "basis": "marked" }], "ext": { "axis": ["axis/place"] } },
+  { "id": "f1", "he": "יוצאין בקב הקיטע — ובלבד שלא יצא בו לרשות הרבים.", "en": "One may go out with an amputee's wooden leg — provided that he does not go out with it into the public domain.", "move": { "element": "statement", "subtype": "firsthand" }, "provenance": "tradition", "anatomy": [{ "kind": "conditional", "basis": "marked" }, { "kind": "subject-place" }] },
   { "id": "f2", "he": "המקדש את האשה על מנת שאין עליה נדרים — הרי זו מקודשת.", "en": "One who betroths a woman on condition that she has no vows upon her — she is betrothed.", "move": { "element": "statement", "subtype": "firsthand" }, "provenance": "tradition", "anatomy": [{ "kind": "conditional", "basis": "marked", "note": "`על מנת ש`." }] }
 ]
 ```
@@ -2317,9 +2310,9 @@ Surface forms vary — long or short, plain, rhetorical, figurative; the intende
 
 ```json
 [
-  { "id": "cholkin", "he": "כשם שחולקין בחולין – כך חולקין בתרומה.", "en": "Just as they divide the non-sacred produce, so they divide the terumah.", "move": { "element": "statement", "subtype": "firsthand" }, "provenance": "tradition", "anatomy": [{ "kind": "comparative", "basis": "marked", "note": "`כשם ש … כך`: the known side (chullin) is the base." }], "ext": { "axis": ["axis/similarity"] } },
+  { "id": "cholkin", "he": "כשם שחולקין בחולין – כך חולקין בתרומה.", "en": "Just as they divide the non-sacred produce, so they divide the terumah.", "move": { "element": "statement", "subtype": "firsthand" }, "provenance": "tradition", "anatomy": [{ "kind": "comparative", "basis": "marked", "note": "`כשם ש … כך`: the known side (chullin) is the base." }, { "kind": "subject-similarity" }] },
   { "id": "b5", "he": "כשם שמברך על הטובה — כך מברך על הרעה.", "en": "Just as one blesses over the good, so one blesses over the bad.", "move": { "element": "statement", "subtype": "firsthand" }, "provenance": "tradition", "anatomy": [{ "kind": "comparative", "basis": "marked" }] },
-  { "id": "cherev", "he": "חרב הרי הוא כחלל.", "en": "A sword is like the corpse itself.", "move": { "element": "statement", "subtype": "firsthand" }, "provenance": "tradition", "anatomy": [{ "kind": "comparative", "basis": "marked", "note": "`הרי הוא כ`: Shabbos 101b." }], "ext": { "axis": ["axis/similarity"] } }
+  { "id": "cherev", "he": "חרב הרי הוא כחלל.", "en": "A sword is like the corpse itself.", "move": { "element": "statement", "subtype": "firsthand" }, "provenance": "tradition", "anatomy": [{ "kind": "comparative", "basis": "marked", "note": "`הרי הוא כ`: Shabbos 101b." }, { "kind": "subject-similarity" }] }
 ]
 ```
 
@@ -2356,7 +2349,7 @@ Surface forms vary — long or short, plain, rhetorical, figurative; the intende
 
 ```json
 [
-  { "id": "1a", "speaker": "Mishnah", "he": "דיני ממונות — בשלשה.", "en": "Cases of monetary law are judged by three.", "move": { "element": "statement", "subtype": "firsthand" }, "provenance": "tradition", "anatomy": [{ "kind": "unqualified" }, { "kind": "simple" }], "ext": { "axis": ["axis/quantity"] } },
+  { "id": "1a", "speaker": "Mishnah", "he": "דיני ממונות — בשלשה.", "en": "Cases of monetary law are judged by three.", "move": { "element": "statement", "subtype": "firsthand" }, "provenance": "tradition", "anatomy": [{ "kind": "unqualified" }, { "kind": "simple" }, { "kind": "subject-quantity" }] },
   { "id": "1b", "speaker": "Mishnah", "he": "גזילות וחבלות — בשלשה.", "en": "Robbery and injury are judged by three.", "move": { "element": "statement", "subtype": "firsthand", "target": "1a" }, "provenance": "tradition", "note": "Set as an elucidation of 1a after R. Abbahu's `מה הן קתני` (Sanhedrin 2b): it spells out what cases of monetary law are, adding nothing.", "ext": { "form": { "elucidationOf": "1a" } } },
   { "id": "atu", "he": "אטו גזילות וחבלות לאו דיני ממונות נינהו?!", "en": "Are robbery and injury not cases of monetary law?!", "move": { "element": "difficulty", "subtype": "objection", "target": "1b" }, "provenance": "derivation", "ext": { "warrant": { "kind": "style/redundant" } } },
   { "id": "mah-hen", "speaker": "R. Abbahu", "he": "אמר רבי אבהו: ״מה הן״ קתני: מה הן דיני ממונות? גזילות וחבלות.", "en": "R. Abbahu said: it teaches 'what are they' — what are cases of monetary law? Robbery and injury.", "move": { "element": "resolution", "subtype": "settlement", "target": "atu", "marker": "מה הן קתני" }, "provenance": "derivation" }
@@ -2466,7 +2459,7 @@ Compare two *normalized* propositions on S, P, quantity, and quality (affirm / d
 ```json
 [
   { "id": "davar-echad", "he": "רבי יהודה ורבי דוסא אמרו דבר אחד.", "en": "R. Yehudah and R. Dosa said the same thing.", "move": { "element": "statement", "subtype": "inference", "target": "yehudah-dosa-a", "marker": "… ו… אמרו דבר אחד" }, "provenance": "derivation", "anatomy": [{ "kind": "equivalent", "basis": "marked", "note": "Kesubos 36b: two statements, one proposition." }], "ext": { "relation": { "to": "yehudah-dosa-b", "kind": "equivalent" } } },
-  { "id": "r5", "he": "הבהמה והחיה — מטמאין בנבלתן.", "en": "Domestic and wild animals impart impurity through their carcasses.", "move": { "element": "statement", "subtype": "firsthand", "target": "baalei-chayim" }, "provenance": "tradition", "anatomy": [{ "kind": "equivalent", "note": "Against `בעלי חיים מטמאין בנבלתן`: the enumeration is the species of the genus, same predicate, nothing denied." }], "ext": { "axis": ["axis/genus-species"] } },
+  { "id": "r5", "he": "הבהמה והחיה — מטמאין בנבלתן.", "en": "Domestic and wild animals impart impurity through their carcasses.", "move": { "element": "statement", "subtype": "firsthand", "target": "baalei-chayim" }, "provenance": "tradition", "anatomy": [{ "kind": "equivalent", "note": "Against `בעלי חיים מטמאין בנבלתן`: the enumeration is the species of the genus, same predicate, nothing denied." }, { "kind": "kind-species" }] },
   { "id": "t8-press", "short": "then he is a robber", "he": "אי הכי היינו גזלן!", "en": "If so, this is the same as a robber — why mention two identical cases?", "move": { "element": "difficulty", "subtype": "objection", "target": "t8-ans", "marker": "הינו הך", "attested": false }, "provenance": "derivation", "anatomy": [{ "kind": "equivalent", "note": "An armed bandit is the robber: the objection is that the two clauses would say the same thing twice." }] }
 ]
 ```
@@ -2479,8 +2472,8 @@ Compare two *normalized* propositions on S, P, quantity, and quality (affirm / d
 
 ```json
 [
-  { "id": "akiva-57a", "speaker": "R. Akiva", "he": "רבי עקיבא אומר: מחצה חולין ומחצה תרומה.", "en": "R. Akiva says: half non-sacred and half terumah.", "move": { "element": "statement", "subtype": "firsthand", "target": "tarfon-57a" }, "provenance": "tradition", "anatomy": [{ "kind": "variant", "note": "Against R. Tarfon's `נותנין לה הכל תרומה`: two proportions for one subject; neither says לאו to the other's predicate." }], "ext": { "axis": ["axis/quantity"] } },
-  { "id": "r1", "speaker": "Chachamim", "he": "וחכמים אומרים: עד חצות.", "en": "And the Sages say: until midnight.", "move": { "element": "statement", "subtype": "firsthand", "target": "eliezer-2a" }, "provenance": "tradition", "anatomy": [{ "kind": "variant", "note": "Berachos 2a: against `עד סוף האשמורה הראשונה`, two times for one deadline." }], "ext": { "axis": ["axis/time"] } },
+  { "id": "akiva-57a", "speaker": "R. Akiva", "he": "רבי עקיבא אומר: מחצה חולין ומחצה תרומה.", "en": "R. Akiva says: half non-sacred and half terumah.", "move": { "element": "statement", "subtype": "firsthand", "target": "tarfon-57a" }, "provenance": "tradition", "anatomy": [{ "kind": "variant", "note": "Against R. Tarfon's `נותנין לה הכל תרומה`: two proportions for one subject; neither says לאו to the other's predicate." }, { "kind": "subject-quantity" }] },
+  { "id": "r1", "speaker": "Chachamim", "he": "וחכמים אומרים: עד חצות.", "en": "And the Sages say: until midnight.", "move": { "element": "statement", "subtype": "firsthand", "target": "eliezer-2a" }, "provenance": "tradition", "anatomy": [{ "kind": "variant", "note": "Berachos 2a: against `עד סוף האשמורה הראשונה`, two times for one deadline." }, { "kind": "subject-time" }] },
   { "id": "women-same-rule", "he": "נשים חייבות בקידוש היום.", "en": "Women are obligated in the day's kiddush.", "move": { "element": "statement", "subtype": "firsthand", "target": "men-kiddush" }, "provenance": "tradition", "anatomy": [{ "kind": "variant-subjects", "note": "[constructed] Same predicate (obligated in the day's kiddush), two subjects (men / women). Neither confirms nor opposes the other." }] }
 ]
 ```
@@ -2623,15 +2616,15 @@ The verse, tradition or syllogism a rebuttal leans on goes in `premises`, never 
 - he · `שהדומים ילמדו זה מזה … אם מצאנו שני נושאים דומים, ומצאנו באחד מהם מפרש נשוא אחד, בדין המצא הנשוא ההוא גם בשני`
 - means · Similar subjects share the predicate explicit in one of them. The comparative statement of §9, used to derive. It fails when the cases are not alike (`fallacy-not-similar`) or when a third like case lacks the rule (`fallacy-counterexample`).
 - markers · `מה מצינו ב… … אף …` · `מה … אף …` · `ילפינן … מ…` · `דאתקש ל…` (analogy licensed by scriptural juxtaposition) · `מידי דהוה א…` · `גמר … מ…` (a גזירה שווה) · `מקיש … ל…` · `הצד השוה שבהן`.
-- file · `anatomy[].kind: "analogism"`, `basis: marked` when `מה … אף` or the like is in the text. `ext.axis: ["axis/similarity"]` is the natural companion.
+- file · `anatomy[].kind: "analogism"`, `basis: marked` when `מה … אף` or the like is in the text. The `anatomy` kind `subject-similarity` is the natural companion.
 - ex · Toras Cohanim, חטאת §5 — `יחיד מוצא מכלל צבור ונשיא מוצא מכלל צבור, מה יחיד מביא אשם תלוי – אף נשיא מביא אשם תלוי`.
 
 ```json
 [
-  { "id": "nasi-asham", "he": "יחיד מוצא מכלל צבור ונשיא מוצא מכלל צבור, מה יחיד מביא אשם תלוי – אף נשיא מביא אשם תלוי.", "en": "An individual is set apart from the community and a prince is set apart from the community; just as an individual brings a suspensive guilt-offering, so a prince brings one.", "move": { "element": "proof", "subtype": "demonstration", "target": "nasi-claim", "marker": "מה … אף …" }, "provenance": "derivation", "anatomy": [{ "kind": "analogism", "basis": "marked" }], "ext": { "axis": ["axis/similarity"], "warrant": { "premises": [{ "text": "the individual and the prince are alike in being set apart from the community", "provenance": "tradition" }, { "text": "the individual brings an אשם תלוי", "provenance": "tradition" }] } } },
+  { "id": "nasi-asham", "he": "יחיד מוצא מכלל צבור ונשיא מוצא מכלל צבור, מה יחיד מביא אשם תלוי – אף נשיא מביא אשם תלוי.", "en": "An individual is set apart from the community and a prince is set apart from the community; just as an individual brings a suspensive guilt-offering, so a prince brings one.", "move": { "element": "proof", "subtype": "demonstration", "target": "nasi-claim", "marker": "מה … אף …" }, "provenance": "derivation", "anatomy": [{ "kind": "analogism", "basis": "marked" }, { "kind": "subject-similarity" }], "ext": { "warrant": { "premises": [{ "text": "the individual and the prince are alike in being set apart from the community", "provenance": "tradition" }, { "text": "the individual brings an אשם תלוי", "provenance": "tradition" }] } } },
   { "id": "t11-yishuv", "speaker": "Rav Pappa", "he": "בעינן ״כי יותן״ דומיא ד״כי יתן״: מה ״יתן״ לדעת, אף ״כי יותן״ נמי לדעת", "en": "We require 'when it is placed' to resemble 'when one places': just as placing is with his knowledge, so being placed must be with his knowledge.", "move": { "element": "resolution", "subtype": "settlement", "target": "t11-rami", "attested": false }, "provenance": "derivation", "anatomy": [{ "kind": "analogism", "basis": "marked", "note": "`מה … אף`: what holds of `יתן` holds of `יותן`." }, { "kind": "comparative", "basis": "marked" }] },
-  { "id": "meidi-dehava", "speaker": "R. Yochanan", "he": "מידי דהוה אמעביר חפץ ברשות הרבים, התם לאו אף על גב דכמה דנקיט לה ואזיל – פטור, כי מנח לה – חייב; הכא נמי לא שנא", "en": "It is like one who carries an object four cubits in the public domain: there, although all the while he holds it and walks he is exempt, when he sets it down he is liable; here too, no difference.", "move": { "element": "resolution", "subtype": "settlement", "target": "heicha", "marker": "מידי דהוה א…" }, "provenance": "derivation", "anatomy": [{ "kind": "analogism", "basis": "marked", "note": "Shabbos 5b: carrying through an exempt area ≈ carrying four cubits, where an exempt interval (the walking) also separates lifting and setting down." }], "ext": { "axis": ["axis/similarity"] } },
-  { "id": "hatzad-hashaveh", "speaker": "Mishnah", "he": "הצד השוה שבהן: שדרכן להזיק ושמירתן עליך; וכשהזיק — חב המזיק לשלם תשלומי נזק במיטב הארץ.", "en": "The common feature of them all: it is their way to cause damage and their safekeeping is upon you; and when one damaged, the one liable pays from the best of the land.", "move": { "element": "proof", "subtype": "demonstration", "target": "arbaah-avos", "marker": "הצד השוה שבהן" }, "provenance": "tradition", "anatomy": [{ "kind": "analogism", "basis": "marked", "note": "Bava Kamma 2a. After each single-source analogy fails, the shared feature carries the law to all four." }], "ext": { "axis": ["axis/similarity"] } }
+  { "id": "meidi-dehava", "speaker": "R. Yochanan", "he": "מידי דהוה אמעביר חפץ ברשות הרבים, התם לאו אף על גב דכמה דנקיט לה ואזיל – פטור, כי מנח לה – חייב; הכא נמי לא שנא", "en": "It is like one who carries an object four cubits in the public domain: there, although all the while he holds it and walks he is exempt, when he sets it down he is liable; here too, no difference.", "move": { "element": "resolution", "subtype": "settlement", "target": "heicha", "marker": "מידי דהוה א…" }, "provenance": "derivation", "anatomy": [{ "kind": "analogism", "basis": "marked", "note": "Shabbos 5b: carrying through an exempt area ≈ carrying four cubits, where an exempt interval (the walking) also separates lifting and setting down." }, { "kind": "subject-similarity" }] },
+  { "id": "hatzad-hashaveh", "speaker": "Mishnah", "he": "הצד השוה שבהן: שדרכן להזיק ושמירתן עליך; וכשהזיק — חב המזיק לשלם תשלומי נזק במיטב הארץ.", "en": "The common feature of them all: it is their way to cause damage and their safekeeping is upon you; and when one damaged, the one liable pays from the best of the land.", "move": { "element": "proof", "subtype": "demonstration", "target": "arbaah-avos", "marker": "הצד השוה שבהן" }, "provenance": "tradition", "anatomy": [{ "kind": "analogism", "basis": "marked", "note": "Bava Kamma 2a. After each single-source analogy fails, the shared feature carries the law to all four." }, { "kind": "subject-similarity" }] }
 ]
 ```
 
@@ -2657,9 +2650,9 @@ The verse, tradition or syllogism a rebuttal leans on goes in `premises`, never 
 
 ```json
 [
-  { "id": "mi-dami", "he": "מי דמי? התם כל היכא דמנח לה – מקום חיוב הוא; הכא אי מנח לה בסטיו – מקום פטור הוא!", "en": "Is it comparable? There, wherever he sets it down is a place of liability; here, if he sets it down in the colonnade it is a place of exemption!", "move": { "element": "difficulty", "subtype": "objection", "target": "meidi-dehava", "marker": "מי דמי? התם … הכא …" }, "provenance": "derivation", "anatomy": [{ "kind": "fallacy-not-similar", "basis": "marked", "note": "Shabbos 5b: the analogy's subjects differ in the respect that matters, so its conclusion falls." }], "ext": { "axis": ["axis/difference"] } },
+  { "id": "mi-dami", "he": "מי דמי? התם כל היכא דמנח לה – מקום חיוב הוא; הכא אי מנח לה בסטיו – מקום פטור הוא!", "en": "Is it comparable? There, wherever he sets it down is a place of liability; here, if he sets it down in the colonnade it is a place of exemption!", "move": { "element": "difficulty", "subtype": "objection", "target": "meidi-dehava", "marker": "מי דמי? התם … הכא …" }, "provenance": "derivation", "anatomy": [{ "kind": "fallacy-not-similar", "basis": "marked", "note": "Shabbos 5b: the analogy's subjects differ in the respect that matters, so its conclusion falls." }, { "kind": "subject-difference" }] },
   { "id": "mah-lenasi", "he": "צבור מנשיא לא אתי, דאיכא למיפרך: מה לנשיא שכן יש בקרבנו נקבה.", "en": "The community cannot be derived from the prince, for one can object: what of the prince — his offering includes a female.", "move": { "element": "contradiction", "subtype": "opposition", "target": "tzibbur-minasi", "marker": "מה ל… שכן …" }, "provenance": "derivation", "anatomy": [{ "kind": "fallacy-not-similar", "basis": "marked" }] },
-  { "id": "lo-harei", "speaker": "Mishnah", "he": "לא הרי השור כהרי המבעה, ולא הרי המבעה כהרי השור.", "en": "The ox is not like the maveh, and the maveh is not like the ox.", "move": { "element": "difficulty", "subtype": "objection", "target": "arbaah-avos", "marker": "לא הרי … כהרי …" }, "provenance": "tradition", "anatomy": [{ "kind": "fallacy-not-similar", "note": "Bava Kamma 2a: neither can be learned from the other alone; each has a feature the other lacks." }], "ext": { "axis": ["axis/difference"] } },
+  { "id": "lo-harei", "speaker": "Mishnah", "he": "לא הרי השור כהרי המבעה, ולא הרי המבעה כהרי השור.", "en": "The ox is not like the maveh, and the maveh is not like the ox.", "move": { "element": "difficulty", "subtype": "objection", "target": "arbaah-avos", "marker": "לא הרי … כהרי …" }, "provenance": "tradition", "anatomy": [{ "kind": "fallacy-not-similar", "note": "Bava Kamma 2a: neither can be learned from the other alone; each has a feature the other lacks." }, { "kind": "subject-difference" }] },
   { "id": "mah-leamah", "he": "מה לאמה העבריה, שאין קנינה לשום אישות; תאמר בזו, שקנינה לשום אישות!", "en": "What of the Hebrew maidservant — her acquisition is not for marriage; can you say the same of this woman, whose acquisition is for marriage?", "move": { "element": "difficulty", "subtype": "objection", "target": "amah-tochiach", "marker": "מה ל… שכן …" }, "provenance": "derivation", "anatomy": [{ "kind": "fallacy-not-similar", "basis": "marked", "note": "Kiddushin 4b: the counterexample is itself not similar, so it does not break the a fortiori." }] }
 ]
 ```
@@ -2736,7 +2729,7 @@ The verse, tradition or syllogism a rebuttal leans on goes in `premises`, never 
 ```json
 [
   { "id": "t10-support", "short": "so it stands to reason", "he": "הכי נמי מסתברא … והא ״אתם״ ״גם אתם״ אמר רחמנא לרבות שלוחכם", "en": "So too it stands to reason: the verse says \"you also\", including your agent — as you act knowingly, so your agent acts knowingly.", "move": { "element": "proof", "subtype": "validation", "target": "t10-ans", "marker": "תניא כותה ד", "attested": false }, "provenance": "tradition", "anatomy": [{ "kind": "syllogism", "note": "From `אתם` and `גם אתם` to the agent: a derivation from Scripture that fits no more specific kind." }] },
-  { "id": "heleni", "speaker": "R. Yehudah", "he": "מעשה בהילני המלכה בלוד … והיו זקנים נכנסין ויוצאין לשם ולא אמרו לה דבר.", "en": "It happened that Queen Heleni's sukkah in Lod was higher than twenty cubits, and the elders went in and out of it and said nothing to her.", "move": { "element": "proof", "subtype": "demonstration", "target": "yehudah", "marker": "מעשה ב…" }, "provenance": "tradition", "anatomy": [{ "kind": "syllogism", "note": "An argument from the elders' silence: no more specific kind fits." }], "ext": { "move": { "composite": "ascribed-proof" } } }
+  { "id": "heleni", "speaker": "R. Yehudah", "he": "מעשה בהילני המלכה בלוד … והיו זקנים נכנסין ויוצאין לשם ולא אמרו לה דבר.", "en": "It happened that Queen Heleni's sukkah in Lod was higher than twenty cubits, and the elders went in and out of it and said nothing to her.", "move": { "element": "proof", "subtype": "demonstration", "target": "yehudah", "marker": "מעשה ב…" }, "provenance": "tradition", "anatomy": [{ "kind": "syllogism", "note": "An argument from the elders' silence: no more specific kind fits." }, { "kind": "ascribed-proof" }] }
 ]
 ```
 
@@ -2784,7 +2777,7 @@ The six, on the unit whose own authority they describe:
 ```json
 [
   { "id": "ayin-tachas-ayin", "he": "והא כתיב: ״עין תחת עין״!", "en": "But it is written: 'an eye for an eye'!", "move": { "element": "contradiction", "subtype": "direct", "target": "roin-oso", "marker": "והא כתיב" }, "provenance": "tradition", "note": "Bava Kamma 83b. A disproof from convention: the verse against `רואין אותו כאלו הוא עבד`." },
-  { "id": "lo-salka", "he": "לא סלקא דעתך – דהא אתקש למכה בהמה ישלמנה.", "en": "Do not think so — for it is juxtaposed to 'one who strikes an animal shall pay for it'.", "move": { "element": "contradiction", "subtype": "direct", "target": "misah-mamash", "marker": "לא סלקא דעתך, דהא …" }, "provenance": "tradition", "anatomy": [{ "kind": "analogism", "basis": "marked", "note": "`דאתקש`: the juxtaposed verse yields money." }], "ext": { "warrant": { "kind": "disproof/indirect", "premises": [{ "text": "מכה אדם is juxtaposed to מכה בהמה, which is paid in money", "provenance": "tradition" }] }, "axis": ["axis/similarity"] } }
+  { "id": "lo-salka", "he": "לא סלקא דעתך – דהא אתקש למכה בהמה ישלמנה.", "en": "Do not think so — for it is juxtaposed to 'one who strikes an animal shall pay for it'.", "move": { "element": "contradiction", "subtype": "direct", "target": "misah-mamash", "marker": "לא סלקא דעתך, דהא …" }, "provenance": "tradition", "anatomy": [{ "kind": "analogism", "basis": "marked", "note": "`דאתקש`: the juxtaposed verse yields money." }, { "kind": "subject-similarity" }], "ext": { "warrant": { "kind": "disproof/indirect", "premises": [{ "text": "מכה אדם is juxtaposed to מכה בהמה, which is paid in money", "provenance": "tradition" }] } } }
 ]
 ```
 
@@ -2870,11 +2863,11 @@ A predicate is said of a subject *in some respect*. Terms that match as strings 
 
 ```json
 [
-  { "id": "p1", "he": "האדם — חי מדבר.", "en": "Man is a speaking animal.", "move": { "element": "statement", "subtype": "firsthand" }, "provenance": "axiom", "anatomy": [{ "kind": "unqualified" }], "ext": { "warrant": { "aspect": "aspect/essence" }, "axis": ["axis/essence"] } },
+  { "id": "p1", "he": "האדם — חי מדבר.", "en": "Man is a speaking animal.", "move": { "element": "statement", "subtype": "firsthand" }, "provenance": "axiom", "anatomy": [{ "kind": "unqualified" }, { "kind": "essence-definition" }], "ext": { "warrant": { "aspect": "aspect/essence" } } },
   { "id": "p2", "he": "האדם — צוחק.", "en": "Man laughs.", "move": { "element": "statement", "subtype": "firsthand" }, "provenance": "endoxa", "ext": { "warrant": { "aspect": "aspect/proprium" } } },
   { "id": "chuldah", "he": "חוץ מן החולדה, מפני שהיא מלקת.", "en": "Except the weasel, because it laps.", "move": { "element": "statement", "subtype": "firsthand" }, "provenance": "tradition", "anatomy": [{ "kind": "exception", "basis": "marked" }], "note": "Parah 9:3. Lapping always accompanies the weasel without being its essence; the ruling rests on it.", "ext": { "warrant": { "aspect": "aspect/proprium" } } },
-  { "id": "p3", "he": "האדם הזה — לבן.", "en": "This man is white.", "move": { "element": "statement", "subtype": "firsthand" }, "provenance": "sense", "anatomy": [{ "kind": "particular" }], "ext": { "warrant": { "aspect": "aspect/accident" }, "axis": ["axis/quality"] } },
-  { "id": "p4", "he": "ראובן — אביו של חנוך.", "en": "Reuven is the father of Chanoch.", "move": { "element": "statement", "subtype": "firsthand" }, "provenance": "tradition", "anatomy": [{ "kind": "particular" }], "ext": { "warrant": { "aspect": "aspect/relation" }, "axis": ["axis/relation"] } },
+  { "id": "p3", "he": "האדם הזה — לבן.", "en": "This man is white.", "move": { "element": "statement", "subtype": "firsthand" }, "provenance": "sense", "anatomy": [{ "kind": "particular" }, { "kind": "subject-quality" }], "ext": { "warrant": { "aspect": "aspect/accident" } } },
+  { "id": "p4", "he": "ראובן — אביו של חנוך.", "en": "Reuven is the father of Chanoch.", "move": { "element": "statement", "subtype": "firsthand" }, "provenance": "tradition", "anatomy": [{ "kind": "particular" }, { "kind": "subject-relation" }], "ext": { "warrant": { "aspect": "aspect/relation" } } },
   { "id": "azarah", "he": "עזרה רשות הרבים היא.", "en": "The Temple courtyard is a public domain.", "move": { "element": "statement", "subtype": "firsthand" }, "provenance": "tradition", "note": "Pesachim 19b. Said in the respect of doubtful impurity; it is no premise for a Shabbos conclusion, and a Shabbos claim that it is a private domain does not oppose it.", "ext": { "warrant": { "aspect": "the law of doubtful impurity (a specific respect; the four are the schema)" } } }
 ]
 ```
@@ -2883,10 +2876,10 @@ The four again, in a non-Talmudic register, and one chain that fails for want of
 
 ```json
 [
-  { "id": "knife-essence", "speaker": "A", "en": "A knife is a cutting tool.", "move": { "element": "statement", "subtype": "firsthand" }, "provenance": "axiom", "ext": { "warrant": { "aspect": "aspect/essence" }, "axis": ["axis/essence"] } },
+  { "id": "knife-essence", "speaker": "A", "en": "A knife is a cutting tool.", "move": { "element": "statement", "subtype": "firsthand" }, "provenance": "axiom", "anatomy": [{ "kind": "essence-definition" }], "ext": { "warrant": { "aspect": "aspect/essence" } } },
   { "id": "knife-proprium", "speaker": "A", "en": "A knife has an edge.", "move": { "element": "statement", "subtype": "firsthand" }, "provenance": "axiom", "note": "Always accompanies a knife; its being a knife does not consist in it.", "ext": { "warrant": { "aspect": "aspect/proprium" } } },
-  { "id": "knife-accident", "speaker": "A", "en": "This knife is six inches long.", "move": { "element": "statement", "subtype": "firsthand" }, "provenance": "sense", "anatomy": [{ "kind": "particular" }], "ext": { "warrant": { "aspect": "aspect/accident" }, "axis": ["axis/quantity"] } },
-  { "id": "knife-relation", "speaker": "A", "en": "This knife is sharper than that one.", "move": { "element": "statement", "subtype": "firsthand" }, "provenance": "sense", "anatomy": [{ "kind": "particular" }], "ext": { "warrant": { "aspect": "aspect/relation" }, "axis": ["axis/relation", "axis/quality"] } },
+  { "id": "knife-accident", "speaker": "A", "en": "This knife is six inches long.", "move": { "element": "statement", "subtype": "firsthand" }, "provenance": "sense", "anatomy": [{ "kind": "particular" }, { "kind": "subject-quantity" }], "ext": { "warrant": { "aspect": "aspect/accident" } } },
+  { "id": "knife-relation", "speaker": "A", "en": "This knife is sharper than that one.", "move": { "element": "statement", "subtype": "firsthand" }, "provenance": "sense", "anatomy": [{ "kind": "particular" }, { "kind": "subject-relation" }, { "kind": "subject-quality" }], "ext": { "warrant": { "aspect": "aspect/relation" } } },
   { "id": "weapon-chain", "speaker": "B", "en": "A knife is a cutting tool; cutting tools are kitchen equipment; so a knife found on the defendant is kitchen equipment, not a weapon.", "move": { "element": "proof", "subtype": "demonstration", "target": "not-weapon" }, "provenance": "derivation", "anatomy": [{ "kind": "classical-syllogism" }], "note": "The chain slides between aspects: 'cutting tool' in the respect of essence, 'kitchen equipment' in the respect of accident (where it is kept, what it is used for). Same words, not the same term — the syllogism fails (p144).", "ext": { "warrant": { "aspect": null, "premises": [{ "text": "a knife is a cutting tool", "provenance": "axiom" }, { "text": "cutting tools are kitchen equipment", "provenance": "endoxa" }] } } }
 ]
 ```
@@ -2963,106 +2956,106 @@ Also in this family, as resolutions: `הא קא משמע לן`, `זו ואין �
 
 - he · `ההבחנות שיש להבחין בנושאים שנרצה לדון כפי הסוגיות וההלכות או כפי השכל`
 - Use · When a statement, an אוקימתא, a תירוץ, or a חילוק turns on *which respect* of the subject is in play, record the axis. Also the vocabulary for "what is this sentence about?" when a sentence describes rather than argues. For a statement, the הבחנה its predicate turns on; for other moves, the distinction the אוקימתא or חילוק introduces. Every statement falls under some הבחנה, so a statement gets at least one; a law that turns on a measure, count or size anywhere in the proposition (`למעלה מעשרה טפחים`, `ארבע אמות`, `רוב`, `כזית`) → `axis/quantity`; an analogy (`ניליף מ־`, `מה מצינו`, `הצד השוה`, `דומה ל־`) → `axis/similarity`; a distinction (`מה ל־X שכן`, `שאני`, `אינו דומה ל־`) → `axis/difference`; a time or place condition → `axis/time`, `axis/place`.
-- file · **pending** — `ext.axis: ["axis/…", …]`, a list, on the unit. Nothing on the page reads it yet.
+- file · `anatomy`, row-level, any number of them, under the kind names in the table below. The page draws each as a violet badge; the lens is *Subject analysis*. The `axis/…` keys are this guide's classifier names, kept in the table so an older annotation can be translated — they are **not** what goes in the file.
 
-| # | key | he | en | means | ex |
-|---|---|---|---|---|---|
-| 1 | axis/essence | מהות → גדר | essence → definition | what the subject is, distinguishing it from all else; stated as a definition naming the essential, not the incidental | Pe'ah 7:4 `איזוהי עוללת? כל שאין לה לא כתף ולא נטף` |
-| 2 | axis/parts | חלקים | parts | its components | Chullin 43a `שני עורות יש לו לושט` · Shevi'is 9:2 `גליל העליון, גליל התחתון, והעמק` |
-| 3 | axis/quality | איכות | quality | constitution, color, hardness, temperament | Chullin 43a `חיצון אדום, ופנימי לבן` · Chullin 76a `אשוני הוו צומת הגידין, רכיכי לא` |
-| 4 | axis/quantity | כמות | quantity | measure or number | Kil'ayim 5:5 `מקדש שש עשרה אמה לכל רוח` · `ארבעים וחמשה גפנים` |
-| 5 | axis/material | חומר | material | what it is made of | כלי מתכת / כלי חרס |
-| 6 | axis/form | צורה | form | definitive form עצמית (man = בעל חי מדבר) or physical shape מורגשת | Menachos 94b `כמין תיבה פרוצה` · Kelim 28:7 `כמין גם` |
-| 7 | axis/action | פעולה | action | what it does to another: natural טבעית (`דמנקרא להו למעיא`) or voluntary רצונית | Berachos 15a `הקורא את שמע` |
-| 8 | axis/affection | הפעל | affection | the impression another's action leaves on it | Chullin 50a `בני מעיין שניקבו וליחה סותמתן` · Shabbos 40b `שהיד סולדת בו` · Pesachim 74a `חם מקצתו – חם כולו` |
-| 9 | axis/genus-species | סוג ומין · סוג הסוג | genus and species | which class, at which level: אדם species; בעל חי genus; גשם higher genus; כלי עץ → פשוטי / מקבלי | Pesachim 17a `משקי בי מדבחיא` vs `הדם והיין והשמן והמים` |
-| 10 | axis/cause | סיבה | cause | generative מולדת (tree → fruit; father → son) or effective פועלת (craftsman → vessel) | Bava Metzia 8b `דאזלא מחמתה` · Yoma 76b `חמרא וריחני פקחין` |
-| 11 | axis/means | אמצעי | means | the instrument through which the cause acts | Kesubos 75a `אפשר לעברה בקיוהא דחמרא` |
-| 12 | axis/motive | מעורר | motive | what moves a voluntary agent to act | Zevachim 116a `מה שמועה שמע ובא ונתגייר? קריעת ים סוף שמע ובא` |
-| 13 | axis/purpose | תכלית | purpose | what the agent seeks by the act | `הלומד על מנת לעשות` |
-| 14 | axis/result | מסובב | result | what issues from the subject as its effect | walking from being led; the son; the vessel |
-| 15 | axis/attribute | מתחבר | attribute | an accident joined to the subject: (a) inherent / resting on / associated — חכמה בחכם, ציפוי על הכלי, בהמה מסוכנת, מטפחת שרויה במים; (b) coincident in time; (c) before or after | (b) Pesachim 76b `פת שאפאה עם צלי` · Berachos 35b `כל שהוא עיקר ועמו טפלה` · (c) Berachos 51b `נוטלין לידים ואחר כך מוזגין את הכוס` |
-| 16 | axis/place | מקום | place / position | where, and spatial arrangement | Eruvin 87b `שתי גזוזטראות זו למעלה מזו` · `שתי עיירות זו סמוכה לזו` · Eruvin 75b `עשרה בתים זה לפנים מזה` |
-| 17 | axis/posture | מצב | situation / posture | how it is set in its place | Megillah 21a `הקורא את המגילה עומד ויושב` · Berachos 10b `בערב כל אדם יטה ויקרא ובבקר יעמוד` |
-| 18 | axis/movement | תנועה | movement | change of place | Pesachim 50a `ההולך ממקום שאין עושים למקום שעושים` |
-| 19 | axis/time | זמן | time | when | Berachos 2a `מאימתי קורין את שמע?` |
-| 20 | axis/relation | יחס | relation | its standing toward another | דורו של משה · זרעו של אברהם |
-| 21 | axis/bearer | נושא | subject / bearer | given an attribute, what bears it | Pesachim 14b `איזהו דבר שחלוקה טומאתו בין טומאת מת לשרץ? הוי אומר, זה מתכת` |
-| 22 | axis/similarity | דמיון | comparison | likeness to another | Chullin 17b `דמיא לסאסאה` · Shabbos 101b `חרב הרי הוא כחלל` · Kesubos 60a `אידי ואידי חד שיעורא הוא` |
-| 23 | axis/difference | הבדל | difference | absence of likeness | Pesachim 22a `שאני דם דאתקש למים` · 22b `שאני אבר מן החי דאתקש לדם` |
-| 24 | axis/opposition | ניגוד | contrast | the opposite of likeness — §10 opposition | — |
+| # | classifier key | `anatomy` kind | he | en | means | ex |
+|---|---|---|---|---|---|---|
+| 1 | axis/essence | `essence-definition` | מהות → גדר | essence → definition | what the subject is, distinguishing it from all else; stated as a definition naming the essential, not the incidental | Pe'ah 7:4 `איזוהי עוללת? כל שאין לה לא כתף ולא נטף` |
+| 2 | axis/parts | `subject-parts` | חלקים | parts | its components | Chullin 43a `שני עורות יש לו לושט` · Shevi'is 9:2 `גליל העליון, גליל התחתון, והעמק` |
+| 3 | axis/quality | `subject-quality` | איכות | quality | constitution, color, hardness, temperament | Chullin 43a `חיצון אדום, ופנימי לבן` · Chullin 76a `אשוני הוו צומת הגידין, רכיכי לא` |
+| 4 | axis/quantity | `subject-quantity` | כמות | quantity | measure or number | Kil'ayim 5:5 `מקדש שש עשרה אמה לכל רוח` · `ארבעים וחמשה גפנים` |
+| 5 | axis/material | `subject-material` | חומר | material | what it is made of | כלי מתכת / כלי חרס |
+| 6 | axis/form | `essence-definition` (עצמית) · `perceptible-form` (מורגשת) | צורה | form | definitive form עצמית (man = בעל חי מדבר) or physical shape מורגשת | Menachos 94b `כמין תיבה פרוצה` · Kelim 28:7 `כמין גם` |
+| 7 | axis/action | `subject-action` | פעולה | action | what it does to another: natural טבעית (`דמנקרא להו למעיא`) or voluntary רצונית | Berachos 15a `הקורא את שמע` |
+| 8 | axis/affection | `subject-being-affected` | הפעל | affection | the impression another's action leaves on it | Chullin 50a `בני מעיין שניקבו וליחה סותמתן` · Shabbos 40b `שהיד סולדת בו` · Pesachim 74a `חם מקצתו – חם כולו` |
+| 9 | axis/genus-species | `kind-species` | סוג ומין · סוג הסוג | genus and species | which class, at which level: אדם species; בעל חי genus; גשם higher genus; כלי עץ → פשוטי / מקבלי | Pesachim 17a `משקי בי מדבחיא` vs `הדם והיין והשמן והמים` |
+| 10 | axis/cause | `subject-cause` | סיבה | cause | generative מולדת (tree → fruit; father → son) or effective פועלת (craftsman → vessel) | Bava Metzia 8b `דאזלא מחמתה` · Yoma 76b `חמרא וריחני פקחין` |
+| 11 | axis/means | `subject-means` | אמצעי | means | the instrument through which the cause acts | Kesubos 75a `אפשר לעברה בקיוהא דחמרא` |
+| 12 | axis/motive | `subject-motive` | מעורר | motive | what moves a voluntary agent to act | Zevachim 116a `מה שמועה שמע ובא ונתגייר? קריעת ים סוף שמע ובא` |
+| 13 | axis/purpose | `subject-purpose` | תכלית | purpose | what the agent seeks by the act | `הלומד על מנת לעשות` |
+| 14 | axis/result | `subject-result` | מסובב | result | what issues from the subject as its effect | walking from being led; the son; the vessel |
+| 15 | axis/attribute | `subject-attribute`, and its branches `attribute-in-attached` · `attribute-concurrent` · `attribute-before-after` | מתחבר | attribute | an accident joined to the subject: (a) inherent / resting on / associated — חכמה בחכם, ציפוי על הכלי, בהמה מסוכנת, מטפחת שרויה במים; (b) coincident in time; (c) before or after | (b) Pesachim 76b `פת שאפאה עם צלי` · Berachos 35b `כל שהוא עיקר ועמו טפלה` · (c) Berachos 51b `נוטלין לידים ואחר כך מוזגין את הכוס` |
+| 16 | axis/place | `subject-place` | מקום | place / position | where, and spatial arrangement | Eruvin 87b `שתי גזוזטראות זו למעלה מזו` · `שתי עיירות זו סמוכה לזו` · Eruvin 75b `עשרה בתים זה לפנים מזה` |
+| 17 | axis/posture | `subject-orientation` | מצב | situation / posture | how it is set in its place | Megillah 21a `הקורא את המגילה עומד ויושב` · Berachos 10b `בערב כל אדם יטה ויקרא ובבקר יעמוד` |
+| 18 | axis/movement | `subject-movement` | תנועה | movement | change of place | Pesachim 50a `ההולך ממקום שאין עושים למקום שעושים` |
+| 19 | axis/time | `subject-time` | זמן | time | when | Berachos 2a `מאימתי קורין את שמע?` |
+| 20 | axis/relation | `subject-relation` | יחס | relation | its standing toward another | דורו של משה · זרעו של אברהם |
+| 21 | axis/bearer | `subject-bearer` | נושא | subject / bearer | given an attribute, what bears it | Pesachim 14b `איזהו דבר שחלוקה טומאתו בין טומאת מת לשרץ? הוי אומר, זה מתכת` |
+| 22 | axis/similarity | `subject-similarity` | דמיון | comparison | likeness to another | Chullin 17b `דמיא לסאסאה` · Shabbos 101b `חרב הרי הוא כחלל` · Kesubos 60a `אידי ואידי חד שיעורא הוא` |
+| 23 | axis/difference | `subject-difference` | הבדל | difference | absence of likeness | Pesachim 22a `שאני דם דאתקש למים` · 22b `שאני אבר מן החי דאתקש לדם` |
+| 24 | axis/opposition | `subject-opposition` | ניגוד | contrast | the opposite of likeness — §10 opposition | — |
 
-Relation to §10's opposition tests: `differs-in-time` = axis 19; `differs-in-place` = 16; `differs-in-context` = whichever axis carries the respect (often 17, 20, 21). Relation to §11's aspects: the aspects say *how* P attaches to S; the axes say *which feature* of S is under discussion.
+Relation to §10's opposition tests: `differs-in-time` = distinction 19; `differs-in-place` = 16; `differs-in-context` = whichever distinction carries the respect (often 17, 20, 21). They are separate kinds on purpose: `subject-time` says *when* one sentence's subject is at issue, `differs-in-time` says *two* sentences speak of different times, and `priority-temporal` says one thing is earlier than another. So too `subject-opposition`, chapter 11's general נגוד between things, against `contradiction/opposition`, chapter 9's דחיה, which is a move. Relation to §11's aspects: the aspects say *how* P attaches to S; the axes say *which feature* of S is under discussion.
 
 Two units per axis, from the book's examples and the calibration battery (`[constructed]` where marked):
 
 ```json
 [
-  { "id": "x1a", "he": "איזוהי עוללת? כל שאין לה לא כתף ולא נטף.", "en": "What is an olelet? Any cluster that has neither shoulder nor pendant.", "move": { "element": "statement", "subtype": "firsthand" }, "provenance": "tradition", "ext": { "axis": ["axis/essence"] } },
-  { "id": "x1b", "he": "איזהו נשך? המלוה סלע בחמשה דינרין, סאתים חטין בשלש.", "en": "What is neshech? One who lends a sela for five dinars, two se'ah of wheat for three.", "move": { "element": "statement", "subtype": "firsthand" }, "provenance": "tradition", "ext": { "axis": ["axis/essence", "axis/quantity"] } },
-  { "id": "x2a", "he": "שני עורות יש לו לושט.", "en": "The oesophagus has two skins.", "move": { "element": "statement", "subtype": "firsthand" }, "provenance": "sense", "ext": { "axis": ["axis/parts"] } },
-  { "id": "x2b", "he": "המנורה — קנה, גביעים, כפתורים ופרחים.", "en": "The menorah: a shaft, cups, knobs and flowers.", "move": { "element": "statement", "subtype": "firsthand" }, "provenance": "tradition", "anatomy": [{ "kind": "compound" }], "ext": { "axis": ["axis/parts"] } },
-  { "id": "x3a", "he": "חיצון אדום, ופנימי לבן.", "en": "The outer is red and the inner white.", "move": { "element": "statement", "subtype": "firsthand" }, "provenance": "sense", "ext": { "axis": ["axis/quality"] } },
-  { "id": "x3b", "he": "החלב — לבן, והדם — אדום.", "en": "Milk is white and blood is red.", "move": { "element": "statement", "subtype": "firsthand" }, "provenance": "sense", "anatomy": [{ "kind": "compound" }], "ext": { "axis": ["axis/quality"] } },
-  { "id": "x4a", "he": "מקדש שש עשרה אמה לכל רוח.", "en": "It consecrates sixteen cubits in every direction.", "move": { "element": "statement", "subtype": "firsthand" }, "provenance": "tradition", "ext": { "axis": ["axis/quantity"] } },
-  { "id": "x4b", "he": "סוכה שאין בה עשרה טפחים — פסולה.", "en": "A sukkah less than ten handbreadths high is invalid.", "move": { "element": "statement", "subtype": "firsthand" }, "provenance": "tradition", "ext": { "axis": ["axis/quantity"] } },
-  { "id": "x5a", "he": "כלי חרס — אינו מטמא מגבו; כלי מתכת — מטמא מגבו.", "en": "An earthenware vessel does not contract impurity from its outside; a metal vessel does.", "move": { "element": "statement", "subtype": "firsthand" }, "provenance": "tradition", "anatomy": [{ "kind": "preclusive" }], "ext": { "axis": ["axis/material", "axis/difference"] } },
-  { "id": "x5b", "he": "כלי אבנים — אינן מקבלין טומאה.", "en": "Stone vessels do not contract impurity.", "move": { "element": "statement", "subtype": "firsthand" }, "provenance": "tradition", "ext": { "axis": ["axis/material"] } },
-  { "id": "x6a", "he": "כמין תיבה פרוצה.", "en": "Like an open box.", "move": { "element": "statement", "subtype": "explanation", "target": "lechem-hapanim" }, "provenance": "tradition", "note": "Menachos 94b: the physical shape.", "ext": { "axis": ["axis/form"] } },
-  { "id": "x6b", "he": "כלי שנעשה כמין תיבה — טמא; כמין דלת — טהור.", "en": "A vessel made like a box is susceptible; like a door, not.", "move": { "element": "statement", "subtype": "firsthand" }, "provenance": "tradition", "anatomy": [{ "kind": "preclusive" }], "ext": { "axis": ["axis/form"] } },
-  { "id": "x7a", "he": "הקורא את שמע — צריך שיכוין את לבו.", "en": "One who recites the Shema must direct his heart.", "move": { "element": "statement", "subtype": "firsthand" }, "provenance": "tradition", "note": "Berachos 15a: a voluntary action.", "ext": { "axis": ["axis/action"] } },
-  { "id": "x7b", "he": "השור — דרכו לנגוח.", "en": "It is the ox's way to gore.", "move": { "element": "statement", "subtype": "firsthand" }, "provenance": "endoxa", "note": "A natural action.", "ext": { "axis": ["axis/action", "axis/quality"] } },
-  { "id": "x8a", "he": "שהיד סולדת בו.", "en": "That the hand recoils from it.", "move": { "element": "statement", "subtype": "explanation", "target": "yad-soledes-source" }, "provenance": "tradition", "note": "Shabbos 40b: the impression heat leaves.", "ext": { "axis": ["axis/affection"] } },
-  { "id": "x8b", "he": "פירות שנרטבו במים — הוכשרו לקבל טומאה.", "en": "Produce that became wet with water is rendered susceptible to impurity.", "move": { "element": "statement", "subtype": "firsthand" }, "provenance": "tradition", "ext": { "axis": ["axis/affection", "axis/result"] } },
-  { "id": "x9a", "he": "משקי בי מדבחיא דכן.", "en": "The liquids of the Temple slaughterhouse are clean.", "move": { "element": "statement", "subtype": "firsthand" }, "provenance": "tradition", "note": "Pesachim 17a: the genus, whose species are `הדם והיין והשמן והמים`; the two statements are equivalent.", "ext": { "axis": ["axis/genus-species"] } },
-  { "id": "x9b", "he": "השור — מין מן הבהמה; והבהמה — סוג מן החי.", "en": "The ox is a species of cattle; cattle are a genus of living things.", "move": { "element": "statement", "subtype": "firsthand" }, "provenance": "axiom", "ext": { "axis": ["axis/genus-species"] } },
-  { "id": "x10a", "he": "דאזלא מחמתה.", "en": "For it goes because of her.", "move": { "element": "statement", "subtype": "explanation", "target": "bm-8b-source" }, "provenance": "derivation", "note": "Bava Metzia 8b: the effective cause of the animal's walking.", "ext": { "axis": ["axis/cause"] } },
-  { "id": "x10b", "he": "האומן — עושה את הכלי.", "en": "The craftsman makes the vessel.", "move": { "element": "statement", "subtype": "firsthand" }, "provenance": "axiom", "ext": { "axis": ["axis/cause", "axis/action"] } },
-  { "id": "x11a", "he": "אפשר לעברה בקיוהא דחמרא.", "en": "It can be removed with the sourness of wine.", "move": { "element": "statement", "subtype": "firsthand" }, "provenance": "asserted", "anatomy": [{ "kind": "qualified-possible", "basis": "marked" }], "ext": { "axis": ["axis/means"] } },
-  { "id": "x11b", "he": "שוחטין בכל דבר: בצור, ובזכוכית, ובקרומית של קנה.", "en": "One may slaughter with anything: a flint, glass, or a reed stalk.", "move": { "element": "statement", "subtype": "firsthand" }, "provenance": "tradition", "anatomy": [{ "kind": "compound" }], "ext": { "axis": ["axis/means"] } },
-  { "id": "x12a", "he": "מה שמועה שמע ובא ונתגייר? קריעת ים סוף שמע ובא.", "en": "What report did he hear that he came and converted? He heard of the splitting of the sea and came.", "move": { "element": "statement", "subtype": "firsthand" }, "provenance": "tradition", "note": "Zevachim 116a.", "ext": { "axis": ["axis/motive"] } },
-  { "id": "x12b", "he": "מפני מה נתאוה משה ליכנס לארץ ישראל? כדי לקיים מצוות התלויות בה.", "en": "Why did Moshe long to enter the land? To fulfil the commandments dependent on it.", "move": { "element": "statement", "subtype": "firsthand" }, "provenance": "tradition", "ext": { "axis": ["axis/motive", "axis/purpose"] } },
-  { "id": "x13a", "he": "הלומד על מנת לעשות.", "en": "One who learns in order to do.", "move": { "element": "statement", "subtype": "firsthand" }, "provenance": "tradition", "ext": { "axis": ["axis/purpose"] } },
-  { "id": "x13b", "he": "כל מעשיך — יהיו לשם שמים.", "en": "Let all your deeds be for the sake of heaven.", "move": { "element": "statement", "subtype": "firsthand" }, "provenance": "tradition", "anatomy": [{ "kind": "categorical", "basis": "marked" }], "ext": { "axis": ["axis/purpose", "axis/motive"] } },
-  { "id": "x14a", "he": "מן הזרע — יוצא העץ.", "en": "From the seed comes the tree.", "move": { "element": "statement", "subtype": "firsthand" }, "provenance": "sense", "ext": { "axis": ["axis/result", "axis/cause"] } },
-  { "id": "x14b", "he": "הבן — מסובב מאביו.", "en": "The son issues from his father.", "move": { "element": "statement", "subtype": "firsthand" }, "provenance": "axiom", "note": "[constructed]", "ext": { "axis": ["axis/result"] } },
-  { "id": "x15a", "he": "כל שהוא עיקר ועמו טפלה — מברך על העיקר ופוטר את הטפלה.", "en": "Whenever there is a principal food and with it a subordinate, one blesses over the principal and it covers the subordinate.", "move": { "element": "statement", "subtype": "firsthand" }, "provenance": "tradition", "note": "Berachos 35b: an attribute coincident in time.", "ext": { "axis": ["axis/attribute"] } },
-  { "id": "x15b", "he": "בית שמאי אומרים: מברך על היום ואחר כך מברך על היין.", "en": "Beis Shammai say: one blesses over the day and afterwards over the wine.", "move": { "element": "statement", "subtype": "firsthand" }, "provenance": "tradition", "note": "Before-and-after: the third kind of מתחבר.", "ext": { "axis": ["axis/attribute", "axis/time"] } },
-  { "id": "x16a", "he": "שתי גזוזטראות זו למעלה מזו.", "en": "Two balconies, one above the other.", "move": { "element": "statement", "subtype": "firsthand" }, "provenance": "tradition", "note": "Eruvin 87b.", "ext": { "axis": ["axis/place"] } },
-  { "id": "x16b", "he": "המוציא מרשות היחיד לרשות הרבים — חייב.", "en": "One who carries out from a private domain to the public domain is liable.", "move": { "element": "statement", "subtype": "firsthand" }, "provenance": "tradition", "ext": { "axis": ["axis/place", "axis/movement"] } },
-  { "id": "x17a", "he": "הקורא את המגילה עומד ויושב.", "en": "One may read the Megillah standing or sitting.", "move": { "element": "statement", "subtype": "firsthand" }, "provenance": "tradition", "note": "Megillah 21a.", "ext": { "axis": ["axis/posture"] } },
-  { "id": "x17b", "he": "אין ישיבה בעזרה אלא למלכי בית דוד.", "en": "There is no sitting in the Temple courtyard except for kings of the house of David.", "move": { "element": "statement", "subtype": "firsthand" }, "provenance": "tradition", "anatomy": [{ "kind": "exclusion", "basis": "marked" }], "ext": { "axis": ["axis/posture", "axis/place"] } },
-  { "id": "x18a", "he": "ההולך ממקום שאין עושים למקום שעושים.", "en": "One who goes from a place where they do not work to a place where they do.", "move": { "element": "statement", "subtype": "firsthand" }, "provenance": "tradition", "note": "Pesachim 50a.", "ext": { "axis": ["axis/movement"] } },
-  { "id": "x18b", "he": "הולכי דרכים ביום — פטורין מן הסוכה ביום.", "en": "Travellers by day are exempt from the sukkah by day.", "move": { "element": "statement", "subtype": "firsthand" }, "provenance": "tradition", "ext": { "axis": ["axis/movement", "axis/time"] } },
-  { "id": "x19a", "he": "מאימתי קורין את שמע בערבין? משעה שהכהנים נכנסים לאכול בתרומתן.", "en": "From when does one recite the Shema in the evening? From the time the priests enter to eat their terumah.", "move": { "element": "statement", "subtype": "firsthand" }, "provenance": "tradition", "ext": { "axis": ["axis/time"] } },
-  { "id": "x19b", "he": "בערב — מברך שתים לפניה ושתים לאחריה.", "en": "In the evening one blesses two before it and two after it.", "move": { "element": "statement", "subtype": "firsthand" }, "provenance": "tradition", "ext": { "axis": ["axis/time"] } },
-  { "id": "x20a", "he": "דורו של משה.", "en": "The generation of Moshe.", "move": { "element": "statement", "subtype": "firsthand" }, "provenance": "tradition", "ext": { "axis": ["axis/relation"] } },
-  { "id": "x20b", "he": "היבם — אחיו של המת.", "en": "The levir is the brother of the deceased.", "move": { "element": "statement", "subtype": "firsthand" }, "provenance": "tradition", "ext": { "axis": ["axis/relation"] } },
-  { "id": "x21a", "he": "איזהו דבר שחלוקה טומאתו בין טומאת מת לשרץ? הוי אומר, זה מתכת.", "en": "What is the thing whose impurity differs between corpse and creeping thing? It is metal.", "move": { "element": "statement", "subtype": "firsthand" }, "provenance": "tradition", "note": "Pesachim 14b: given an attribute, what bears it.", "ext": { "axis": ["axis/bearer"] } },
-  { "id": "x21b", "he": "איזהו דבר שאינו מקבל טומאה כלל? הוי אומר: כלי אבנים.", "en": "What is the thing that contracts no impurity at all? Stone vessels.", "move": { "element": "statement", "subtype": "firsthand" }, "provenance": "tradition", "ext": { "axis": ["axis/bearer", "axis/material"] } },
-  { "id": "x22a", "he": "אידי ואידי חד שיעורא הוא.", "en": "This and that are one measure.", "move": { "element": "resolution", "subtype": "settlement", "target": "kesubos-60a-q" }, "provenance": "derivation", "note": "Kesubos 60a: two measures equated.", "ext": { "axis": ["axis/similarity"] } },
-  { "id": "x22b", "he": "העבד — הרי הוא כקרקע.", "en": "A slave is like land.", "move": { "element": "statement", "subtype": "firsthand" }, "provenance": "tradition", "anatomy": [{ "kind": "comparative", "basis": "marked" }], "ext": { "axis": ["axis/similarity"] } },
-  { "id": "x23a", "he": "שאני דם דאתקש למים.", "en": "Blood is different, for it is juxtaposed to water.", "move": { "element": "resolution", "subtype": "settlement", "target": "pesachim-22a-q", "marker": "שאני …" }, "provenance": "tradition", "ext": { "axis": ["axis/difference"] } },
-  { "id": "x23b", "he": "שאני בור — שאין דרכו לילך ולהזיק.", "en": "A pit is different, for it is not its way to move and damage.", "move": { "element": "resolution", "subtype": "settlement", "target": "bor-q", "marker": "שאני …" }, "provenance": "derivation", "ext": { "axis": ["axis/difference"] } },
-  { "id": "x24a", "he": "בית שמאי — אוסרין, ובית הלל — מתירין.", "en": "Beis Shammai forbid and Beis Hillel permit.", "move": { "element": "statement", "subtype": "firsthand" }, "provenance": "tradition", "anatomy": [{ "kind": "no-middle" }], "ext": { "axis": ["axis/opposition"] } },
-  { "id": "x24b", "speaker": "R. Akiva", "he": "רבי עקיבא אומר: טהורה היא ומדליקין בה.", "en": "R. Akiva says: it is pure and one may light with it.", "move": { "element": "contradiction", "subtype": "opposition", "target": "eliezer-28b" }, "provenance": "tradition", "anatomy": [{ "kind": "diametrically-opposed" }], "ext": { "axis": ["axis/opposition"] } }
+  { "id": "x1a", "he": "איזוהי עוללת? כל שאין לה לא כתף ולא נטף.", "en": "What is an olelet? Any cluster that has neither shoulder nor pendant.", "move": { "element": "statement", "subtype": "firsthand" }, "provenance": "tradition", "anatomy": [{ "kind": "essence-definition" }] },
+  { "id": "x1b", "he": "איזהו נשך? המלוה סלע בחמשה דינרין, סאתים חטין בשלש.", "en": "What is neshech? One who lends a sela for five dinars, two se'ah of wheat for three.", "move": { "element": "statement", "subtype": "firsthand" }, "provenance": "tradition", "anatomy": [{ "kind": "essence-definition" }, { "kind": "subject-quantity" }] },
+  { "id": "x2a", "he": "שני עורות יש לו לושט.", "en": "The oesophagus has two skins.", "move": { "element": "statement", "subtype": "firsthand" }, "provenance": "sense", "anatomy": [{ "kind": "subject-parts" }] },
+  { "id": "x2b", "he": "המנורה — קנה, גביעים, כפתורים ופרחים.", "en": "The menorah: a shaft, cups, knobs and flowers.", "move": { "element": "statement", "subtype": "firsthand" }, "provenance": "tradition", "anatomy": [{ "kind": "compound" }, { "kind": "subject-parts" }] },
+  { "id": "x3a", "he": "חיצון אדום, ופנימי לבן.", "en": "The outer is red and the inner white.", "move": { "element": "statement", "subtype": "firsthand" }, "provenance": "sense", "anatomy": [{ "kind": "subject-quality" }] },
+  { "id": "x3b", "he": "החלב — לבן, והדם — אדום.", "en": "Milk is white and blood is red.", "move": { "element": "statement", "subtype": "firsthand" }, "provenance": "sense", "anatomy": [{ "kind": "compound" }, { "kind": "subject-quality" }] },
+  { "id": "x4a", "he": "מקדש שש עשרה אמה לכל רוח.", "en": "It consecrates sixteen cubits in every direction.", "move": { "element": "statement", "subtype": "firsthand" }, "provenance": "tradition", "anatomy": [{ "kind": "subject-quantity" }] },
+  { "id": "x4b", "he": "סוכה שאין בה עשרה טפחים — פסולה.", "en": "A sukkah less than ten handbreadths high is invalid.", "move": { "element": "statement", "subtype": "firsthand" }, "provenance": "tradition", "anatomy": [{ "kind": "subject-quantity" }] },
+  { "id": "x5a", "he": "כלי חרס — אינו מטמא מגבו; כלי מתכת — מטמא מגבו.", "en": "An earthenware vessel does not contract impurity from its outside; a metal vessel does.", "move": { "element": "statement", "subtype": "firsthand" }, "provenance": "tradition", "anatomy": [{ "kind": "preclusive" }, { "kind": "subject-material" }, { "kind": "subject-difference" }] },
+  { "id": "x5b", "he": "כלי אבנים — אינן מקבלין טומאה.", "en": "Stone vessels do not contract impurity.", "move": { "element": "statement", "subtype": "firsthand" }, "provenance": "tradition", "anatomy": [{ "kind": "subject-material" }] },
+  { "id": "x6a", "he": "כמין תיבה פרוצה.", "en": "Like an open box.", "move": { "element": "statement", "subtype": "explanation", "target": "lechem-hapanim" }, "provenance": "tradition", "anatomy": [{ "kind": "perceptible-form" }], "note": "Menachos 94b: the physical shape." },
+  { "id": "x6b", "he": "כלי שנעשה כמין תיבה — טמא; כמין דלת — טהור.", "en": "A vessel made like a box is susceptible; like a door, not.", "move": { "element": "statement", "subtype": "firsthand" }, "provenance": "tradition", "anatomy": [{ "kind": "preclusive" }, { "kind": "perceptible-form" }] },
+  { "id": "x7a", "he": "הקורא את שמע — צריך שיכוין את לבו.", "en": "One who recites the Shema must direct his heart.", "move": { "element": "statement", "subtype": "firsthand" }, "provenance": "tradition", "anatomy": [{ "kind": "subject-action" }], "note": "Berachos 15a: a voluntary action." },
+  { "id": "x7b", "he": "השור — דרכו לנגוח.", "en": "It is the ox's way to gore.", "move": { "element": "statement", "subtype": "firsthand" }, "provenance": "endoxa", "anatomy": [{ "kind": "subject-action" }, { "kind": "subject-quality" }], "note": "A natural action." },
+  { "id": "x8a", "he": "שהיד סולדת בו.", "en": "That the hand recoils from it.", "move": { "element": "statement", "subtype": "explanation", "target": "yad-soledes-source" }, "provenance": "tradition", "anatomy": [{ "kind": "subject-being-affected" }], "note": "Shabbos 40b: the impression heat leaves." },
+  { "id": "x8b", "he": "פירות שנרטבו במים — הוכשרו לקבל טומאה.", "en": "Produce that became wet with water is rendered susceptible to impurity.", "move": { "element": "statement", "subtype": "firsthand" }, "provenance": "tradition", "anatomy": [{ "kind": "subject-being-affected" }, { "kind": "subject-result" }] },
+  { "id": "x9a", "he": "משקי בי מדבחיא דכן.", "en": "The liquids of the Temple slaughterhouse are clean.", "move": { "element": "statement", "subtype": "firsthand" }, "provenance": "tradition", "anatomy": [{ "kind": "kind-species" }], "note": "Pesachim 17a: the genus, whose species are `הדם והיין והשמן והמים`; the two statements are equivalent." },
+  { "id": "x9b", "he": "השור — מין מן הבהמה; והבהמה — סוג מן החי.", "en": "The ox is a species of cattle; cattle are a genus of living things.", "move": { "element": "statement", "subtype": "firsthand" }, "provenance": "axiom", "anatomy": [{ "kind": "kind-species" }] },
+  { "id": "x10a", "he": "דאזלא מחמתה.", "en": "For it goes because of her.", "move": { "element": "statement", "subtype": "explanation", "target": "bm-8b-source" }, "provenance": "derivation", "anatomy": [{ "kind": "subject-cause" }], "note": "Bava Metzia 8b: the effective cause of the animal's walking." },
+  { "id": "x10b", "he": "האומן — עושה את הכלי.", "en": "The craftsman makes the vessel.", "move": { "element": "statement", "subtype": "firsthand" }, "provenance": "axiom", "anatomy": [{ "kind": "subject-cause" }, { "kind": "subject-action" }] },
+  { "id": "x11a", "he": "אפשר לעברה בקיוהא דחמרא.", "en": "It can be removed with the sourness of wine.", "move": { "element": "statement", "subtype": "firsthand" }, "provenance": "asserted", "anatomy": [{ "kind": "qualified-possible", "basis": "marked" }, { "kind": "subject-means" }] },
+  { "id": "x11b", "he": "שוחטין בכל דבר: בצור, ובזכוכית, ובקרומית של קנה.", "en": "One may slaughter with anything: a flint, glass, or a reed stalk.", "move": { "element": "statement", "subtype": "firsthand" }, "provenance": "tradition", "anatomy": [{ "kind": "compound" }, { "kind": "subject-means" }] },
+  { "id": "x12a", "he": "מה שמועה שמע ובא ונתגייר? קריעת ים סוף שמע ובא.", "en": "What report did he hear that he came and converted? He heard of the splitting of the sea and came.", "move": { "element": "statement", "subtype": "firsthand" }, "provenance": "tradition", "anatomy": [{ "kind": "subject-motive" }], "note": "Zevachim 116a." },
+  { "id": "x12b", "he": "מפני מה נתאוה משה ליכנס לארץ ישראל? כדי לקיים מצוות התלויות בה.", "en": "Why did Moshe long to enter the land? To fulfil the commandments dependent on it.", "move": { "element": "statement", "subtype": "firsthand" }, "provenance": "tradition", "anatomy": [{ "kind": "subject-motive" }, { "kind": "subject-purpose" }] },
+  { "id": "x13a", "he": "הלומד על מנת לעשות.", "en": "One who learns in order to do.", "move": { "element": "statement", "subtype": "firsthand" }, "provenance": "tradition", "anatomy": [{ "kind": "subject-purpose" }] },
+  { "id": "x13b", "he": "כל מעשיך — יהיו לשם שמים.", "en": "Let all your deeds be for the sake of heaven.", "move": { "element": "statement", "subtype": "firsthand" }, "provenance": "tradition", "anatomy": [{ "kind": "categorical", "basis": "marked" }, { "kind": "subject-purpose" }, { "kind": "subject-motive" }] },
+  { "id": "x14a", "he": "מן הזרע — יוצא העץ.", "en": "From the seed comes the tree.", "move": { "element": "statement", "subtype": "firsthand" }, "provenance": "sense", "anatomy": [{ "kind": "subject-result" }, { "kind": "subject-cause" }] },
+  { "id": "x14b", "he": "הבן — מסובב מאביו.", "en": "The son issues from his father.", "move": { "element": "statement", "subtype": "firsthand" }, "provenance": "axiom", "anatomy": [{ "kind": "subject-result" }], "note": "[constructed]" },
+  { "id": "x15a", "he": "כל שהוא עיקר ועמו טפלה — מברך על העיקר ופוטר את הטפלה.", "en": "Whenever there is a principal food and with it a subordinate, one blesses over the principal and it covers the subordinate.", "move": { "element": "statement", "subtype": "firsthand" }, "provenance": "tradition", "anatomy": [{ "kind": "attribute-concurrent" }], "note": "Berachos 35b: an attribute coincident in time." },
+  { "id": "x15b", "he": "בית שמאי אומרים: מברך על היום ואחר כך מברך על היין.", "en": "Beis Shammai say: one blesses over the day and afterwards over the wine.", "move": { "element": "statement", "subtype": "firsthand" }, "provenance": "tradition", "anatomy": [{ "kind": "attribute-before-after" }, { "kind": "subject-time" }], "note": "Before-and-after: the third kind of מתחבר." },
+  { "id": "x16a", "he": "שתי גזוזטראות זו למעלה מזו.", "en": "Two balconies, one above the other.", "move": { "element": "statement", "subtype": "firsthand" }, "provenance": "tradition", "anatomy": [{ "kind": "subject-place" }], "note": "Eruvin 87b." },
+  { "id": "x16b", "he": "המוציא מרשות היחיד לרשות הרבים — חייב.", "en": "One who carries out from a private domain to the public domain is liable.", "move": { "element": "statement", "subtype": "firsthand" }, "provenance": "tradition", "anatomy": [{ "kind": "subject-place" }, { "kind": "subject-movement" }] },
+  { "id": "x17a", "he": "הקורא את המגילה עומד ויושב.", "en": "One may read the Megillah standing or sitting.", "move": { "element": "statement", "subtype": "firsthand" }, "provenance": "tradition", "anatomy": [{ "kind": "subject-orientation" }], "note": "Megillah 21a." },
+  { "id": "x17b", "he": "אין ישיבה בעזרה אלא למלכי בית דוד.", "en": "There is no sitting in the Temple courtyard except for kings of the house of David.", "move": { "element": "statement", "subtype": "firsthand" }, "provenance": "tradition", "anatomy": [{ "kind": "exclusion", "basis": "marked" }, { "kind": "subject-orientation" }, { "kind": "subject-place" }] },
+  { "id": "x18a", "he": "ההולך ממקום שאין עושים למקום שעושים.", "en": "One who goes from a place where they do not work to a place where they do.", "move": { "element": "statement", "subtype": "firsthand" }, "provenance": "tradition", "anatomy": [{ "kind": "subject-movement" }], "note": "Pesachim 50a." },
+  { "id": "x18b", "he": "הולכי דרכים ביום — פטורין מן הסוכה ביום.", "en": "Travellers by day are exempt from the sukkah by day.", "move": { "element": "statement", "subtype": "firsthand" }, "provenance": "tradition", "anatomy": [{ "kind": "subject-movement" }, { "kind": "subject-time" }] },
+  { "id": "x19a", "he": "מאימתי קורין את שמע בערבין? משעה שהכהנים נכנסים לאכול בתרומתן.", "en": "From when does one recite the Shema in the evening? From the time the priests enter to eat their terumah.", "move": { "element": "statement", "subtype": "firsthand" }, "provenance": "tradition", "anatomy": [{ "kind": "subject-time" }] },
+  { "id": "x19b", "he": "בערב — מברך שתים לפניה ושתים לאחריה.", "en": "In the evening one blesses two before it and two after it.", "move": { "element": "statement", "subtype": "firsthand" }, "provenance": "tradition", "anatomy": [{ "kind": "subject-time" }] },
+  { "id": "x20a", "he": "דורו של משה.", "en": "The generation of Moshe.", "move": { "element": "statement", "subtype": "firsthand" }, "provenance": "tradition", "anatomy": [{ "kind": "subject-relation" }] },
+  { "id": "x20b", "he": "היבם — אחיו של המת.", "en": "The levir is the brother of the deceased.", "move": { "element": "statement", "subtype": "firsthand" }, "provenance": "tradition", "anatomy": [{ "kind": "subject-relation" }] },
+  { "id": "x21a", "he": "איזהו דבר שחלוקה טומאתו בין טומאת מת לשרץ? הוי אומר, זה מתכת.", "en": "What is the thing whose impurity differs between corpse and creeping thing? It is metal.", "move": { "element": "statement", "subtype": "firsthand" }, "provenance": "tradition", "anatomy": [{ "kind": "subject-bearer" }], "note": "Pesachim 14b: given an attribute, what bears it." },
+  { "id": "x21b", "he": "איזהו דבר שאינו מקבל טומאה כלל? הוי אומר: כלי אבנים.", "en": "What is the thing that contracts no impurity at all? Stone vessels.", "move": { "element": "statement", "subtype": "firsthand" }, "provenance": "tradition", "anatomy": [{ "kind": "subject-bearer" }, { "kind": "subject-material" }] },
+  { "id": "x22a", "he": "אידי ואידי חד שיעורא הוא.", "en": "This and that are one measure.", "move": { "element": "resolution", "subtype": "settlement", "target": "kesubos-60a-q" }, "provenance": "derivation", "anatomy": [{ "kind": "subject-similarity" }], "note": "Kesubos 60a: two measures equated." },
+  { "id": "x22b", "he": "העבד — הרי הוא כקרקע.", "en": "A slave is like land.", "move": { "element": "statement", "subtype": "firsthand" }, "provenance": "tradition", "anatomy": [{ "kind": "comparative", "basis": "marked" }, { "kind": "subject-similarity" }] },
+  { "id": "x23a", "he": "שאני דם דאתקש למים.", "en": "Blood is different, for it is juxtaposed to water.", "move": { "element": "resolution", "subtype": "settlement", "target": "pesachim-22a-q", "marker": "שאני …" }, "provenance": "tradition", "anatomy": [{ "kind": "subject-difference" }] },
+  { "id": "x23b", "he": "שאני בור — שאין דרכו לילך ולהזיק.", "en": "A pit is different, for it is not its way to move and damage.", "move": { "element": "resolution", "subtype": "settlement", "target": "bor-q", "marker": "שאני …" }, "provenance": "derivation", "anatomy": [{ "kind": "subject-difference" }] },
+  { "id": "x24a", "he": "בית שמאי — אוסרין, ובית הלל — מתירין.", "en": "Beis Shammai forbid and Beis Hillel permit.", "move": { "element": "statement", "subtype": "firsthand" }, "provenance": "tradition", "anatomy": [{ "kind": "no-middle" }, { "kind": "subject-opposition" }] },
+  { "id": "x24b", "speaker": "R. Akiva", "he": "רבי עקיבא אומר: טהורה היא ומדליקין בה.", "en": "R. Akiva says: it is pure and one may light with it.", "move": { "element": "contradiction", "subtype": "opposition", "target": "eliezer-28b" }, "provenance": "tradition", "anatomy": [{ "kind": "diametrically-opposed" }, { "kind": "subject-opposition" }] }
 ]
 ```
 
 ### Priority — קדימה ואיחור (p236)
-- `priority/temporal` זמני — earlier in time.
-- `priority/rank` שכלי — higher in dignity: king before people, upper before lower.
-- `priority/natural` טבעי — cause before effect, even when simultaneous.
-- file · pending — `ext.priority`.
+- `priority-temporal` זמני — earlier in time. Not the same as `subject-time`, which says *when*, or `differs-in-time`, which separates two statements.
+- `priority-conceptual` שכלי — higher in rank: king before people, upper before lower. The classifier key was `priority/rank`.
+- `priority-natural` טבעי — cause before effect, even when simultaneous. The supplied English edition calls it logical priority.
+- file · `anatomy`, row-level. A sentence may carry one beside the הבחנה it turns on.
 
 ```json
 [
-  { "id": "erev-boker", "he": "יליף מברייתו של עולם, דכתיב: ״ויהי ערב ויהי בקר יום אחד״.", "en": "It is learned from the creation of the world, as it is written: 'and there was evening and there was morning, one day'.", "move": { "element": "resolution", "subtype": "alternative", "target": "arvis-berisha", "marker": "ואי בעית אימא" }, "provenance": "tradition", "note": "Berachos 2a: the evening is taught first because it comes first in time.", "ext": { "priority": "priority/temporal", "axis": ["axis/time"] } },
-  { "id": "melech-am", "he": "המלך קודם לעם.", "en": "The king precedes the people.", "move": { "element": "statement", "subtype": "firsthand" }, "provenance": "endoxa", "note": "[constructed] Priority of rank.", "ext": { "priority": "priority/rank" } },
-  { "id": "kohen-kodem", "he": "כהן קודם ללוי, לוי לישראל.", "en": "A priest precedes a Levite, a Levite an Israelite.", "move": { "element": "statement", "subtype": "firsthand" }, "provenance": "tradition", "anatomy": [{ "kind": "compound" }], "note": "Horayos 13a: an order of dignity, קדימה שכלית.", "ext": { "priority": "priority/rank", "axis": ["axis/relation"] } },
-  { "id": "shemesh-or", "he": "השמש קודמת לאורה.", "en": "The sun precedes its light.", "move": { "element": "statement", "subtype": "firsthand" }, "provenance": "axiom", "note": "[constructed] Natural priority: cause before effect though simultaneous.", "ext": { "priority": "priority/natural" } },
-  { "id": "kinyan-kodem", "he": "עקירה קודמת להנחה.", "en": "Lifting precedes setting down.", "move": { "element": "statement", "subtype": "firsthand" }, "provenance": "axiom", "note": "[constructed] Natural priority in the anatomy of a Shabbos labour: the one act is the condition of the other, whatever the interval.", "ext": { "priority": "priority/natural", "axis": ["axis/movement"] } },
-  { "id": "i-hachi-seifa", "he": "אי הכי, סיפא דקתני ״בשחר מברך שתים לפניה ואחת לאחריה, ובערב מברך שתים לפניה ושתים לאחריה״ — לתני דערבית ברישא!", "en": "If so, the later clause, which teaches 'in the morning one blesses two before and one after, and in the evening two before and two after' — let it teach the evening first!", "move": { "element": "difficulty", "subtype": "objection", "target": "erev-boker", "marker": "אי הכי" }, "provenance": "derivation", "note": "Berachos 2a. The temporal priority the answer relied on is turned against the Mishnah's own later clause, which puts the morning first.", "ext": { "priority": "priority/temporal", "warrant": { "kind": "style/order-inconsistent" }, "axis": ["axis/time"] } }
+  { "id": "erev-boker", "he": "יליף מברייתו של עולם, דכתיב: ״ויהי ערב ויהי בקר יום אחד״.", "en": "It is learned from the creation of the world, as it is written: 'and there was evening and there was morning, one day'.", "move": { "element": "resolution", "subtype": "alternative", "target": "arvis-berisha", "marker": "ואי בעית אימא" }, "provenance": "tradition", "anatomy": [{ "kind": "subject-time" }, { "kind": "priority-temporal" }], "note": "Berachos 2a: the evening is taught first because it comes first in time." },
+  { "id": "melech-am", "he": "המלך קודם לעם.", "en": "The king precedes the people.", "move": { "element": "statement", "subtype": "firsthand" }, "provenance": "endoxa", "anatomy": [{ "kind": "priority-conceptual" }], "note": "[constructed] Priority of rank." },
+  { "id": "kohen-kodem", "he": "כהן קודם ללוי, לוי לישראל.", "en": "A priest precedes a Levite, a Levite an Israelite.", "move": { "element": "statement", "subtype": "firsthand" }, "provenance": "tradition", "anatomy": [{ "kind": "compound" }, { "kind": "subject-relation" }, { "kind": "priority-conceptual" }], "note": "Horayos 13a: an order of dignity, קדימה שכלית." },
+  { "id": "shemesh-or", "he": "השמש קודמת לאורה.", "en": "The sun precedes its light.", "move": { "element": "statement", "subtype": "firsthand" }, "provenance": "axiom", "anatomy": [{ "kind": "priority-natural" }], "note": "[constructed] Natural priority: cause before effect though simultaneous." },
+  { "id": "kinyan-kodem", "he": "עקירה קודמת להנחה.", "en": "Lifting precedes setting down.", "move": { "element": "statement", "subtype": "firsthand" }, "provenance": "axiom", "anatomy": [{ "kind": "subject-movement" }, { "kind": "priority-natural" }], "note": "[constructed] Natural priority in the anatomy of a Shabbos labour: the one act is the condition of the other, whatever the interval." },
+  { "id": "i-hachi-seifa", "he": "אי הכי, סיפא דקתני ״בשחר מברך שתים לפניה ואחת לאחריה, ובערב מברך שתים לפניה ושתים לאחריה״ — לתני דערבית ברישא!", "en": "If so, the later clause, which teaches 'in the morning one blesses two before and one after, and in the evening two before and two after' — let it teach the evening first!", "move": { "element": "difficulty", "subtype": "objection", "target": "erev-boker", "marker": "אי הכי" }, "provenance": "derivation", "anatomy": [{ "kind": "subject-time" }, { "kind": "priority-temporal" }], "note": "Berachos 2a. The temporal priority the answer relied on is turned against the Mishnah's own later clause, which puts the morning first.", "ext": { "warrant": { "kind": "style/order-inconsistent" } } }
 ]
 ```
 
@@ -3169,7 +3162,7 @@ Whatever the surface — question, exclamation, ellipsis, rhetoric — extract s
 
 **Step 7 · Resolve synonymy.** Two utterances may be one proposition in different words or word order, or one may name the genus and the other its species — `משקי בי מדבחיא דכן` = `הדם והיין והשמן והמים טהורים` (p212). Two may be opposites though phrased apart — `קדשי מזבח אין להם פדיון` vs `הקרבנות יש להם פדיון`. Test relations (§10) on normalized forms, not on strings. → an edge-level `anatomy` kind on the later unit; when the other unit is not its `target`, `ext.relation`.
 
-**Step 8 · Decompose composites.** Reported information can carry a proof (`ascribed-proof`) or a difficulty (`ascribed-difficulty`, קושיא מגדת) (p214–218). Annotate both parts. A later objection may attack the *report* (the author could not have meant this), the *carried proof* (it does not prove), or the *carried difficulty* (it is not one) — without touching the original claim. Keep the reporter's view separate from the view reported. → `move` = the proof or difficulty (or `statement/reported` when the speaker only reports); `ext.move.composite`, `ext.move.reportedOf`.
+**Step 8 · Decompose composites.** Reported information can carry a proof (`ascribed-proof`) or a difficulty (`ascribed-difficulty`, קושיא מגדת) (p214–218). Annotate both parts. A later objection may attack the *report* (the author could not have meant this), the *carried proof* (it does not prove), or the *carried difficulty* (it is not one) — without touching the original claim. Keep the reporter's view separate from the view reported. → `move` = the proof or difficulty (or `statement/reported` when the speaker only reports); the `anatomy` kind `ascribed-proof` or `ascribed-difficulty`, and `ext.move.reportedOf`.
 
 **Step 9 · Review.** Re-read every unit in its role. `ואם יראה לך בחלק מחלקיה שלא ישמר הגבול הראוי לו – אז תטרח ותעמל עד שתמצא לו הישוב ההגון והראוי` (p219): search for the reading that satisfies both the wording and the truth. Do not force a label; leave the nearest label with a `note`. Then run the reducer in your head (§13) and compare its verdict with the Talmud's own closing (`והלכתא`, `תיובתא`, the last word standing). Where they differ, the file is wrong somewhere — usually a sentence holding two moves (§6), a `provenance` left at the default, or a `תיובתא` without its `contradiction/direct`. Finally validate (§5) and write `about`.
 
@@ -3185,9 +3178,9 @@ Whatever the surface — question, exclamation, ellipsis, rhetoric — extract s
 | 5 premises | edge kinds: deduction, defeats; `provenance` | `ext.warrant.premises`, `ext.warrant.kind`, `.aspect`, `.modality`, `.defeat` |
 | 6 elucidation | `statement/explanation` + `target` | `ext.form.elucidationOf` |
 | 7 synonymy | edge kinds: relations, opposition tests | `ext.relation` |
-| 8 composites | `move` = the carried move | `ext.move.composite`, `ext.move.reportedOf` |
+| 8 composites | `move` = the carried move, `anatomy` = `ascribed-proof` / `ascribed-difficulty` | `ext.move.reportedOf` |
 | 9 review | `note`, `about`; validate | — |
-| axes (any step) | — | `ext.axis`, `ext.priority` |
+| axes (any step) | `anatomy`: a `subject-*` kind, and a `priority-*` kind where one thing is prior to another | — |
 
 ---
 
@@ -3250,10 +3243,9 @@ Surface:
       "anatomy": [
         { "kind": "unqualified", "note": "No quantifier: whoever carries thus." },
         { "kind": "simple" }
-      ],
+      , { "kind": "subject-place" }, { "kind": "subject-movement" }],
       "ext": {
-        "form": { "normalized": "carrying from a store to the street through a colonnade is liable", "subject": "המוציא מחנות לפלטיא דרך סטיו", "predicate": "חייב" },
-        "axis": ["axis/place", "axis/movement"]
+        "form": { "normalized": "carrying from a store to the street through a colonnade is liable", "subject": "המוציא מחנות לפלטיא דרך סטיו", "predicate": "חייב" }
       }
     },
     {
@@ -3289,7 +3281,7 @@ Surface:
       "provenance": "derivation",
       "anatomy": [
         { "kind": "analogism", "basis": "marked", "note": "Carrying through an exempt area ≈ carrying four cubits in the public domain, where an exempt interval (the walking) also separates lifting and setting down." }
-      ],
+      , { "kind": "subject-similarity" }],
       "note": "One utterance, three propositions (Heb p207): the resolution's claim, its proof by analogy, and an elucidation of the proof's second premise (`כל זמן שהוא מהלך הוא פטור`). Asserted as the truth by a named authority: a יישוב, not a שינוי.",
       "ext": {
         "form": { "normalized": "domain-to-domain carrying through an exempt area is liable", "subject": "המוציא מרשות לרשות דרך מקום פטור", "predicate": "חייב" },
@@ -3298,8 +3290,7 @@ Surface:
             { "id": "4a", "text": "carrying through an exempt area is like carrying four cubits in the public domain", "provenance": "derivation" },
             { "id": "4b", "text": "carrying four cubits in the public domain is liable although an exempt interval separates lifting and setting down", "provenance": "tradition" }
           ]
-        },
-        "axis": ["axis/similarity"]
+        }
       }
     },
     {
@@ -3310,10 +3301,9 @@ Surface:
       "provenance": "derivation",
       "anatomy": [
         { "kind": "fallacy-not-similar", "basis": "marked", "note": "Attacks 4a: the subjects differ in the respect that matters, so the analogy's conclusion falls." }
-      ],
-      "note": "Ramchal (Heb p209): the analogy is denied, and the baraita returns to doubt on this line.",
-      "ext": { "axis": ["axis/difference"] }
-    }
+      , { "kind": "subject-difference" }],
+      "note": "Ramchal (Heb p209): the analogy is denied, and the baraita returns to doubt on this line."
+      }
   ]
 }
 ```
@@ -3340,9 +3330,8 @@ Surface:
     "en": "It is like one who carries four cubits in the public domain: when he sets it down he is liable.",
     "move": { "element": "proof", "subtype": "demonstration", "target": "yochanan-claim", "marker": "מידי דהוה א…" },
     "provenance": "tradition",
-    "anatomy": [{ "kind": "analogism", "basis": "marked" }],
-    "ext": { "axis": ["axis/similarity"] }
-  },
+    "anatomy": [{ "kind": "analogism", "basis": "marked" }, { "kind": "subject-similarity" }]
+    },
   {
     "id": "yochanan-elucidation",
     "speaker": "R. Yochanan",
@@ -3406,10 +3395,9 @@ Surface:
       "anatomy": [
         { "kind": "unqualified", "note": "No quantifier; read as categorical." },
         { "kind": "simple" }
-      ],
+      , { "kind": "subject-bearer" }],
       "ext": {
-        "form": { "normalized": "women have the Torah-law obligation of kiddush", "subject": "נשים", "predicate": "חיוב קידוש היום דבר תורה" },
-        "axis": ["axis/bearer"]
+        "form": { "normalized": "women have the Torah-law obligation of kiddush", "subject": "נשים", "predicate": "חיוב קידוש היום דבר תורה" }
       }
     },
     {
@@ -3473,10 +3461,9 @@ Surface:
       "anatomy": [
         { "kind": "analogism", "note": "זכור is likened to שמור by their pairing in Scripture; what holds of one holds of the other." },
         { "kind": "categorical", "basis": "marked", "note": "`כל שישנו`: the derived rule is categorical." }
-      ],
-      "note": "The objection assumed kiddush is an ordinary time-bound commandment; the verse pairs it with שמור, whose obligation is not time-bound. First half of Rava's sentence: the rule.",
-      "ext": { "axis": ["axis/similarity"] }
-    },
+      , { "kind": "subject-similarity" }],
+      "note": "The objection assumed kiddush is an ordinary time-bound commandment; the verse pairs it with שמור, whose obligation is not time-bound. First half of Rava's sentence: the rule."
+      },
     {
       "id": "rava-proof",
       "speaker": "Rava",
@@ -3547,9 +3534,9 @@ Surface:
       "en": "From when does one recite the Shema in the evening? From the time the priests enter to eat their terumah.",
       "move": { "element": "statement", "subtype": "firsthand" },
       "provenance": "tradition",
-      "anatomy": [{ "kind": "unqualified" }, { "kind": "simple" }],
+      "anatomy": [{ "kind": "unqualified" }, { "kind": "simple" }, { "kind": "subject-time" }],
       "note": "Question-and-answer form; one statement once normalized: the evening Shema begins when the priests enter to eat terumah.",
-      "ext": { "form": { "normalized": "the evening Shema begins when the priests enter to eat their terumah", "subject": "זמן קריאת שמע בערבין", "predicate": "משעה שהכהנים נכנסים לאכול בתרומתן" }, "axis": ["axis/time"] }
+      "ext": { "form": { "normalized": "the evening Shema begins when the priests enter to eat their terumah", "subject": "זמן קריאת שמע בערבין", "predicate": "משעה שהכהנים נכנסים לאכול בתרומתן" } }
     },
     {
       "id": "lisni",
@@ -3688,8 +3675,8 @@ A dialogue between two lawyers, A and B (the calibration transfer case):
       "en": "All contracts require consideration.",
       "move": { "element": "statement", "subtype": "firsthand" },
       "provenance": "asserted",
-      "anatomy": [{ "kind": "categorical", "basis": "marked" }, { "kind": "simple" }],
-      "ext": { "form": { "normalized": "every contract has the property of requiring consideration", "subject": "contracts", "predicate": "require consideration" }, "axis": ["axis/essence"] }
+      "anatomy": [{ "kind": "categorical", "basis": "marked" }, { "kind": "simple" }, { "kind": "essence-definition" }],
+      "ext": { "form": { "normalized": "every contract has the property of requiring consideration", "subject": "contracts", "predicate": "require consideration" } }
     },
     {
       "id": "gift",
@@ -3715,10 +3702,9 @@ A dialogue between two lawyers, A and B (the calibration transfer case):
       "en": "But courts routinely enforce charitable pledges that were given without any consideration.",
       "move": { "element": "contradiction", "subtype": "direct", "target": "rule" },
       "provenance": "tradition",
-      "anatomy": [{ "kind": "contradictory", "note": "A particular (some enforced promises lack consideration) against a categorical." }, { "kind": "partial", "note": "`routinely … pledges`: some of the class, not all." }],
-      "note": "Case law is this community's tradition: a disproof from convention.",
-      "ext": { "axis": ["axis/opposition"] }
-    },
+      "anatomy": [{ "kind": "contradictory", "note": "A particular (some enforced promises lack consideration) against a categorical." }, { "kind": "partial", "note": "`routinely … pledges`: some of the class, not all." }, { "kind": "subject-opposition" }],
+      "note": "Case law is this community's tradition: a disproof from convention."
+      },
     {
       "id": "estoppel",
       "speaker": "A",
@@ -3753,7 +3739,7 @@ A dialogue between two lawyers, A and B (the calibration transfer case):
 
 **Reducer.** `not-contracts` discharges `dilemma`. `estoppel` live → unsettles `pledges` → weakened, doubt. `pledges` is a weakened reject on `rule` → `rule` **doubt**. Invariant 5: rebutting a disproof does not prove the claim. The file disagrees with A's last sentence, and is right to.
 
-**Other kinds of text.** A commentary (Blackstone glossing a statute): the statute's sentences are `statement/firsthand` with `provenance: tradition` and `speaker` the statute; the gloss is `statement/explanation` or `forcedExplanation` by the §8 test; an ascribed difficulty (`Blackstone must have found this hard …`) is `statement/reported` with `ext.move.composite: "ascribed-difficulty"`. A judicial opinion: the holding as the claim; each ground as a `proof/demonstration` with the syllogism kind and premises; the dissent's points as `contradiction/direct` or `opposition` by whether they show falsity or offer another reading; *distinguishable* → `fallacy-not-similar`; *a fortiori* → `a-fortiori`; *on the contrary* → `rebuttal/just-the-opposite`. A philosophical dialogue: the same, with `party-individual` when one voice raises and answers its own objections.
+**Other kinds of text.** A commentary (Blackstone glossing a statute): the statute's sentences are `statement/firsthand` with `provenance: tradition` and `speaker` the statute; the gloss is `statement/explanation` or `forcedExplanation` by the §8 test; an ascribed difficulty (`Blackstone must have found this hard …`) is `statement/reported` with the `anatomy` kind `ascribed-difficulty`. A judicial opinion: the holding as the claim; each ground as a `proof/demonstration` with the syllogism kind and premises; the dissent's points as `contradiction/direct` or `opposition` by whether they show falsity or offer another reading; *distinguishable* → `fallacy-not-similar`; *a fortiori* → `a-fortiori`; *on the contrary* → `rebuttal/just-the-opposite`. A philosophical dialogue: the same, with `party-individual` when one voice raises and answers its own objections.
 
 ---
 
@@ -3834,7 +3820,7 @@ Other names an agent may meet for the same concepts. Map them to the keys in §3
 | `dilemma` (file) | `disproof/dilemma` · ממה נפשך |
 | `ground-does-not-reach` (file) | `rebuttal/irrelevant` |
 | `theory` (file) | `sevara` · סברא |
-| `anatomy` (file) | Layers B, C, D; "the anatomy layer"; the sixty-four kinds |
+| `anatomy` (file) | Layers B, C, D, E; "the anatomy layer"; the hundred and six kinds |
 | `move` (file) | Layer A; "the move layer"; the nineteen leaves; taxonomy |
 | `ext` (file) | the waiting room; pending fields |
 
@@ -3883,7 +3869,7 @@ The book's own labelled instances not already given above, each as a one-line un
   { "id": "kosev-lash", "he": "הכותב – חייב; הלש – חייב.", "en": "One who writes is liable; one who kneads is liable.", "move": { "element": "statement", "subtype": "inference", "target": "av-melacha" }, "provenance": "derivation", "anatomy": [{ "kind": "classical-syllogism", "note": "Shabbos 70a / Sanhedrin 53a: subject down from `העושה אב מלאכה בשבת חייב סקילה`." }, { "kind": "inference-necessary" }] },
   { "id": "min-hatzad", "he": "טלטול מן הצד אין שמו טלטול.", "en": "Sideways handling is not called handling.", "move": { "element": "contradiction", "subtype": "opposition", "target": "mukzeh-min-hatzad" }, "provenance": "tradition", "anatomy": [{ "kind": "fallacy-not-included", "note": "Shabbos 43b: the inclusion fails — the mukzeh rule does not reach sideways handling — so the conclusion is withdrawn." }], "ext": { "warrant": { "kind": "rebuttal/invalid-syllogism" } } },
   { "id": "meachas-9a", "he": "מאי שנא ״מאחת״ דמשמע להו? דכתבה רחמנא לבסוף גבי עשירית האיפה … דאי סלקא דעתך … נכתבה רחמנא להאי ״מאחת״ בדלות אי נמי בעשירות.", "en": "Why does 'of one' mean this to them? Because the Merciful One wrote it last, by the tenth-ephah offering … for if you thought otherwise, let it have been written by the poor man's offering or the rich man's.", "move": { "element": "proof", "subtype": "demonstration", "target": "meachas-reading" }, "provenance": "tradition", "anatomy": [{ "kind": "hypothetical-syllogism-tollens" }, { "kind": "via-opposite" }], "note": "Horayos 9a.", "ext": { "warrant": { "kind": "proof/indirect" } } },
-  { "id": "makeh-adam", "he": "דאתקש למכה בהמה.", "en": "For it is juxtaposed to one who strikes an animal.", "move": { "element": "proof", "subtype": "demonstration", "target": "mamon-claim" }, "provenance": "tradition", "anatomy": [{ "kind": "analogism", "basis": "marked", "note": "Bava Kamma 83b: the similarity premise is tradition — juxtaposed subjects teach each other." }], "ext": { "warrant": { "premises": [{ "text": "מכה אדם and מכה בהמה are juxtaposed in Scripture", "provenance": "tradition" }] }, "axis": ["axis/similarity"] } }
+  { "id": "makeh-adam", "he": "דאתקש למכה בהמה.", "en": "For it is juxtaposed to one who strikes an animal.", "move": { "element": "proof", "subtype": "demonstration", "target": "mamon-claim" }, "provenance": "tradition", "anatomy": [{ "kind": "analogism", "basis": "marked", "note": "Bava Kamma 83b: the similarity premise is tradition — juxtaposed subjects teach each other." }, { "kind": "subject-similarity" }], "ext": { "warrant": { "premises": [{ "text": "מכה אדם and מכה בהמה are juxtaposed in Scripture", "provenance": "tradition" }] } } }
 ]
 ```
 
@@ -3904,8 +3890,8 @@ Pesachim 16a / 17b, the whole shape (shipped as `pesachim-liquids.json`): R. Ele
 
 ```json
 [
-  { "id": "mashkei", "he": "משקי בי מדבחיא דכן.", "en": "The liquids of the Temple slaughterhouse are clean.", "move": { "element": "statement", "subtype": "firsthand" }, "provenance": "tradition", "note": "Pesachim 17a: the genus of `הדם והיין והשמן והמים`; the two statements are equivalent.", "ext": { "axis": ["axis/genus-species"] } },
-  { "id": "idi-veidi", "he": "אידי ואידי חד שיעורא הוא.", "en": "This and that are one measure.", "move": { "element": "resolution", "subtype": "settlement", "target": "kesubos-60a-q" }, "provenance": "derivation", "note": "Kesubos 60a: two measures equated.", "ext": { "axis": ["axis/similarity"] } }
+  { "id": "mashkei", "he": "משקי בי מדבחיא דכן.", "en": "The liquids of the Temple slaughterhouse are clean.", "move": { "element": "statement", "subtype": "firsthand" }, "provenance": "tradition", "anatomy": [{ "kind": "kind-species" }], "note": "Pesachim 17a: the genus of `הדם והיין והשמן והמים`; the two statements are equivalent." },
+  { "id": "idi-veidi", "he": "אידי ואידי חד שיעורא הוא.", "en": "This and that are one measure.", "move": { "element": "resolution", "subtype": "settlement", "target": "kesubos-60a-q" }, "provenance": "derivation", "anatomy": [{ "kind": "subject-similarity" }], "note": "Kesubos 60a: two measures equated." }
 ]
 ```
 
@@ -3918,8 +3904,8 @@ Pesachim 16a / 17b, the whole shape (shipped as `pesachim-liquids.json`): R. Ele
 3. **One unit, one move, one target.** Sentences holding two moves are split (§6, §16); the split is explained in `note` or `about`.
 4. **`provenance` filled wherever known** — `tradition` on every Mishnah, baraita and verse; `asserted` on a rabbi's own ruling; `derivation` on reasoning. The default is `asserted`, and a defaulted proof-text reads *doubt* instead of *accepted*.
 5. **`marker` copied exactly** from `markers.ts` where the phrase appears; `attested: true` only where Ramchal labels this passage; neither otherwise.
-6. **Every `anatomy.kind` is one of the sixty-four**; row kinds describe the unit, edge kinds describe its relation to its `target`; `basis: marked` only when the phrase is in the text; a `note` on any label that is not obvious. Write `variant` vs `variant-subjects` by which term changes; write `via-opposite`, `dilemma`, `ground-does-not-reach`, `theory` for the warrant kinds that have those icons; do not write a derived ground that `provenance` already implies.
-7. **`ext` carries only what has no home** — `form`, `relation`, `warrant`, `axis`, `inference`, `move`, `priority` under their guide names; `ext.move.targets` lists every target with the primary first; nothing in `ext` duplicates a present field.
+6. **Every `anatomy.kind` is one of the hundred and six**; row kinds describe the unit, edge kinds describe its relation to its `target`; `basis: marked` only when the phrase is in the text; a `note` on any label that is not obvious. Write `variant` vs `variant-subjects` by which term changes; write `via-opposite`, `dilemma`, `ground-does-not-reach`, `theory` for the warrant kinds that have those icons; do not write a derived ground that `provenance` already implies.
+7. **`ext` carries only what has no home** — `form`, `relation`, `warrant`, `inference`, `move` under their guide names; not `axis`, `priority` or `move.composite`, which are `anatomy` kinds now; `ext.move.targets` lists every target with the primary first; nothing in `ext` duplicates a present field.
 8. **`תיובתא` paired** with a `contradiction/direct` on the same target; `sevara` noted as weak; a rebuttal's `ext.warrant.kind` is `rebuttal/*` and what it leans on is a premise.
 9. **The reducer's verdict matches the source's.** Trace §13 by hand for the claim the passage is about; where the Talmud closes with `והלכתא`, `תיובתא`, or a last word standing, the file must draw the same status. Where it cannot (a placeholder effect, a tiebreak), `about` says so.
 10. **`about` written** — what the passage is, then how it was labelled, then where it was stretched. `short` on any unit whose `en` is long. `note` on every judgment call.

@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-12 -12 24 24" width="128" height="128" role="img" aria-label="Settlement: lightbulb with a continuous bridge and check">
+<title>Settlement: lightbulb with a continuous bridge and check</title><desc>The shared bulb identifies Resolution. A continuous bridge-like filament and check depict an explanation the proposer endorses as true. This marks the offered kind of resolution, not an independent verdict that it is correct; its two terminals do not require two source statements.</desc>
+<g stroke="#ca8a04" stroke-linecap="round" stroke-linejoin="round">
+<path d="M-3.6 3.2C-4.4 1.9-7.4 .2-7.4-3.15C-7.4-6.55-4.25-8.5 0-8.5C4.25-8.5 7.4-6.55 7.4-3.15C7.4 .2 4.4 1.9 3.6 3.2Z" fill="#ca8a04" fill-opacity=".15" stroke-width="1.4"/>
+<path d="M-3.2 5.6h6.4M-2.1 8.1h4.2" fill="none" stroke-width="1.5"/>
+</g><g fill="#ca8a04" fill-opacity=".15" stroke="#ca8a04" stroke-width="1.05" stroke-linecap="round" stroke-linejoin="round">
+<path d="M-4.25 .65h1.5M2.75 .65h1.5"/>
+</g>
+<g fill="none" stroke="#ca8a04" stroke-width="1.15" stroke-linecap="round" stroke-linejoin="round">
+<path d="M-3.5 .65V-3.7Q-3.5-5.05-2.15-5.05H2.15Q3.5-5.05 3.5-3.7V.65"/>
+<path d="M-1.65-1.45l1.2 1.3L1.9-2.5" stroke-width="1.3"/>
+</g>
+</svg>

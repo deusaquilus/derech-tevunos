@@ -90,7 +90,7 @@
     },
     "annotation": {
       "type": "object",
-      "description": "One ch. 1–8 label. Row-level kinds describe the sentence alone; edge-level kinds (relations, deductions, and most grounds) describe its move on `target` and need one. `potential` and `actual` are grounds that sit on the row.",
+      "description": "One label from a chapter other than 9. Row-level kinds describe the sentence alone; edge-level kinds (relations, deductions, most grounds, and both ch. 10 composites) describe its move on `target` and need one. `potential` and `actual` are grounds that sit on the row, and the whole of ch. 11 is row-level.",
       "additionalProperties": false,
       "required": ["kind"],
       "properties": {
@@ -116,7 +116,15 @@
             "via-opposite", "dilemma", "ground-does-not-reach", "theory",
             "rebuttal-your-reasoning", "rebuttal-just-the-opposite", "rebuttal-proves-my-point",
             "obvious", "might-have-thought", "redundant-part", "self-contradictory", "misordered",
-            "potential", "actual"
+            "potential", "actual",
+            "ascribed-proof", "ascribed-difficulty",
+            "essence-definition", "subject-parts", "subject-quality", "subject-quantity", "subject-material",
+            "perceptible-form", "subject-action", "subject-being-affected", "kind-species",
+            "subject-cause", "subject-means", "subject-motive", "subject-purpose", "subject-result",
+            "subject-attribute", "attribute-in-attached", "attribute-concurrent", "attribute-before-after",
+            "subject-place", "subject-orientation", "subject-movement", "subject-time",
+            "subject-relation", "subject-bearer", "subject-similarity", "subject-difference", "subject-opposition",
+            "priority-temporal", "priority-conceptual", "priority-natural"
           ]
         },
         "basis": { "$ref": "#/$defs/basis" },

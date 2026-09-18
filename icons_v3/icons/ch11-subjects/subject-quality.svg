@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-12 -12 24 24" width="128" height="128" role="img" aria-label="subject-quality">
+<title>Quality: the subject’s characteristics or condition</title><desc>Chapter 11, English p224, Hebrew p223. A thermometer and texture swatch suggest characteristics such as hot or cold, hard or soft, appearance, strength or weakness. Quality here does not mean excellence, a star rating, or a measured amount.</desc>
+<g stroke="#7c3aed" stroke-width="1.45" stroke-linecap="round" stroke-linejoin="round" fill="none">
+<path d="M-7.4 2.4V-7.1a1.85 1.85 0 0 1 3.7 0v9.5a3.1 3.1 0 1 1-3.7 0Z" fill="#7c3aed" fill-opacity=".15"/>
+<path d="M-5.55-4.7v9.2" stroke-width="1.7"/>
+<circle cx="-5.55" cy="5.15" r="1.05" fill="#7c3aed" stroke="none"/>
+<rect x=".2" y="-6.6" width="8.8" height="13.2" rx="1.25" fill="#7c3aed" fill-opacity=".15"/>
+<path d="M2.15-2.9q1.2-1.45 2.45 0t2.45 0M2.15.15q1.2-1.45 2.45 0t2.45 0M2.15 3.2q1.2-1.45 2.45 0t2.45 0" stroke-width="1.15"/>
+</g></svg>

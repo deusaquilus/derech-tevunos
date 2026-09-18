@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-12 -12 24 24" width="128" height="128" role="img" aria-label="ascribed-proof">
+<title>Ascribed proof: a report used as evidence</title>
+<desc>Chapter 10, English p214 and Hebrew p213: reported information and demonstration operate together. A quoted document carries the existing green Proof thumb. The report and its evidential force must be evaluated separately. This does not merely mean quoting someone else’s proof.</desc>
+<rect x="-8.6" y="-10" width="17.2" height="20" rx="1.8"
+  fill="#fff" stroke="#475569" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round"/>
+<g fill="#475569">
+  <path d="M-5.8-7.8h2.6v2.1q0 1.75-2.35 2.15v-1.05q1.1-.2 1.1-1.2H-5.8Z"/>
+  <path d="M-1.4-7.8h2.6v2.1q0 1.75-2.35 2.15v-1.05q1.1-.2 1.1-1.2H-1.4Z"/>
+</g><g transform="translate(0 2.6) scale(.64)"><rect xmlns="http://www.w3.org/2000/svg" x="-8.4" y="-1.4" width="4.8" height="9.6" rx="1.3" fill="#16a34a" fill-opacity="0.15" stroke="#16a34a" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" />
+  <path xmlns="http://www.w3.org/2000/svg" d="M -2.1 8.2 L -2.1 -0.6 C -1 -0.9, -0.3 -1.7, 0 -2.7 L 1.1 -6.6 C 1.4 -7.8, 3.5 -7.7, 3.5 -6.1 L 3.5 -2.5 L 6.3 -2.5 C 7.7 -2.5, 8.5 -1.2, 8.1 0.1 L 6.5 6.3 C 6.2 7.5, 5.3 8.2, 4.2 8.2 Z" fill="#16a34a" fill-opacity="0.15" stroke="#16a34a" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round" />
+</g>
+</svg>

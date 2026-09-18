@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-12 -12 24 24" width="128" height="128" role="img" aria-label="attribute-before-after">
+<title>Attribute: preceding or following the subject</title><desc>Chapter 11, Hebrew p231, English p232. A central subject square has a companion marker before and after. A sequencing arrow represents the temporal example given here. Either relation may apply; both are not required. Ramchal later distinguishes temporal, intellectual and natural priority, so the drawing does not define all priority as time.</desc>
+<g stroke="#7c3aed" stroke-width="1.45" stroke-linecap="round" stroke-linejoin="round" fill="none">
+<rect x="-3" y="-6" width="6" height="7" rx="1" fill="#7c3aed" fill-opacity=".15"/>
+<circle cx="-8" cy="-2.5" r="1.7"/><circle cx="8" cy="-2.5" r="1.7"/>
+<path d="M-9 6H9M6.5 3.5L9 6 6.5 8.5"/>
+</g></svg>

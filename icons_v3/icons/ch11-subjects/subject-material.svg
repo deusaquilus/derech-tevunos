@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-12 -12 24 24" width="128" height="128" role="img" aria-label="subject-material">
+<title>Material: what the subject is made from</title><desc>Chapter 11, English p226, Hebrew p225. A tinted block has a hatched cut surface to suggest substance. Material is what the object is made from, such as metal or clay, rather than its component parts, its shape, or the agent that makes it. The block is a mnemonic, not a claim that all material is solid.</desc>
+<g stroke="#7c3aed" stroke-width="1.45" stroke-linecap="round" stroke-linejoin="round" fill="none">
+<path d="M0-8.5L7.5-4.2V4.4L0 8.7L-7.5 4.4V-4.2Z" fill="#7c3aed" fill-opacity=".15"/>
+<path d="M-7.5-4.2L0 .1L7.5-4.2M0 .1V8.7"/><path d="M-5.7-1.4l3.9 2.2M-5.7 1l3.9 2.2M-5.7 3.4l3.9 2.2" stroke-width="1.05"/>
+</g></svg>

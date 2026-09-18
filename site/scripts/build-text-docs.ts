@@ -70,13 +70,15 @@ import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 
-import { ANATOMY, FAMILIES, type AnatomyKey } from '../src/rail/anatomy.ts';
+import { ANATOMY, ANATOMY_KEYS, FAMILIES, type AnatomyKey } from '../src/rail/anatomy.ts';
 import { GLYPHS, TILE_GLYPH, glyphBox, SQUARE_BOX } from '../src/rail/glyphs.ts';
 import { shapesFor } from '../src/rail/icons.ts';
+import { MOVE_BOX, moveGlyph } from '../src/rail/moveGlyphs.ts';
 import { primitiveToSvg } from '../src/rail/render.ts';
 import {
   ELEMENT_GLOSS,
   LEAVES,
+  MOVE_KEYS,
   SUBTYPES,
   UNDEFINED_IN_SOURCE,
   type Element,
@@ -401,6 +403,19 @@ const elementIcon = (element: Element): string =>
     LIGHT.element[element],
   );
 
+/**
+ * A leaf's own drawing where the icon set has one, its parent's where it has
+ * not — which is exactly what the waterfall's rows do (`MoveIcon.tsx`). Seven
+ * of the nineteen. A verse that defines a leaf should show the picture the
+ * reader will meet on the drawing, not the family it belongs to.
+ */
+const leafIcon = (key: MoveKey, element: Element): string => {
+  const body = moveGlyph(key);
+  return body === undefined
+    ? elementIcon(element)
+    : svgOf(body, MOVE_BOX, LEAVES[key].en, LIGHT.element[element]);
+};
+
 /** What every card shows: a picture, a name, an optional Hebrew name and marker, a reading, a meta line. */
 type Card = {
   readonly key: string;
@@ -457,7 +472,7 @@ const leafCard = (key: MoveKey): Card => {
   const undefinedInSource = UNDEFINED_IN_SOURCE.includes(key);
   return {
     key,
-    icon: elementIcon(element),
+    icon: leafIcon(key, element),
     en: info.en,
     he: info.he,
     reads: undefinedInSource ? 'listed here, and never defined' : info.plain,
@@ -836,6 +851,25 @@ const main = (): void => {
   );
   console.log(
     `   ${cards} construct cards on ${Object.keys(CONSTRUCTS).length} verses; ${drawnLinks} "drawn" links to ${new Set(Object.values(DRAWN).flat().map((d) => d.sugya)).size} passages`,
+  );
+  // Printed, not enforced. The table covered the whole vocabulary on
+  // 2026-09-18, and a build that quietly stops covering it should say so —
+  // but a new construct may reasonably land in `anatomy.ts` a commit before
+  // its verse is found, and failing the build for that helps nobody.
+  const anchoredAnatomy = new Set(
+    Object.values(CONSTRUCTS).flat().flatMap((a) => (a.kind === 'anatomy' ? [a.key as string] : [])),
+  );
+  const anchoredLeaves = new Set(
+    Object.values(CONSTRUCTS).flat().flatMap((a) => (a.kind === 'leaf' ? [a.key as string] : [])),
+  );
+  const uncovered = [
+    ...ANATOMY_KEYS.filter((k) => !anchoredAnatomy.has(k)),
+    ...MOVE_KEYS.filter((k) => !anchoredLeaves.has(k)),
+  ];
+  console.log(
+    uncovered.length === 0
+      ? `   vocabulary covered: all ${ANATOMY_KEYS.length} anatomy kinds and all ${MOVE_KEYS.length} ch. 9 leaves have a card`
+      : `   ⚠ ${uncovered.length} construct(s) with no card: ${uncovered.join(', ')}`,
   );
 };
 

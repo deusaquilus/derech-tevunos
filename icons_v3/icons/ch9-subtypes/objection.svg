@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-12 -12 24 24" width="128" height="128" role="img" aria-label="Objection: incoming impact inside a warning triangle">
+<title>Objection: incoming impact inside a warning triangle</title><desc>A projectile is directed at an upright statement block: an objection is thrown at the original speaker’s statement. The statement remains standing; the picture does not assert its defeat.</desc>
+<path d="M 0 -8.6 L 8.2 6.5 C 8.7 7.5, 8.1 8.4, 7.1 8.4 L -7.1 8.4 C -8.1 8.4, -8.7 7.5, -8.2 6.5 Z" fill="#ea580c" fill-opacity="0.15" stroke="#ea580c" stroke-width="1.45" stroke-linecap="round" stroke-linejoin="round"/>
+<g fill="none" stroke="#ea580c" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round">
+<path d="M-4.65 3.7h1.5M-3.75 1.8h1.1"/>
+<path d="M.25 .4L1.1 1.65M.35 6.15l.8-.95"/>
+</g>
+<circle cx="-.65" cy="3.7" r="1.15" fill="#ea580c"/>
+<rect x="2" y=".2" width="1.65" height="6.25" rx=".55" fill="#ea580c"/>
+
+</svg>

@@ -1,7 +1,1 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="-12 -12 24 24" role="img" aria-label="differs-in-time">
-  <title>differs-in-time: not opposed: they speak of different times</title>
-  <circle cx="0" cy="0" r="8.2" fill="#7c3aed" fill-opacity="0.15" stroke="#7c3aed" stroke-width="1.45" stroke-linecap="round" stroke-linejoin="round"/>
-  <path d="M 0 0 V -5 M 0 0 H 3.8" fill="none" stroke="#7c3aed" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/>
-  <circle cx="0" cy="0" r="1.1" fill="#7c3aed"/>
-</svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-12 -12 24 24" width="128" height="128" role="img" aria-label="Different times: the statements refer to different times"><title>Different times: the statements refer to different times</title><desc>Chapter 4: two separate clocks showing nine and three distinguish statements about different times. These clock readings are illustrative. The Chapter 11 Time icon remains unchanged.</desc><g stroke="#7c3aed" stroke-width="1.45" stroke-linecap="round" stroke-linejoin="round" fill="none"><g class="time-dial" transform="translate(-5.65 0)" stroke-width="1.35"><circle r="4.65" fill="#7c3aed" fill-opacity=".15"/><path d="M0-3.15V0H-2.6"/><circle r=".42" fill="#7c3aed" stroke="none"/></g><g class="time-dial" transform="translate(5.65 0)" stroke-width="1.35"><circle r="4.65" fill="#7c3aed" fill-opacity=".15"/><path d="M0-3.15V0H2.6"/><circle r=".42" fill="#7c3aed" stroke="none"/></g></g></svg>

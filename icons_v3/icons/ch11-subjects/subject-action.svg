@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-12 -12 24 24" width="128" height="128" role="img" aria-label="subject-action">
+<title>Action: the subject acts upon something else</title><desc>Chapter 11, English p226, Hebrew p225. An arrow leads from the larger subject block toward another thing. Ramchal distinguishes natural action from action chosen by a human agent. The arrow marks acting on another, not merely movement, logical entailment, or the subject’s capacity to act.</desc>
+<g stroke="#7c3aed" stroke-width="1.45" stroke-linecap="round" stroke-linejoin="round" fill="none">
+<rect x="-9.3" y="-4.5" width="7.8" height="9" rx="1.25" fill="#7c3aed" fill-opacity=".15"/>
+<circle cx="8" cy="0" r="2"/>
+<path d="M.6 0H3.5M1.5-2.2L3.7 0l-2.2 2.2" stroke-width="1.6"/>
+</g></svg>

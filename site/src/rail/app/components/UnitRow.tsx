@@ -2,12 +2,13 @@ import type { JSX } from "react";
 
 import type { Badge } from "../../anatomy.ts";
 import { LATTICE_MARGIN } from "../../layout.ts";
+import { moveGlyph } from "../../moveGlyphs.ts";
 import { labelBasis, type Standing, type Unit } from "../../sugya.ts";
-import { describe, isUndefinedInSource } from "../../taxonomy.ts";
+import { describe, isUndefinedInSource, keyOf } from "../../taxonomy.ts";
 import type { Verdict } from "../../verdict.ts";
 import type { RowBadges } from "../useSugyaController.ts";
 import { AnatomyBadge } from "./AnatomyBadge.tsx";
-import { ElementIcon } from "./ElementIcon.tsx";
+import { MoveIcon } from "./MoveIcon.tsx";
 import { Tooltip } from "./Tooltip.tsx";
 import { VerdictPill } from "./VerdictPill.tsx";
 
@@ -58,7 +59,7 @@ export type UnitRowProps = {
   readonly onHandle: () => void;
   readonly onPeek: (id: string | undefined) => void;
 
-  // The chapter 1–8 layer. All empty when it is off.
+  // The anatomy layer. All empty when it is off.
   readonly badges?: RowBadges;
   /** 1-based position of the sentence this one acts on, for the badges' wording. */
   readonly targetOrdinal?: number;
@@ -113,6 +114,7 @@ export const UnitRow = ({
 }: UnitRowProps): JSX.Element => {
   const leaf = describe(unit.move);
   const basis = labelBasis(unit);
+  const drawnAsItself = moveGlyph(keyOf(unit.move)) !== undefined;
   const detail = [
     leaf.he,
     leaf.en,
@@ -181,6 +183,11 @@ export const UnitRow = ({
         {targetOrdinal === undefined ? "" : ` to sentence ${targetOrdinal}`}. {BASIS_TIP[basis]}
         {isUndefinedInSource(unit.move) ? " Ramchal announces this kind and never defines it." : ""}
       </span>
+      <span className="legend-tip-leaves">
+        {drawnAsItself
+          ? "The icon is this kind's own drawing: the move's shape with whatever distinguishes the kind set inside it."
+          : "The icon is the move's. This kind shares it, and the name above is what tells the two apart."}
+      </span>
     </span>
   );
 
@@ -194,7 +201,7 @@ export const UnitRow = ({
           ref={iconRef}
         >
           <Tooltip content={iconTip} width={300} className="row-icon-tip">
-            <ElementIcon element={unit.move.element} standing={standing} pending={!revealed} />
+            <MoveIcon move={unit.move} standing={standing} pending={!revealed} />
           </Tooltip>
         </div>
       </div>

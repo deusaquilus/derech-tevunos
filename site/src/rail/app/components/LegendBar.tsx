@@ -2,12 +2,13 @@ import type { JSX } from "react";
 
 import { FAMILIES, FAMILY_ORDER, type Family } from "../../anatomy.ts";
 import { SQUARE_BOX, TILE_GLYPH } from "../../glyphs.ts";
-import { ELEMENTS, ELEMENT_GLOSS, LEAVES, type Element, type MoveKey } from "../../taxonomy.ts";
+import { ELEMENTS, ELEMENT_GLOSS, LEAVES, type Element, type Move, type MoveKey } from "../../taxonomy.ts";
 import type { Lenses } from "../hooks/useAnatomyLayer.ts";
 import { ElementIcon } from "./ElementIcon.tsx";
+import { MoveIcon } from "./MoveIcon.tsx";
 import { Tooltip } from "./Tooltip.tsx";
 
-/** The chapter 1–8 layer's controls, when the sugya has anything to show. */
+/** The anatomy layer's controls, when the sugya has anything to show. */
 export type LegendAnatomyProps = {
   readonly on: boolean;
   readonly onToggle: (on: boolean) => void;
@@ -28,10 +29,10 @@ export type LegendBarProps = {
 };
 
 const MASTER_TIP =
-  "Ramchal's chapters 1–8 as a second layer over the chapter 9 moves: who is speaking, what each statement is made of, how two statements relate, what kind of deduction a proof is, and what it stands on. Off, the page shows only the seven moves. Your choice is remembered.";
+  "Every Ramchal chapter but the ninth, as a second layer over the chapter 9 moves: who is speaking, what each statement is made of, how two statements relate, what kind of deduction a proof is, what it stands on, when a report is itself the argument, and which aspect of its subject a sentence examines. Off, the page shows only the seven moves. Your choice is remembered.";
 
 const HUE_NOTE =
-  "Colour marks the family: violet for chapters 3–6, teal for chapter 7, magenta for chapter 8, slate for chapter 1.";
+  "Colour marks the family: violet for chapters 3–6 and 11, teal for chapter 7, magenta for chapter 8, slate for chapters 1 and 10.";
 
 /**
  * The key to the chapter 4 glyphs, shown once, on the Relations lens: every
@@ -59,16 +60,38 @@ const TileKey = (): JSX.Element => (
 const FOLD_TIP =
   "What a challenge does when it arrives from far down the page. On, it folds the finished business behind it: every earlier challenge on the same claim stays as a row, every answer is tucked into a band, and the rail runs over the shorter page. Off, it arrives over the open text as before, with the rail drawn its full length. Flipping it re-lays the page out at the step you are on. Your choice is remembered.";
 
-const leavesOf = (element: Element): string =>
-  (Object.keys(LEAVES) as MoveKey[])
-    .filter((key) => key.startsWith(`${element}/`))
-    .map((key) => `${LEAVES[key].en} (${LEAVES[key].he})`)
-    .join(", ");
+const leavesOf = (element: Element): readonly MoveKey[] =>
+  (Object.keys(LEAVES) as MoveKey[]).filter((key) => key.startsWith(`${element}/`));
+
+/**
+ * An element's kinds, each with the picture the rows actually draw for it.
+ * Seven of the nineteen have one of their own; the rest repeat the parent
+ * above, which is the honest thing for the key to show — a reader who meets a
+ * plain thumbs-up in a row should find it here and not wonder which kind it
+ * was. 28px because that is where the set puts the internal detail
+ * (`ICONS_REFERENCE_V2.md` §4.3), and the key is where it is worth the room.
+ */
+const Kinds = ({ element }: { readonly element: Element }): JSX.Element => (
+  <span className="legend-tip-kinds">
+    {leavesOf(element).map((key) => {
+      const [, subtype] = key.split("/") as [Element, string];
+      const leaf = LEAVES[key];
+      return (
+        <span key={key} className="legend-tip-kind">
+          <MoveIcon move={{ element, subtype } as Move} size={28} />
+          <span>
+            {leaf.en} <span lang="he">({leaf.he})</span>
+          </span>
+        </span>
+      );
+    })}
+  </span>
+);
 
 /**
  * The seven ch. 9 icons with their glosses, each explained on hover; at the
- * right end, the switch for the chapter 1–8 layer; and under them, when the
- * layer is on, one pill per family to show or hide it.
+ * right end, the switch for the layer of every other chapter; and under them,
+ * when the layer is on, one pill per family to show or hide it.
  */
 export const LegendBar = ({ anatomy, fold }: LegendBarProps): JSX.Element => (
   <div className="legend-block">
@@ -76,15 +99,19 @@ export const LegendBar = ({ anatomy, fold }: LegendBarProps): JSX.Element => (
       <ul className="legend" aria-label="What each icon means">
         {ELEMENTS.map((element) => (
           <li key={element} className="legend-item">
+            {/* 360, not the 320 it shared with the other tips: the kinds grid
+                below is two columns of icon-plus-name, and at 320 every
+                second name wrapped. */}
             <Tooltip
-              width={320}
+              width={360}
               content={
                 <span className="legend-tip">
                   <span>
                     <b>{element}</b> — {ELEMENT_GLOSS[element]}. One of the seven moves of chapter 9: what a
                     sentence <i>does</i> to an earlier one.
                   </span>
-                  <span className="legend-tip-leaves">Its kinds: {leavesOf(element)}.</span>
+                  <span className="legend-tip-leaves">Its kinds, as the rows draw them:</span>
+                  <Kinds element={element} />
                   {anatomy?.on ? (
                     <span className="legend-tip-leaves">
                       The badges beside the text are the other layer — what a sentence <i>is</i>, and how it
@@ -127,7 +154,7 @@ export const LegendBar = ({ anatomy, fold }: LegendBarProps): JSX.Element => (
                   checked={anatomy.on}
                   onChange={(event) => anatomy.onToggle(event.currentTarget.checked)}
                 />
-                Ramchal&rsquo;s anatomy <span className="legend-switch-ch">ch. 1–8</span>
+                Ramchal&rsquo;s anatomy <span className="legend-switch-ch">ch. 1–8 · 10 · 11</span>
               </label>
             </Tooltip>
           )}

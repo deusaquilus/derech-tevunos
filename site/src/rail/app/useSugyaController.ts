@@ -119,7 +119,7 @@ export type ControllerOptions = {
   readonly start?: number;
 };
 
-/** What the chapter 1–8 layer puts on one row, after the switch and lenses. */
+/** What the anatomy layer puts on one row, after the switch and lenses. */
 export type RowBadges = {
   /** About the sentence alone: its form, what it implies, whether it is literal. */
   readonly row: readonly Badge[];
@@ -264,7 +264,7 @@ export type SugyaController = {
    */
   readonly hotBead: string | undefined;
 
-  // The chapter 1–8 layer.
+  // The anatomy layer.
   readonly anatomy: AnatomyLayer;
   /**
    * True when the layer would have something to show beyond the speaker
@@ -577,7 +577,7 @@ export const useSugyaController = (
     };
   }, [units]);
 
-  // --- the chapter 1–8 layer -------------------------------------------------
+  // --- the anatomy layer -----------------------------------------------------
   // Everything below is derived from the annotations, the provenances and the
   // switch; the only state is the switch itself (persisted) and which badge is
   // hot.

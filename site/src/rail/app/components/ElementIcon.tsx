@@ -75,6 +75,15 @@ const primitive = (
   }
 };
 
+/**
+ * The bar through a refuted move. Shared with `MoveIcon`, which draws the
+ * same icon from the icon set's SVG rather than from `icons.ts` geometry: a
+ * defeated demonstration must be struck exactly as a defeated proof is.
+ */
+export const DefeatedStrike = (): JSX.Element => (
+  <line x1={-11.5} y1={11.5} x2={11.5} y2={-11.5} stroke={LIGHT.fg} strokeWidth={1.6} strokeLinecap="round" />
+);
+
 export type ElementIconProps = {
   readonly element: Element;
   /** Fades the icon by how far the move has been knocked down. */
@@ -107,17 +116,7 @@ export const ElementIcon = ({
     >
       {title === undefined ? null : <title>{title}</title>}
       {shapesFor(element).map((p, i) => primitive(p, i, colour, LIGHT.surface))}
-      {standing === "defeated" && !pending ? (
-        <line
-          x1={-11.5}
-          y1={11.5}
-          x2={11.5}
-          y2={-11.5}
-          stroke={LIGHT.fg}
-          strokeWidth={1.6}
-          strokeLinecap="round"
-        />
-      ) : null}
+      {standing === "defeated" && !pending ? <DefeatedStrike /> : null}
     </svg>
   );
 };

@@ -8,6 +8,7 @@
 
 import { resolveFill, shapesFor, type IconPrimitive } from "./icons.ts";
 import { connectorPath, iconX, indentFor, isLongRun } from "./layout.ts";
+import { moveGlyph } from "./moveGlyphs.ts";
 import { LIGHT, type Palette } from "./theme.ts";
 import {
   analyze,
@@ -21,9 +22,11 @@ import {
   describe,
   effectOf,
   isUndefinedInSource,
+  keyOf,
   ELEMENTS,
   ELEMENT_GLOSS,
   type Element,
+  type Move,
 } from "./taxonomy.ts";
 import { standingOpacity, verdictFor, type Verdict } from "./verdict.ts";
 
@@ -112,6 +115,30 @@ const renderIcon = (
       ? `<line x1="-11.5" y1="11.5" x2="11.5" y2="-11.5" stroke="${theme.fg}" stroke-width="1.6" stroke-linecap="round"/>`
       : "";
   return `<g transform="translate(${x} ${y})" opacity="${standingOpacity(standing)}">${body}${strike}</g>`;
+};
+
+/**
+ * The same icon the React row draws (`app/components/MoveIcon.tsx`): the
+ * subtype's own picture for the seven leaves that have one, the parent move's
+ * silhouette for the other twelve. A subtype body is `currentColor`
+ * throughout, so the group carries the element's colour and the body inherits
+ * it — the same trick the badges use, and the reason one body serves a live
+ * move and a faded one alike.
+ */
+const renderMoveIcon = (
+  move: Move,
+  x: number,
+  y: number,
+  standing: Standing,
+  theme: Theme,
+): string => {
+  const body = moveGlyph(keyOf(move));
+  if (body === undefined) return renderIcon(move.element, x, y, standing, theme);
+  const strike =
+    standing === "defeated"
+      ? `<line x1="-11.5" y1="11.5" x2="11.5" y2="-11.5" stroke="${theme.fg}" stroke-width="1.6" stroke-linecap="round"/>`
+      : "";
+  return `<g transform="translate(${x} ${y})" color="${theme.element[move.element]}" opacity="${standingOpacity(standing)}">${body}${strike}</g>`;
 };
 
 type EdgeStyle = { readonly dash: string; readonly marker: string };
@@ -237,8 +264,8 @@ export const renderSugya = (sugya: Sugya, options: RenderOptions = {}): string =
 
   const icons = rows
     .map((row) =>
-      renderIcon(
-        row.unit.move.element,
+      renderMoveIcon(
+        row.unit.move,
         row.cx,
         row.cy,
         analysis.standing.get(row.unit.id) ?? "live",

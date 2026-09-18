@@ -1,8 +1,9 @@
 /**
- * Derech Tevunos chapters 1–8: who is speaking, what a statement is made of,
- * how two statements stand to each other, what one implies, when it is not
- * meant literally, how a conclusion is derived from what is granted, and what
- * a proof or disproof stands on.
+ * Every Derech Tevunos chapter except chapter 9: who is speaking, what a
+ * statement is made of, how two statements stand to each other, what one
+ * implies, when it is not meant literally, how a conclusion is derived from
+ * what is granted, what a proof or disproof stands on, when a report is
+ * itself the argument, and which aspect of its subject a sentence examines.
  *
  * Chapter 9 (`taxonomy.ts`) names what a sentence *does* to an earlier one.
  * These chapters name what a sentence *is*, how it relates, and what it rests
@@ -18,7 +19,8 @@
  *
  * Page numbers follow the bilingual edition: even pages English, odd Hebrew.
  * The glyphs are the icon set in `icons_v3/`; `icons_v3/ICONS_REFERENCE.md` is
- * the contract for what each means and where it attaches.
+ * the contract for the chapter 1–8 drawings and `ICONS_REFERENCE_V2.md` beside
+ * it covers the chapter 9–11 additions of 18 September 2026.
  */
 
 import type { LabelBasis, Provenance } from "./sugya.ts";
@@ -30,8 +32,19 @@ import type { Element } from "./taxonomy.ts";
  * (chapter 8), and, before any of it, knowing who is talking (chapter 1).
  * Chapters 3–6 are split in two here only because a badge about one sentence
  * and a badge about two sit in different places.
+ *
+ * The last two are past the partition: chapter 10, where a report is also an
+ * argument, and chapter 11, where the question is which aspect of a subject
+ * is under examination. Neither adds a move, which is why both are here.
  */
-export type Family = "speakers" | "anatomy" | "relations" | "deductions" | "grounds";
+export type Family =
+  | "speakers"
+  | "anatomy"
+  | "relations"
+  | "deductions"
+  | "grounds"
+  | "reports"
+  | "subjects";
 
 /** Where a badge belongs: on the row it describes, or on the move the row makes. */
 export type Level = "row" | "edge";
@@ -88,10 +101,32 @@ export const FAMILIES: Record<Family, FamilyInfo> = {
     blurb:
       "What a proof or disproof stands on — the mind's own axioms, the senses, common opinion, a received tradition, a deduction — and how it is turned aside: shown not to reach the claim, caught whichever way it is taken, held up by a theory alone, thrown back at the other view, or objected to as a matter of form; and whether a predicate is said of what can or of what does.",
   },
+  reports: {
+    name: "Reported moves",
+    chapter: "ch. 10",
+    hue: "slate",
+    blurb:
+      "A sentence that reports someone else's words and, in the same breath, does something with them: the report is the evidence for a claim, or it raises the difficulty that follows from another thinker's position. Whether the attribution is right and whether the argument bites are two separate questions.",
+  },
+  subjects: {
+    name: "Subject analysis",
+    chapter: "ch. 11",
+    hue: "violet",
+    blurb:
+      "Which aspect of its subject a sentence is examining — its essence, its parts, how much of it there is, what it is made of, what it does and what is done to it, its cause and its purpose, where it is and when, what it is like and what it is unlike — and, after those twenty-four, the three senses in which one thing can be prior to another. A sentence may be about more than one.",
+  },
 };
 
-/** Lens order: who speaks, then Ramchal's three processes in the book's order. */
-export const FAMILY_ORDER: readonly Family[] = ["speakers", "anatomy", "relations", "deductions", "grounds"];
+/** Lens order: who speaks, then Ramchal's three processes, then the two chapters past them. */
+export const FAMILY_ORDER: readonly Family[] = [
+  "speakers",
+  "anatomy",
+  "relations",
+  "deductions",
+  "grounds",
+  "reports",
+  "subjects",
+];
 
 export type AnatomyKey =
   // ch. 1 — who is speaking
@@ -178,7 +213,42 @@ export type AnatomyKey =
   | "misordered"
   // ch. 8 — potential and actual
   | "potential"
-  | "actual";
+  | "actual"
+  // ch. 10 — a report that is also an argument
+  | "ascribed-proof"
+  | "ascribed-difficulty"
+  // ch. 11 — the twenty-four distinctions, in the book's numbered order
+  | "essence-definition"
+  | "subject-parts"
+  | "subject-quality"
+  | "subject-quantity"
+  | "subject-material"
+  | "perceptible-form"
+  | "subject-action"
+  | "subject-being-affected"
+  | "kind-species"
+  | "subject-cause"
+  | "subject-means"
+  | "subject-motive"
+  | "subject-purpose"
+  | "subject-result"
+  | "subject-attribute"
+  | "attribute-in-attached"
+  | "attribute-concurrent"
+  | "attribute-before-after"
+  | "subject-place"
+  | "subject-orientation"
+  | "subject-movement"
+  | "subject-time"
+  | "subject-relation"
+  | "subject-bearer"
+  | "subject-similarity"
+  | "subject-difference"
+  | "subject-opposition"
+  // ch. 11 — the three senses of priority, which follow the twenty-four
+  | "priority-temporal"
+  | "priority-conceptual"
+  | "priority-natural";
 
 export type AnatomyInfo = {
   readonly key: AnatomyKey;
@@ -242,6 +312,29 @@ const groundOnRow = (e: Omit<Entry, "family" | "level" | "chapter">): Entry => (
   family: "grounds",
   level: "row",
   chapter: 8,
+  ...e,
+});
+/**
+ * Chapter 10's two composites are edge-level because both halves of what they
+ * name act on something: an ascribed proof supports a claim, an ascribed
+ * difficulty attacks one. A report that does neither is just `statement/reported`.
+ */
+const report = (e: Omit<Entry, "family" | "level" | "chapter">): Entry => ({
+  family: "reports",
+  level: "edge",
+  chapter: 10,
+  ...e,
+});
+/**
+ * Chapter 11 is row-level throughout, priority included. The distinction names
+ * the aspect of the subject a sentence examines, which is a fact about that
+ * sentence; it says nothing about the sentence it answers. "The king precedes
+ * the people" is about kings, not about the sentence before it.
+ */
+const subject = (e: Omit<Entry, "family" | "level" | "chapter">): Entry => ({
+  family: "subjects",
+  level: "row",
+  chapter: 11,
   ...e,
 });
 
@@ -969,6 +1062,303 @@ const ENTRIES: Record<AnatomyKey, Entry> = {
     definition:
       "The predicate is said of what is now doing it, not of what is merely able or eligible. A solid disc.",
     page: "Eng p154 · Heb p153",
+  }),
+
+  // --- ch. 10: a report that is also an argument (Eng p214–218, Heb p213–217)
+  // One sentence doing two jobs. The drawing is a quoted document carrying the
+  // ch. 9 glyph of the second job, so the composite reads as what it is.
+  "ascribed-proof": report({
+    en: "ascribed proof",
+    he: "הוכחה והגדה",
+    short: "a report, as proof",
+    reads: "reports what was said, and the report is the evidence",
+    definition:
+      "The sentence reports someone else's words or deed, and the report is what establishes the claim. The two jobs are judged apart: a report can be accurate and still not reach the claim, and a broken inference from it does not make the report false. It need not be someone else's proof that is being quoted.",
+    page: "Eng p214 · Heb p213",
+  }),
+  "ascribed-difficulty": report({
+    en: "ascribed difficulty",
+    he: "קשיא מגדת",
+    short: "a difficulty, ascribed",
+    reads: "raises the problem as another thinker would raise it",
+    definition:
+      "The speaker states the difficulty that follows from someone else's position, without necessarily holding it. Whether the attribution is right and whether the difficulty bites are separate questions. Ramchal does not confine the combination to a פרכא, so the badge carries the general difficulty.",
+    page: "Eng p214–218 · Heb p213–217",
+  }),
+
+  // --- ch. 11: which aspect of the subject (Eng p222–236, Heb p221–235) ------
+  // Ramchal's twenty-four numbered הבחנות in his order, then the three senses
+  // of priority that follow them. Attribute (15) has three branches of its own,
+  // and Form (6) splits between the essence badge and its own perceptible one.
+  "essence-definition": subject({
+    en: "essence and definition",
+    he: "מהות · גדר",
+    short: "what it is",
+    reads: "what makes this the thing it is",
+    definition:
+      "The first distinction: the subject's own identity, which marks it off from everything else, and the definition (גדר) that states it. An עוללת is the cluster that has neither כתף nor נטף (Pe'ah 7:4). A colour or a passing condition does not define. Form in its essential sense, distinction 6, wears this same badge.",
+    page: "Eng p222 · Heb p221",
+  }),
+  "subject-parts": subject({
+    en: "parts",
+    he: "חלקים",
+    short: "its parts",
+    reads: "what it divides into",
+    definition:
+      "The components the subject divides into as a whole — the two layers of the esophagus; Upper Galilee, Lower Galilee and the valley. Not the stuff it is made of, and not the species under it. The icon draws three pieces; the number is illustrative.",
+    page: "Eng p222 · Heb p221",
+  }),
+  "subject-quality": subject({
+    en: "quality",
+    he: "איכות",
+    short: "what it is like",
+    reads: "its condition: hot, hard, strong",
+    definition:
+      "The subject's constitution and condition — hot or cold, wet or dry, its colour, its strength or weakness. Not excellence and not a rating; putting a number on a quality brings in quantity as well.",
+    page: "Eng p224 · Heb p223",
+  }),
+  "subject-quantity": subject({
+    en: "quantity",
+    he: "כמות",
+    short: "how much, how many",
+    reads: "measured, or counted",
+    definition:
+      "Measure where measure applies and number where counting applies — sixteen cubits in each direction, forty-five vines. Distinct from chapter 3's scope: that is how much of the class the statement speaks about, this is a quantity inside what it says.",
+    page: "Eng p224–226 · Heb p223",
+  }),
+  "subject-material": subject({
+    en: "material",
+    he: "חמר",
+    short: "what it is made of",
+    reads: "the stuff it is made from",
+    definition:
+      "What the subject is made from — metal vessels of metal, earthenware of clay. Not its components, not its visible shape, and not whoever made it. The block is a mnemonic; material need not be solid.",
+    page: "Eng p226 · Heb p225",
+  }),
+  "perceptible-form": subject({
+    en: "perceptible form",
+    he: "צורה מרגשת",
+    short: "its visible shape",
+    reads: "the shape the eye sees",
+    definition:
+      "Distinction 6, Form, in its perceptible branch: the outline of the subject as the eyes see it. The other branch, essential form (עצמית), is the essence grasped by the mind and wears `essence-definition`. A visible-outline picture must not stand for both without a word beside it.",
+    page: "Eng p226 · Heb p225",
+  }),
+  "subject-action": subject({
+    en: "action",
+    he: "פעלה",
+    short: "what it does to another",
+    reads: "it acts on something else",
+    definition:
+      "The subject considered as acting on something else, whether by its nature (טבעית) or by choice (רצונית) — a natural effect on the intestines; a person reciting the Shema. Both branches wear this badge with the word beside it. Acting on another: not moving, and not entailing.",
+    page: "Eng p226 · Heb p225",
+  }),
+  "subject-being-affected": subject({
+    en: "being affected",
+    he: "הפעל",
+    short: "what is done to it",
+    reads: "it takes an effect from another",
+    definition:
+      "The impression the subject takes from others acting on it — heat spreading through metal, חם מקצתו חם כלו. The translation's “Affection” means being acted upon, not fondness, and an effect need not be harmful. The same picture as action, with the arrow reversed.",
+    page: "Eng p226–228 · Heb p225–227",
+  }),
+  "kind-species": subject({
+    en: "kind and species",
+    he: "סוג ומין",
+    short: "what class it falls under",
+    reads: "the broader class and the narrower one",
+    definition:
+      "Which kind the subject belongs to and which species within it — body, living being, human. The levels are relative: a middle class is a species to the one above it and a kind to the ones below. Classification, not constituent parts and not a deduction.",
+    page: "Eng p228–230 · Heb p227–229",
+  }),
+  "subject-cause": subject({
+    en: "cause",
+    he: "סבה",
+    short: "what brings it about",
+    reads: "what the thing arises from",
+    definition:
+      "What the effect arises from by its power. Ramchal splits it: a generative cause (מולדת), whose effect continues from it — tree and fruit, father and child — and an effective one (פועלת), which produces something separate, the craftsman and the vessel. Both wear this badge with the word beside it.",
+    page: "Eng p230 · Heb p229",
+  }),
+  "subject-means": subject({
+    en: "means",
+    he: "אמצעי",
+    short: "what it works through",
+    reads: "the instrument the cause works through",
+    definition:
+      "That by which the cause does what it does — vinegar as an instrument of cleaning. Not only a hand tool: a substance or an intermediary is a means. Cause and means are roles in one explanation, not permanent labels on a thing.",
+    page: "Eng p230 · Heb p229",
+  }),
+  "subject-motive": subject({
+    en: "motive",
+    he: "מעורר",
+    short: "what prompts the agent",
+    reads: "what stirs someone to act",
+    definition:
+      "What rouses an agent who acts by choice — the news of the splitting of the sea, which brought Yitro. The prompt need not be a sound, and it is not the end the agent is after: that is purpose.",
+    page: "Eng p230 · Heb p229",
+  }),
+  "subject-purpose": subject({
+    en: "purpose",
+    he: "תכלית",
+    short: "what it is for",
+    reads: "the end the agent is after",
+    definition:
+      "What the agent means to obtain by acting — studying in order to put the learning into practice. An intended end, which need not be reached; what actually follows is the result.",
+    page: "Eng p230 · Heb p229",
+  }),
+  "subject-result": subject({
+    en: "result",
+    he: "מסבב",
+    short: "what comes of it",
+    reads: "the effect the subject produces",
+    definition:
+      "What arises from the subject acting as its cause — walking from being led, a child from a father, a vessel from a craftsman. An object, an event, a change or offspring, and not necessarily what was intended. Being affected looks at the recipient's impression; this at the effect produced.",
+    page: "Eng p232 · Heb p231",
+  }),
+  "subject-attribute": subject({
+    en: "attribute",
+    he: "מתחבר",
+    short: "what goes with it",
+    reads: "something that comes with the subject, over and above it",
+    definition:
+      "The fifteenth distinction, and the parent of the three below: anything that accompanies the subject in addition to its essence — wisdom in the wise, honour in the honoured, a coating on a vessel, the condition of danger in an animal. An added property, not the thing's own identity.",
+    page: "Eng p232 · Heb p231",
+  }),
+  "attribute-in-attached": subject({
+    en: "attribute: in, on, attached",
+    he: "בעצמו · עליו · אליו",
+    short: "in it, on it, attached",
+    reads: "the attribute is in it, on it, or fastened to it",
+    definition:
+      "Attribute's first branch: what is associated with the subject itself, or rests on it, or is fastened to it — wisdom in the wise, clothing on a person, a cloth soaked in water. The icon's three diamonds are the three places, alternatives rather than a requirement that all three hold at once.",
+    page: "Eng p232 · Heb p231",
+  }),
+  "attribute-concurrent": subject({
+    en: "attribute: present alongside",
+    he: "נמצא עמו בזמן אחד",
+    short: "present alongside",
+    reads: "there at the same time as the subject",
+    definition:
+      "Attribute's second branch: something present with the subject at one time — bread baked with a roast; whatever is primary, with something secondary accompanying it. Accompaniment only: no attachment and no causation is claimed.",
+    page: "Eng p232 · Heb p231",
+  }),
+  "attribute-before-after": subject({
+    en: "attribute: before and after",
+    he: "הקודם והמאחר",
+    short: "before it, after it",
+    reads: "what comes before the subject, or after it",
+    definition:
+      "Attribute's third branch: what precedes the subject or follows it — one washes the hands and afterwards pours the cup. Ramchal's example here is temporal, but the three priority badges distinguish time from rank and from dependence, so this one does not settle which is meant.",
+    page: "Eng p232 · Heb p231",
+  }),
+  "subject-place": subject({
+    en: "place",
+    he: "מקום",
+    short: "where it is",
+    reads: "where the subject is",
+    definition:
+      "The sixteenth distinction: where, relative position included — two balconies one above the other, two towns side by side, ten houses one inside another. One pin. Two statements speaking of different places is `differs-in-place`, which has two.",
+    page: "Eng p234 · Heb p233",
+  }),
+  "subject-orientation": subject({
+    en: "orientation",
+    he: "מצב",
+    short: "how it is placed",
+    reads: "the way it stands in its place",
+    definition:
+      "The seventeenth distinction: the manner of the subject's positioning — reading the Megillah standing or sitting; reclining in the evening and standing in the morning. The supplied translation calls it Situation. Not where it is, and not going anywhere.",
+    page: "Eng p234 · Heb p233",
+  }),
+  "subject-movement": subject({
+    en: "movement",
+    he: "תנועה",
+    short: "it moves",
+    reads: "it passes from one place to another",
+    definition:
+      "The eighteenth distinction: the subject going from place to place — one who goes from where they do not work to where they do. The two squares are one subject at two places, not one thing acting on another.",
+    page: "Eng p234 · Heb p233",
+  }),
+  "subject-time": subject({
+    en: "time",
+    he: "זמן",
+    short: "when",
+    reads: "when the subject is at issue",
+    definition:
+      "The nineteenth distinction: when — a time of day, a starting time. מאימתי קורין את שמע. One clock. Two statements speaking of different times is `differs-in-time`; one thing earlier than another is `priority-temporal`.",
+    page: "Eng p234 · Heb p233",
+  }),
+  "subject-relation": subject({
+    en: "relation",
+    he: "יחס",
+    short: "how it stands to another",
+    reads: "what it is to something else",
+    definition:
+      "The twentieth distinction: the relationship one thing bears to another — the generation of Moses, the seed of Abraham. General, and not restricted to attachment, descent, likeness or cause.",
+    page: "Eng p234 · Heb p233",
+  }),
+  "subject-bearer": subject({
+    en: "subject: what bears it",
+    he: "נושא",
+    short: "what bears it",
+    reads: "which subject carries this attribute",
+    definition:
+      "The twenty-first distinction: the matter before us is an attribute, and the question is what carries it — “what thing has a different impurity depending on whether it came from a corpse or a creeping creature? Metal” (Pesachim 14b). Not the subject's essence, and not chapter 9's statement move.",
+    page: "Eng p234 · Heb p233",
+  }),
+  "subject-similarity": subject({
+    en: "similarity",
+    he: "דמיון",
+    short: "it is like that",
+    reads: "alike in the respect at issue",
+    definition:
+      "The twenty-second distinction: likeness in some relevant respect — דמיא לסאסאה (Chullin 18b); a sword has the status of the slain (Shabbos 141). Not complete identity, and not yet an inference: carrying a rule across by likeness is the analogism of ch. 7.",
+    page: "Eng p234–236 · Heb p233–235",
+  }),
+  "subject-difference": subject({
+    en: "difference",
+    he: "הבדל",
+    short: "it is not like that",
+    reads: "the likeness is absent",
+    definition:
+      "The twenty-third distinction, which Ramchal defines as the absence of likeness — שאני דם דאתקש למים (Pesachim 23a). Nothing here denies anything. Denial is opposition, which he calls the opposite of likeness rather than its absence.",
+    page: "Eng p236 · Heb p235",
+  }),
+  "subject-opposition": subject({
+    en: "opposition",
+    he: "נגוד",
+    short: "it runs against that",
+    reads: "set against it, in whatever way",
+    definition:
+      "The twenty-fourth distinction: opposition in general, which Ramchal explains by pointing back to chapter 4 — Rabban Gamliel against the Sages on a second get after a first (Yebamos 50a). It picks no particular ch. 4 shape, and it is not ch. 9's דחיה, which is a move.",
+    page: "Eng p236 · Heb p235",
+  }),
+  "priority-temporal": subject({
+    en: "priority: in time",
+    he: "זמני",
+    short: "earlier in time",
+    reads: "one comes before the other in time",
+    definition:
+      "The first of Ramchal's three senses of priority, and the only one that requires time: earlier, simply. Distinct from the time badge, which says when, and from `differs-in-time`, which separates two statements.",
+    page: "Eng p236 · Heb p235",
+  }),
+  "priority-conceptual": subject({
+    en: "priority: in rank",
+    he: "שכלי",
+    short: "higher in rank",
+    reads: "first in rank, not in time",
+    definition:
+      "The second sense: precedence the mind assigns — the king before the people, the higher beings before the lower. Rank or importance, not intelligence, and not a claim that the higher-ranking thing came first. The supplied translation calls it conceptual priority.",
+    page: "Eng p236 · Heb p235",
+  }),
+  "priority-natural": subject({
+    en: "priority: by dependence",
+    he: "טבעי",
+    short: "the other hangs on it",
+    reads: "prior because the other depends on it",
+    definition:
+      "The third sense: where one thing's existence hangs on another's, the one that is the cause is prior even though both are there at once. The supplied translation calls it logical priority.",
+    page: "Eng p236 · Heb p235",
   }),
 };
 

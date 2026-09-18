@@ -36,7 +36,7 @@ export type AnatomyBadgeProps = {
 };
 
 /**
- * One chapter 1–8 badge. Hue says the family; a dashed outline says the label
+ * One anatomy-layer badge. Hue says the family; a dashed outline says the label
  * is inferred rather than attested or marked, exactly as the row's own
  * "inferred" note does for its ch. 9 label. A badge does nothing but explain
  * itself, on hover or on focus, so it takes the tab order but is not a button.
