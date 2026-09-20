@@ -29,6 +29,10 @@
         {
           "kind": "unqualified",
           "note": "No quantity is stated, so by Ramchal's rule it has the force of a categorical: any unconscious despair. That is what lets a single case from a mishnah trouble it."
+        },
+        {
+          "kind": "attribute-in-attached",
+          "note": "Despair is an accident that comes upon the owner, the shape of Ramchal's `בהמה מסכנת – שיש בה מקרה הסכנה` (Heb p231). The dispute is not about what the owner or the object is, but about whether this accident has attached — which is why fifteen challenges can turn on one word."
         }
       ]
     },
@@ -51,7 +55,13 @@
       "he": "בדבר שיש בו סימן — כולי עלמא לא פליגי דלא הוי יאוש",
       "en": "Where the item has a distinguishing mark, all agree it is not despair: when it reached the finder's hand it reached it in a prohibited manner, since the owner would say, I have a mark on it and will reclaim it.",
       "move": { "element": "statement", "subtype": "explanation", "target": "rava", "attested": false },
-      "provenance": "derivation"
+      "provenance": "derivation",
+      "anatomy": [
+        {
+          "kind": "attribute-in-attached",
+          "note": "A `סימן` is an accident on the object, not part of what the object is: two identical items fall under different rules according as one carries a mark. Keep it apart from `essence-definition`, which is what a thing is and cannot be rubbed off."
+        }
+      ]
     },
     {
       "id": "scope-zuto",
@@ -65,6 +75,10 @@
           "kind": "discrepancy",
           "basis": "marked",
           "note": "`אף על גב ד` is the Aramaic of Ramchal's `אף על פי ש`: permitted, even though it has a mark."
+        },
+        {
+          "kind": "subject-movement",
+          "note": "`זוטו של ים` — the object is carried from one place to another, and the carrying is the whole reason the rule differs. Chapter 11's eighteenth distinction, doing real work."
         }
       ],
       "note": "Set aside here as an aside; it returns fifty sentences later as the verse that refutes Rava."
@@ -75,7 +89,13 @@
       "he": "כי פליגי בדבר שאין בו סימן",
       "en": "Where they disagree is over an item with no distinguishing mark. Abaye: he did not know it fell. Rava: once he learns it fell he despairs, so he is held to have despaired from the moment it fell.",
       "move": { "element": "statement", "subtype": "explanation", "target": "rava", "attested": false },
-      "provenance": "derivation"
+      "provenance": "derivation",
+      "anatomy": [
+        {
+          "kind": "priority-temporal",
+          "note": "The dispute stated exactly: Rava reckons the despair from the moment the item fell, though the owner only learns of it later. What is at issue is whether a state that arrives second may be dated from the first — Ramchal's `זמני` priority, argued over rather than assumed."
+        }
+      ]
     },
     {
       "id": "mnemonic",
@@ -84,7 +104,7 @@
       "en": "A mnemonic for the series of proofs that follows: peh, mem, gimmel, shin; mem, mem, kuf, gimmel, tet, yod; kaf, kaf, samekh, ayin, zayin.",
       "move": { "element": "statement", "subtype": "reported", "target": "scope-core", "attested": false },
       "provenance": "tradition",
-      "note": "The Talmud counting its own moves. Fifteen challenges are announced before the first one is made."
+      "note": "The Talmud counting its own moves. Fifteen challenges are announced before the first one is made. No chapter 11 badge: a mnemonic is editorial furniture and is not about a subject at all, and the icon set warns against forcing every sentence into a bucket (`ICONS_REFERENCE_V2.md` §7)."
     },
     {
       "id": "t1-ask",
@@ -310,6 +330,12 @@
       "en": "Granted for the robber and the Jordan River, whom the owner sees and so despairs; but a thief — does the owner see him, that he should despair?",
       "move": { "element": "statement", "subtype": "inference", "target": "t8-ask", "attested": false },
       "provenance": "derivation",
+      "anatomy": [
+        {
+          "kind": "subject-difference",
+          "note": "The inference works by splitting the baraita's list: a robber and the Jordan are seen, a thief is not. The difficulty survives only for the case where that difference holds."
+        }
+      ],
       "note": "A `דיוק`: it reads out of the baraita which clause actually bears on the dispute. It adds no force of its own."
     },
     {
@@ -455,7 +481,13 @@
       "he": "אמימר ומר זוטרא ורב אשי אקלעו לבוסתנא דמרי בר איסק …",
       "en": "Ameimar, Mar Zutra and Rav Ashi came to the orchard of Mari bar Isak. His sharecropper set dates and pomegranates before them; Ameimar and Rav Ashi ate, Mar Zutra did not. Mari bar Isak arrived and said to the sharecropper: why did you not bring the Sages from those finer ones?",
       "move": { "element": "statement", "subtype": "reported", "target": "t10-revise", "marker": "כך היה מנהגו של", "attested": false },
-      "provenance": "tradition"
+      "provenance": "tradition",
+      "anatomy": [
+        {
+          "kind": "subject-quality",
+          "note": "The incident turns on which dates were set out — the ones to hand against the finer ones. Not a composite: the report is told, and the ruling it is there for arrives two sentences later in Rava's name."
+        }
+      ]
     },
     {
       "id": "t10-story-q",
@@ -472,7 +504,13 @@
       "he": "אמר להו, הכי אמר רבא: לא אמרו ״כלך אצל יפות״ אלא לענין תרומה בלבד … אבל הכא — משום כסיפותא הוא דאמר הכי",
       "en": "He said to them, thus said Rava: they said \"you should have gone to the better ones\" only regarding teruma, because it is a mitzva and he is content; but here he spoke only out of embarrassment.",
       "move": { "element": "resolution", "subtype": "settlement", "target": "t10-story-q", "attested": false },
-      "provenance": "derivation"
+      "provenance": "derivation",
+      "anatomy": [
+        {
+          "kind": "subject-motive",
+          "note": "The settlement distinguishes by what prompted the owner to speak: contentment at a mitzva being done, against mere embarrassment. Chapter 11's twelfth distinction is what rouses an agent who acts by choice, and here the two motives carry opposite legal weight."
+        }
+      ]
     },
     {
       "id": "t11-ask",

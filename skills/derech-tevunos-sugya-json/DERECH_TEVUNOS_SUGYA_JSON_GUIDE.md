@@ -568,7 +568,7 @@ node -e 'import("./site/src/rail/format.ts").then(m => { m.parseSugya(JSON.parse
 |---|---|
 | `site/src/rail/format.ts` | `parseSugya`, `SugyaFormatError`, `toJson`, `stringify`, the `*Json` types |
 | `site/src/rail/sugyot/sugya.schema.json` | JSON Schema 2020-12 |
-| `site/src/rail/sugyot/*.json` | the nine shipped passages |
+| `site/src/rail/sugyot/*.json` | the eleven shipped passages |
 | `site/src/rail/sugyot/index.ts` | loads them: `SUGYOT`, `sugyaById`, `ofCollection` |
 | `site/src/rail/taxonomy.ts` | the seven elements, nineteen leaves, effects (`LEAVES`) |
 | `site/src/rail/anatomy.ts` | the hundred and six kinds (`ENTRIES`), families, levels |

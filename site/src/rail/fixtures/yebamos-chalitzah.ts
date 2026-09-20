@@ -21,7 +21,7 @@ export const yebamosChalitzah: Sugya = {
       provenance: "asserted",
       attested: true,
       anatomy: [
-        { kind: "unqualified", note: "No quantity stated: any mute, with the force of a categorical." },
+        { kind: "subject-quality", note: "The reason Rava gives is a faculty of the subject — `אלא שאין בהם כח הדבור`, only their power of speech is impaired. Chapter 11's third distinction covers a subject's constitution and its strength or weakness, and the whole exchange turns on which faculty is meant." }, { kind: "unqualified", note: "No quantity stated: any mute, with the force of a categorical." },
       ],
     },
     {
@@ -49,7 +49,7 @@ export const yebamosChalitzah: Sugya = {
       attested: true,
       note: "A `שנוי`: it defends Rava without asserting that this is the truth, so Rava ends merely possible.",
       anatomy: [
-        { kind: "differs-in-context", note: "The baraita is about understanding, Rava about speech: two respects, so no clash." },
+        { kind: "subject-quality", note: "The alternative swaps one faculty for another — understanding for speech — and both are the same distinction. That is what makes it a `שנוי` rather than a refutation: the aspect under examination does not change, only which value of it the law turns on." }, { kind: "differs-in-context", note: "The baraita is about understanding, Rava about speech: two respects, so no clash." },
         { kind: "preclusive", note: "Not this, but rather that: not speech, but understanding." },
       ],
     },

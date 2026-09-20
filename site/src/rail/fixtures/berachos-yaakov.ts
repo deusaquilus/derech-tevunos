@@ -22,7 +22,7 @@ export const berachosYaakov: Sugya = {
       provenance: "tradition",
       attested: true,
       anatomy: [
-        { kind: "categorical", basis: "marked", note: "`בכל אשר תלך`: protection everywhere, the whole class of places." },
+        { kind: "subject-action", note: "The predicate is what one party does for another — protection — which is chapter 11's seventh distinction. It is a promise of action, so the settlement can later ask on what the action depends without touching the words." }, { kind: "categorical", basis: "marked", note: "`בכל אשר תלך`: protection everywhere, the whole class of places." },
       ],
     },
     {
@@ -34,7 +34,7 @@ export const berachosYaakov: Sugya = {
       provenance: "tradition",
       attested: true,
       anatomy: [
-        { kind: "particular" },
+        { kind: "attribute-in-attached", note: "Fear is an accident inhering in Yaakov, the shape of Ramchal's own example `בהמה מסכנת – שיש בה מקרה הסכנה` (Heb p231). It says nothing about what he is, only about a condition he is in — which is why the settlement can leave both sentences standing." }, { kind: "particular" },
       ],
     },
     {
@@ -62,7 +62,7 @@ export const berachosYaakov: Sugya = {
       attested: true,
       note: "A `ישוב`: the one who offers it believes it is true, so it fully discharges the difficulty.",
       anatomy: [
-        { kind: "differs-in-context", note: "The promise holds in the respect of merit; the fear is about sin having intervened. Not the same respect, so no clash." },
+        { kind: "subject-cause", note: "`שמא יגרם החטא` — perhaps sin will *cause* it to lapse. The settlement works by naming a cause that can intervene between the promise and its fulfilment, so the respect it distinguishes is chapter 11's tenth distinction." }, { kind: "differs-in-context", note: "The promise holds in the respect of merit; the fear is about sin having intervened. Not the same respect, so no clash." },
         { kind: "qualified-possible", note: "`שמא`: said as possible, not as certain." },
       ],
     },

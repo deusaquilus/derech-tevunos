@@ -245,8 +245,32 @@ npm run check      # typecheck + the rail's acceptance oracle
 npm test           # vitest
 ```
 
-`npm run check:rail` runs `src/rail/check.ts`, which holds the nine shipped JSON
-passages to their TypeScript fixtures as an oracle. A change that makes those
+Or, from anywhere in the tree, `./start.sh` does the `cd` and the install for
+you:
+
+```
+./start.sh              # dev server (generators, then astro dev)
+./start.sh prod         # the real build, then astro preview over its output
+./start.sh check        # typecheck, the rail's oracle, the tests
+./start.sh dev --port 5000   # anything after the mode goes to astro
+```
+
+It is at the repository root for the *opposite* reason to `push-to-dev.sh` and
+`push-to-prod.sh`. Those are there because they operate on git rather than on
+the npm package; this one is there because there is no package.json at the
+root, so being runnable from the root is the entire point. Moving it into
+`site/` would make it `npm run dev` with extra steps. It refuses to run on a
+Node major below 22 and installs when `node_modules` is missing or older than
+the lockfile.
+
+`./start.sh prod` is the mode worth knowing about: `astro preview` serves the
+Vercel adapter's own `.vercel/output/static`, so it is the same artifact
+production serves — no dev server, no HMR, islands hydrated from the built
+bundles. Verified 2026-09-20 that it serves every route including the two
+passages added that day.
+
+`npm run check:rail` runs `src/rail/check.ts`, which holds the eleven shipped
+JSON passages to their TypeScript fixtures as an oracle. A change that makes those
 disagree is a real regression, not a stale test. It resolves its own paths from
 `import.meta.url`, so it does not care about the working directory.
 
@@ -790,6 +814,28 @@ parses the SVG.
 |---|---:|---:|---:|---|
 | 2026-09-17 | 129 | 105 | 7 to 4 passages | The table as first written: chapters 1–9. |
 | 2026-09-18 | 163 | 139 | 7 to 4 passages | Chapters 10 and 11 anchored, with the v2 icons. Every one of the 106 anatomy kinds and all 19 chapter 9 leaves now has at least one card; `CONSTRUCTS` covers the vocabulary completely. |
+| 2026-09-19 | 163 | 139 | 9 to 5 passages | `bk-83b-ayin` shipped, so the two verses where Ramchal works through the ascribed difficulty (10.12.15, 10.12.16) now link to the drawing of it. No card changed. |
+
+**The chapter 10 pair — 2026-09-19.** `bk-83b-ayin` and `sukkah-2b-heleni`
+were added with the v2 icons, because the two composites had a vocabulary, a
+badge and a text card and no drawing anywhere that used them. Bava Kamma 83b
+is Ramchal's own worked example (Heb p215, Eng p216), so its
+`ascribed-difficulty` is the **only** anatomy label in the corpus carrying
+`basis: "attested"` — he names it, we did not infer it — and `check.ts`
+asserts exactly that, by id. Sukkah 2b is the ascribed proof, labelled from
+its markers.
+
+Two things in that pair are deliberate and look like slips. `משם ראיה?` at
+`sukkah-2b-heleni/isha` is **not** `rebuttal-proves-my-point`: Ramchal's
+phrase of the same three words takes an opponent's source and turns it into
+one's own proof (Heb p137), where the Sages here are rhetorically denying
+that the source proves anything, so the badge is `ground-does-not-reach` and
+the oracle asserts his icon appears nowhere in the corpus. And the Vilna text
+at `bk-83b-ayin/tu-kashya` reads `תו קא קשיא לתנא` while Ramchal's 1742 print
+reads `תו קא קשיא ליה לתנא`; the file carries Vilna and records his in a
+note, the way `pesachim-liquids` records its two folio citations rather than
+resolving them. Talmud text for both came from Sefaria's William Davidson
+edition, not from memory.
 
 Chapters 10 and 11 follow the same two rules, and three of their readings are
 worth stating because the next editor will otherwise undo them. **Chapter 11's

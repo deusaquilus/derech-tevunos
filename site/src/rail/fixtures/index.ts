@@ -1,18 +1,22 @@
 import type { Sugya } from "../sugya.ts";
 import { bavaMetziaYeush } from "./bava-metzia-yeush.ts";
+import { bavaKammaAyin } from "./bk-83b-ayin.ts";
 import { berachosYaakov } from "./berachos-yaakov.ts";
 import { pesachimLiquids } from "./pesachim-liquids.ts";
 import { RESEARCH_FIXTURES } from "./research/index.ts";
+import { sukkahHeleni } from "./sukkah-2b-heleni.ts";
 import { yebamosChalitzah } from "./yebamos-chalitzah.ts";
 import { yebamosDeafMute } from "./yebamos-deafmute.ts";
 
-/** The passages Ramchal discusses, and the one long dispute labelled from his markers. */
+/** The passages Ramchal discusses, and the two labelled from his markers alone. */
 export const RAMCHAL_FIXTURES: readonly Sugya[] = [
   pesachimLiquids,
   berachosYaakov,
   yebamosChalitzah,
   yebamosDeafMute,
   bavaMetziaYeush,
+  bavaKammaAyin,
+  sukkahHeleni,
 ];
 
 /**
@@ -24,10 +28,12 @@ export const RAMCHAL_FIXTURES: readonly Sugya[] = [
 export const FIXTURES: readonly Sugya[] = [...RAMCHAL_FIXTURES, ...RESEARCH_FIXTURES];
 
 export {
+  bavaKammaAyin,
   bavaMetziaYeush,
   berachosYaakov,
   pesachimLiquids,
   RESEARCH_FIXTURES,
+  sukkahHeleni,
   yebamosChalitzah,
   yebamosDeafMute,
 };

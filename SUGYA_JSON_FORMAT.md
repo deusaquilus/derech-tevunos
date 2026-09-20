@@ -3,7 +3,7 @@
 *One Talmudic passage as JSON: everything the page renders, nothing it derives.*
 
 Format `derech-tevunos/sugya`, version `1`. Implementation: `site/src/rail/format.ts`.
-Schema for editors: `site/src/rail/sugyot/sugya.schema.json`. The nine passages the
+Schema for editors: `site/src/rail/sugyot/sugya.schema.json`. The eleven passages the
 app ships with are `site/src/rail/sugyot/*.json`, and every one of them is checked
 against its hand-written TypeScript original for identical data, identical
 analysis and an identical drawing (`npm run check:rail` in `site/`).
@@ -111,11 +111,13 @@ Counts are units unless stated.
 
 | passage | units | party | speaker | he | short | target | marker | attested | note | anatomy | anatomy families | leaves used | hint |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| `pesachim-liquids` — Pesachim 16a/18b | 4 | group | 4 | 4 | — | 3 | 1 | 3 true, 1 false | 2 | 6 labels on 4 | anatomy, relations, deductions, grounds | 4 | — |
-| `berachos-yaakov` — Berachos 4a | 4 | individual | 4 | 4 | — | 2 | 1 | 4 true | 1 | 5 on 4 | anatomy, relations | 3 | — |
-| `yebamos-chalitzah` — Yebamos 104b | 3 | talmud | 3 | 2 | — | 2 | 1 | 3 true | 1 | 4 on 3 | anatomy, relations | 3 | — |
-| `yebamos-deafmute` — Yebamos 112b | 2 | talmud | 2 | 2 | — | 1 | 1 | 2 true | — | 1 on 1 | anatomy | 2 | — |
-| `bava-metzia-yeush` — Bava Metzia 21b–22b | 57 | group | 19 | 57 | 57 | 56 | 25 | 57 false | 12 | 46 on 39 | anatomy, relations, deductions, grounds | 16 | — |
+| `pesachim-liquids` — Pesachim 16a/18b | 4 | group | 4 | 4 | — | 3 | 1 | 3 true, 1 false | 2 | 9 labels on 4 | anatomy, relations, deductions, grounds, subjects | 4 | — |
+| `berachos-yaakov` — Berachos 4a | 4 | individual | 4 | 4 | — | 2 | 1 | 4 true | 1 | 8 on 4 | anatomy, relations, subjects | 3 | — |
+| `yebamos-chalitzah` — Yebamos 104b | 3 | talmud | 3 | 2 | — | 2 | 1 | 3 true | 1 | 6 on 3 | anatomy, relations, subjects | 3 | — |
+| `yebamos-deafmute` — Yebamos 112b | 2 | talmud | 2 | 2 | — | 1 | 1 | 2 true | — | 3 on 2 | anatomy, subjects | 2 | — |
+| `bava-metzia-yeush` — Bava Metzia 21b–22b | 57 | group | 19 | 57 | 57 | 56 | 25 | 57 false | 12 | 53 on 44 | anatomy, relations, deductions, grounds, subjects | 16 | — |
+| `bk-83b-ayin` — Bava Kamma 83b | 15 | talmud | 3 | 15 | 15 | 14 | 13 | 2 true | 7 | 15 on 9 | anatomy, relations, deductions, grounds, reports, subjects | 9 | — |
+| `sukkah-2b-heleni` — Sukkah 2a–2b | 9 | group | 6 | 9 | 9 | 8 | 7 | 9 false | 4 | 11 on 8 | relations, deductions, grounds, reports, subjects | 7 | — |
 | `bm-2a-ochazin` — Bava Metzia 2a–3a | 36 | talmud | 2 | 36 | 36 | 35 | 33 | 36 false | — | — | — | 7 | yes |
 | `bk-2a-toldos` — Bava Kamma 2a–3b | 77 | talmud | 2 | 77 | 77 | 76 | 63 | 77 false | — | — | — | 10 | yes |
 | `pes-2a-or` — Pesachim 2a–3a | 46 | group | 4 | 46 | 46 | 45 | 39 | 46 false | — | — | — | 9 | yes |
@@ -142,6 +144,20 @@ What each passage contributed to the format:
   (six), `provenance: tradition` on the challenges from mishnayos, and a
   five-paragraph editorial preface explaining two places the taxonomy was
   stretched — which is what `about` is for.
+- **Bava Kamma 83b and Sukkah 2a–2b** are the chapter 10 pair, added
+  2026-09-19 with the composite icons. Bava Kamma is Ramchal's own worked
+  example — he quotes `תו קא קשיא לתנא` and `אמרי, דנין` in succession at
+  Heb p215 / Eng p216 and names what each does — which makes
+  `ascribed-difficulty` the only anatomy label in the corpus whose `basis` is
+  `attested`; every other one is ours. Sukkah is the ascribed *proof*, labelled
+  from its markers. The pair is here because a composite is the one construct
+  whose point is that a sentence does two jobs, and the two passages fail in
+  opposite directions: in Bava Kamma the *ascription* is attacked and the
+  ruling is untouched, in Sukkah the *incident* is granted and the inference
+  from it denied. Both also demonstrate that chapter 11 does real work — a
+  proof turning on `subject-quantity`, a rebuttal on `subject-difference` —
+  and Sukkah is the first passage to use `redundant-part` and
+  `might-have-thought`, which had icons and no users.
 - **The four research passages** add the page furniture: `collection`
   (they sit on their own shelf in the gallery), `hint` (their header says which
   step and which band produce the folds they exist to show), and a `speaker` of
@@ -492,7 +508,7 @@ Not enforced by the reader; how the shipped files are written.
 |---|---|
 | `site/src/rail/format.ts` | `parseSugya`, `SugyaFormatError`, `toJson`, `stringify`, the `*Json` types |
 | `site/src/rail/sugyot/sugya.schema.json` | JSON Schema 2020-12 |
-| `site/src/rail/sugyot/*.json` | the nine shipped passages |
+| `site/src/rail/sugyot/*.json` | the eleven shipped passages |
 | `site/src/rail/sugyot/index.ts` | loads them: `SUGYOT`, `sugyaById`, `ofCollection` |
 | `site/src/rail/app/sugyot.ts` | `useSugyot` is the shipped lattice; `useOpened` / `openSugya` are the loader page's session |
 | `site/src/rail/app/pages/OpenPage.tsx` | the loader page: drop, pick or paste a file; the faults, or the passage drawn |

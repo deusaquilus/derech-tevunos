@@ -7,8 +7,10 @@
     "node": ">=22.0.0"
   },
   "scripts": {
+    "start": "npm run dev",
     "dev": "npm run generate && astro dev",
     "build": "npm run generate && astro build",
+    "preview": "astro preview",
     "generate": "npm run build-text && npm run build-search-index && npm run build-blog-lastmod && npm run glyphs",
     "build-text": "tsx scripts/build-text-docs.ts",
     "build-search-index": "tsx scripts/build-search-index.ts",

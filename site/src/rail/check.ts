@@ -84,7 +84,7 @@ import {
 } from "./anatomy.ts";
 import { BUSY_GLYPHS, GLYPHS, glyphAspect, TILE_GLYPH, WIDE_GLYPHS } from "./glyphs.ts";
 import { moveGlyph } from "./moveGlyphs.ts";
-import { FIXTURES } from "./fixtures/index.ts";
+import { bavaKammaAyin, FIXTURES, sukkahHeleni } from "./fixtures/index.ts";
 import { FORMAT, FORMAT_VERSION, parseSugya, stringify, SugyaFormatError, toJson } from "./format.ts";
 import { renderSugya } from "./render.ts";
 import { SUGYOT, sugyaById } from "./sugyot/index.ts";
@@ -141,6 +141,32 @@ check("Rava remains merely possible", statusOf(yebamosChalitzah, "rava"), "doubt
 
 console.log("\nYebamos 112b — an answer closes a question without refuting it");
 check("the query is answered", standingOf(yebamosDeafMute, "question"), "discharged");
+
+// --- chapter 10: a sentence doing two jobs ----------------------------------
+// The composites are the only constructs whose point is that the report and
+// what it carries are judged separately, so what these check is that the two
+// really do come apart: an attack on one leaves the other where it was.
+
+console.log("\nBava Kamma 83b — the report is attacked, the ruling is not");
+const bkAyin = analyze(bavaKammaAyin);
+check("Ramchal's `קשיא מגדת` is a report, not a difficulty", bavaKammaAyin.units.find((u) => u.id === "tu-kashya")?.move.element, "statement");
+check("…carrying the ch. 10 composite", bavaKammaAyin.units.find((u) => u.id === "tu-kashya")?.anatomy?.[0]?.kind, "ascribed-difficulty");
+check("…which he labels himself, so the badge is attested", bavaKammaAyin.units.find((u) => u.id === "tu-kashya")?.anatomy?.[0]?.basis, "attested");
+check("the objection lands on the report", bavaKammaAyin.units.find((u) => u.id === "danin")?.target, "tu-kashya");
+check("…and the mishnah it was all about is untouched", bkAyin.status.get("mishnah"), "accepted");
+check("…as is the reserve derivation the passage vindicates", bkAyin.standing.get("im-nafshecha"), "live");
+check("`אדרבה` wears the rebuttal it is Ramchal's stock word for", bavaKammaAyin.units.find((u) => u.id === "adrabba")?.anatomy?.[0]?.kind, "rebuttal-just-the-opposite");
+
+console.log("\nSukkah 2b — the incident is granted and the proof still fails");
+const sukkah = analyze(sukkahHeleni);
+check("R. Yehudah's evidence is a reported incident used as proof", sukkahHeleni.units.find((u) => u.id === "heleni")?.anatomy?.[0]?.kind, "ascribed-proof");
+check("the Sages do not deny it; they say it does not reach", sukkahHeleni.units.find((u) => u.id === "isha")?.anatomy?.[0]?.kind, "ground-does-not-reach");
+// `משם ראיה?` here denies that the source proves anything. Ramchal's phrase of
+// the same three words does the opposite, and its icon must not appear.
+check("…and his `משם ראיה` rebuttal is deliberately not used anywhere", FIXTURES.every((s) => s.units.every((u) => (u.anatomy ?? []).every((a) => a.kind !== "rebuttal-proves-my-point"))), true);
+check("two refutations answer the one rebuttal", sukkahHeleni.units.filter((u) => u.target === "isha").length, 2);
+check("…so the rebuttal is refuted and the proof stands again", sukkah.standing.get("isha"), "defeated");
+check("…and R. Yehudah's leniency is accepted", sukkah.status.get("yehudah"), "accepted");
 
 // --- scale -----------------------------------------------------------------
 // Bava Metzia is the first fixture Ramchal does not discuss, so these check the
@@ -771,10 +797,27 @@ check("every fixture names its party", FIXTURES.every((s) => s.party !== undefin
 check("Bava Metzia: rabbis in dispute", bm.party, "party-group");
 check("Berachos: one man asks and answers himself", FIXTURES.find((s) => s.id === "berachos-yaakov")?.party, "party-individual");
 check("Yebamos 104b: the Talmud's own voice examines Rava", FIXTURES.find((s) => s.id === "yebamos-chalitzah")?.party, "party-talmud");
+// Ramchal labels sentences in the passages he quotes, but only ever with a
+// chapter 9 move or — since `bk-83b-ayin` arrived — a chapter 10 composite.
+// He never says of a sentence in these passages that it is `categorical`, or
+// an `analogism`, or stands on `מקובלות`. So every label from chapters 1–8
+// and 11 is ours, and the two chapter 10 labels are his.
 check(
-  "no ch. 1–7 label is attested: none of these sentences is one Ramchal labels in chs. 1–7",
-  FIXTURES.every((s) => s.units.every((u) => (u.anatomy ?? []).every((a) => a.basis !== "attested"))),
+  "no ch. 1–8 or ch. 11 label is attested: he never applies those chapters to a sentence he quotes",
+  FIXTURES.every((s) =>
+    s.units.every((u) =>
+      (u.anatomy ?? []).every((a) => ANATOMY[a.kind].chapter === 10 || a.basis !== "attested"),
+    ),
+  ),
   true,
+);
+const attestedTen = FIXTURES.flatMap((s) =>
+  s.units.flatMap((u) => (u.anatomy ?? []).filter((a) => a.basis === "attested").map((a) => `${s.id}/${u.id}/${a.kind}`)),
+);
+check(
+  "…and the ch. 10 composite he does name is attested, in the one passage he names it in",
+  attestedTen.join(" "),
+  "bk-83b-ayin/tu-kashya/ascribed-difficulty",
 );
 check(
   "every תא שמע is read as a general claim against a particular one",
@@ -823,8 +866,8 @@ const bare = (s: Sugya): Sugya => {
 };
 
 console.log("\nThe file format — every passage, JSON against its TypeScript oracle");
-check("nine passages ship", SUGYOT.length, 9);
-check("…the same nine as the oracle, in the same order", SUGYOT.map((s) => s.id).join(" "), FIXTURES.map((s) => s.id).join(" "));
+check("eleven passages ship", SUGYOT.length, 11);
+check("…the same eleven as the oracle, in the same order", SUGYOT.map((s) => s.id).join(" "), FIXTURES.map((s) => s.id).join(" "));
 for (const oracle of FIXTURES) {
   const loaded = sugyaById(oracle.id);
   check(`${oracle.id}: loads from JSON`, loaded !== undefined, true);
@@ -839,7 +882,7 @@ for (const oracle of FIXTURES) {
   check(`${oracle.id}: toJson round-trips through parseSugya`, canon(parseSugya(toJson(loaded))), canon(loaded));
   check(`${oracle.id}: and through JSON text, which is how the session store keeps an opened file`, canon(parseSugya(JSON.parse(JSON.stringify(toJson(loaded))))), canon(loaded));
 }
-check("the research passages carry a hint, the book's do not", SUGYOT.map((s) => (s.hint === undefined ? "-" : "h")).join(""), "-----hhhh");
+check("the research passages carry a hint, the book's do not", SUGYOT.map((s) => (s.hint === undefined ? "-" : "h")).join(""), "-------hhhh");
 
 console.log("\nThe file format — what the reader refuses, and how it says so");
 const faultsOfInput = (input: unknown): readonly string[] => {

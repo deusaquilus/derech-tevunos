@@ -25,6 +25,9 @@ export const yebamosDeafMute: Sugya = {
       marker: "מאי שנא … ומאי שנא",
       provenance: "asserted",
       attested: true,
+      anatomy: [
+        { kind: "subject-difference", basis: "marked", note: "`מאי שנא … ומאי שנא` asks for a הבחנה in so many words: what tells these two apart? Chapter 11's twenty-third distinction is the absence of likeness, and here it is the whole content of the question." },
+      ],
     },
     {
       id: "answer",
@@ -37,6 +40,7 @@ export const yebamosDeafMute: Sugya = {
       attested: true,
       anatomy: [
         { kind: "consequent", note: "Since they can keep rabbinic ordinances, the rabbis validated their marriage: this, so that." },
+        { kind: "subject-quality", note: "The difference the question asked for is located in a faculty — whether a rabbinic ordinance can hold of them at all. The answer does not distinguish the two by what they are but by what they can do." },
       ],
     },
   ],

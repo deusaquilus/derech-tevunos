@@ -47,6 +47,7 @@ export const bavaMetziaYeush: Sugya = {
       attested: false,
       anatomy: [
         { kind: "unqualified", note: "No quantity is stated, so by Ramchal's rule it has the force of a categorical: any unconscious despair. That is what lets a single case from a mishnah trouble it." },
+        { kind: "attribute-in-attached", note: "Despair is an accident that comes upon the owner, the shape of Ramchal's `בהמה מסכנת – שיש בה מקרה הסכנה` (Heb p231). The dispute is not about what the owner or the object is, but about whether this accident has attached — which is why fifteen challenges can turn on one word." },
       ],
     },
     {
@@ -73,6 +74,9 @@ export const bavaMetziaYeush: Sugya = {
       target: "rava",
       provenance: "derivation",
       attested: false,
+      anatomy: [
+        { kind: "attribute-in-attached", note: "A `סימן` is an accident on the object, not part of what the object is: two identical items fall under different rules according as one carries a mark. Keep it apart from `essence-definition`, which is what a thing is and cannot be rubbed off." },
+      ],
     },
     {
       id: "scope-zuto",
@@ -86,6 +90,7 @@ export const bavaMetziaYeush: Sugya = {
       note: "Set aside here as an aside; it returns fifty sentences later as the verse that refutes Rava.",
       anatomy: [
         { kind: "discrepancy", basis: "marked", note: "`אף על גב ד` is the Aramaic of Ramchal's `אף על פי ש`: permitted, even though it has a mark." },
+        { kind: "subject-movement", note: "`זוטו של ים` — the object is carried from one place to another, and the carrying is the whole reason the rule differs. Chapter 11's eighteenth distinction, doing real work." },
       ],
     },
     {
@@ -97,6 +102,9 @@ export const bavaMetziaYeush: Sugya = {
       target: "rava",
       provenance: "derivation",
       attested: false,
+      anatomy: [
+        { kind: "priority-temporal", note: "The dispute stated exactly: Rava reckons the despair from the moment the item fell, though the owner only learns of it later. What is at issue is whether a state that arrives second may be dated from the first — Ramchal's `זמני` priority, argued over rather than assumed." },
+      ],
     },
     {
       id: "mnemonic",
@@ -107,7 +115,7 @@ export const bavaMetziaYeush: Sugya = {
       target: "scope-core",
       provenance: "tradition",
       attested: false,
-      note: "The Talmud counting its own moves. Fifteen challenges are announced before the first one is made.",
+      note: "The Talmud counting its own moves. Fifteen challenges are announced before the first one is made. No chapter 11 badge: a mnemonic is editorial furniture and is not about a subject at all, and the icon set warns against forcing every sentence into a bucket (`ICONS_REFERENCE_V2.md` §7).",
     },
 
     // --- 1. scattered produce --------------------------------------------
@@ -397,6 +405,9 @@ export const bavaMetziaYeush: Sugya = {
       provenance: "derivation",
       attested: false,
       note: "A `דיוק`: it reads out of the baraita which clause actually bears on the dispute. It adds no force of its own.",
+      anatomy: [
+        { kind: "subject-difference", note: "The inference works by splitting the baraita's list: a robber and the Jordan are seen, a thief is not. The difficulty survives only for the case where that difference holds." },
+      ],
     },
     {
       id: "t8-ans",
@@ -575,6 +586,9 @@ export const bavaMetziaYeush: Sugya = {
       marker: "כך היה מנהגו של",
       provenance: "tradition",
       attested: false,
+      anatomy: [
+        { kind: "subject-quality", note: "The incident turns on which dates were set out — the ones to hand against the finer ones. Not a composite: the report is told, and the ruling it is there for arrives two sentences later in Rava's name." },
+      ],
     },
     {
       id: "t10-story-q",
@@ -596,6 +610,9 @@ export const bavaMetziaYeush: Sugya = {
       target: "t10-story-q",
       provenance: "derivation",
       attested: false,
+      anatomy: [
+        { kind: "subject-motive", note: "The settlement distinguishes by what prompted the owner to speak: contentment at a mitzva being done, against mere embarrassment. Chapter 11's twelfth distinction is what rouses an agent who acts by choice, and here the two motives carry opposite legal weight." },
+      ],
     },
 
     // --- 11. the dew on the produce (against Rava) ---------------------------

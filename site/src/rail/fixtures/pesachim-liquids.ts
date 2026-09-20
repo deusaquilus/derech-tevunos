@@ -26,6 +26,7 @@ export const pesachimLiquids: Sugya = {
       attested: true,
       anatomy: [
         { kind: "categorical", basis: "marked", note: "`כל עקר`: no uncleanness for liquids at all — the whole class, denied." },
+        { kind: "subject-being-affected", note: "Uncleanness is something a thing takes from what touches it, which is chapter 11's eighth distinction exactly. R. Eleazar's claim is that liquids receive no such impression at all." },
       ],
     },
     {
@@ -40,6 +41,7 @@ export const pesachimLiquids: Sugya = {
       attested: true,
       anatomy: [
         { kind: "hypothetical-syllogism-tollens", note: "If liquids could become unclean by Torah law, the liquids of the Temple slaughterhouse would be unclean; Yosi ben Yo'ezer testified they are clean; so they cannot." },
+        { kind: "kind-species", note: "Ramchal reads this very sentence under this distinction (Heb p215, Eng p216): `משקין בי מדבחיא דכן` and `השמן והדם והיין והמים טהורים` say the same thing, he writes, `כי אחד הזכיר הסוג ואחד הזכיר המינים` — one named the genus and the other the species. The proof only works because the Temple liquids are a species of liquid." },
       ],
     },
     {
@@ -55,6 +57,7 @@ export const pesachimLiquids: Sugya = {
       anatomy: [
         { kind: "differs-in-context", note: "The testimony speaks of a special halachah handed down from Sinai, not of liquid uncleanness in general — a different respect, so it proves nothing about the general case." },
         { kind: "ground-does-not-reach", note: "Rav Papa does not deny the testimony; he denies that it reaches R. Eleazar's claim. The ground is real and the house stands over a gap — Ramchal's `אחיו הוא במצוות` pattern (Eng p132–136)." },
+        { kind: "kind-species", note: "The same distinction as the proof, turned against it. Rav Papa grants that the Temple liquids are a species of liquid and denies that this one carries its own law up to the genus." },
       ],
     },
     {

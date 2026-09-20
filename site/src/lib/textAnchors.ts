@@ -290,6 +290,10 @@ export const DRAWN: Readonly<Record<VerseId, readonly Drawn[]>> = {
   "9.18.3": [{ sugya: "berachos-yaakov", role: "the apparent contradiction" }],
   "9.19.2": [{ sugya: "berachos-yaakov", role: "its settlement" }],
   "9.20.3": [{ sugya: "yebamos-chalitzah", role: "the alternative" }],
+  // Chapter 10's worked example. Ramchal quotes the two sentences in
+  // succession and names what each does; both are `attested` in the file.
+  "10.12.15": [{ sugya: "bk-83b-ayin", role: "the ascribed difficulty" }],
+  "10.12.16": [{ sugya: "bk-83b-ayin", role: "the difficulty against the report" }],
 };
 
 /** The verses that quote a passage, in reading order — the passage page's way back into the text. */

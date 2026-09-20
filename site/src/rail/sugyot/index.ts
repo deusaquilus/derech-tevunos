@@ -12,11 +12,13 @@ import type { Collection, Sugya } from "../sugya.ts";
 
 import bavaMetziaYeush from "./bava-metzia-yeush.json" with { type: "json" };
 import berachosYaakov from "./berachos-yaakov.json" with { type: "json" };
+import bavaKammaAyin from "./bk-83b-ayin.json" with { type: "json" };
 import bavaKammaToldos from "./bk-2a-toldos.json" with { type: "json" };
 import bavaMetziaOchazin from "./bm-2a-ochazin.json" with { type: "json" };
 import gittinBefanai from "./git-2a-befanai.json" with { type: "json" };
 import pesachimOr from "./pes-2a-or.json" with { type: "json" };
 import pesachimLiquids from "./pesachim-liquids.json" with { type: "json" };
+import sukkahHeleni from "./sukkah-2b-heleni.json" with { type: "json" };
 import yebamosChalitzah from "./yebamos-chalitzah.json" with { type: "json" };
 import yebamosDeafMute from "./yebamos-deafmute.json" with { type: "json" };
 
@@ -26,6 +28,8 @@ const FILES: readonly (readonly [name: string, raw: unknown])[] = [
   ["yebamos-chalitzah.json", yebamosChalitzah],
   ["yebamos-deafmute.json", yebamosDeafMute],
   ["bava-metzia-yeush.json", bavaMetziaYeush],
+  ["bk-83b-ayin.json", bavaKammaAyin],
+  ["sukkah-2b-heleni.json", sukkahHeleni],
   ["bm-2a-ochazin.json", bavaMetziaOchazin],
   ["bk-2a-toldos.json", bavaKammaToldos],
   ["pes-2a-or.json", pesachimOr],
