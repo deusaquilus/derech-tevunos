@@ -4,6 +4,7 @@
  */
 
 import { annotationErrors, type Annotation, type Party } from "./anatomy.ts";
+import type { Spans } from "./spans.ts";
 import { effectOf, type Effect, type Move } from "./taxonomy.ts";
 
 /**
@@ -43,6 +44,13 @@ export type Unit = {
    * one. Nothing here enters the analysis. See `anatomy.ts`.
    */
   readonly anatomy?: readonly Annotation[];
+  /**
+   * Which words of `he` and of `en` play which role: subject, predicate, the
+   * two clauses of a hypothetical, the premises and conclusion of a deduction,
+   * the separate commitments a challenge can land on. Ranges into the text,
+   * never copies of it. Nothing here enters the analysis. See `spans.ts`.
+   */
+  readonly spans?: Spans;
   /**
    * Room for what the format does not yet name. Carried through untouched and
    * read by nothing; see `format.ts` for when a key graduates out of here.

@@ -65,10 +65,11 @@ const leavesOf = (element: Element): readonly MoveKey[] =>
 
 /**
  * An element's kinds, each with the picture the rows actually draw for it.
- * Seven of the nineteen have one of their own; the rest repeat the parent
- * above, which is the honest thing for the key to show — a reader who meets a
- * plain thumbs-up in a row should find it here and not wonder which kind it
- * was. 28px because that is where the set puts the internal detail
+ * Eighteen of the nineteen have one of their own since the set of 20
+ * September 2026; direct contradiction repeats the parent above by design,
+ * which is the honest thing for the key to show — a reader who meets a plain
+ * red X in a row should find it here and not wonder which kind it was. 28px
+ * because that is where the set puts the internal detail
  * (`ICONS_REFERENCE_V2.md` §4.3), and the key is where it is worth the room.
  */
 const Kinds = ({ element }: { readonly element: Element }): JSX.Element => (

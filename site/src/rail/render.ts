@@ -21,6 +21,7 @@ import {
 import {
   describe,
   effectOf,
+  hueElementOf,
   isUndefinedInSource,
   keyOf,
   ELEMENTS,
@@ -138,7 +139,7 @@ const renderMoveIcon = (
     standing === "defeated"
       ? `<line x1="-11.5" y1="11.5" x2="11.5" y2="-11.5" stroke="${theme.fg}" stroke-width="1.6" stroke-linecap="round"/>`
       : "";
-  return `<g transform="translate(${x} ${y})" color="${theme.element[move.element]}" opacity="${standingOpacity(standing)}">${body}${strike}</g>`;
+  return `<g transform="translate(${x} ${y})" color="${theme.element[hueElementOf(move)]}" opacity="${standingOpacity(standing)}">${body}${strike}</g>`;
 };
 
 type EdgeStyle = { readonly dash: string; readonly marker: string };
@@ -347,7 +348,9 @@ export const renderSugya = (sugya: Sugya, options: RenderOptions = {}): string =
     </marker>
   </defs>`;
 
-  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${width} ${totalHeight}" width="${width}" height="${totalHeight}" font-family="ui-sans-serif, system-ui, -apple-system, Segoe UI, sans-serif" role="img" aria-label="${esc(sugya.tractate)} ${esc(sugya.folio)} categorized by Derech Tevunos chapter 9">
+  // `--surface` is what a subtype drawing's paper is filled with (`moveGlyphs.ts`),
+  // so the export defines it as the sheet's own colour, as the page does.
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${width} ${totalHeight}" width="${width}" height="${totalHeight}" font-family="ui-sans-serif, system-ui, -apple-system, Segoe UI, sans-serif" style="--surface:${theme.surface}" role="img" aria-label="${esc(sugya.tractate)} ${esc(sugya.folio)} categorized by Derech Tevunos chapter 9">
 ${defs}
 <rect width="${width}" height="${totalHeight}" fill="${theme.surface}"/>
 ${header}

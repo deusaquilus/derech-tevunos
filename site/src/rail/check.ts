@@ -67,7 +67,8 @@ import {
   LATTICE_BUDGET,
   MIN_INDENT,
 } from "./layout.ts";
-import { ELEMENTS, LEAVES, MOVE_KEYS, SUBTYPES } from "./taxonomy.ts";
+import { ELEMENTS, hueElementOf, LEAVES, MOVE_KEYS, PARENT_OF, parentOf, SUBTYPES, type Element, type Move, type MoveKey } from "./taxonomy.ts";
+import { parseRange, printRange, segments, SPAN_ROLES, SPAN_TEXTS, wordCount, words } from "./spans.ts";
 import {
   ANATOMY,
   ANATOMY_KEYS,
@@ -81,9 +82,10 @@ import {
   hueOf,
   PARTIES,
   speakerBadge,
+  type AnatomyKey,
 } from "./anatomy.ts";
-import { BUSY_GLYPHS, GLYPHS, glyphAspect, TILE_GLYPH, WIDE_GLYPHS } from "./glyphs.ts";
-import { moveGlyph } from "./moveGlyphs.ts";
+import { BUSY_GLYPHS, GLYPHS, glyphAspect, GUIDANCE_GLYPHS, GUIDANCE_KEYS, ROLE_GLYPHS, TILE_GLYPH, WIDE_GLYPHS } from "./glyphs.ts";
+import { moveGlyph, PARENT_GLYPHS } from "./moveGlyphs.ts";
 import { bavaKammaAyin, FIXTURES, sukkahHeleni } from "./fixtures/index.ts";
 import { FORMAT, FORMAT_VERSION, parseSugya, stringify, SugyaFormatError, toJson } from "./format.ts";
 import { renderSugya } from "./render.ts";
@@ -644,17 +646,28 @@ console.log("\nThe research skeletons — what each row says about itself");
 console.log("\nThe anatomy layer — the vocabulary");
 const inFamily = (family: string): number =>
   ANATOMY_KEYS.filter((k) => ANATOMY[k].family === family).length;
-check("one hundred and six types", ANATOMY_KEYS.length, 106);
+// One hundred and six on 2026-09-18; fourteen more on 2026-09-20 with the icon
+// set's third release: the two branches of the conjoined compound, hyperbole,
+// the affirming disjunctive syllogism, the two parent grounds, the two ch. 8
+// respects, the ch. 10 synonymous terms, the essential form, and the two
+// branches each of action and cause.
+check("one hundred and twenty types", ANATOMY_KEYS.length, 120);
 check("three speakers", inFamily("speakers"), 3);
-check("twenty-seven forms of a statement", inFamily("anatomy"), 27);
-check("fourteen relations", inFamily("relations"), 14);
-check("eleven deductions", inFamily("deductions"), 11);
-check("nineteen grounds", inFamily("grounds"), 19);
+// Twenty-seven, plus the compound's two branches, hyperbole, and the two
+// respects of chapter 8, which describe how a predicate attaches.
+check("thirty-two forms of a statement", inFamily("anatomy"), 32);
+check("fifteen relations, one of them chapter 10's", inFamily("relations"), 15);
+check("twelve deductions", inFamily("deductions"), 12);
+check("twenty-one grounds", inFamily("grounds"), 21);
 check("two reported moves", inFamily("reports"), 2);
-// Ramchal's twenty-four numbered הבחנות, plus Attribute's three branches and
-// the perceptible branch of Form, plus the three senses of priority that
-// follow the list. Twenty-four is the count of distinctions, not of drawings.
-check("thirty subject distinctions", inFamily("subjects"), 30);
+// Ramchal's twenty-four numbered הבחנות, plus the branches that have drawings
+// of their own — Form's two, Action's two, Cause's two, Attribute's three —
+// plus the three senses of priority that follow the list. Twenty-four is the
+// count of distinctions, not of drawings.
+check("thirty-five subject distinctions", inFamily("subjects"), 35);
+check("the two respects sit on the row with the statement's anatomy", ["inseparable-property", "contingent-attribute"].every((k) => ANATOMY[k as AnatomyKey].family === "anatomy" && ANATOMY[k as AnatomyKey].level === "row" && ANATOMY[k as AnatomyKey].chapter === 8), true);
+check("synonymous terms is an edge kind from chapter 10, filed with the relations", `${ANATOMY["synonymous-terms"].family} ${ANATOMY["synonymous-terms"].level} ${ANATOMY["synonymous-terms"].chapter}`, "relations edge 10");
+check("the parent grounds are edge kinds like their children", ANATOMY["ground-natural"].level === "edge" && ANATOMY["ground-convention"].level === "edge", true);
 check("seven families, in the book's order", FAMILY_ORDER.join(), "speakers,anatomy,relations,deductions,grounds,reports,subjects");
 check("every type has a glyph", ANATOMY_KEYS.every((k) => GLYPHS[k].length > 0), true);
 check("no glyph without a type", Object.keys(GLYPHS).every((k) => k in ANATOMY), true);
@@ -663,9 +676,14 @@ check("no glyph without a type", Object.keys(GLYPHS).every((k) => k in ANATOMY),
 const HUES = /#(7c3aed|0d9488|475569|c026d3)/i;
 check("glyphs carry no hue of their own", Object.values(GLYPHS).every((g) => !HUES.test(g)), true);
 check("…nor does the tile", TILE_GLYPH.length > 0 && !HUES.test(TILE_GLYPH), true);
-const landscapes = ANATOMY_KEYS.filter((k) => /<linearGradient id="fade-/.test(GLYPHS[k]));
-check("twelve landscapes carry a floor fade", landscapes.length, 12);
+// The set names a floor's gradient `fade-axiom` in its second release and
+// `ground-natural-fade` in its third; what matters is that the id survives
+// and the body still points at it, so every `url(#…)` must resolve.
+const landscapes = ANATOMY_KEYS.filter((k) => /<linearGradient id="/.test(GLYPHS[k]));
+check("fourteen landscapes carry a floor fade — the twelve, and the two parent grounds", landscapes.length, 14);
 check("…with currentColor stops", landscapes.every((k) => /stop-color="currentColor"/.test(GLYPHS[k])), true);
+check("…each pointing at an id its own body declares", landscapes.every((k) => [...GLYPHS[k].matchAll(/url\(#([^)]+)\)/g)].every((m) => GLYPHS[k].includes(`id="${m[1]}"`))), true);
+check("…and no two landscapes share an id", new Set(landscapes.map((k) => /<linearGradient id="([^"]+)"/.exec(GLYPHS[k])![1])).size, 14);
 check("the busy glyphs are types", [...BUSY_GLYPHS].every((k) => k in ANATOMY), true);
 check("the wide glyphs are the three of chapter 5", [...WIDE_GLYPHS].sort().join(), "absolute-opposite,inference-loose,inference-necessary");
 check("…drawn half again as wide", glyphAspect("inference-necessary"), 1.5);
@@ -686,22 +704,55 @@ check(
 );
 
 console.log("\nChapter 9 — the subtype drawings");
-// Seven of the nineteen leaves have a picture of their own; the other twelve
-// wear the parent move's, with their name beside it. The row draws whichever
+// Eighteen of the nineteen leaves have a picture of their own since the icon
+// set of 2026-09-20 (seven did on 2026-09-18); direct contradiction wears the
+// parent move's red X, with its name beside it. The row draws whichever
 // applies (`app/components/MoveIcon.tsx`, `renderMoveIcon` in `render.ts`).
 const drawnLeaves = MOVE_KEYS.filter((k) => moveGlyph(k) !== undefined);
-check("seven of the nineteen leaves draw themselves", drawnLeaves.length, 7);
-check(
-  "…one per element that has a picture, and none for statement, question or answer",
-  drawnLeaves.join(),
-  "proof/demonstration,proof/validation,contradiction/opposition,difficulty/objection,difficulty/apparentContradiction,resolution/settlement,resolution/alternative",
-);
+check("eighteen of the nineteen leaves draw themselves", drawnLeaves.length, 18);
+check("…every leaf but direct contradiction", MOVE_KEYS.filter((k) => moveGlyph(k) === undefined).join(), "contradiction/direct");
 check("direct contradiction shares the parent's red X on purpose", moveGlyph("contradiction/direct"), undefined);
+// The encoding is the leaf; the parent is derived. Only the explanation
+// leaves have a parent below the element — Ramchal's פרוש, which they
+// flatten into fit and method — and it has the set's `explanation` drawing.
+check("three leaves have the explanation parent", Object.keys(PARENT_OF).sort().join(), "statement/explanation,statement/forcedExplanation,statement/presumption");
+check("…and the other sixteen have none", MOVE_KEYS.filter((k) => !(k in PARENT_OF)).length, 16);
+check("…read off the move, not written", parentOf({ element: "statement", subtype: "presumption" }), "explanation");
+// One colour throughout means: nothing but `currentColor`, and the Statement
+// family's paper, which is `var(--surface, #ffffff)` — the sheet's colour
+// with white as the fallback. That is the only place a hex may appear.
+const oneColour = (body: string): boolean => !/#[0-9a-f]{3,6}\b/i.test(body.replaceAll("var(--surface, #ffffff)", ""));
+check("the parent has a drawing of its own, one colour like the leaves'", PARENT_GLYPHS.explanation.length > 0 && oneColour(PARENT_GLYPHS.explanation), true);
+check("…which is not any leaf's", MOVE_KEYS.every((k) => moveGlyph(k) !== PARENT_GLYPHS.explanation), true);
 check(
   "a subtype drawing is one colour throughout, so a pending row can grey it",
-  drawnLeaves.every((k) => !/#[0-9a-f]{3,6}\b/i.test(moveGlyph(k)!)),
+  drawnLeaves.every((k) => oneColour(moveGlyph(k)!)),
   true,
 );
+check("the Statement family's paper is the sheet's surface, not white", ["statement/firsthand", "statement/inference", "statement/reported"].every((k) => moveGlyph(k as MoveKey)!.includes('fill="var(--surface, #ffffff)"')), true);
+check("…and no drawing keeps a literal white", drawnLeaves.every((k) => !moveGlyph(k)!.includes('fill="#ffffff"')), true);
+// A shape with no `fill` of its own is filled black by SVG's default. The
+// third release's chapter 9 drawings declare `fill="none"` on the root <svg>
+// and let their strokes inherit it; the extractor must carry that onto the
+// body, or the speech bubble and the puzzle pieces come out as black blocks
+// (which they did, 2026-09-20, before this check).
+// Geometry inside <clipPath>, <mask> or <defs> is never painted, so it is not counted.
+const unfilledShapes = (body: string): number =>
+  [...body.replace(/<(clipPath|mask|defs)\b[\s\S]*?<\/\1>/g, "").matchAll(/<(path|rect|circle|ellipse|polygon)\b([^>]*)>/g)].filter((m) => !/\sfill="/.test(m[2]!)).length;
+const inheritsFill = (body: string): boolean => /^<g [^>]*\bfill="none"/.test(body) || /<g\b[^>]*\bfill="/.test(body);
+check(
+  "no subtype drawing leaves a shape to SVG's default black fill",
+  [...drawnLeaves.map((k) => moveGlyph(k)!), PARENT_GLYPHS.explanation].every((b) => unfilledShapes(b) === 0 || inheritsFill(b)),
+  true,
+);
+check("…the ten chapter 9 drawings of 2026-09-20 carry their root's fill=none on a wrapper", ["statement/firsthand", "statement/explanation", "statement/forcedExplanation", "statement/presumption", "statement/inference", "statement/reported", "question/query", "question/principle", "answer/answer", "answer/determination"].every((k) => moveGlyph(k as MoveKey)!.startsWith('<g fill="none">')), true);
+check("…and so does the parent", PARENT_GLYPHS.explanation.startsWith('<g fill="none">'), true);
+check("the same rule holds for every badge and role", [...ANATOMY_KEYS.map((k) => GLYPHS[k]), ...SPAN_ROLES.map((r) => ROLE_GLYPHS[r]), TILE_GLYPH].every((b) => unfilledShapes(b) === 0 || inheritsFill(b)), true);
+// The one leaf painted in another element's hue: the set's red stop-sign
+// frame for תיובתא, kept because a refutation is decisive where an objection
+// is not. Everything else wears its own element's colour.
+check("תיובתא is painted in the contradiction's red", hueElementOf({ element: "difficulty", subtype: "refutation" }), "contradiction");
+check("…and it is the only borrowed hue", MOVE_KEYS.filter((k) => { const [element, subtype] = k.split("/") as [Element, string]; return hueElementOf({ element, subtype } as Move) !== element; }).join(), "difficulty/refutation");
 check("…and carries the element's tint at the badge opacity", moveGlyph("proof/demonstration")!.includes('fill-opacity="0.15"'), true);
 check("every leaf without a drawing still has a name to show", MOVE_KEYS.filter((k) => moveGlyph(k) === undefined).every((k) => LEAVES[k].en.length > 0), true);
 check(
@@ -841,6 +892,40 @@ check("every תא שמע from a mishnah stands on tradition", bm.units.filter((u
 check("…thirteen challenges and two proofs, fifteen grounds in all", bm.units.filter((u) => groundBadge(u) !== undefined).length, 15);
 check("the סתירה by analogy names its ground: a deduction", bm.units.find((u) => u.id === "t12-dumya")?.anatomy?.some((a) => a.kind === "ground-deduction"), true);
 
+// --- word-span roles ------------------------------------------------------------
+// Subject, predicate, antecedent, consequent, premise, conclusion, commitment:
+// ranges into a unit's own text, never copies of it (`spans.ts`). What there is
+// to check is the word rule, the range grammar, the cut the renderer draws,
+// the drawings, and the one passage that carries them.
+
+console.log("\nWord spans — the rule, the grammar, the cut");
+check("seven roles", SPAN_ROLES.join(), "subject,predicate,antecedent,consequent,premise,conclusion,commitment");
+check("two texts a span can index", SPAN_TEXTS.join(), "he,en");
+check("words are runs of non-whitespace", words("  a  b\tc ").join("|"), "a|b|c");
+check("…punctuation stays with its word", wordCount("אמר, שמא יגרם החטא"), 4);
+check("…a maqaf joins", wordCount("בכל אשר־תלך"), 2);
+check("…a lone dash is a word", wordCount("חרש – תקינו"), 3);
+check("…and an empty text has none", wordCount("   "), 0);
+check("a single word is its number", printRange(parseRange("3")!), "3");
+check("a run is from-to", printRange(parseRange(" 2-4 ")!), "2-4");
+check("nothing else parses", [parseRange("a"), parseRange("2-"), parseRange("2–4"), parseRange("")].every((r) => r === undefined), true);
+check("every role has a drawing", SPAN_ROLES.every((r) => ROLE_GLYPHS[r].length > 0), true);
+check("…in the set's hue-free form", SPAN_ROLES.every((r) => !HUES.test(ROLE_GLYPHS[r])), true);
+check("the subject's drawing is the chapter 11 bearer's", ROLE_GLYPHS.subject, GLYPHS["subject-bearer"]);
+check("…and no other role shares a kind's picture", SPAN_ROLES.filter((r) => r !== "subject").every((r) => !ANATOMY_KEYS.some((k) => GLYPHS[k] === ROLE_GLYPHS[r])), true);
+check("six guidance drawings, none of them a kind or a role", GUIDANCE_KEYS.length === 6 && GUIDANCE_KEYS.every((k) => !(k in ANATOMY) && GUIDANCE_GLYPHS[k].length > 0), true);
+{
+  const fear = berachosYaakov.units.find((u) => u.id === "fear")!;
+  const cut = segments(fear.he!, fear.spans!.he);
+  check("the cut keeps every character", cut.map((s) => s.text).join(""), fear.he);
+  check("…and tags each run with its roles", cut.map((s) => `${s.text}:${s.roles.join("+")}`).join("|"), "ויירא:predicate| :|יעקב:subject| :|מאד:predicate");
+  const promise = berachosYaakov.units.find((u) => u.id === "promise")!;
+  check("a run of same-role words is one segment, whitespace included", segments(promise.en, promise.spans!.en).map((s) => `${s.text}:${s.roles.join("+")}`).join("|"), "Behold :|I:subject| :|am with you and will protect you wherever you go.:predicate");
+  check("no spans, no cut", segments(promise.en, undefined).length, 1);
+  check("Berachos 4a carries spans on its three statements and not on the difficulty", berachosYaakov.units.map((u) => (u.spans === undefined ? "-" : "s")).join(""), "ss-s");
+  check("…every range inside its text", berachosYaakov.units.every((u) => SPAN_TEXTS.every((t) => u.spans?.[t] === undefined || Object.values(u.spans[t]!).every((rs) => rs.every((r) => r.from >= 1 && r.to <= wordCount(u[t]!))))), true);
+}
+
 // --- the file format ----------------------------------------------------------
 // The JSON files under `sugyot/` are what the app renders; the TypeScript
 // fixtures are the oracle they are checked against, passage by passage: the
@@ -918,6 +1003,24 @@ check("a target that does not exist", faultsOfInput({ ...minimal, units: [minima
 check("an edge label on a move that acts on nothing", faultsOfInput({ ...minimal, units: [{ ...minimal.units[0]!, anatomy: [{ kind: "analogism" }] }, minimal.units[1]!] }).join(" | "), '$.units: yebamos-deafmute: unit "question" carries the edge-level label "analogism" but acts on nothing');
 check("two units with one id", faultsOfInput({ ...minimal, units: [minimal.units[0]!, { ...minimal.units[1]!, id: "question" }] }).join(" | "), "$.units: yebamos-deafmute: duplicate unit id");
 check("no units", faultsOfInput({ ...minimal, units: [] }).join(" | "), "$.units: a sugya has at least one sentence");
+// Spans: the answer is `חרש וחרשת דקימא תקנתא דרבנן – תקינו להו רבנן נשואין, שוטה ושוטה …`, twenty-one
+// words of Hebrew by the blunt rule (the two dashes count), twenty-two of English.
+check("the answer has twenty-one Hebrew words and twenty-two English", `${wordCount(minimal.units[1]!.he!)} ${wordCount(minimal.units[1]!.en)}`, "21 22");
+const withSpans = (spans: unknown): unknown => ({ ...minimal, units: [minimal.units[0]!, { ...minimal.units[1]!, spans }] });
+check("spans on both texts pass", faultsOfInput(withSpans({ he: { subject: "1-2", predicate: "6-9" }, en: { subject: "2", predicate: ["3-11", "13-16"] } })).length, 0);
+check("…and read back as ranges", JSON.stringify(parseSugya(withSpans({ he: { subject: "1-2" } })).units[1]?.spans), '{"he":{"subject":[{"from":1,"to":2}]}}');
+check("…and print back in the shortest form, roles in the fixed order", JSON.stringify(toJson(parseSugya(withSpans({ en: { predicate: ["3-4"], subject: "2" } }))).units[1]?.spans), '{"en":{"subject":"2","predicate":"3-4"}}');
+check("a role that is not one", faultsOfInput(withSpans({ he: { subjekt: "1" } })).join(" | "), '$.units[1].spans.he.subjekt: unknown key (did you mean "subject"?)');
+check("a text the unit has not got", faultsOfInput({ ...minimal, units: [minimal.units[0]!, { ...minimal.units[1]!, he: undefined, spans: { he: { subject: "1" } } }] }).join(" | "), '$.units[1].spans.he: the unit has no "he" to index');
+check("a text that is not one", faultsOfInput(withSpans({ fr: { subject: "1" } })).join(" | "), '$.units[1].spans.fr: unknown key (did you mean "he"?)');
+check("a range past the end", faultsOfInput(withSpans({ he: { subject: "1", predicate: "6-22" } })).join(" | "), "$.units[1].spans.he.predicate: 6-22 runs past the end: the text has 21 words");
+check("words start at one", faultsOfInput(withSpans({ he: { subject: "0-2" } })).join(" | "), "$.units[1].spans.he.subject: words are numbered from 1, got 0-2");
+check("a range runs forwards", faultsOfInput(withSpans({ he: { subject: "4-2" } })).join(" | "), "$.units[1].spans.he.subject: a range runs forwards, got 4-2");
+check("a range is a range", faultsOfInput(withSpans({ he: { subject: "one" } })).join(" | "), '$.units[1].spans.he.subject: expected a word range like "3" or "2-4", got "one"');
+check("…even inside a list, with its position", faultsOfInput(withSpans({ he: { commitment: ["1-2", "x"] } })).join(" | "), '$.units[1].spans.he.commitment[1]: expected a word range like "3" or "2-4", got "x"');
+check("an empty list is no role", faultsOfInput(withSpans({ he: { premise: [] } })).join(" | "), "$.units[1].spans.he.premise: a role needs at least one range");
+check("spans is an object", faultsOfInput(withSpans("1-2")).join(" | "), '$.units[1].spans: expected an object { he, en }, got "1-2"');
+check("a text's spans are an object", faultsOfInput(withSpans({ he: "1-2" })).join(" | "), '$.units[1].spans.he: expected an object { subject, predicate, … }, got "1-2"');
 check("several faults are reported together", faultsOfInput({ ...minimal, title: 3, tractate: undefined, units: [{ ...minimal.units[0]!, en: undefined }, minimal.units[1]!] }).length, 3);
 check("a fault's message names the source", (() => { try { parseSugya({}, "gold.json"); return ""; } catch (e) { return (e as Error).message.split("\n")[0]; } })(), "gold.json: 8 faults");
 check("the printer puts a move on one line", stringify(yebamosDeafMute).includes('"move": { "element": "question", "subtype": "query", "marker": "מאי שנא … ומאי שנא", "attested": true }'), true);
@@ -928,7 +1031,7 @@ check("…while a short list stays on one line", stringify({ ...yebamosDeafMute,
 console.log("\nThe file format — the schema agrees with the code");
 const schema = JSON.parse(readText("sugya.schema.json")) as {
   readonly properties: Record<string, { readonly enum?: readonly string[]; readonly const?: unknown }>;
-  readonly $defs: Record<string, { readonly enum?: readonly string[]; readonly properties?: Record<string, { readonly enum?: readonly string[] }>; readonly allOf?: readonly { readonly if: { readonly properties: { readonly element: { readonly const: string } } }; readonly then: { readonly properties: { readonly subtype: { readonly enum: readonly string[] } } } }[] }>;
+  readonly $defs: Record<string, { readonly enum?: readonly string[]; readonly pattern?: string; readonly properties?: Record<string, { readonly enum?: readonly string[] }>; readonly allOf?: readonly { readonly if: { readonly properties: { readonly element: { readonly const: string } } }; readonly then: { readonly properties: { readonly subtype: { readonly enum: readonly string[] } } } }[] }>;
 };
 check("format", schema.properties["format"]?.const, FORMAT);
 check("version", schema.properties["version"]?.const, FORMAT_VERSION);
@@ -938,7 +1041,10 @@ check("bases", schema.$defs["basis"]?.enum?.join(), BASES.join());
 check("provenances", schema.$defs["provenance"]?.enum?.join(), PROVENANCES.join());
 check("elements", schema.$defs["move"]?.properties?.["element"]?.enum?.join(), ELEMENTS.join());
 check("the subtypes of every element", (schema.$defs["move"]?.allOf ?? []).map((c) => `${c.if.properties.element.const}: ${c.then.properties.subtype.enum.join()}`).join(" / "), ELEMENTS.map((e) => `${e}: ${SUBTYPES[e].join()}`).join(" / "));
-check("the anatomy labels, all one hundred and six", schema.$defs["annotation"]?.properties?.["kind"]?.enum?.join(), ANATOMY_KEYS.join());
+check("the anatomy labels, all one hundred and twenty, in the code's order", schema.$defs["annotation"]?.properties?.["kind"]?.enum?.join(), ANATOMY_KEYS.join());
+check("the span roles", Object.keys(schema.$defs["roleSpans"]?.properties ?? {}).join(), SPAN_ROLES.join());
+check("the texts a span can index", Object.keys(schema.$defs["spans"]?.properties ?? {}).join(), SPAN_TEXTS.join());
+check("the range grammar agrees with the reader on what a range looks like", ["3", "2-4", "12-15"].every((r) => new RegExp(schema.$defs["range"]!.pattern!).test(r) && parseRange(r) !== undefined) && ["0", "2-", "a", "2–4"].every((r) => !new RegExp(schema.$defs["range"]!.pattern!).test(r)), true);
 check("every file names the schema beside it", SUGYOT.every((s) => (JSON.parse(readText(`${s.id}.json`)) as { $schema?: string }).$schema === "./sugya.schema.json"), true);
 
 console.log("\nThe anatomy layer — the bead");

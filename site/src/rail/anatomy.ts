@@ -19,8 +19,12 @@
  *
  * Page numbers follow the bilingual edition: even pages English, odd Hebrew.
  * The glyphs are the icon set in `icons_v3/`; `icons_v3/ICONS_REFERENCE.md` is
- * the contract for the chapter 1–8 drawings and `ICONS_REFERENCE_V2.md` beside
- * it covers the chapter 9–11 additions of 18 September 2026.
+ * the contract for the chapter 1–8 drawings, `ICONS_REFERENCE_V2.md` beside
+ * it covers the chapter 9–11 additions of 18 September 2026, and
+ * `ICONS_REFERENCE_COMPLETE_V3.md` the 38 drawings added on 20 September 2026
+ * — fourteen of them kinds here, seven the word-span roles of `spans.ts`,
+ * eleven the remaining chapter 9 leaves and their explanation parent, and six
+ * chapter 11's rules of Order, which label nothing in a file.
  */
 
 import type { LabelBasis, Provenance } from "./sugya.ts";
@@ -75,10 +79,10 @@ export const FAMILIES: Record<Family, FamilyInfo> = {
   },
   anatomy: {
     name: "Statement anatomy",
-    chapter: "ch. 3 · 5 · 6",
+    chapter: "ch. 3 · 5 · 6 · 8",
     hue: "violet",
     blurb:
-      "What a single sentence is made of: how much of its class it speaks about, how its predicate attaches (except, provided that, if… then, just as… so too), whether an inference drawn from it is forced or loose, and whether it is meant literally.",
+      "What a single sentence is made of: how much of its class it speaks about, how its predicate attaches (except, provided that, if… then, just as… so too), whether an inference drawn from it is forced or loose, whether it is meant literally, and in what respect the predicate is said — of what always goes with the subject, or of what merely happens to be so.",
   },
   relations: {
     name: "Relations",
@@ -149,6 +153,8 @@ export type AnatomyKey =
   | "conditional"
   | "hypothetical"
   | "compound"
+  | "compound-equal"
+  | "compound-known-novel"
   | "compound-not-only"
   | "compound-needless"
   | "disjunction"
@@ -171,6 +177,8 @@ export type AnatomyKey =
   | "differs-in-place"
   | "differs-in-context"
   | "homonym"
+  // ch. 10 — the converse of the homonym: different words, one meaning
+  | "synonymous-terms"
   | "no-middle"
   | "has-middle"
   // ch. 5 — what a statement implies
@@ -179,6 +187,7 @@ export type AnatomyKey =
   | "absolute-opposite"
   // ch. 6 — not meant literally
   | "figurative"
+  | "hyperbole"
   // ch. 7 — deriving a conclusion, and why a derivation fails
   | "syllogism"
   | "classical-syllogism"
@@ -187,11 +196,17 @@ export type AnatomyKey =
   | "hypothetical-syllogism"
   | "hypothetical-syllogism-tollens"
   | "disjunctive-syllogism"
+  | "disjunctive-syllogism-affirm"
   | "fallacy-not-included"
   | "fallacy-not-similar"
   | "fallacy-not-greater"
   | "fallacy-counterexample"
+  // ch. 8 — in what respect a predicate is said of its subject
+  | "inseparable-property"
+  | "contingent-attribute"
   // ch. 8 — what a proof stands on, how it is turned aside, form, potential / actual
+  | "ground-natural"
+  | "ground-convention"
   | "ground-axiom"
   | "ground-sense"
   | "ground-common-sense"
@@ -223,11 +238,16 @@ export type AnatomyKey =
   | "subject-quality"
   | "subject-quantity"
   | "subject-material"
+  | "essential-form"
   | "perceptible-form"
   | "subject-action"
+  | "subject-action-natural"
+  | "subject-action-voluntary"
   | "subject-being-affected"
   | "kind-species"
   | "subject-cause"
+  | "subject-cause-generative"
+  | "subject-cause-effective"
   | "subject-means"
   | "subject-motive"
   | "subject-purpose"
@@ -511,9 +531,29 @@ const ENTRIES: Record<AnatomyKey, Entry> = {
     short: "several together",
     reads: "several things said together",
     definition:
-      "More than one predicate, or more than one subject, joined in one statement. One intention as a whole, but each part can be true or false on its own.",
+      "More than one predicate, or more than one subject, joined in one statement. One intention as a whole, but each part can be true or false on its own. Ramchal divides the conjoined kind into two branches — the parts on an equal footing, or one known and one novel — and the two badges below name them.",
     parts: 1,
     page: "Eng p34–36 · Heb p37 · parts Eng p86",
+  }),
+  "compound-equal": form(3, {
+    en: "compound: on equal footing",
+    he: "בהשואה אחת",
+    short: "several, level",
+    reads: "several things said together, none the surprise",
+    definition:
+      "The first branch of the conjoined compound: the predicates are said of their subjects on one footing, none the known case and none the novelty — terumah is not separated by measure, by weight or by count (Terumos 1:7), three level prohibitions. Two equal circles under the bracket; nothing in the drawing orders them.",
+    parts: 1,
+    page: "Eng p34 · Heb p33",
+  }),
+  "compound-known-novel": form(3, {
+    en: "compound: known and novel",
+    he: "בדרך חדוש · שכבר נודע",
+    short: "one known, one new",
+    reads: "one part already known, the other the point",
+    definition:
+      "The second branch: one predicate is said as a thing already known and the other as the news — a firstborn is sold alive, and blemished, even slaughtered (Ma'aser Sheni 1:2): alive was known, slaughtered is the point. Which is said first is a further split, `compound-not-only` and `compound-needless`; this badge is the branch itself, for when the order is not at issue. A circle and a star under the bracket.",
+    parts: 1,
+    page: "Eng p34 · Heb p33",
   }),
   "compound-not-only": form(3, {
     en: "compound: not only, but even",
@@ -716,6 +756,18 @@ const ENTRIES: Record<AnatomyKey, Entry> = {
       "The fourth test: the same word in its plain sense. If “blow” means one thing in Eruvin 102b and another in Rosh Hashanah 29b, the two rulings are about different things and do not oppose.",
     page: "Eng p56 · Heb p53",
   }),
+  "synonymous-terms": {
+    ...relation({
+      en: "synonymous terms",
+      he: "שמות נרדפים · מאמרים נרדפים",
+      short: "two words, one thing",
+      reads: "different words for the same thing — so the two statements do meet",
+      definition:
+        "The homonym's converse, from chapter 10: the two statements name one subject or matter in different words, or in a different order of words, so that a real opposition or a real agreement is hidden by the wording — קדשי מזבח against הקרבנות, or the genus משקי בי מדבחיא beside its species הדם והיין והשמן והמים (Pesachim 17a), which say the same thing. Where `homonym` dissolves an apparent clash, this uncovers a relation the words concealed. Two differently marked labels joined to one meaning.",
+      page: "Eng p212 · Heb p211",
+    }),
+    chapter: 10,
+  },
   "no-middle": form(4, {
     en: "no middle",
     short: "no middle",
@@ -769,7 +821,16 @@ const ENTRIES: Record<AnatomyKey, Entry> = {
     short: "not literal",
     reads: "not literal: judge the allusion",
     definition:
-      "A statement whose truth turns on what it alludes to, not on its words — “a lion has come up from Babylon”. Literal is the default and gets no badge; this one says the plain reading is the wrong one.",
+      "A statement whose truth turns on what it alludes to, not on its words — “a lion has come up from Babylon”. Literal is the default and gets no badge; this one says the plain reading is the wrong one. Ramchal names two non-literal ways of speaking, the figure (השאלה) and the overstatement (הפלגה); the overstatement has its own badge below, and this one covers the figure and any non-literal statement that is not an exaggeration.",
+    page: "Eng p76 · Heb p75",
+  }),
+  hyperbole: form(6, {
+    en: "hyperbole",
+    he: "הפלגה",
+    short: "overstated",
+    reads: "not literal: an exaggeration, judge what it means",
+    definition:
+      "The second of chapter 6's non-literal ways of speaking: the words overstate, and the statement is true or false by what the exaggeration is meant to convey, not by its plain sense. Ramchal sets it beside the figure of speech under one rule and gives it no example of its own. A ripple swelling into a wave inside the figurative bubble.",
     page: "Eng p76 · Heb p75",
   }),
 
@@ -840,6 +901,15 @@ const ENTRIES: Record<AnatomyKey, Entry> = {
       "From either this or that, and not that: therefore this. Sound only where the two terms have no middle. Pesachim 5b and Bava Kamma 104a (Eng p108–110).",
     page: "Eng p108–110 · Heb p109",
   }),
+  "disjunctive-syllogism-affirm": deduction({
+    en: "disjunctive syllogism, affirming",
+    he: "הקש מחלק",
+    short: "this, so not that",
+    reads: "it is this one, so it is not the other",
+    definition:
+      "The disjunctive syllogism run the other way: from either this or that, and it is this: therefore not that. Ramchal states both directions in one rule (Eng p106) — establishing one alternative excludes all the others, excluding all but one establishes the remainder — though both of his worked examples eliminate. Sound only where the alternatives exhaust the field and exclude each other. The fork with a return arrow from the established branch to the rejected one.",
+    page: "Eng p106–110 · Heb p105–109",
+  }),
   "fallacy-not-included": deduction({
     en: "fallacy: not in the kind",
     short: "not in the kind",
@@ -874,12 +944,58 @@ const ENTRIES: Record<AnatomyKey, Entry> = {
     page: "Eng p102–104 · Heb p101",
   }),
 
+  // --- ch. 8: in what respect the predicate is said (Eng p146–150, Heb p145–149)
+  // Ramchal's four בחינות — the subject's essence, what always goes with it,
+  // what merely happens to it, and how it stands to another — decide whether
+  // two statements may be chained: a premise in one respect yields no
+  // conclusion in another. They are about one sentence's predicate, so they
+  // sit with the statement's anatomy, not with the grounds. Two of the four
+  // have a drawing; the essence and the relation wait for theirs.
+  "inseparable-property": form(8, {
+    en: "inseparable property",
+    he: "מה שבסגלתו",
+    short: "always goes with it",
+    reads: "said of what always accompanies the subject, though it is not its essence",
+    definition:
+      "The second respect in which a predicate is said of its subject: the property is always with it and never leaves, yet the subject would still be what it is without it — the weasel laps (Parah 9:3), man laughs. A ruling that rests on such a property holds as long as the property does. A short chain binds the property to its subject.",
+    page: "Eng p148 · Heb p147",
+  }),
+  "contingent-attribute": form(8, {
+    en: "contingent attribute",
+    he: "מה שבמקריו",
+    short: "happens to be so",
+    reads: "said of what could be otherwise, the subject unchanged",
+    definition:
+      "The third respect: the feature is there by accident — it could be absent, or different, even the opposite, and the subject would be what it is all the same; round or square, long or short, this man is white. Not unimportance, and not doubt about whether it holds now. Two identical subjects, one with the property and one without.",
+    page: "Eng p150 · Heb p149",
+  }),
+
   // --- ch. 8: what a proof stands on, and how it is turned aside (Eng p112–158, Heb p111–157)
   // Sections 1–3 are the landscape: a floor seen in depth, a house built on its
   // horizon. The glyph cut into the floor says which source; the house's state
   // says the statement's fate. `icons_v3/METHODOLOGY.md` §6. Sections 4 and 5
   // leave that picture: form objections are a speech bubble, potential and
-  // actual are a disc.
+  // actual are a disc. The two parent grounds come first: Ramchal divides
+  // proof into nature, agreement and deduction before he divides the first
+  // two again, and a passage may let you name the parent and not the child.
+  "ground-natural": ground({
+    en: "ground: from nature",
+    he: "ראיה מצד הטבע",
+    short: "evident by nature",
+    reads: "rests on what everyone finds evident by nature",
+    definition:
+      "Chapter 8's first parent ground: the proof rests on what is established for everyone by nature, or on something built on that. It divides into what the mind sees for itself (`ground-axiom`) and what the senses attest (`ground-sense`); write the parent when the passage does not let you say which, or names nature itself. Both children on one floor: the sun and the face.",
+    page: "Eng p112 · Heb p111",
+  }),
+  "ground-convention": ground({
+    en: "ground: from agreement",
+    he: "ראיה מצד ההסכמה",
+    short: "held in common",
+    reads: "rests on what a community agrees to hold",
+    definition:
+      "The second parent ground: the proof rests on what the judgment of a community holds, and binds whoever belongs to it. It divides into common opinion (`ground-common-sense`) and received tradition (`ground-tradition`); write the parent when the child cannot be told. The three heads and the reaching hands share the floor.",
+    page: "Eng p112–114 · Heb p111–113",
+  }),
   "ground-axiom": ground({
     en: "ground: first axiom",
     he: "מושכלות ראשונים",
@@ -1088,15 +1204,16 @@ const ENTRIES: Record<AnatomyKey, Entry> = {
 
   // --- ch. 11: which aspect of the subject (Eng p222–236, Heb p221–235) ------
   // Ramchal's twenty-four numbered הבחנות in his order, then the three senses
-  // of priority that follow them. Attribute (15) has three branches of its own,
-  // and Form (6) splits between the essence badge and its own perceptible one.
+  // of priority that follow them. Form (6), Action (7), Cause (10) and
+  // Attribute (15) each have branches with badges of their own, listed after
+  // their parent.
   "essence-definition": subject({
     en: "essence and definition",
     he: "מהות · גדר",
     short: "what it is",
     reads: "what makes this the thing it is",
     definition:
-      "The first distinction: the subject's own identity, which marks it off from everything else, and the definition (גדר) that states it. An עוללת is the cluster that has neither כתף nor נטף (Pe'ah 7:4). A colour or a passing condition does not define. Form in its essential sense, distinction 6, wears this same badge.",
+      "The first distinction: the subject's own identity, which marks it off from everything else, and the definition (גדר) that states it. An עוללת is the cluster that has neither כתף nor נטף (Pe'ah 7:4). A colour or a passing condition does not define. Ramchal says the essential form, distinction 6, is this same essence; `essential-form` is its badge when a sentence speaks of the form as form.",
     page: "Eng p222 · Heb p221",
   }),
   "subject-parts": subject({
@@ -1135,13 +1252,22 @@ const ENTRIES: Record<AnatomyKey, Entry> = {
       "What the subject is made from — metal vessels of metal, earthenware of clay. Not its components, not its visible shape, and not whoever made it. The block is a mnemonic; material need not be solid.",
     page: "Eng p226 · Heb p225",
   }),
+  "essential-form": subject({
+    en: "essential form",
+    he: "צורה עצמית",
+    short: "its form, in essence",
+    reads: "the form the mind grasps: what makes it this kind of thing",
+    definition:
+      "Distinction 6, Form, in its essential branch: the form by which the subject is what it is — man's form is to be the living being that speaks — grasped by the mind, not seen. Ramchal identifies it with the essence, so it stands beside `essence-definition`; this badge is for a sentence that speaks of the form as form, as against the outline the eye sees, `perceptible-form`. An outer square, four brackets and a filled inner square.",
+    page: "Eng p226 · Heb p225",
+  }),
   "perceptible-form": subject({
     en: "perceptible form",
     he: "צורה מרגשת",
     short: "its visible shape",
     reads: "the shape the eye sees",
     definition:
-      "Distinction 6, Form, in its perceptible branch: the outline of the subject as the eyes see it. The other branch, essential form (עצמית), is the essence grasped by the mind and wears `essence-definition`. A visible-outline picture must not stand for both without a word beside it.",
+      "Distinction 6, Form, in its perceptible branch: the outline of the subject as the eyes see it — like an open box, like a gamma. The other branch, the essential form (עצמית), is the essence grasped by the mind and has its own badge. A visible-outline picture must not stand for both without a word beside it.",
     page: "Eng p226 · Heb p225",
   }),
   "subject-action": subject({
@@ -1150,7 +1276,25 @@ const ENTRIES: Record<AnatomyKey, Entry> = {
     short: "what it does to another",
     reads: "it acts on something else",
     definition:
-      "The subject considered as acting on something else, whether by its nature (טבעית) or by choice (רצונית) — a natural effect on the intestines; a person reciting the Shema. Both branches wear this badge with the word beside it. Acting on another: not moving, and not entailing.",
+      "The subject considered as acting on something else, whether by its nature (טבעית) or by choice (רצונית). This is the parent badge, for when the sentence turns on the acting and not on which kind; the two branches below name the kind. Acting on another: not moving, and not entailing.",
+    page: "Eng p226 · Heb p225",
+  }),
+  "subject-action-natural": subject({
+    en: "action: by nature",
+    he: "פעלה טבעית",
+    short: "acts by nature",
+    reads: "it acts on another because that is its nature",
+    definition:
+      "Action's first branch: things acting on one another by nature, without any choosing — food that scours the intestines (דמנקרא להו למעיא), the ox whose way is to gore. Waves fill the acting block: activity by nature, and no claim that it is liquid or heat.",
+    page: "Eng p226 · Heb p225",
+  }),
+  "subject-action-voluntary": subject({
+    en: "action: by choice",
+    he: "פעלה רצונית",
+    short: "acts by choice",
+    reads: "it acts on another because it chose to",
+    definition:
+      "Action's second branch: what living beings do by will — one who recites the Shema, one who writes on Shabbos. A hand on a control in the acting block: a choice, not necessarily a bodily one.",
     page: "Eng p226 · Heb p225",
   }),
   "subject-being-affected": subject({
@@ -1177,7 +1321,25 @@ const ENTRIES: Record<AnatomyKey, Entry> = {
     short: "what brings it about",
     reads: "what the thing arises from",
     definition:
-      "What the effect arises from by its power. Ramchal splits it: a generative cause (מולדת), whose effect continues from it — tree and fruit, father and child — and an effective one (פועלת), which produces something separate, the craftsman and the vessel. Both wear this badge with the word beside it.",
+      "What the effect arises from by its power. Ramchal splits it: a generative cause (מולדת), whose effect continues from it — tree and fruit, father and child — and an effective one (פועלת), which produces something separate, the craftsman and the vessel. This is the parent badge, for when the sentence turns on causing and not on which kind; the two below name the kind.",
+    page: "Eng p230 · Heb p229",
+  }),
+  "subject-cause-generative": subject({
+    en: "cause: generative",
+    he: "סבה מולדת",
+    short: "it grows from it",
+    reads: "the effect comes out of its cause and continues from it",
+    definition:
+      "Cause's first branch: the effect is born of the cause and goes on from it as its continuation — the tree and the fruit that comes from it, the father and the son. A gear with a stem to a smaller gear of the same family: origin, not attachment.",
+    page: "Eng p230 · Heb p229",
+  }),
+  "subject-cause-effective": subject({
+    en: "cause: effective",
+    he: "סבה פועלת",
+    short: "it makes it",
+    reads: "the cause produces something that stands apart from it",
+    definition:
+      "Cause's second branch: the cause brings about an effect that is a separate thing — the craftsman and the vessel; the animal going because it is led (דאזלא מחמתה); wine and scents that sharpen the mind. The gear points at a separate cube, cause and effect kept distinct.",
     page: "Eng p230 · Heb p229",
   }),
   "subject-means": subject({

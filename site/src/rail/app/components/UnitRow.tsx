@@ -9,6 +9,7 @@ import type { Verdict } from "../../verdict.ts";
 import type { RowBadges } from "../useSugyaController.ts";
 import { AnatomyBadge } from "./AnatomyBadge.tsx";
 import { MoveIcon } from "./MoveIcon.tsx";
+import { SpannedText } from "./SpannedText.tsx";
 import { Tooltip } from "./Tooltip.tsx";
 import { VerdictPill } from "./VerdictPill.tsx";
 
@@ -286,11 +287,9 @@ export const UnitRow = ({
           </span>
         ) : null}
 
-        <span className="row-text">{unit.en}</span>
+        <SpannedText text={unit.en} spans={unit.spans?.en} className="row-text" />
         {unit.he === undefined ? null : (
-          <span className="row-hebrew" lang="he" dir="rtl">
-            {unit.he}
-          </span>
+          <SpannedText text={unit.he} spans={unit.spans?.he} className="row-hebrew" lang="he" dir="rtl" />
         )}
       </div>
 

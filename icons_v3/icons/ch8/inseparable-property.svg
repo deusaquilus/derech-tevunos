@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-12 -12 24 24" width="128" height="128" role="img" aria-labelledby="property-title property-desc">
+<title id="property-title">Inseparable property / סגולה</title>
+<desc id="property-desc">Chapter 8, Hebrew p147, English p148. A compact closed chain binds the upper-left property diamond to the lower-right subject square. The chain is approximately half the previous length, with short attachment stems. Complete diamond and square outlines remain dominant; no broad white outline covers them. Two coupled links make inseparability the relationship between the two shapes. Their separate identities show that the property accompanies the subject rather than constituting its essence. This analytical icon does not assert physical bondage, exclusivity to a species, or mystical power. It is not a declared child of Chapter 11 Attribute.</desc>
+<g fill="none" stroke="#7c3aed" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+<rect x="2.4" y="2.4" width="7.5" height="7.5" rx="1.1" fill="#7c3aed" fill-opacity=".15"/>
+<path d="M-6.5-10.3L-2.7-6.5-6.5-2.7-10.3-6.5Z" fill="#7c3aed" fill-opacity=".15"/>
+<path d="M-4.6-4.6L-3.65-3.65M1.65 1.65L2.75 2.75" stroke-width="1.15"/>
+<g transform="translate(-1 -1) rotate(45)" stroke-width="1.05">
+<rect x="-3.8" y="-1.3" width="4.1" height="2.6" rx="1.3" fill="white"/>
+<rect x="-.3" y="-1.3" width="4.1" height="2.6" rx="1.3" fill="white"/>
+<path d="M-1.45 0H1.45" stroke-width="1.15"/>
+</g></g></svg>

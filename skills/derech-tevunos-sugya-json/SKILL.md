@@ -5,7 +5,7 @@ description: Label a Talmudic passage (or any dialectical text) with Ramchal's D
 
 # Derech Tevunos → sugya JSON
 
-Turn a passage into one file, `<id>.json`, in the format `derech-tevunos/sugya` version `1`: the passage's sentences in order, each labelled with the move it makes (Ramchal, *Derech Tevunos*, ch. 9) and, optionally, what it *is* and how it *derives* (chs. 1–8). The reader at https://derech-tevunos.com/byo draws the file, or refuses it with every fault listed by JSON path.
+Turn a passage into one file, `<id>.json`, in the format `derech-tevunos/sugya` version `1`: the passage's sentences in order, each labelled with the move it makes (Ramchal, *Derech Tevunos*, ch. 9) and, optionally, what it *is* and how it *derives* (chs. 1–8, 10–11) and which of its words play which part (subject, predicate, premise…). The reader at https://derech-tevunos.com/byo draws the file, or refuses it with every fault listed by JSON path.
 
 The complete reference is [DERECH_TEVUNOS_SUGYA_JSON_GUIDE.md](DERECH_TEVUNOS_SUGYA_JSON_GUIDE.md), beside this file. Read its Part I (§1–§6) before the first file, keep §7 (the one-page card) open while labelling, and open a construct's entry in Part II only when two labels both seem to fit. Do not read all 3,900 lines up front.
 
@@ -37,7 +37,9 @@ Nothing outside these lists is valid outside `ext`. The reader refuses an unknow
 
 **`party`** (on the sugya): `party-group` · `party-individual` · `party-talmud`.
 
-**`anatomy[].kind`**: one of the hundred and six in guide §3.3, each with `basis` `marked` or `inferred`. Optional. Leave it out rather than guess.
+**`anatomy[].kind`**: one of the hundred and twenty in guide §3.3, each with `basis` `marked` or `inferred`. Optional. Leave it out rather than guess.
+
+**`spans`** (guide §2.5): which words of `he` / `en` are the `subject`, `predicate`, `antecedent`, `consequent`, `premise`, `conclusion` or a `commitment`, as word ranges — `"3"`, `"2-4"`, or a list — counted by whitespace tokens from 1. Optional; never a copy of the words. Write them where the passage turns on the split, not on every sentence.
 
 ## The smallest valid file
 
@@ -74,7 +76,7 @@ A unit with everything the page can show:
 }
 ```
 
-Whatever has no field yet (normalized subject and predicate, premises, axes, further targets) goes under `ext`, with the names in guide §4. The page reads nothing from `ext` and carries it through.
+Whatever has no field yet (the normalized paraphrase, premises that are not words of the sentence, further targets) goes under `ext`, with the names in guide §4. The page reads nothing from `ext` and carries it through.
 
 ## Rules that bite
 

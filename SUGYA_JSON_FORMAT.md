@@ -15,18 +15,22 @@ analysis and an identical drawing (`npm run check:rail` in `site/`).
 A file is a **sugya**: a passage's metadata, then its **units** — the sentences
 in the order they are said. A unit carries the sentence in Hebrew and English,
 who says it, the **move** it makes (Derech Tevunos ch. 9: what the sentence
-*does* to an earlier one), where its authority comes from (ch. 8), and, as a
-separate layer, its **anatomy** (every chapter but the ninth: what the
+*does* to an earlier one), where its authority comes from (ch. 8), and, as
+separate layers, its **anatomy** (every chapter but the ninth: what the
 sentence *is*, how it stands to the one it acts on, what a proof or disproof
 stands on, when a report is itself the argument, and which aspect of its
-subject it examines).
+subject it examines) and its **spans** (which of its own words are the
+subject and the predicate, the two clauses of a hypothetical, the premises
+and conclusion of a deduction, or the separate commitments a challenge can
+land on — as ranges into the sentence, never as copies of it).
 
 Everything else on the page is derived from that and is *not* in the file:
 depth (from the chain of targets), standing and status (from the moves that
 land on a unit), the verdict pill, the movements a passage divides into, the
 folds, the bands, the rails, the handles, whether a label reads *attested*,
-*marked* or *inferred*, and the *Talmud itself* badge on a sentence with no
-speaker. If two files have the same units they draw the same page.
+*marked* or *inferred*, the parent kind of a move whose leaf has one (§4.3),
+and the *Talmud itself* badge on a sentence with no speaker. If two files have
+the same units they draw the same page.
 
 The smallest complete file, exactly as shipped:
 
@@ -74,7 +78,7 @@ The only required keys are `format`, `version`, `id`, `title`, `tractate`,
 `folio`, `discussedAt` and `units`; within a unit, `id`, `en` and `move`; within
 a move, `element` and `subtype`. A file can be as bare as that. Everything the
 page can show beyond the lattice itself — speakers, Hebrew, markers, the
-anatomy badges — is opt-in per unit.
+anatomy badges, the underlined word spans — is opt-in per unit.
 
 ---
 
@@ -136,7 +140,11 @@ What each passage contributed to the format:
   Hebrew, which is why `he` is optional. `pesachim-liquids` has the one Ramchal
   unit that is *not* attested and carries a `note` saying why, which is why a
   file can say `attested: false` and explain itself. A speaker of *Genesis
-  28:15* shows `speaker` is free text, not a name.
+  28:15* shows `speaker` is free text, not a name. `berachos-yaakov` is also
+  the one passage that carries `spans` (§4.5), added 2026-09-20: subject and
+  predicate on its three statements in both languages, and on `ויירא יעקב מאד`
+  a predicate split around its subject — which is why a role's value can be a
+  list of ranges.
 - **Bava Metzia 21b–22b** adds scale: `short` on every unit (bands, handles
   and headings need it once a passage is long enough to fold), sixteen of the
   nineteen leaves, `attested: false` throughout with the `marker` carrying the
@@ -218,6 +226,7 @@ two-letter move codes — the files hold the expanded moves.
 | `move` | move | **yes** | Ch. 9: what the sentence does. See §4.3. | Icon, colour, label, gloss, edge style, indent, folding, rails, analysis. |
 | `provenance` | `sense` · `axiom` · `endoxa` · `tradition` · `derivation` · `asserted` | no | Ch. 8: where the sentence's authority comes from. The first four enter the debate already accepted; `derivation` and `asserted` start in doubt and must earn acceptance. Absent: `asserted`. | The unit's starting status, hence its verdict. On a proof, contradiction or difficulty that acts on something, the first four also draw a magenta ground badge (`ground-sense`, `ground-axiom`, `ground-common-sense`, `ground-tradition`) unless the unit already carries an explicit ch. 8 label. `derivation` and `asserted` do not auto-map. |
 | `anatomy` | annotation[] | no | The anatomy layer, any number of labels. See §4.4. | The anatomy layer's chips, beads and tooltips; off by default. |
+| `spans` | spans | no | Which words of `he` and of `en` play which role — subject, predicate, antecedent, consequent, premise, conclusion, commitment — as word ranges into the text. See §4.5. | A light underline on those words in the row, in the role's hue; the role's icon and name on hover. |
 | `note` | string | no | Why the label; a doubt; where the taxonomy was stretched; a cross-reference (*returns fifty sentences later as the verse that refutes Rava*). | Nothing — documentation, and material for the checks. |
 | `ext` | object | no | See §7. | Nothing. |
 
@@ -261,7 +270,7 @@ The nineteen leaves, with the effect each has on its target when it lands:
 | `contradiction/opposition` | דחיה | opposition | unsettle | 178 |
 | `difficulty/objection` | פרכא | objection | unsettle | 180 |
 | `difficulty/apparentContradiction` | רמיא | apparent contradiction | unsettle | 182 |
-| `difficulty/refutation` | תיובתא | refutation | unsettle (placeholder — undefined in the source) | 184 |
+| `difficulty/refutation` | תיובתא | refutation | unsettle (placeholder — undefined in the source; see below) | 184 |
 | `resolution/settlement` | ישוב | settlement | discharge | 184 |
 | `resolution/alternative` | שנוי | alternative | unsettle | 186 |
 
@@ -269,32 +278,104 @@ The nineteen leaves, with the effect each has on its target when it lands:
 explanation targets what it explains, a reported aside targets what it hangs
 off. The target places the row; the effect decides what happens to the target.
 
+**The leaf is what is encoded; its parent is derived.** Ramchal names
+seventeen immediate kinds under the seven moves, and one of them, פרוש,
+divides again — by how well the explanation fits the wording (מרוח, דחוק) and
+by the method of restricting the case (אוקימתא). The nineteen leaves flatten
+that last step: `statement/explanation`, `statement/forcedExplanation` and
+`statement/presumption` are the three children, and `parentOf` in
+`taxonomy.ts` reads פרוש off any of them. Nothing is written for it. The row
+draws the leaf's own picture — since the icon set of 2026-09-20 every leaf but
+`contradiction/direct` has one; that one shares its parent's red X on purpose
+— and a less detailed view would draw the parent's, which is why the parent
+has a drawing too (`PARENT_GLYPHS` in `moveGlyphs.ts`). What the flattening
+cannot say is that an אוקימתא is *also* forced; say so in `note`.
+
+**תיובתא.** The book announces the kind (p. 180) and never defines it, and
+the reducer's `unsettle` is a placeholder, not a reading. The gloss the page
+shows — *a decisive difficulty, usually from an authoritative source* — is
+the operational sense the icon set adopted from outside the book
+(`ICONS_REFERENCE_COMPLETE_V3.md` §18 names its sources); it is a supplied
+definition, and the effect is unchanged.
+
 ### 4.4 An annotation (the anatomy layer)
 
 | key | type | required | what it is |
 |---|---|---|---|
-| `kind` | one of a hundred and six | **yes** | The label. The full list, by family, is in §5.2. |
+| `kind` | one of a hundred and twenty | **yes** | The label. The full list, by family, is in §5.2. |
 | `basis` | `attested` · `marked` · `inferred` | no | How the label was arrived at: Ramchal's own labelling of this passage; the type's stock word is in the text (`כל` for categorical, `אף על גב ד` for discrepancy, `מה … אף` for analogism); ours alone. Absent: `inferred`. |
 | `note` | string | no | Why this label — the words that carry it, or the reading. Shown in the chip's tooltip. |
 
 Two rules the reader enforces. A **row-level** kind (speakers, statement
-anatomy, ch. 5–6, and the whole of ch. 11) describes the sentence alone and may
-go on any unit. An **edge-level** kind (relations, deductions, grounds, and
-both ch. 10 composites) describes the sentence's move on its `target` and is a
-fault on a unit whose move has no target. A unit may carry several labels: a
-`differs-in-context` relation and a `qualified-possible` form on the same
-resolution is the normal case. An explicit ch. 8 label on a proof,
-contradiction or difficulty suppresses the ground the page would otherwise
-derive from `provenance`.
+anatomy, ch. 5–6, the two ch. 8 respects, potential and actual, and the whole
+of ch. 11) describes the sentence alone and may go on any unit. An
+**edge-level** kind (relations, deductions, grounds, ch. 10's synonymous
+terms, and both ch. 10 composites) describes the sentence's move on its
+`target` and is a fault on a unit whose move has no target. A unit may carry
+several labels: a `differs-in-context` relation and a `qualified-possible`
+form on the same resolution is the normal case. An explicit ch. 8 label on a
+proof, contradiction or difficulty suppresses the ground the page would
+otherwise derive from `provenance`.
+
+### 4.5 Spans (the roles of words)
+
+Some of Ramchal's constructs are not labels from a closed list but **parts of
+the sentence's own text**: the subject of *women are obligated in kiddush* is
+*women*, which is no vocabulary word. So they are recorded as **spans** — a
+range of word positions into a text the file already has — and never as a
+copy of the words. A span is two small integers; it adds nothing that can go
+stale and cannot bloat a file.
+
+```json
+"spans": {
+  "he": { "subject": "1", "predicate": "2-6" },
+  "en": { "subject": "1", "predicate": "2-12" }
+}
+```
+
+| key | type | what it is |
+|---|---|---|
+| `he`, `en` | role → ranges | Which text the ranges index. Each text counts its own words; a text the unit does not have is a fault. Either or both. |
+| a role | `"3"` · `"2-4"` · a list of these | The words in that role. One range is a string; a role that occurs more than once in the sentence — two premises, three commitments, a compound's several subjects, a predicate split around its subject — is a list. |
+
+**Words** are the maximal runs of non-whitespace in the text, numbered from 1;
+punctuation stays with the word it touches, a lone dash counts as a word, and
+a maqaf-joined pair (`קל־וחומר`) is one word. The rule is blunt on purpose: it
+is the one every reader, human or agent, computes the same way. **Ranges** are
+inclusive at both ends. The reader checks every range against the word count
+of the text it indexes.
+
+The seven roles, each with its own drawing in the icon set:
+
+| role | Hebrew | what the words are | ch. | p. |
+|---|---|---|---|---|
+| `subject` | נושא | what the sentence is about — that of which something is affirmed or denied. Its icon is the ch. 11 `subject-bearer`'s: the set treats the two as one picture, the file keeps them two constructs. | 3 | 22 |
+| `predicate` | נשוא | what is affirmed or denied of the subject | 3 | 22 |
+| `antecedent` | הקודם | the clause of a hypothetical (or consequent) statement that states the condition | 3 | 32 |
+| `consequent` | הנמשך | the clause that hangs on the condition | 3 | 32 |
+| `premise` | הקדמה | a statement the deduction starts from, when the deduction is spelt out inside one sentence | 7 | 94 |
+| `conclusion` | תולדה | the statement the deduction arrives at, likewise | 7 | 94 |
+| `commitment` | סוף גזרתו | one of the things the sentence ultimately asserts, on which its truth turns — an exception has two (the rule, the exception), a consequent three; a challenge can defeat one and leave the rest standing (ch. 6) | 6 | 76 |
+
+Spans are **optional** and describe the sentence alone. Write `subject` and
+`predicate` when the passage turns on the split — a converse, a variant, an
+ambiguous subject, a subject named in two ways — and not as a matter of
+course; the antecedent and consequent only on a `hypothetical` or
+`consequent` form; `premise` and `conclusion` only when the deduction is in
+the sentence (premises that are earlier units are already named by `target`
+and the deduction label); the commitments where a difficulty is about to land
+on one of them. The normalized proposition in words — *S has P, in manner
+M* — stays where it was, in `ext.form.normalized` (§7): the spans are the
+pointer, that is the paraphrase.
 
 ---
 
 ## 5. The vocabularies
 
-Every closed list in the file is a constant in the code, and `npm test`
-asserts the schema's enums equal them, so the three cannot drift: the reader
-(`format.ts`), the schema (`sugya.schema.json`) and the vocabulary modules
-(`taxonomy.ts`, `anatomy.ts`, `sugya.ts`).
+Every closed list in the file is a constant in the code, and `npm run
+check:rail` asserts the schema's enums equal them, so the three cannot drift:
+the reader (`format.ts`), the schema (`sugya.schema.json`) and the vocabulary
+modules (`taxonomy.ts`, `anatomy.ts`, `spans.ts`, `sugya.ts`).
 
 ### 5.1 Sugya-level
 
@@ -303,7 +384,10 @@ asserts the schema's enums equal them, so the three cannot drift: the reader
 - `provenance` (on units): `sense` · `axiom` · `endoxa` · `tradition` · `derivation` · `asserted` — ch. 8, pp. 112–140.
 - `basis` (on annotations): `attested` · `marked` · `inferred`.
 
-### 5.2 The hundred and six `anatomy.kind` values
+### 5.2 The hundred and twenty `anatomy.kind` values
+
+A hundred and six on 2026-09-18; fourteen more on 2026-09-20 with the icon
+set's third release, marked **†** below.
 
 *Row-level — about the sentence alone.*
 
@@ -311,12 +395,13 @@ asserts the schema's enums equal them, so the three cannot drift: the reader
 |---|---|
 | ch. 1 · speakers | `party-group` `party-individual` `party-talmud` |
 | ch. 3 · the subject: how much of the class | `categorical` `partial` `particular` `unqualified` |
-| ch. 3 · the predicate: how it attaches | `simple` `qualified-certain` `qualified-possible` `qualified-doubtful` `qualified-impossible` `exclusion` `exception` `conditional` `hypothetical` `compound` `compound-not-only` `compound-needless` `disjunction` `preclusive` `discrepancy` `comparative` `consequent` |
+| ch. 3 · the predicate: how it attaches | `simple` `qualified-certain` `qualified-possible` `qualified-doubtful` `qualified-impossible` `exclusion` `exception` `conditional` `hypothetical` `compound` `compound-equal`† `compound-known-novel`† `compound-not-only` `compound-needless` `disjunction` `preclusive` `discrepancy` `comparative` `consequent` |
 | ch. 4 · opposite terms | `no-middle` `has-middle` |
 | ch. 5 · what a statement implies | `inference-necessary` `inference-loose` `absolute-opposite` |
-| ch. 6 · not meant literally | `figurative` |
+| ch. 6 · not meant literally | `figurative` `hyperbole`† |
+| ch. 8 · in what respect the predicate is said | `inseparable-property`† `contingent-attribute`† |
 | ch. 8 · potential and actual | `potential` `actual` |
-| ch. 11 · which aspect of the subject | `essence-definition` `subject-parts` `subject-quality` `subject-quantity` `subject-material` `perceptible-form` `subject-action` `subject-being-affected` `kind-species` `subject-cause` `subject-means` `subject-motive` `subject-purpose` `subject-result` `subject-attribute` `attribute-in-attached` `attribute-concurrent` `attribute-before-after` `subject-place` `subject-orientation` `subject-movement` `subject-time` `subject-relation` `subject-bearer` `subject-similarity` `subject-difference` `subject-opposition` |
+| ch. 11 · which aspect of the subject | `essence-definition` `subject-parts` `subject-quality` `subject-quantity` `subject-material` `essential-form`† `perceptible-form` `subject-action` `subject-action-natural`† `subject-action-voluntary`† `subject-being-affected` `kind-species` `subject-cause` `subject-cause-generative`† `subject-cause-effective`† `subject-means` `subject-motive` `subject-purpose` `subject-result` `subject-attribute` `attribute-in-attached` `attribute-concurrent` `attribute-before-after` `subject-place` `subject-orientation` `subject-movement` `subject-time` `subject-relation` `subject-bearer` `subject-similarity` `subject-difference` `subject-opposition` |
 | ch. 11 · in what sense one thing is prior | `priority-temporal` `priority-conceptual` `priority-natural` |
 
 *Edge-level — about the move on `target`; a target is required.*
@@ -325,9 +410,10 @@ asserts the schema's enums equal them, so the three cannot drift: the reader
 |---|---|
 | ch. 4 · how two statements relate | `equivalent` `variant` `variant-subjects` `diametrically-opposed` `contradictory` `converse` `converse-limited` `contrapositive` `obverse` `incongruent` |
 | ch. 4 · the tests that dissolve an apparent opposition | `differs-in-time` `differs-in-place` `differs-in-context` `homonym` |
-| ch. 7 · deriving a conclusion | `syllogism` `classical-syllogism` `analogism` `a-fortiori` `hypothetical-syllogism` `hypothetical-syllogism-tollens` `disjunctive-syllogism` |
+| ch. 10 · the homonym's converse: different words, one thing | `synonymous-terms`† |
+| ch. 7 · deriving a conclusion | `syllogism` `classical-syllogism` `analogism` `a-fortiori` `hypothetical-syllogism` `hypothetical-syllogism-tollens` `disjunctive-syllogism` `disjunctive-syllogism-affirm`† |
 | ch. 7 · why a derivation fails | `fallacy-not-included` `fallacy-not-similar` `fallacy-not-greater` `fallacy-counterexample` |
-| ch. 8 · what a proof or disproof stands on | `ground-axiom` `ground-sense` `ground-common-sense` `ground-tradition` `ground-deduction` `via-opposite` `dilemma` `ground-does-not-reach` `theory` |
+| ch. 8 · what a proof or disproof stands on | `ground-natural`† `ground-convention`† `ground-axiom` `ground-sense` `ground-common-sense` `ground-tradition` `ground-deduction` `via-opposite` `dilemma` `ground-does-not-reach` `theory` |
 | ch. 8 · turning a difficulty back | `rebuttal-your-reasoning` `rebuttal-just-the-opposite` `rebuttal-proves-my-point` |
 | ch. 8 · objections to form | `obvious` `might-have-thought` `redundant-part` `self-contradictory` `misordered` |
 | ch. 10 · a report that is also an argument | `ascribed-proof` `ascribed-difficulty` |
@@ -339,7 +425,32 @@ tooltips on the page come from there. `variant` is same subject, two predicates;
 of certainty that match `provenance` (`sense`, `axiom`, `endoxa`, `tradition`)
 are usually derived, not written; write `ground-deduction`, `via-opposite`,
 `dilemma`, `ground-does-not-reach` or `theory` when the page cannot read them
-off another field.
+off another field — and `ground-natural` or `ground-convention`, the two
+parents Ramchal divides proof into before he divides them again, when the
+passage lets you name the parent and not the child.
+
+What the fourteen of 2026-09-20 are for. `compound-equal` and
+`compound-known-novel` are the two branches of the conjoined compound (Eng
+p34) — the parts on one footing, or one known and one the news; the existing
+`compound-not-only` and `compound-needless` are the two orders of the second
+branch, so the branch badge is for when the order is not at issue. `hyperbole`
+is הפלגה, the second of ch. 6's non-literal ways of speaking; `figurative`
+keeps the figure (השאלה) and any non-literal statement that is not an
+exaggeration. `disjunctive-syllogism-affirm` runs the disjunctive syllogism
+the other way — *it is this, so not that* — which Ramchal states in the same
+rule as the elimination (Eng p106). `inseparable-property` (מה שבסגלתו) and
+`contingent-attribute` (מה שבמקריו) are two of ch. 8's four *respects* in
+which a predicate is said of its subject (Eng p146–150): what always goes
+with it though it is not its essence, and what merely happens to be so; they
+sit with the statement's anatomy, as `potential` and `actual` do, because
+they are about how one sentence's predicate attaches, and the other two
+respects — essence, relation — wait for drawings in `ext.warrant.aspect`.
+`synonymous-terms` is ch. 10's counterpart to `homonym`: different words for
+one thing, so two statements that looked unrelated do oppose or agree.
+`essential-form` is Form's essential branch, which the essence badge stood in
+for until it had a picture; the action and cause branches are Ramchal's own
+subdivisions of distinctions 7 and 10, and the parent badges remain for a
+sentence that turns on the acting or the causing and not on which kind.
 
 Three distinctions the vocabulary insists on, because the same English word
 names two different things. `subject-time` says *when* a sentence's subject is
@@ -348,7 +459,18 @@ at issue; `differs-in-time` says two sentences speak of different times;
 split holds for place, minus the priority. And `subject-opposition` is
 chapter 11's general נגוד, a relation between things, while
 `contradiction/opposition` is chapter 9's דחיה, a move one sentence makes on
-another — distinct keys on purpose, however the English coincides.
+another — distinct keys on purpose, however the English coincides. A fourth,
+new with the spans: the kind `subject-bearer` is chapter 11's twenty-first
+distinction, *given an attribute, what carries it*, a fact about what a
+sentence examines; the span role `subject` is chapter 3's נושא, *which words
+of this sentence are its subject*. They share one drawing and are two things.
+
+### 5.3 The seven span roles
+
+`subject` · `predicate` · `antecedent` · `consequent` · `premise` ·
+`conclusion` · `commitment` — §4.5, and `SPAN_ROLES` in `site/src/rail/spans.ts`,
+one entry per role with its Hebrew, its gloss and its drawing. A span indexes
+one of two texts, `he` or `en`.
 
 ---
 
@@ -363,29 +485,36 @@ prefixed with the JSON path it sits at. It refuses, in this order of discovery:
    suggests the nearest allowed key when one is within two edits.
 3. Missing required keys; wrong types; empty required strings.
 4. Values outside a vocabulary, with the allowed values listed (or counted,
-   for the hundred and six labels) and a suggestion when one is close.
+   for the hundred and twenty labels) and a suggestion when one is close.
 5. A `subtype` that is not a leaf of its `element`.
-6. Then the structural rules, from the analysis itself: duplicate unit ids; a
+6. A span that cannot index its text: a role that is not one of the seven; a
+   text (`he`, `en`) the unit has not got; a range that is not `"3"` or
+   `"2-4"`; a range that starts at 0, runs backwards, or runs past the
+   text's last word — the fault says how many words the text has.
+7. Then the structural rules, from the analysis itself: duplicate unit ids; a
    `target` that names no unit; a `target` that names a *later* unit; an
    edge-level label on a unit whose move acts on nothing; no units at all.
 
 A bad file, and what the reader says of it:
 
 ```
-bad.json: 5 faults
+bad.json: 7 faults
   $.folo: unknown key (did you mean "folio"?)
   $.folio: required
   $.units[0].colour: unknown key
   $.units[1].move.subtype: "objection" is not a subtype of "answer" (expected "answer" | "determination")
-  $.units[1].anatomy[0].kind: "consequant" is not one of the 106 values allowed for "kind" (did you mean "consequent"?)
+  $.units[1].anatomy[0].kind: "consequant" is not one of the 120 values allowed for "kind" (did you mean "consequent"?)
+  $.units[1].spans.he.subjekt: unknown key (did you mean "subject"?)
+  $.units[1].spans.he.predicate: 6-22 runs past the end: the text has 21 words
 ```
 
 The same list appears on the *Open* page when a file offered there is refused.
 
 The JSON Schema expresses the same rules as far as JSON Schema can (shape,
-required keys, enums, the element→subtype pairing, `additionalProperties:
-false` everywhere but `ext`). It cannot express the structural rules in item 6;
-those need the reader.
+required keys, enums, the element→subtype pairing, the grammar of a range,
+`additionalProperties: false` everywhere but `ext`). It cannot express the
+bounds of a range against its text, nor the structural rules in item 7; those
+need the reader.
 
 ---
 
@@ -396,10 +525,13 @@ agent's richer annotation (`DERECH_TEVUNOS_FOR_AGENTS.md` §2) will want a
 home. Three things are arranged so that growth is additive.
 
 **Layers are separate keys.** A unit's ch. 9 layer is the one key `move`; its
-anatomy layer is the one key `anatomy`. A new layer is a new sibling key on the
-unit — `form`, `warrant`, `relation`, `axis`, `inference` are the natural
-names, matching the agents' guide — and nothing existing changes. Within
-`move`, likewise: a `composite` or a `reportedOf` is a new optional key.
+anatomy layer is the one key `anatomy`; its word-level layer is the one key
+`spans` (added 2026-09-20 — the first new sibling, and the shape the rest
+should follow: optional, validated, nothing existing changed, `version` still
+1). A new layer is a new sibling key on the unit — `warrant`, `relation`,
+`inference` are the natural names, matching the agents' guide — and nothing
+existing changes. Within `move`, likewise: a `composite` or a `reportedOf` is
+a new optional key.
 
 **`ext` is the waiting room.** Any object may go in `ext`, on the sugya or on
 a unit. The reader carries it through untouched and checks only that it is an
@@ -419,20 +551,33 @@ the top level: outside `ext`, unknown is a fault, on purpose.
 in `ENTRIES` in `anatomy.ts` (its family, level, words, definition, glyph) plus
 its name in the schema's enum; the test that the two lists agree fails until
 both are done. A new leaf of ch. 9 is one entry in `LEAVES` in `taxonomy.ts`
-plus the schema's `allOf` branch for its element.
+plus the schema's `allOf` branch for its element. A new span role is one entry
+in `SPAN_ROLE_INFO` in `spans.ts` plus its property in the schema's
+`roleSpans`; the glyph extractor then demands a drawing for it.
+
+**Labels and spans are different homes.** A construct that is one of a closed
+list — a form, a relation, a ground, a distinction — is an `anatomy` kind and
+the page draws a chip. A construct that is *a piece of the sentence* — its
+subject, a premise, the clause that states the condition — is a span role and
+the page underlines the words. The icon set draws both, and the test for which
+home is whether the value is a word from a vocabulary or a pointer into the
+text. Do not add a text-valued key to copy words the unit already has.
 
 **To add a construct end to end:**
 
 1. Decide its layer: a property of the sentence alone (row), of the move on its
-   target (edge), or of the passage. Row and edge kinds join `anatomy`; a
-   structured layer becomes a new key.
+   target (edge), of some of the sentence's words (span), or of the passage.
+   Row and edge kinds join `anatomy`; a role joins `spans`; a structured layer
+   becomes a new key.
 2. Give it a stable kebab-case key. Prefer the guide's key if the guide has one.
-3. `anatomy.ts` / `taxonomy.ts`: the entry — definition, stock word, page.
+3. `anatomy.ts` / `taxonomy.ts` / `spans.ts`: the entry — definition, stock
+   word, page.
 4. `sugya.schema.json`: the enum or the new property.
 5. `format.ts`: for a new key, read it in `readUnit`/`parseSugya` and write it
    in `unitJson`/`toJson`, in canonical position.
 6. `check.ts`: one accepted case, one refused case.
-7. Then the renderer.
+7. `npm run glyphs`: the drawing, or the build refuses.
+8. Then the renderer.
 
 ### The agents' guide (§2) and this format
 
@@ -447,17 +592,24 @@ reads. They agree where they overlap and this table says how the rest maps.
 | `move.target: string[]` | `move.target: string` | The page draws one edge per move. A second target has no home yet; put it in `ext` or split the unit. |
 | `move.basis` | derived from `move.attested` + `move.marker` | `attested` → `attested: true`; `marked` → give the `marker`; `inferred` → neither. `supplied` (a label from a `[supplied]` definition) has no counterpart — say so in `note`, or carry it in `ext`. |
 | `form.quantity` | `anatomy[].kind` ∈ `categorical` `partial` `particular` `unqualified` | |
-| `form.type` | `anatomy[].kind` ∈ the eleven predication kinds | |
-| `form.literal: false` | `anatomy[].kind: "figurative"` | |
-| `relation.kind`, `relation.dissolvedBy` | `anatomy[].kind` ∈ relations / tests, on the unit whose move targets `relation.to` | `converse-complete` in the guide is `converse` here. The guide's one `variant` is two kinds here: `variant` (predicates change) and `variant-subjects` (subjects change). |
-| `warrant.kind` (a syllogism) | `anatomy[].kind` ∈ deductions | |
+| `form.type` | `anatomy[].kind` ∈ the predication kinds | The conjoined compound's two branches, `compound-equal` and `compound-known-novel`, are kinds since 2026-09-20. |
+| `form.literal: false` | `anatomy[].kind: "figurative"`, or `"hyperbole"` when the device is exaggeration | |
+| `form.subject`, `form.predicate` | `spans.<he\|en>.subject`, `.predicate` — word ranges | Since 2026-09-20. Pointers into the text, not the words; `form.normalized` stays in `ext`, it is the paraphrase. |
+| `form.parts` of a hypothetical or consequent | `spans.<he\|en>.antecedent`, `.consequent` | The other forms' parts (an exception's rule and exception, a conditional's base and condition) are its `commitment` spans. |
+| `relation.kind`, `relation.dissolvedBy` | `anatomy[].kind` ∈ relations / tests, on the unit whose move targets `relation.to` | `converse-complete` in the guide is `converse` here. The guide's one `variant` is two kinds here: `variant` (predicates change) and `variant-subjects` (subjects change). `synonymous-terms` is the test's converse: the wording hid a real relation. |
+| `warrant.kind` (a syllogism) | `anatomy[].kind` ∈ deductions | `disjunctive-syllogism-affirm` for the *it is this, so not that* direction. |
 | `warrant.defeat` | `anatomy[].kind` ∈ `fallacy-*` | Including `fallacy-not-included`, the inclusion failure of a classical syllogism. |
+| `warrant.premises[]`, when the premises are words of this sentence | `spans.<he\|en>.premise` (a list), `.conclusion` | A premise that is an earlier unit is already named by `target` and the deduction label; `warrant.premises[].provenance` and `.id` stay in `ext`. |
 | `warrant.kind: "proof/indirect"` | `anatomy[].kind: "via-opposite"` | Keep the warrant kind in `ext` when premises are recorded; the icon is the anatomy label. |
 | `warrant.kind: "disproof/dilemma"` | `anatomy[].kind: "dilemma"` | Same: icon here, premises still in `ext`. |
 | `warrant.kind: "rebuttal/irrelevant"` | `anatomy[].kind: "ground-does-not-reach"` | The other four `rebuttal/*` kinds have no icon yet. |
 | `warrant.kind: "sevara"` | `anatomy[].kind: "theory"` | The reducer still treats a validation as a full `raise`; say so in `note`. |
+| `warrant.aspect: "aspect/proprium"`, `"aspect/accident"` | `anatomy[].kind: "inseparable-property"`, `"contingent-attribute"` | Two of the four respects have drawings; `aspect/essence` and `aspect/relation` stay in `ext.warrant.aspect`. |
+| proof from nature / from convention, when the child cannot be told | `anatomy[].kind: "ground-natural"`, `"ground-convention"` | The children remain the four `provenance`-derived grounds. |
+| `warrant.modality` | `anatomy[].kind: "potential"` / `"actual"` | Row-level ch. 8 kinds. |
 | `inference.necessary` | `anatomy[].kind` ∈ `inference-necessary` / `inference-loose` | |
-| `form.normalized`, `form.subject`, `form.predicate`, `form.parts`, `warrant.premises`, `warrant.aspect`, `warrant.modality`, `axis`, `move.composite`, `move.reportedOf`, remaining source/rebuttal/style kinds | **no renderer yet** — `ext` | These are the layers that will become new sibling keys when they get icons. |
+| the ultimate assertions of a statement (ch. 6, סוף גזרתו) | `spans.<he\|en>.commitment` (a list) | Which one a difficulty lands on is still `note`; a `move.at` naming the commitment by ordinal is the natural next key. |
+| `form.normalized`, `warrant.premises[].provenance`, `warrant.aspect` (essence, relation), `move.composite`, `move.reportedOf`, remaining source/rebuttal/style kinds | **no renderer yet** — `ext` | These are the layers that will become new sibling keys when they get icons. |
 
 ---
 
@@ -497,6 +649,14 @@ Not enforced by the reader; how the shipped files are written.
   rabbi's ruling.
 - **`short`** is worth writing by hand on any passage long enough to fold; it
   is what the reader sees on a band while the sentences under it are hidden.
+- **`spans`** are written where the passage turns on them, not on every
+  sentence: the subject and predicate when a relation depends on which is
+  which, the antecedent and consequent on a hypothetical, the premises when a
+  deduction is spelt out in one breath, the commitments where a difficulty is
+  about to land on one part. Index the Hebrew when there is Hebrew — the
+  analysis is of the original — and the English as well when the reader of
+  the row should see it there. Count words by the blunt rule (§4.5) and let
+  the reader catch a miscount: it knows how many words the text has.
 - **`about`** should say where the text is from, what the passage shows, and
   every place a label is a stretch.
 
@@ -507,6 +667,9 @@ Not enforced by the reader; how the shipped files are written.
 | | |
 |---|---|
 | `site/src/rail/format.ts` | `parseSugya`, `SugyaFormatError`, `toJson`, `stringify`, the `*Json` types |
+| `site/src/rail/spans.ts` | the seven span roles (`SPAN_ROLES`, `SPAN_ROLE_INFO`), the word rule (`words`, `wordCount`), the range grammar (`parseRange`, `printRange`, `rangeFault`), and `segments`, the cut the row draws |
+| `site/src/rail/taxonomy.ts` | the seven elements, nineteen leaves and their effects (`LEAVES`); the explanation parent (`PARENTS`, `parentOf`) |
+| `site/src/rail/anatomy.ts` | the hundred and twenty kinds (`ENTRIES`), families, levels |
 | `site/src/rail/sugyot/sugya.schema.json` | JSON Schema 2020-12 |
 | `site/src/rail/sugyot/*.json` | the eleven shipped passages |
 | `site/src/rail/sugyot/index.ts` | loads them: `SUGYOT`, `sugyaById`, `ofCollection` |
@@ -514,4 +677,6 @@ Not enforced by the reader; how the shipped files are written.
 | `site/src/rail/app/pages/OpenPage.tsx` | the loader page: drop, pick or paste a file; the faults, or the passage drawn |
 | `site/src/rail/app/markup.tsx` | `renderMarkup` — the `hint` markup |
 | `site/src/rail/fixtures/*.ts` | the same passages as TypeScript, the oracle the JSON is checked against |
-| `site/src/rail/check.ts` → *The file format* | the checks: equivalence per passage, the reader's refusals, schema ↔ code |
+| `site/src/rail/check.ts` → *Word spans*, *The file format* | the checks: the word rule and the cut, equivalence per passage, the reader's refusals (spans included), schema ↔ code (kinds, roles, the range grammar) |
+| `site/src/rail/app/components/SpannedText.tsx` | the row's text with its spans underlined, and the hover that names the role |
+| `site/scripts/extract-glyphs.ts` | the icon set into `glyphs.ts` (kinds, roles, guidance) and `moveGlyphs.ts` (leaves, parent); refuses if a kind, a role or a leaf has no drawing, or a drawing has no home |

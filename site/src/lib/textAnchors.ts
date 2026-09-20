@@ -105,6 +105,9 @@ export const CONSTRUCTS: Readonly<Record<VerseId, readonly ConstructAnchor[]>> =
   "3.11.4": anatomy("exception"),
   "3.12.4": anatomy("conditional"),
   "3.13.3": anatomy("hypothetical"),
+  // The conjoined compound's two branches, each at the clause that states it (2026-09-20).
+  "3.14.9": anatomy("compound-equal"),
+  "3.14.10": anatomy("compound-known-novel"),
   "3.14.14": anatomy("compound-not-only"),
   "3.14.15": anatomy("compound-needless"),
   "3.14.17": anatomy("disjunction"),
@@ -144,7 +147,9 @@ export const CONSTRUCTS: Readonly<Record<VerseId, readonly ConstructAnchor[]>> =
   "5.4.10": anatomy("converse-limited"),
 
   // ── ch. 6 — not meant literally; the truth condition of each kind ────────
-  "6.2.4": anatomy("figurative"),
+  // The two non-literal ways of speaking share one rule, stated here; the
+  // overstatement got its own drawing on 2026-09-20.
+  "6.2.4": anatomy("figurative", "hyperbole"),
   "6.3.3": anatomy("simple"),
   "6.3.7": anatomy("exclusion"),
   "6.3.9": anatomy("exception"),
@@ -161,11 +166,18 @@ export const CONSTRUCTS: Readonly<Record<VerseId, readonly ConstructAnchor[]>> =
   // 7.3.7 names the three defeats in one sentence, in this order.
   "7.3.7": anatomy("fallacy-not-similar", "fallacy-not-greater", "fallacy-counterexample"),
   "7.4.6": anatomy("hypothetical-syllogism", "hypothetical-syllogism-tollens"),
+  // Ramchal states both directions of the disjunctive deduction in one rule
+  // at 7.5.1 and names the method at 7.5.6; the affirming direction has its
+  // own drawing since 2026-09-20 and sits on the rule.
+  "7.5.1": anatomy("disjunctive-syllogism-affirm"),
   "7.5.6": anatomy("disjunctive-syllogism"),
 
   // ── ch. 8 — what a proof stands on, how it is turned aside, form, modality ─
+  // The two parent grounds, at their definitions, before their children (2026-09-20).
+  "8.4.1": anatomy("ground-natural"),
   "8.5.1": anatomy("ground-axiom"),
   "8.6.1": anatomy("ground-sense"),
+  "8.7.1": anatomy("ground-convention"),
   "8.8.1": anatomy("ground-common-sense"),
   "8.9.1": anatomy("ground-tradition"),
   "8.10.1": anatomy("ground-deduction"),
@@ -175,6 +187,9 @@ export const CONSTRUCTS: Readonly<Record<VerseId, readonly ConstructAnchor[]>> =
   "8.17.2": anatomy("rebuttal-your-reasoning"),
   "8.18.2": anatomy("rebuttal-just-the-opposite", "rebuttal-proves-my-point"),
   "8.20.1": anatomy("theory"),
+  // Two of the four respects, at their definitions; essence and relation wait for drawings.
+  "8.21.12": anatomy("inseparable-property"),
+  "8.21.14": anatomy("contingent-attribute"),
   "8.21.22": anatomy("potential", "actual"),
   "8.23.2": anatomy("obvious"),
   "8.23.3": anatomy("might-have-thought"),
@@ -216,7 +231,8 @@ export const CONSTRUCTS: Readonly<Record<VerseId, readonly ConstructAnchor[]>> =
   // side: two statements whose words differ and whose matter is one. Ramchal's
   // point here is that the reader must *recognise* the identity before the
   // relation can be read at all.
-  "10.11.1": anatomy("equivalent"),
+  // Synonymous terms are named here (2026-09-20), beside the equivalence they uncover.
+  "10.11.1": anatomy("equivalent", "synonymous-terms"),
   // "והינו הוכחה והגדה" — the composite named in the text's own words.
   "10.12.3": anatomy("ascribed-proof"),
   // "ותקרא זאת קשיא מגדת" — a naming clause, so the anchor goes here and not
@@ -233,12 +249,17 @@ export const CONSTRUCTS: Readonly<Record<VerseId, readonly ConstructAnchor[]>> =
   // which is why that branch reuses the essence glyph and only the perceptible
   // one has a drawing of its own. A card each, on the verse that defines it;
   // 11.8.1, which only announces the division, carries neither.
-  "11.8.2": anatomy("essence-definition"),
+  // The essential form has its own drawing since 2026-09-20; the verse says it
+  // *is* the essence, so both sit here.
+  "11.8.2": anatomy("essential-form", "essence-definition"),
   "11.8.3": anatomy("perceptible-form"),
   "11.9.1": anatomy("subject-action"),
+  "11.9.2": anatomy("subject-action-natural"),
+  "11.9.3": anatomy("subject-action-voluntary"),
   "11.10.1": anatomy("subject-being-affected"),
   "11.11.1": anatomy("kind-species"),
-  "11.12.1": anatomy("subject-cause"),
+  // Both branches are named in the parent's verse; 11.12.2 and 11.12.3 are their examples.
+  "11.12.1": anatomy("subject-cause", "subject-cause-generative", "subject-cause-effective"),
   "11.13.1": anatomy("subject-means"),
   "11.14.1": anatomy("subject-motive"),
   "11.15.1": anatomy("subject-purpose"),

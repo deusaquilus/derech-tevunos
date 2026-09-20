@@ -136,7 +136,7 @@ export const LEAVES: Record<MoveKey, LeafInfo> = {
 
   "difficulty/objection": { en: "objection", he: "פרכא", plain: "objects to how it is put", chip: "pk", effect: "unsettle", page: 180 },
   "difficulty/apparentContradiction": { en: "apparent contradiction", he: "רמיא", plain: "two sources clash", chip: "rm", effect: "unsettle", page: 182 },
-  "difficulty/refutation": { en: "refutation", he: "תיובתא", plain: "a third kind of difficulty", chip: "tv", effect: "unsettle", page: 184 },
+  "difficulty/refutation": { en: "refutation", he: "תיובתא", plain: "a decisive difficulty, usually from an authoritative source", chip: "tv", effect: "unsettle", page: 184 },
 
   "resolution/settlement": { en: "settlement", he: "ישוב", plain: "resolves it, and means it", chip: "ys", effect: "discharge", page: 184 },
   "resolution/alternative": { en: "alternative", he: "שנוי", plain: "offers a way out, without claiming it is true", chip: "sh", effect: "unsettle", page: 186 },
@@ -145,10 +145,46 @@ export const LEAVES: Record<MoveKey, LeafInfo> = {
 /**
  * `תיובתא` is announced at p180 and never defined; the translator flags the gap
  * in-line at p184. The `unsettle` effect above is a placeholder, not a reading.
+ * The `plain` gloss is the operational sense the icon set adopted from
+ * outside the book (`ICONS_REFERENCE_COMPLETE_V3.md` §18, sources named
+ * there): a decisive challenge, often by conflict with an authoritative
+ * source. It is a supplied definition, not a recovered one.
  */
 export const UNDEFINED_IN_SOURCE: readonly MoveKey[] = ["difficulty/refutation"];
 
 export const MOVE_KEYS: readonly MoveKey[] = Object.keys(LEAVES) as MoveKey[];
+
+/**
+ * Chapter 9's middle level. Ramchal names seventeen immediate kinds under the
+ * seven moves (Heb p161–187), and one of them, פרוש, divides again — by how
+ * well the explanation fits the wording (מרוח, דחוק) and by the method of
+ * restricting the case (אוקימתא). The file's nineteen leaves flatten that last
+ * step, so what a unit encodes is the leaf, and the parent is read off it
+ * here rather than written. The row draws the leaf's own picture; a less
+ * detailed view would draw the parent's, which is why the parent has one
+ * (`moveGlyphs.ts`). Sixteen leaves are their own immediate kind and have no
+ * entry.
+ */
+export type Parent = "explanation";
+
+export type ParentInfo = {
+  readonly en: string;
+  readonly he: string;
+  readonly plain: string;
+  readonly page: number;
+};
+
+export const PARENTS: Record<Parent, ParentInfo> = {
+  explanation: { en: "explanation", he: "פרוש", plain: "explains a verse or a statement", page: 162 },
+};
+
+export const PARENT_OF: Readonly<Partial<Record<MoveKey, Parent>>> = {
+  "statement/explanation": "explanation",
+  "statement/forcedExplanation": "explanation",
+  "statement/presumption": "explanation",
+};
+
+export const parentOf = (move: Move): Parent | undefined => PARENT_OF[keyOf(move)];
 
 /** The subtypes of each element, in the order `LEAVES` lists them. */
 export const SUBTYPES: Readonly<Record<Element, readonly string[]>> = Object.fromEntries(
@@ -163,6 +199,20 @@ export const describe = (move: Move): LeafInfo => LEAVES[keyOf(move)];
 export const effectOf = (move: Move): Effect => LEAVES[keyOf(move)].effect;
 
 export const iconOf = (move: Move): Icon => ICONS[move.element];
+
+/**
+ * A leaf painted in another element's hue. The icon set draws תיובתא as a
+ * red stop-sign frame, a deliberate exception to the orange difficulty family
+ * (`ICONS_REFERENCE_COMPLETE_V3.md` §18): a refutation is decisive where an
+ * objection is not, and the contradiction's red is what says so. Every other
+ * leaf wears its own element's colour.
+ */
+export const HUE_ELEMENT: Readonly<Partial<Record<MoveKey, Element>>> = {
+  "difficulty/refutation": "contradiction",
+};
+
+/** The element whose colour a move is painted in — its own, unless `HUE_ELEMENT` lends it another's. */
+export const hueElementOf = (move: Move): Element => HUE_ELEMENT[keyOf(move)] ?? move.element;
 
 export const isUndefinedInSource = (move: Move): boolean =>
   UNDEFINED_IN_SOURCE.includes(keyOf(move));

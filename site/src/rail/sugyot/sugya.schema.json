@@ -90,7 +90,7 @@
     },
     "annotation": {
       "type": "object",
-      "description": "One label from a chapter other than 9. Row-level kinds describe the sentence alone; edge-level kinds (relations, deductions, most grounds, and both ch. 10 composites) describe its move on `target` and need one. `potential` and `actual` are grounds that sit on the row, and the whole of ch. 11 is row-level.",
+      "description": "One label from a chapter other than 9. Row-level kinds describe the sentence alone; edge-level kinds (relations, deductions, most grounds, `synonymous-terms`, and both ch. 10 composites) describe its move on `target` and need one. `potential` and `actual` are grounds that sit on the row, the two ch. 8 respects (`inseparable-property`, `contingent-attribute`) sit on the row with the statement's anatomy, and the whole of ch. 11 is row-level.",
       "additionalProperties": false,
       "required": ["kind"],
       "properties": {
@@ -101,17 +101,19 @@
             "categorical", "partial", "particular", "unqualified",
             "simple", "qualified-certain", "qualified-possible", "qualified-doubtful", "qualified-impossible",
             "exclusion", "exception", "conditional", "hypothetical",
-            "compound", "compound-not-only", "compound-needless", "disjunction",
+            "compound", "compound-equal", "compound-known-novel", "compound-not-only", "compound-needless", "disjunction",
             "preclusive", "discrepancy", "comparative", "consequent",
             "equivalent", "variant", "variant-subjects", "diametrically-opposed", "contradictory",
             "converse", "converse-limited", "contrapositive", "obverse", "incongruent",
-            "differs-in-time", "differs-in-place", "differs-in-context", "homonym",
+            "differs-in-time", "differs-in-place", "differs-in-context", "homonym", "synonymous-terms",
             "no-middle", "has-middle",
             "inference-necessary", "inference-loose", "absolute-opposite",
-            "figurative",
+            "figurative", "hyperbole",
             "syllogism", "classical-syllogism", "analogism", "a-fortiori",
-            "hypothetical-syllogism", "hypothetical-syllogism-tollens", "disjunctive-syllogism",
+            "hypothetical-syllogism", "hypothetical-syllogism-tollens", "disjunctive-syllogism", "disjunctive-syllogism-affirm",
             "fallacy-not-included", "fallacy-not-similar", "fallacy-not-greater", "fallacy-counterexample",
+            "inseparable-property", "contingent-attribute",
+            "ground-natural", "ground-convention",
             "ground-axiom", "ground-sense", "ground-common-sense", "ground-tradition", "ground-deduction",
             "via-opposite", "dilemma", "ground-does-not-reach", "theory",
             "rebuttal-your-reasoning", "rebuttal-just-the-opposite", "rebuttal-proves-my-point",
@@ -119,8 +121,8 @@
             "potential", "actual",
             "ascribed-proof", "ascribed-difficulty",
             "essence-definition", "subject-parts", "subject-quality", "subject-quantity", "subject-material",
-            "perceptible-form", "subject-action", "subject-being-affected", "kind-species",
-            "subject-cause", "subject-means", "subject-motive", "subject-purpose", "subject-result",
+            "essential-form", "perceptible-form", "subject-action", "subject-action-natural", "subject-action-voluntary", "subject-being-affected", "kind-species",
+            "subject-cause", "subject-cause-generative", "subject-cause-effective", "subject-means", "subject-motive", "subject-purpose", "subject-result",
             "subject-attribute", "attribute-in-attached", "attribute-concurrent", "attribute-before-after",
             "subject-place", "subject-orientation", "subject-movement", "subject-time",
             "subject-relation", "subject-bearer", "subject-similarity", "subject-difference", "subject-opposition",
@@ -131,9 +133,44 @@
         "note": { "type": "string", "description": "Why this label: the words in the text that carry it, or the reading." }
       }
     },
+    "range": {
+      "type": "string",
+      "pattern": "^[1-9][0-9]*(-[1-9][0-9]*)?$",
+      "description": "A run of words, 1-based and inclusive: \"3\" is the third word, \"2-4\" the second to the fourth. Words are the whitespace-separated tokens of the text; punctuation stays with its word. The reader also checks that the range fits the text."
+    },
+    "ranges": {
+      "oneOf": [
+        { "$ref": "#/$defs/range" },
+        { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/range" } }
+      ],
+      "description": "One range, or a list when the role occurs more than once in the sentence (two premises, three commitments, a compound's several subjects)."
+    },
+    "roleSpans": {
+      "type": "object",
+      "description": "Which words of one text play which role. Subject and predicate (ch. 3); antecedent and consequent of a hypothetical (ch. 3); premise and conclusion of a deduction spelt out in the sentence (ch. 7); the separate commitments — סוף גזרתו — a challenge can defeat one at a time (ch. 6).",
+      "additionalProperties": false,
+      "properties": {
+        "subject": { "$ref": "#/$defs/ranges" },
+        "predicate": { "$ref": "#/$defs/ranges" },
+        "antecedent": { "$ref": "#/$defs/ranges" },
+        "consequent": { "$ref": "#/$defs/ranges" },
+        "premise": { "$ref": "#/$defs/ranges" },
+        "conclusion": { "$ref": "#/$defs/ranges" },
+        "commitment": { "$ref": "#/$defs/ranges" }
+      }
+    },
+    "spans": {
+      "type": "object",
+      "description": "Word-level roles, by the text they index. Each of `he` and `en` counts its own words; a text the unit does not have cannot be indexed. Ranges into the text, never copies of it.",
+      "additionalProperties": false,
+      "properties": {
+        "he": { "$ref": "#/$defs/roleSpans" },
+        "en": { "$ref": "#/$defs/roleSpans" }
+      }
+    },
     "unit": {
       "type": "object",
-      "description": "One sentence: its text, who says it, the move it makes, where its authority comes from, its ch. 1–8 labels.",
+      "description": "One sentence: its text, who says it, the move it makes, where its authority comes from, its ch. 1–8 and 10–11 labels, and which of its words play which role.",
       "additionalProperties": false,
       "required": ["id", "en", "move"],
       "properties": {
@@ -145,6 +182,7 @@
         "move": { "$ref": "#/$defs/move" },
         "provenance": { "$ref": "#/$defs/provenance" },
         "anatomy": { "type": "array", "items": { "$ref": "#/$defs/annotation" } },
+        "spans": { "$ref": "#/$defs/spans" },
         "note": { "type": "string", "description": "Why the label; doubts; where the taxonomy was stretched." },
         "ext": { "$ref": "#/$defs/ext" }
       }

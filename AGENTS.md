@@ -221,7 +221,7 @@ or *what is still exerting force* (standing).
 | `DerechTevunos_benyehudah_bilingual_fixed_interlinear.md` | The `_fixed` text cut into 641 verses with stable IDs; **the source of the chapter pages**. Its `_interlinear_notes.md` sibling says, per verse, what the interactive layer should attach. See "The text pages are interlinear". |
 | `site/` | **The website, and the only npm package in the repo.** Astro + React, deployed to Vercel at `derech-tevunos.com`. The rail visualization lives inside it at `site/src/rail/`. |
 | `web/` | Two computed visualizations (lattice interval under doubt, circumscription diff). Separate npm package. |
-| `icons_v3/` | The current glyph set — 121 shipped icons across eight directories. `ICONS_REFERENCE.md` is the contract for the 82 of chapters 1–9; `ICONS_REFERENCE_V2.md` beside it covers the 39 added on 2026-09-18 (chapter 9 subtypes, chapter 10 composites, chapter 11 subject analysis) and the 13 base drawings revised in the same pass. `METHODOLOGY.md` is for making them. `site/src/rail/glyphs.ts` and `moveGlyphs.ts` are **generated** from these by `npm run glyphs` (part of `generate`); edit the SVGs, never the generated files. |
+| `icons_v3/` | The current glyph set — 159 shipped icons across nine directories, plus one retained alternate drawing under `alternates/` that nothing reads. `ICONS_REFERENCE.md` is the contract for the 82 of chapters 1–9; `ICONS_REFERENCE_V2.md` beside it covers the 39 added on 2026-09-18 (chapter 9 subtypes, chapter 10 composites, chapter 11 subject analysis) and the 13 base drawings revised in the same pass; `ICONS_REFERENCE_COMPLETE_V3.md` covers the 38 added on 2026-09-20 (the remaining chapter 9 leaves and their explanation parent, the seven word-span roles, fourteen new anatomy kinds, and the six guidance drawings of Order) and the 13 revised with them; `ICON_MANIFEST.json` is its registry. `METHODOLOGY.md` is for making them. `site/src/rail/glyphs.ts` and `moveGlyphs.ts` are **generated** from these by `npm run glyphs` (part of `generate`); edit the SVGs, never the generated files. |
 | `renders/` | Exported PNGs and SVGs of the waterfall, embedded by the `SUGYA_WATERFALL_*` design documents. Was `viz/out/`. Keep the filenames — they are image references in markdown. |
 | `mascott/` | The mascot. Source of the site palette; see below. |
 | `DERECH_TEVUNOS_*.md`, `SUGYA_*.md` | The system and file format, written for a classifier. Roughly 1 MB; agent-facing, mostly not published. |
@@ -282,20 +282,32 @@ a docs section with nothing in it.
 
 `npm run glyphs` regenerates `src/rail/glyphs.ts` and `src/rail/moveGlyphs.ts`
 from `icons_v3/icons/`. It runs as the last step of `generate`, so `dev` and
-`build` both refresh the bodies. It is a 1:1 lock twice over: every SVG in
-`ch1-3` / `ch4-7` / `ch8` / `ch10-composites` / `ch11-subjects` /
-`ch11-priority` must have an `anatomy.ts` row and every row must have an SVG,
-and every SVG in `ch9-subtypes` must name a `taxonomy.ts` leaf. `ch9-moves` is
-skipped: those seven are the app's own geometry (`icons.ts`), copied *into* the
-set rather than read out of it. It resolves `icons_v3/` as `../../icons_v3`
-from `site/scripts/`, so it depends on the site sitting one level below the
-repository root.
+`build` both refresh the bodies. It is a 1:1 lock: every SVG in `ch1-3` /
+`ch4-7` / `ch8` / `ch10-composites` / `ch11-subjects` / `ch11-priority` /
+`ch11-order` must be exactly one of an `anatomy.ts` kind, the statement tile,
+a `spans.ts` role's drawing, or one of the six guidance drawings the script
+names (`GUIDANCE`), and every kind and every role must have an SVG; every SVG
+in `ch9-subtypes` must name a `taxonomy.ts` leaf (`SUBTYPE_MOVES`) or the one
+parent (`SUBTYPE_PARENTS`), and every leaf but `contradiction/direct` must
+have one. `ch9-moves` is skipped: those seven are the app's own geometry
+(`icons.ts`), copied *into* the set rather than read out of it. It resolves
+`icons_v3/` as `../../icons_v3` from `site/scripts/`, so it depends on the
+site sitting one level below the repository root.
 
 The extractor strips the editors' chrome by **namespace URI, not by prefix**.
 The v2 package was round-tripped through a serializer that rewrote
 `sodipodi:` and `inkscape:` to `ns1:` and `ns2:`; matching the literal prefix
 silently stopped stripping anything and the namedview's `#000000` reached the
-hue check. Do not put the prefixes back.
+hue check. Do not put the prefixes back. It keeps an element's `id` only when
+the body **references** it (`url(#…)`, `href="#…"`), not by a name pattern:
+the v2 floors named their gradients `fade-axiom` and the v3 parent grounds
+`ground-natural-fade`, and a prefix match dropped the latter's ids and left
+`url(#ground-natural-fade)` pointing at nothing — a floor that does not draw.
+And in a **move** drawing (the chapter 9 subtypes) a white fill becomes
+`var(--surface, #ffffff)`: the Statement family's document frame is the same
+frame `ElementIcon` fills with the theme's surface, and the sheet is greige.
+The page defines `--surface` on `:root`; the SVG export defines it on its root
+element. A badge's white stays literal, as it always has.
 
 Do not disable, `skip`, comment out, or delete a failing test. Fix the code or
 fix the test; if you believe a test is genuinely invalid, **ask first**.
@@ -815,6 +827,25 @@ parses the SVG.
 | 2026-09-17 | 129 | 105 | 7 to 4 passages | The table as first written: chapters 1–9. |
 | 2026-09-18 | 163 | 139 | 7 to 4 passages | Chapters 10 and 11 anchored, with the v2 icons. Every one of the 106 anatomy kinds and all 19 chapter 9 leaves now has at least one card; `CONSTRUCTS` covers the vocabulary completely. |
 | 2026-09-19 | 163 | 139 | 9 to 5 passages | `bk-83b-ayin` shipped, so the two verses where Ramchal works through the ascribed difficulty (10.12.15, 10.12.16) now link to the drawing of it. No card changed. |
+| 2026-09-20 | 177 | 148 | 9 to 5 passages | The fourteen kinds of the icon set's third release anchored at their defining verses: the compound's two branches (3.14.9, 3.14.10), hyperbole beside figurative on the shared rule (6.2.4), the affirming disjunctive on the rule that states both directions (7.5.1), the two parent grounds (8.4.1, 8.7.1), the two respects (8.21.12, 8.21.14), synonymous terms beside the equivalence they uncover (10.11.1), the essential form beside the essence it is said to be (11.8.2), the action branches (11.9.2, 11.9.3) and both cause branches on the parent's verse that names them (11.12.1). `CONSTRUCTS` covers all 120 kinds and 19 leaves again. |
+
+**Word spans — 2026-09-20.** A unit may carry `spans`: which of its own
+words are the subject, the predicate, a hypothetical's antecedent and
+consequent, a deduction's premises and conclusion, or the separate
+commitments (סוף גזרתו) a challenge can defeat one at a time — as 1-based
+word ranges into `he` or `en` (`"2-4"`, or a list), never as copies of the
+text. `site/src/rail/spans.ts` holds the seven roles, the word rule
+(whitespace tokens; punctuation stays with its word) and the cut the row
+draws; `SpannedText.tsx` underlines the words in the role's hue and names the
+role on hover. The reader checks every range against its text's word count.
+`berachos-yaakov` is the one shipped passage that carries them. The design
+choice to record: these constructs are pieces of the sentence, not vocabulary
+words, so they are pointers into text the file already has and can neither
+bloat nor drift; the paraphrase *S has P in manner M* stays in
+`ext.form.normalized`. Chapter 9's encoding is the leaf and the parent is
+derived (`taxonomy.ts` `parentOf`, for the three explanation leaves);
+`PARENT_GLYPHS` holds פרוש's drawing for a less detailed view that does not
+yet exist.
 
 **The chapter 10 pair — 2026-09-19.** `bk-83b-ayin` and `sukkah-2b-heleni`
 were added with the v2 icons, because the two composites had a vocabulary, a

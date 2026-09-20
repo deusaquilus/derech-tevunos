@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-12 -12 24 24" width="128" height="128" role="img" aria-label="study-arrangement">
+<title>Arrangement / סדור</title><desc>Chapter 11, Hebrew pp237–241, English pp238–242. A play-diagram motif routes three items along distinct paths to their intended positions. Present what must be understood first before what depends on it, proceeding from the more known to the less known. Ramchal includes general before particular and simple before composite. This is order of exposition, not an assertion that the subject matter happens in this sequence.</desc>
+<g stroke="#7c3aed" stroke-width="1.45" stroke-linecap="round" stroke-linejoin="round" fill="none">
+<path d="M-7 5.35V-3.3q0-2.2 2.2-2.2h2.3M-4.5-7.5l2 2-2 2"/>
+<path d="M0 5.35V1.6q0-2 2-2h2.2M2.2-2.4l2 2-2 2"/>
+<path d="M7 5.35V-8.6M5-6.6l2-2 2 2"/>
+<g fill="#7c3aed" fill-opacity=".15">
+<circle cx="-7" cy="7" r="1.65"/>
+<circle cx="0" cy="7" r="1.65"/>
+<circle cx="7" cy="7" r="1.65"/>
+</g>
+</g></svg>

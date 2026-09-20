@@ -4,6 +4,11 @@ import type { Sugya } from "../sugya.ts";
  * Ramchal's own illustration of `רמיא` and of `ישוב`, Heb p183, Eng p184.
  * Both labels are his. The two verses enter as `tradition`, so they hold
  * authority before the sugya begins.
+ *
+ * The three statements carry word spans (`spans.ts`) for their subject and
+ * predicate in both languages — the corpus's demonstration of the roles. The
+ * second verse is the reason a role takes a list: its predicate, `ויירא … מאד`,
+ * is split around its subject, so it is two ranges, not one.
  */
 export const berachosYaakov: Sugya = {
   id: "berachos-yaakov",
@@ -24,6 +29,10 @@ export const berachosYaakov: Sugya = {
       anatomy: [
         { kind: "subject-action", note: "The predicate is what one party does for another — protection — which is chapter 11's seventh distinction. It is a promise of action, so the settlement can later ask on what the action depends without touching the words." }, { kind: "categorical", basis: "marked", note: "`בכל אשר תלך`: protection everywhere, the whole class of places." },
       ],
+      spans: {
+        he: { subject: [{ from: 2, to: 2 }], predicate: [{ from: 3, to: 6 }] },
+        en: { subject: [{ from: 2, to: 2 }], predicate: [{ from: 3, to: 12 }] },
+      },
     },
     {
       id: "fear",
@@ -36,6 +45,10 @@ export const berachosYaakov: Sugya = {
       anatomy: [
         { kind: "attribute-in-attached", note: "Fear is an accident inhering in Yaakov, the shape of Ramchal's own example `בהמה מסכנת – שיש בה מקרה הסכנה` (Heb p231). It says nothing about what he is, only about a condition he is in — which is why the settlement can leave both sentences standing." }, { kind: "particular" },
       ],
+      spans: {
+        he: { subject: [{ from: 2, to: 2 }], predicate: [{ from: 1, to: 1 }, { from: 3, to: 3 }] },
+        en: { subject: [{ from: 2, to: 2 }], predicate: [{ from: 3, to: 6 }] },
+      },
     },
     {
       id: "rami",
@@ -65,6 +78,10 @@ export const berachosYaakov: Sugya = {
         { kind: "subject-cause", note: "`שמא יגרם החטא` — perhaps sin will *cause* it to lapse. The settlement works by naming a cause that can intervene between the promise and its fulfilment, so the respect it distinguishes is chapter 11's tenth distinction." }, { kind: "differs-in-context", note: "The promise holds in the respect of merit; the fear is about sin having intervened. Not the same respect, so no clash." },
         { kind: "qualified-possible", note: "`שמא`: said as possible, not as certain." },
       ],
+      spans: {
+        he: { subject: [{ from: 4, to: 4 }], predicate: [{ from: 3, to: 3 }] },
+        en: { subject: [{ from: 7, to: 7 }], predicate: [{ from: 8, to: 14 }] },
+      },
     },
   ],
 };

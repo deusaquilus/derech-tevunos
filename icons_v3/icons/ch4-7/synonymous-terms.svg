@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-12 -12 24 24" width="128" height="128" role="img" aria-labelledby="synonymous-terms-title synonymous-terms-desc">
+<title id="synonymous-terms-title">Synonymous terms / שמות נרדפים</title>
+<desc id="synonymous-terms-desc">Chapter 10, Hebrew p211, English p212. Two differently marked word labels share one meaning in the relevant context. The outlined labels have different line patterns and connect without arrowheads to a single common circle. The word labels are not whole-statement arrows; the joining strokes are not a deduction or causal process. Shared meaning does not make entire statements equivalent: Ramchal’s example uses corresponding subject expressions in two contradictory statements. This differs from Homonym, where one word has different meanings, and Equivalent, which concerns whole statements. The number of labels and their line counts are illustrative.</desc>
+<g stroke="#7c3aed" stroke-width="1.45" stroke-linecap="round" stroke-linejoin="round">
+<path d="M-5.35-1.2V.6L0 4.4 5.35.6V-1.2" fill="none"/>
+<rect x="-9.6" y="-8.2" width="8.5" height="6.7" rx="1.2" fill="#7c3aed" fill-opacity=".15"/>
+<rect x="1.1" y="-8.2" width="8.5" height="6.7" rx="1.2" fill="#7c3aed" fill-opacity=".15"/>
+<path d="M-7.45-4.85H-3.1M3.1-6H6.4M3.1-3.7H7.45" fill="none" stroke-width="1.35"/>
+</g>
+<circle cx="0" cy="6.6" r="2.8" fill="#7c3aed"/>
+</svg>

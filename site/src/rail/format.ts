@@ -10,9 +10,11 @@
  * per sentence. A unit is its text (`he`, `en`, `short`), who says it
  * (`speaker`), the ch. 9 move it makes (`move`: element, subtype, what it acts
  * on, the phrase that licensed the label, whether Ramchal gave it), where its
- * authority comes from (`provenance`), the anatomy layer (`anatomy`) and a
- * `note`. Layers are separate keys so a future one — the normalized form, the
- * warrant, the axis — is a new sibling of `move`, not a change to it.
+ * authority comes from (`provenance`), the anatomy layer (`anatomy`), the
+ * word-level roles (`spans`: which words are the subject, the predicate, a
+ * premise…, as ranges into `he` or `en`) and a `note`. Layers are separate
+ * keys so a future one — the warrant, the axis — is a new sibling of `move`,
+ * not a change to it.
  *
  * Strictness. Unknown keys are faults, because the files are written by hand
  * and by agents and a misspelt key would otherwise vanish silently. The one
@@ -22,6 +24,19 @@
  */
 
 import { ANATOMY_KEYS, BASES, PARTIES, type AnatomyKey, type Annotation, type Party } from "./anatomy.ts";
+import {
+  parseRange,
+  printRange,
+  rangeFault,
+  SPAN_ROLES,
+  SPAN_TEXTS,
+  wordCount,
+  type RoleSpans,
+  type SpanRole,
+  type Spans,
+  type SpanText,
+  type WordRange,
+} from "./spans.ts";
 import {
   analyze,
   COLLECTIONS,
@@ -53,6 +68,16 @@ export type AnnotationJson = {
   readonly note?: string;
 };
 
+/**
+ * A role's ranges on disk: one range is its string (`"3"`, `"2-4"`), several
+ * are a list. Word positions are 1-based and inclusive; see `spans.ts`.
+ */
+export type RangesJson = string | readonly string[];
+
+export type RoleSpansJson = Readonly<Partial<Record<SpanRole, RangesJson>>>;
+
+export type SpansJson = Readonly<Partial<Record<SpanText, RoleSpansJson>>>;
+
 export type UnitJson = {
   readonly id: string;
   readonly speaker?: string;
@@ -62,6 +87,7 @@ export type UnitJson = {
   readonly move: MoveJson;
   readonly provenance?: Provenance;
   readonly anatomy?: readonly AnnotationJson[];
+  readonly spans?: SpansJson;
   readonly note?: string;
   readonly ext?: Readonly<Record<string, unknown>>;
 };
@@ -85,7 +111,7 @@ export type SugyaJson = {
 
 /** Key order on disk. Also the closed list of keys a record may carry. */
 const SUGYA_FIELDS = ["$schema", "format", "version", "id", "title", "tractate", "folio", "discussedAt", "party", "collection", "about", "hint", "units", "ext"] as const;
-const UNIT_FIELDS = ["id", "speaker", "short", "he", "en", "move", "provenance", "anatomy", "note", "ext"] as const;
+const UNIT_FIELDS = ["id", "speaker", "short", "he", "en", "move", "provenance", "anatomy", "spans", "note", "ext"] as const;
 const MOVE_FIELDS = ["element", "subtype", "target", "marker", "attested"] as const;
 const ANNOTATION_FIELDS = ["kind", "basis", "note"] as const;
 
@@ -240,6 +266,67 @@ const readAnnotation = (raw: unknown, path: string, faults: Faults): Annotation 
   return { kind, ...(basis === undefined ? {} : { basis }), ...(note === undefined ? {} : { note }) };
 };
 
+/** One role's ranges: a range string, or a list of them. Every range must fit the text's `count` words. */
+const readRanges = (raw: unknown, count: number, path: string, faults: Faults): readonly WordRange[] | undefined => {
+  const items = typeof raw === "string" ? [raw] : Array.isArray(raw) ? raw : undefined;
+  if (items === undefined || !items.every((r): r is string => typeof r === "string")) {
+    faults.push(`${path}: expected a word range like "3" or "2-4", or a list of them, got ${show(raw)}`);
+    return undefined;
+  }
+  if (items.length === 0) {
+    faults.push(`${path}: a role needs at least one range`);
+    return undefined;
+  }
+  const ranges = items.map((item, i) => {
+    const where = items.length === 1 ? path : `${path}[${i}]`;
+    const range = parseRange(item);
+    if (range === undefined) return fault(faults, `${where}: expected a word range like "3" or "2-4", got ${show(item)}`);
+    const problem = rangeFault(range, count);
+    return problem === undefined ? range : fault(faults, `${where}: ${problem}`);
+  });
+  return ranges.every((r): r is WordRange => r !== undefined) ? ranges : undefined;
+};
+
+/** The spans of one text: role → ranges, every role one of the seven. */
+const readRoleSpans = (raw: unknown, text: string, path: string, faults: Faults): RoleSpans | undefined => {
+  if (!isRecord(raw)) {
+    faults.push(`${path}: expected an object { subject, predicate, … }, got ${show(raw)}`);
+    return undefined;
+  }
+  unknownKeys(raw, SPAN_ROLES, path, faults);
+  const count = wordCount(text);
+  const entries = SPAN_ROLES.flatMap((role) => {
+    const value = raw[role];
+    if (value === undefined) return [];
+    const ranges = readRanges(value, count, `${path}.${role}`, faults);
+    return ranges === undefined ? [undefined] : [[role, ranges] as const];
+  });
+  if (entries.some((e) => e === undefined)) return undefined;
+  return Object.fromEntries(entries.filter((e): e is readonly [SpanRole, readonly WordRange[]] => e !== undefined)) as RoleSpans;
+};
+
+/**
+ * A unit's spans: by text, `he` and/or `en`, each indexing its own words. A
+ * text the unit does not have cannot be indexed, and says so.
+ */
+const readSpans = (raw: unknown, unit: { readonly he?: string; readonly en?: string }, path: string, faults: Faults): Spans | undefined => {
+  if (!isRecord(raw)) {
+    faults.push(`${path}: expected an object { he, en }, got ${show(raw)}`);
+    return undefined;
+  }
+  unknownKeys(raw, SPAN_TEXTS, path, faults);
+  const entries = SPAN_TEXTS.flatMap((text) => {
+    const value = raw[text];
+    if (value === undefined) return [];
+    const source = unit[text];
+    if (source === undefined) return [fault(faults, `${path}.${text}: the unit has no "${text}" to index`)];
+    const roles = readRoleSpans(value, source, `${path}.${text}`, faults);
+    return roles === undefined ? [undefined] : [[text, roles] as const];
+  });
+  if (entries.some((e) => e === undefined)) return undefined;
+  return Object.fromEntries(entries.filter((e): e is readonly [SpanText, RoleSpans] => e !== undefined)) as Spans;
+};
+
 const readUnit = (raw: unknown, path: string, faults: Faults): Unit | undefined => {
   if (!isRecord(raw)) {
     faults.push(`${path}: expected an object, got ${show(raw)}`);
@@ -265,8 +352,14 @@ const readUnit = (raw: unknown, path: string, faults: Faults): Unit | undefined 
       ? fault(faults, `${path}.anatomy: expected an array, got ${show(anatomyRaw)}`)
       : anatomyRaw.map((a, i) => readAnnotation(a, `${path}.anatomy[${i}]`, faults));
 
+  const spansRaw = raw["spans"];
+  const spans = spansRaw === undefined
+    ? undefined
+    : readSpans(spansRaw, { ...(he === undefined ? {} : { he }), ...(en === undefined ? {} : { en }) }, `${path}.spans`, faults);
+
   if (id === undefined || en === undefined || moveRead === undefined) return undefined;
   if (anatomy?.some((a) => a === undefined)) return undefined;
+  if (spansRaw !== undefined && spans === undefined) return undefined;
   return {
     id,
     ...(speaker === undefined ? {} : { speaker }),
@@ -279,6 +372,7 @@ const readUnit = (raw: unknown, path: string, faults: Faults): Unit | undefined 
     ...(moveRead.attested === undefined ? {} : { attested: moveRead.attested }),
     ...(provenance === undefined ? {} : { provenance }),
     ...(anatomy === undefined ? {} : { anatomy: anatomy as Annotation[] }),
+    ...(spans === undefined ? {} : { spans }),
     ...(note === undefined ? {} : { note }),
     ...(ext === undefined ? {} : { ext }),
   };
@@ -363,6 +457,27 @@ const annotationJson = (a: Annotation): AnnotationJson => ({
   ...(a.note === undefined ? {} : { note: a.note }),
 });
 
+/** One range is written as its string, several as a list — the shortest form that reads back the same. */
+const rangesJson = (ranges: readonly WordRange[]): RangesJson =>
+  ranges.length === 1 ? printRange(ranges[0]!) : ranges.map(printRange);
+
+/** Roles in the order `SPAN_ROLES` gives them, texts in the order `he`, `en`, so a file is canonical. */
+const roleSpansJson = (spans: RoleSpans): RoleSpansJson =>
+  Object.fromEntries(
+    SPAN_ROLES.flatMap((role) => {
+      const ranges = spans[role];
+      return ranges === undefined ? [] : [[role, rangesJson(ranges)] as const];
+    }),
+  ) as RoleSpansJson;
+
+const spansJson = (spans: Spans): SpansJson =>
+  Object.fromEntries(
+    SPAN_TEXTS.flatMap((text) => {
+      const roles = spans[text];
+      return roles === undefined ? [] : [[text, roleSpansJson(roles)] as const];
+    }),
+  ) as SpansJson;
+
 const unitJson = (unit: Unit): UnitJson => ({
   id: unit.id,
   ...(unit.speaker === undefined ? {} : { speaker: unit.speaker }),
@@ -372,6 +487,7 @@ const unitJson = (unit: Unit): UnitJson => ({
   move: moveJson(unit),
   ...(unit.provenance === undefined ? {} : { provenance: unit.provenance }),
   ...(unit.anatomy === undefined ? {} : { anatomy: unit.anatomy.map(annotationJson) }),
+  ...(unit.spans === undefined ? {} : { spans: spansJson(unit.spans) }),
   ...(unit.note === undefined ? {} : { note: unit.note }),
   ...(unit.ext === undefined ? {} : { ext: unit.ext }),
 });

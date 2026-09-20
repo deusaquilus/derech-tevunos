@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-12 -12 24 24" width="128" height="128" role="img" aria-labelledby="subject-action-natural-title subject-action-natural-desc">
+<title id="subject-action-natural-title">Natural action / פעלה טבעית</title>
+<desc id="subject-action-natural-desc">Chapter 11, Hebrew p225, English p226. The Action source block contains flowing waves; the shared outward arrow leads to another thing. The waves symbolize activity by nature, including nonliving things. They do not restrict natural action to liquids, heat, or involuntary human behavior.</desc>
+<g fill="none" stroke="#7c3aed" stroke-width="1.45" stroke-linecap="round" stroke-linejoin="round">
+<rect x="-10" y="-6.8" width="10.2" height="13.6" rx="1.25" fill="#7c3aed" fill-opacity=".10"/>
+<circle cx="8.5" cy="0" r="1.8"/>
+<path d="M2.2 0H4.2M2.5-1.8L4.3 0 2.5 1.8" stroke-width="1.5"/>
+<path d="M-8.1-3.1C-6.8-5-4.7-1.2-2.8-3.1M-8.1 0C-6.8-1.9-4.7 1.9-2.8 0M-8.1 3.1C-6.8 1.2-4.7 5-2.8 3.1" stroke-width="1.3"/>
+</g></svg>

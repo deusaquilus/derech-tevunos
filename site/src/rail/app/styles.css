@@ -280,9 +280,10 @@
 }
 
 /* An element's kinds, each beside the picture the rows draw for it. Two
-   columns because seven of the nineteen leaves have a drawing of their own
-   and the rest repeat the parent: side by side, which is which is the first
-   thing the eye gets, and that is the point of showing them at all. */
+   columns: eighteen of the nineteen leaves have a drawing of their own since
+   the set of 20 September 2026 and direct contradiction repeats the parent
+   by design, so side by side the eye gets the whole family at once, which
+   is the point of showing them at all. */
 .legend-tip-kinds {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -732,6 +733,52 @@
   line-height: 1.5;
   color: var(--muted);
   text-align: right;
+}
+
+/* --- word-span roles: which words are the subject, the predicate, a premise…
+   A run of words in a role is underlined in the role's hue (set inline from
+   the palette) and explains itself on hover. The tooltip anchor is `display:
+   inline`, not the `.tip` default of inline-flex: an atomic inline box would
+   stop the phrase from breaking across lines, and a sentence must wrap as it
+   always did. Two roles on one word (a subject that is also a commitment)
+   thicken the line rather than draw two. */
+.row-span {
+  text-decoration: underline dotted;
+  text-decoration-thickness: 1.5px;
+  text-underline-offset: 3px;
+  border-radius: 2px;
+  transition: background-color 120ms ease;
+}
+
+.row-span-tip {
+  display: inline;
+}
+
+/* The popup is written in English and must not inherit the Hebrew line's
+   `dir="rtl"`; the Hebrew term inside it is its own `lang="he"` span. */
+.row-span-tip .tip-pop {
+  direction: ltr;
+}
+
+.row-span-tip:hover .row-span,
+.row-span-tip:focus-within .row-span {
+  background: color-mix(in srgb, currentColor 8%, transparent);
+  text-decoration-style: solid;
+}
+
+.row-span-commitment {
+  text-decoration-thickness: 2px;
+}
+
+.row-span-tip-role {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.row-span-tip-role .glyph {
+  flex: none;
+  margin-top: 1px;
 }
 
 .row-verdict {

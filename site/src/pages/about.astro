@@ -20,11 +20,25 @@ const POST = '/blog/the-most-underrated-sefer-i-own';
 >
   <div class="dt-page">
     <article class="wrap">
-      <header>
-        <h1 class="dt-page-title">What this is</h1>
-        <p class="dt-page-description">
-          A drawing of a sugya's argument, and the 1742 sefer that says what to draw.
-        </p>
+      <header class="head">
+        <div class="head-copy">
+          <h1 class="dt-page-title">What this is</h1>
+          <p class="dt-page-description">
+            A drawing of a sugya's argument, and the 1742 sefer that says what to draw.
+          </p>
+        </div>
+        {/* The standing pose: gyro in hand. Decorative, so `alt` is empty —
+            the heading beside it already says what the page is, and a
+            description of the drawing would only add noise to a screen reader. */}
+        <img
+          class="pose"
+          src="/mascot/pose.webp"
+          alt=""
+          width="427"
+          height="620"
+          loading="lazy"
+          decoding="async"
+        />
       </header>
 
       <div class="dt-prose">
@@ -125,7 +139,38 @@ const POST = '/blog/the-most-underrated-sefer-i-own';
     padding: 2rem 2rem 4rem;
   }
 
-  header { margin-bottom: 2.5rem; }
+  .head {
+    margin-bottom: 2.5rem;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 2rem;
+  }
+
+  .head-copy {
+    max-width: 62ch;
+    /* The gradient bar under the title is a ::after pinned to the element's
+       edges, so the heading must not stretch to the flex line's full width or
+       the rule runs past the words. */
+    flex: 0 1 auto;
+  }
+
+  /* Same 132px as the docs index figure, and for the same reason: at 168px
+     the flex row outgrew the title-and-deck and left a hole above the heading.
+     Negative margin drops the boots onto the deck's baseline. */
+  .pose {
+    width: 132px;
+    height: auto;
+    flex-shrink: 0;
+    align-self: flex-end;
+    margin-bottom: -1.25rem;
+  }
+
+  /* The about column is 760px, so the figure still has room at widths where
+     the 1100px docs index already hides its own. Hide only on a phone. */
+  @media (max-width: 640px) {
+    .pose { display: none; }
+  }
 
   @media (max-width: 768px) {
     .wrap { padding: 1.5rem 1rem 3rem; }
