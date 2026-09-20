@@ -145,18 +145,33 @@
       ],
       "description": "One range, or a list when the role occurs more than once in the sentence (two premises, three commitments, a compound's several subjects)."
     },
+    "roleSpan": {
+      "oneOf": [
+        { "$ref": "#/$defs/ranges" },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["words"],
+          "properties": {
+            "words": { "$ref": "#/$defs/ranges" },
+            "showLoud": { "type": "boolean", "description": "True only when the passage's logic turns on this span and a reader would miss it. Rare. The page draws a loud span in full by default and a quiet one as the faintest mark until 'Detailed spans' is switched on." }
+          }
+        }
+      ],
+      "description": "A quiet span is its ranges (the default, almost always). A loud span is { words, showLoud: true }."
+    },
     "roleSpans": {
       "type": "object",
       "description": "Which words of one text play which role. Subject and predicate (ch. 3); antecedent and consequent of a hypothetical (ch. 3); premise and conclusion of a deduction spelt out in the sentence (ch. 7); the separate commitments — סוף גזרתו — a challenge can defeat one at a time (ch. 6).",
       "additionalProperties": false,
       "properties": {
-        "subject": { "$ref": "#/$defs/ranges" },
-        "predicate": { "$ref": "#/$defs/ranges" },
-        "antecedent": { "$ref": "#/$defs/ranges" },
-        "consequent": { "$ref": "#/$defs/ranges" },
-        "premise": { "$ref": "#/$defs/ranges" },
-        "conclusion": { "$ref": "#/$defs/ranges" },
-        "commitment": { "$ref": "#/$defs/ranges" }
+        "subject": { "$ref": "#/$defs/roleSpan" },
+        "predicate": { "$ref": "#/$defs/roleSpan" },
+        "antecedent": { "$ref": "#/$defs/roleSpan" },
+        "consequent": { "$ref": "#/$defs/roleSpan" },
+        "premise": { "$ref": "#/$defs/roleSpan" },
+        "conclusion": { "$ref": "#/$defs/roleSpan" },
+        "commitment": { "$ref": "#/$defs/roleSpan" }
       }
     },
     "spans": {

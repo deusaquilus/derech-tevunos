@@ -92,7 +92,28 @@
       "short": "Rav Pappa: some are like their primaries and…",
       "he": "אמר רב פפא: יש מהן כיוצא בהן ויש מהן לאו כיוצא בהן",
       "en": "Rav Pappa: some are like their primaries and some are not",
-      "move": { "element": "answer", "subtype": "answer", "target": "q-here", "attested": false }
+      "move": { "element": "answer", "subtype": "answer", "target": "q-here", "attested": false },
+      "anatomy": [
+        {
+          "kind": "compound-equal",
+          "basis": "marked",
+          "note": "`יש מהן … ויש מהן …`: two predicates of the derivatives, said together and level — some are like their primaries, some are not — Ramchal's conjoined compound on its first branch, `בהשואה אחת` (Heb p33). Neither half is offered as the known case and neither as the news; the answer is the partition itself. The two halves are the two commitments, and the sugya's long second movement, `אהייא?`, lands on the second alone and tries six categories for it while the first is never questioned."
+        }
+      ],
+      "spans": {
+        "he": {
+          "commitment": {
+            "words": ["4-7", "8-12"],
+            "showLoud": true
+          }
+        },
+        "en": {
+          "commitment": {
+            "words": ["3-7", "9-11"],
+            "showLoud": true
+          }
+        }
+      }
     },
     {
       "id": "baraisa-shor",
@@ -155,7 +176,21 @@
       "short": "Pushing, biting, crouching, kicking",
       "he": "נגיפה, נשיכה, רביצה ובעיטה",
       "en": "Pushing, biting, crouching, kicking",
-      "move": { "element": "answer", "subtype": "answer", "target": "q-toldah-keren", "attested": false }
+      "move": { "element": "answer", "subtype": "answer", "target": "q-toldah-keren", "attested": false },
+      "anatomy": [
+        {
+          "kind": "compound-equal",
+          "note": "Four subjects of one predicate — each is a derivative of horn — listed in one breath with nothing to rank them: Ramchal's `נשוא אחד בשני נושאים או יותר` on its first branch, `בהשואה אחת` (Heb p33), as his `המקבל שדה מישראל, מן הכותי, מן הנכרי`. Each item is a commitment, and the three difficulties that follow pick them off one at a time — `נגיפה נמי כתיב`, `נשיכה תולדה דשן היא`, `רביצה ובעיטה תולדה דרגל היא` — which is what the separate spans are for; the last difficulty takes the last two together because one answer serves both."
+        }
+      ],
+      "spans": {
+        "he": {
+          "commitment": ["1", "2", "3", "4"]
+        },
+        "en": {
+          "commitment": ["1", "2", "3", "4"]
+        }
+      }
     },
     {
       "id": "q-negifa",
@@ -169,7 +204,13 @@
       "short": "That 'pushing' is goring: the verse opens with…",
       "he": "האי נגיפה נגיחה היא",
       "en": "That 'pushing' is goring: the verse opens with one and closes with the other",
-      "move": { "element": "resolution", "subtype": "settlement", "target": "q-negifa", "attested": false }
+      "move": { "element": "resolution", "subtype": "settlement", "target": "q-negifa", "attested": false },
+      "anatomy": [
+        {
+          "kind": "synonymous-terms",
+          "note": "`האי נגיפה נגיחה היא`: the verse's `כי יגף` and the baraita's `כי יגח` are two words for one act — the verse opens with one and closes with the other, so the `נגיפה` the objection found written is horn itself, not a second written category. Ramchal's שמות נרדפים, `שמלותיהם שונות וענינם אחד` (Heb p211): the settlement is the recognition that the two terms name one thing, and the difficulty dissolves once it is seen. The next question, `מאי שנא גבי אדם דכתיב כי יגח`, asks why the Torah then varies the word, and `אדם דאית ליה מזלא` gives the two words a difference of connotation without undoing the identity."
+        }
+      ]
     },
     {
       "id": "q-adam-behema",
@@ -367,7 +408,18 @@
       "short": "Without the extra verse one might take either…",
       "he": "אי לאו קרא יתירה הוה אמינא או הא או הא",
       "en": "Without the extra verse one might take either one, not both",
-      "move": { "element": "resolution", "subtype": "settlement", "target": "q-just-veshalach", "marker": "אי לאו … הוה אמינא", "attested": false }
+      "move": { "element": "resolution", "subtype": "settlement", "target": "q-just-veshalach", "marker": "אי לאו … הוה אמינא", "attested": false },
+      "anatomy": [
+        {
+          "kind": "hypothetical",
+          "basis": "marked",
+          "note": "`אי … הוה אמינא`: only the dependence is asserted — without the extra verse, one would have read it so. The two clauses are the spans."
+        }
+      ],
+      "spans": {
+        "he": { "antecedent": "1-4", "consequent": "5-10" },
+        "en": { "antecedent": "1-4", "consequent": "5-11" }
+      }
     },
     {
       "id": "q-shkulin",

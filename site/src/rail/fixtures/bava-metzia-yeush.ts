@@ -294,6 +294,7 @@ export const bavaMetziaYeush: Sugya = {
       attested: false,
       anatomy: [
         { kind: "differs-in-context" },
+        { kind: "consequent", note: "`כיון דאיכא עניים הכא, הנך מעיקרא איאושי מיאש`: the same `כיון ד…, מעיקרא … מיאש` shape as `acha-a` — both clauses asserted and the second following from the first. Labelled 2026-09-20 to match it; the first pass had left the two inconsistent." },
       ],
     },
 
@@ -310,7 +311,12 @@ export const bavaMetziaYeush: Sugya = {
       attested: false,
       anatomy: [
         { kind: "contradictory" },
+        { kind: "compound-equal", basis: "marked", note: "One predicate, `מותרות משום גזל`, of two subjects joined by `וכן` — Ramchal's `נשוא אחד בשני נושאים או יותר`, in its first branch, `בהשואה אחת` (Heb p33): nothing marks either clause as the news, and `t7-reisha-ans` answers each on its own footing. Inside the elision the first clause has its own `ואפילו בצד שדה קציעות`, a known-and-novel step within that one member; the join between the two members is level. Each member is a commitment of its own, which is what `רישא` / `סיפא` and `אפילו רישא נמי` then point at." },
       ],
+      spans: {
+        he: { predicate: [{ from: 14, to: 16 }], commitment: [{ from: 3, to: 4 }, { from: 7, to: 12 }] },
+        en: { predicate: [{ from: 20, to: 24 }], commitment: [{ from: 4, to: 9 }, { from: 11, to: 19 }] },
+      },
     },
     {
       id: "t7-reisha-ans",
@@ -392,8 +398,11 @@ export const bavaMetziaYeush: Sugya = {
       attested: false,
       anatomy: [
         { kind: "contradictory" },
-        { kind: "compound", note: "Three subjects joined: the thief, the robber, and the Jordan River." },
+        { kind: "compound-equal", note: "Three subjects, one predicate — Ramchal's `נשוא אחד בשני נושאים או יותר` (Heb p33) — and the branch is `בהשואה אחת`. The baraita joins them `וכן … וכן` (in the elided middle here; the English keeps its two `likewise`), with no `אף`, `אפילו` or `אין צריך לומר` to mark one as the news, and the Gemara reads it so: `t8-press` objects that two clauses would say one thing twice, and `t8-ans2` answers `תרי גווני גזלן`, two distinct kinds, not a known case and a novelty. Each clause is a commitment of its own, which is what `t8-pin` needs — the difficulty survives for the thief alone. Indexed in the English only: the Hebrew incipit elides two of the three subjects." },
       ],
+      spans: {
+        en: { predicate: [{ from: 26, to: 42 }], commitment: [{ from: 4, to: 15 }, { from: 18, to: 19 }, { from: 22, to: 24 }] },
+      },
     },
     {
       id: "t8-pin",
@@ -435,6 +444,7 @@ export const bavaMetziaYeush: Sugya = {
       attested: false,
       anatomy: [
         { kind: "equivalent", note: "An armed bandit is the robber: the objection is that the two clauses would say the same thing twice." },
+        { kind: "synonymous-terms", note: "Ramchal's `מאמרים נרדפים` — `שמלותיהם שונות וענינם אחד` (Heb p211): once Rav Pappa reads `גנב` as an armed bandit, `גנב` and `גזלן` are two names for one thing, and two clauses that read as two cases are seen to say the same thing — the `equivalent` beside this. His test is met exactly: had one word stood in both clauses the redundancy would have been seen at once, `ולא ירגיש בהם השכל בתחילת התבוננותו` is why it was not. `t8-ans2` denies the synonymy — two kinds of robber — rather than the equivalence." },
       ],
     },
     {
@@ -695,9 +705,13 @@ export const bavaMetziaYeush: Sugya = {
       provenance: "derivation",
       attested: false,
       anatomy: [
-        { kind: "analogism", basis: "marked", note: "`מה … אף`: what holds of `יתן` holds of `יותן`." },
+        { kind: "analogism", basis: "marked", note: "`מה … אף`: what holds of `יתן` holds of `יותן`. The deduction is spelt out in one breath, so its parts are words of the sentence and are marked as spans: two premises — that `יותן` is to be read like `יתן`, and that `יתן` is with knowledge — and the conclusion that `יותן` is with knowledge. Ramchal's `הקדמה` and `תולדה` (Heb p93); the `מה … אף` that joins them belongs to no role." },
         { kind: "comparative", basis: "marked" },
       ],
+      spans: {
+        he: { premise: [{ from: 1, to: 6 }, { from: 8, to: 9 }], conclusion: [{ from: 11, to: 14 }] },
+        en: { premise: [{ from: 1, to: 11 }, { from: 14, to: 18 }], conclusion: [{ from: 20, to: 26 }] },
+      },
     },
 
     // --- 12. the verse that ends it ------------------------------------------
@@ -716,6 +730,11 @@ export const bavaMetziaYeush: Sugya = {
         { kind: "contradictory" },
         { kind: "exception", note: "Every lost item that is available to anyone — excluding this one, which is available to no one." },
       ],
+      spans: {
+        he: { commitment: { ranges: [{ from: 18, to: 24 }, { from: 25, to: 33 }], showLoud: true } },
+        en: { commitment: { ranges: [{ from: 43, to: 53 }, { from: 54, to: 65 }], showLoud: true } },
+      },
+      note: "Two commitments, by Ramchal's count for the exception statement — `גזרותיו שתים`, the rule and the carved-out piece (ch. 6, Eng p80): what is lost to him and available to any man, and `יצאתה זו`, the river-swept item taken out of it. Both are marked because `t12-dumya` runs its analogy between exactly these two, `היתירא` being the exception and `איסורא` the rule. The verse itself sits in the elision and is not indexed.",
     },
     {
       id: "t12-dumya",
@@ -728,10 +747,14 @@ export const bavaMetziaYeush: Sugya = {
       attested: false,
       note: "`סתירה` rather than `דחיה`: the Gemara stamps it `תיובתא` and never reopens it, which is Ramchal's own test at Heb p177 for a contradiction that lands absolutely.",
       anatomy: [
-        { kind: "analogism", basis: "marked", note: "`מה היתירא … אף איסורא`: the rule is carried from the permitted case to the prohibited one by likeness, and that is what refutes Rava." },
+        { kind: "analogism", basis: "marked", note: "`מה היתירא … אף איסורא`: the rule is carried from the permitted case to the prohibited one by likeness, and that is what refutes Rava. Spelt out in one sentence, so its parts are spans: the likeness (`ואיסורא דומיא דהיתירא`), the known case (`מה היתירא … שריא`) and the conclusion drawn for the unknown one (`אף איסורא … אסירא`) — Ramchal's `הקדמה` and `תולדה` (Heb p93), with the `מה` and `אף` left to no role." },
         { kind: "comparative", basis: "marked" },
         { kind: "ground-deduction", note: "The refutation brings no new source: the mishnah was already on the table, and what knocks Rava down is the analogy drawn from it. A disproof from syllogism (Eng p124–126), and the teal badge says which syllogism." },
       ],
+      spans: {
+        he: { premise: [{ from: 1, to: 3 }, { from: 5, to: 15 }], conclusion: [{ from: 17, to: 27 }] },
+        en: { premise: [{ from: 2, to: 6 }, { from: 9, to: 19 }], conclusion: [{ from: 21, to: 38 }] },
+      },
     },
     {
       id: "t12-tiyuvta",
@@ -780,7 +803,13 @@ export const bavaMetziaYeush: Sugya = {
       attested: false,
       anatomy: [
         { kind: "consequent", note: "Since vermin eat them, the owner despairs from the outset: both clauses asserted, the second following from the first." },
+        { kind: "subject-action-natural", note: "The vermin's eating is action by nature — `מה שפועלים הנמצאים זה בזה בטבע`, Ramchal's `דמנקרא להו למעיא` (Heb p225) — and the branch, not the parent, is what the answer turns on: because the loss is to a natural and certain process rather than to anyone's choice, the owner can despair of every windfall date in advance, `מעיקרא`, and the despair is conscious after all." },
       ],
+      spans: {
+        he: { antecedent: [{ from: 4, to: 9 }], consequent: [{ from: 10, to: 13 }], commitment: [{ from: 4, to: 9 }, { from: 10, to: 13 }, { from: 3, to: 3 }] },
+        en: { antecedent: [{ from: 6, to: 15 }], consequent: [{ from: 16, to: 23 }], commitment: [{ from: 6, to: 15 }, { from: 16, to: 23 }, { from: 5, to: 5 }] },
+      },
+      note: "Three commitments, as Ramchal counts them for the consequent statement — `גזרותיו שלש: המצא הקודם והמצא הנמשך והיות מציאות הנמשך המשך מציאות הקודם` (ch. 6, Eng p88): the antecedent, the consequent, and the following of the one from the other, which `כיון` carries, as `לפיכך` does in his example. `acha-q2` lands on the second alone: for orphans the vermin still eat, but there is no one able to despair.",
     },
     {
       id: "acha-q2",

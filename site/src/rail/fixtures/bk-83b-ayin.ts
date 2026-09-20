@@ -117,6 +117,7 @@ export const bavaKammaAyin: Sugya = {
       provenance: "tradition",
       anatomy: [
         { kind: "analogism", basis: "marked", note: "`מה … אף` again, but now from the act and not the word: the second verse never says `מכה`, and the derivation is allowed to rest on the juxtaposition instead." },
+        { kind: "synonymous-terms", note: "`״הכאה״–״הכאה״ קאמרינן`: the injury verse says `יתן מום`, not `מכה`, and the settlement rests on the two being one matter — a striking — under different words. Ramchal's מאמרים נרדפים, `שמלותיהם שונות וענינם אחד` (Heb p211): a relation the wording concealed, here the analogy the objection said the word could not carry. It is the converse of what `hei-makkeh` found, one word `מכה` covering two matters, killing and injuring." },
         { kind: "subject-similarity" },
       ],
     },
@@ -159,9 +160,13 @@ export const bavaKammaAyin: Sugya = {
       marker: "לא סלקא דעתך",
       provenance: "tradition",
       anatomy: [
-        { kind: "compound", basis: "marked", note: "`חדא … ועוד`: two independent answers in one sentence, so a difficulty against either leaves the other standing." },
+        { kind: "compound-equal", basis: "marked", note: "`חדא … ועוד`: two independent answers in one sentence, so a difficulty against either leaves the other standing. Ramchal's first branch of the conjoined compound, `בהשואה אחת` (Heb p33): the two grounds — the juxtaposition, and the word `ינתן` — are said on one footing, each a sufficient proof, neither the expected case and neither the news. The known-and-novel branch needs one part said `כמו ענין שכבר נודע` and the other `בדרך חדוש`, as alive against slaughtered in his firstborn example; `ועוד` adds a second reason of the same standing and does not rank it. That the juxtaposition was already used at `ela-mehacha` makes it familiar in the passage, not known in his sense, which is about how the parts stand to each other inside the sentence." },
         { kind: "analogism", note: "The first of the two is the same juxtaposition the settlement above already used." },
       ],
+      spans: {
+        he: { commitment: [{ from: 6, to: 10 }, { from: 12, to: 24 }] },
+        en: { commitment: [{ from: 8, to: 18 }, { from: 21, to: 45 }] },
+      },
     },
     {
       id: "mai-im-nafshecha",

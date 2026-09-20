@@ -22,6 +22,7 @@ export const yebamosChalitzah: Sugya = {
       attested: true,
       anatomy: [
         { kind: "subject-quality", note: "The reason Rava gives is a faculty of the subject — `אלא שאין בהם כח הדבור`, only their power of speech is impaired. Chapter 11's third distinction covers a subject's constitution and its strength or weakness, and the whole exchange turns on which faculty is meant." }, { kind: "unqualified", note: "No quantity stated: any mute, with the force of a categorical." },
+        { kind: "compound-equal", note: "One predicate — that the chalitzah is valid — of two subjects, the mute man and the mute woman: Ramchal's seventh kind, `נשוא אחד בשני נושאים או יותר` (Heb p33, Eng p34), in its first branch, `בהשואה אחת`. The two sexes stand on one footing; neither is said as the known case or as the news. The English *or* is distributive — each may perform the rite — not the disjunction of the kind's second part, which suspends one subject between two predicates. This unit has no Hebrew, so there is no `ו` to point at; the branch is read from the sense." },
       ],
     },
     {
@@ -35,6 +36,7 @@ export const yebamosChalitzah: Sugya = {
       attested: true,
       anatomy: [
         { kind: "inference-loose", note: "The reason read out of the baraita — because they cannot speak — is suggested by the ruling but not forced by it, which is what the alternative that follows exploits." },
+        { kind: "compound-equal", basis: "marked", note: "`חרש שנחלץ וחרשת שחלצה – חליצתה פסולה`: one predicate, invalid, of two subjects joined by `ו` — Ramchal's `נשוא אחד בשני נושאים` (Heb p33, Eng p34) — on one footing, `בהשואה אחת`. Neither the deaf-mute man nor the deaf-mute woman is said as the known case or as the novelty, and the Gemara assigns no `לא זו אף זו`. The manner of the mishnah the difficulty quotes; nothing in the passage lands on one of the two parts, so no commitment spans." },
       ],
     },
     {
@@ -49,7 +51,8 @@ export const yebamosChalitzah: Sugya = {
       attested: true,
       note: "A `שנוי`: it defends Rava without asserting that this is the truth, so Rava ends merely possible.",
       anatomy: [
-        { kind: "subject-quality", note: "The alternative swaps one faculty for another — understanding for speech — and both are the same distinction. That is what makes it a `שנוי` rather than a refutation: the aspect under examination does not change, only which value of it the law turns on." }, { kind: "differs-in-context", note: "The baraita is about understanding, Rava about speech: two respects, so no clash." },
+        { kind: "subject-quality", note: "The alternative swaps one faculty for another — understanding for speech — and both are the same distinction. That is what makes it a `שנוי` rather than a refutation: the aspect under examination does not change, only which value of it the law turns on." },
+        { kind: "inseparable-property", note: "In what respect the mishnah's `פסולה` is said of the deaf-mute, on this reading: `לאו בני דעה` — the want of understanding that always accompanies the חרש of the halachah yet is not what makes him a חרש, which is that he neither hears nor speaks. That is chapter 8's second respect, `מה שבסגלתו – ענין שמתלוה תמיד אל הנושא ולא יסור ממנו אך אין הוית הנושא תלוי בו` (Heb p147, Eng p148), and Ramchal's own example is a ruling of this very shape, `חוץ מן החלדה מפני שהיא מלקקת`. It is what lets the `שנוי` work: a ruling that rests on a property reaches only what has the property, and the mute has understanding, so it does not reach him. Beside `subject-quality`, which says which feature is discussed; this says how the predicate attaches." }, { kind: "differs-in-context", note: "The baraita is about understanding, Rava about speech: two respects, so no clash." },
         { kind: "preclusive", note: "Not this, but rather that: not speech, but understanding." },
       ],
     },

@@ -22,8 +22,8 @@
       "provenance": "tradition",
       "anatomy": [
         {
-          "kind": "subject-action",
-          "note": "The predicate is what one party does for another — protection — which is chapter 11's seventh distinction. It is a promise of action, so the settlement can later ask on what the action depends without touching the words."
+          "kind": "subject-action-voluntary",
+          "note": "The predicate is what one party does for another — protection — which is chapter 11's seventh distinction. It is a promise of action, so the settlement can later ask on what the action depends without touching the words. The voluntary branch, not the parent: Ramchal's `רצונית` is `מה שפועלים הבעלי חיים ברצונם`, against the natural `דמנקרא להו למעיא` (Heb p225). A promise is a willed act, and the settlement turns on exactly that — an act by will can be withheld when the one protected sins; an act by nature cannot."
         },
         { "kind": "categorical", "basis": "marked", "note": "`בכל אשר תלך`: protection everywhere, the whole class of places." }
       ],
@@ -81,7 +81,7 @@
       "anatomy": [
         {
           "kind": "subject-cause",
-          "note": "`שמא יגרם החטא` — perhaps sin will *cause* it to lapse. The settlement works by naming a cause that can intervene between the promise and its fulfilment, so the respect it distinguishes is chapter 11's tenth distinction."
+          "note": "`שמא יגרם החטא` — perhaps sin will *cause* it to lapse. The settlement works by naming a cause that can intervene between the promise and its fulfilment, so the respect it distinguishes is chapter 11's tenth distinction. Kept as the parent badge: by Ramchal's definition (Heb p229) the lapse sin brings about would be `נפעל ממנו`, an effective cause like `חמרא וריחני פקחין`, not `המשך נמשך ממנו` like fruit from the tree — but the settlement turns on there being a cause that can intervene, not on which kind, and the parent is for exactly that case."
         },
         {
           "kind": "differs-in-context",

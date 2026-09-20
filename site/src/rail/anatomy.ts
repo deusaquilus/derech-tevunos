@@ -957,7 +957,7 @@ const ENTRIES: Record<AnatomyKey, Entry> = {
     short: "always goes with it",
     reads: "said of what always accompanies the subject, though it is not its essence",
     definition:
-      "The second respect in which a predicate is said of its subject: the property is always with it and never leaves, yet the subject would still be what it is without it — the weasel laps (Parah 9:3), man laughs. A ruling that rests on such a property holds as long as the property does. A short chain binds the property to its subject.",
+      "The second respect in which a predicate is said of its subject: the property is always with it and never leaves, yet the subject would still be what it is without it — the weasel laps (Parah 9:3), man laughs. A ruling that rests on such a property holds as long as the property does. A badge only where the argument turns on the respect — a clash dissolved or a chain broken by it; a predicate that merely is such a property gets none. A short chain binds the property to its subject.",
     page: "Eng p148 · Heb p147",
   }),
   "contingent-attribute": form(8, {
@@ -966,7 +966,7 @@ const ENTRIES: Record<AnatomyKey, Entry> = {
     short: "happens to be so",
     reads: "said of what could be otherwise, the subject unchanged",
     definition:
-      "The third respect: the feature is there by accident — it could be absent, or different, even the opposite, and the subject would be what it is all the same; round or square, long or short, this man is white. Not unimportance, and not doubt about whether it holds now. Two identical subjects, one with the property and one without.",
+      "The third respect: the feature is there by accident — it could be absent, or different, even the opposite, and the subject would be what it is all the same; round or square, long or short, this man is white. Not unimportance, and not doubt about whether it holds now. A badge only where the argument turns on the respect; a predicate that merely happens to be an accident gets none. Two identical subjects, one with the property and one without.",
     page: "Eng p150 · Heb p149",
   }),
 

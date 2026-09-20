@@ -23,13 +23,24 @@ export type LegendFoldProps = {
   readonly onToggle: (on: boolean) => void;
 };
 
+/** The word-span layer's one switch, when the sugya carries any spans. */
+export type LegendSpansProps = {
+  /** On: every span drawn the loud way, a hairline at a trace of its hue. Off: only the spans the file marks `showLoud`; the rest a taupe hairline that nearly blends into the paper. */
+  readonly on: boolean;
+  readonly onToggle: (on: boolean) => void;
+};
+
 export type LegendBarProps = {
   readonly anatomy?: LegendAnatomyProps;
   readonly fold?: LegendFoldProps;
+  readonly spans?: LegendSpansProps;
 };
 
 const MASTER_TIP =
   "Every Ramchal chapter but the ninth, as a second layer over the chapter 9 moves: who is speaking, what each statement is made of, how two statements relate, what kind of deduction a proof is, what it stands on, when a report is itself the argument, and which aspect of its subject a sentence examines. Off, the page shows only the seven moves. Your choice is remembered.";
+
+const SPANS_TIP =
+  "Which words of a sentence are its subject and predicate, the two clauses of a hypothetical, the premises and conclusion of a deduction, or the separate commitments a challenge can land on. Off, only the spans the file marks as carrying the argument show a trace of their role's colour; the rest are a hairline that nearly blends into the page, named on hover. On, every span shows its trace of colour. Nothing here is meant to catch the eye; click any span for the full explanation. Your choice is remembered.";
 
 const HUE_NOTE =
   "Colour marks the family: violet for chapters 3–6 and 11, teal for chapter 7, magenta for chapter 8, slate for chapters 1 and 10.";
@@ -94,7 +105,7 @@ const Kinds = ({ element }: { readonly element: Element }): JSX.Element => (
  * right end, the switch for the layer of every other chapter; and under them,
  * when the layer is on, one pill per family to show or hide it.
  */
-export const LegendBar = ({ anatomy, fold }: LegendBarProps): JSX.Element => (
+export const LegendBar = ({ anatomy, fold, spans }: LegendBarProps): JSX.Element => (
   <div className="legend-block">
     <div className="legend-bar">
       <ul className="legend" aria-label="What each icon means">
@@ -132,7 +143,7 @@ export const LegendBar = ({ anatomy, fold }: LegendBarProps): JSX.Element => (
         ))}
       </ul>
 
-      {anatomy === undefined && fold === undefined ? null : (
+      {anatomy === undefined && fold === undefined && spans === undefined ? null : (
         <div className="legend-switches">
           {fold === undefined ? null : (
             <Tooltip width={340} content={<span>{FOLD_TIP}</span>} className="legend-switch-tip">
@@ -156,6 +167,18 @@ export const LegendBar = ({ anatomy, fold }: LegendBarProps): JSX.Element => (
                   onChange={(event) => anatomy.onToggle(event.currentTarget.checked)}
                 />
                 Ramchal&rsquo;s anatomy <span className="legend-switch-ch">ch. 1–8 · 10 · 11</span>
+              </label>
+            </Tooltip>
+          )}
+          {spans === undefined ? null : (
+            <Tooltip width={340} content={<span>{SPANS_TIP}</span>} className="legend-switch-tip">
+              <label className={`legend-switch${spans.on ? " legend-switch-on" : ""}`}>
+                <input
+                  type="checkbox"
+                  checked={spans.on}
+                  onChange={(event) => spans.onToggle(event.currentTarget.checked)}
+                />
+                Detailed spans <span className="legend-switch-ch">{spans.on ? "every span" : "only the loud ones"}</span>
               </label>
             </Tooltip>
           )}

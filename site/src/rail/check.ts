@@ -68,7 +68,7 @@ import {
   MIN_INDENT,
 } from "./layout.ts";
 import { ELEMENTS, hueElementOf, LEAVES, MOVE_KEYS, PARENT_OF, parentOf, SUBTYPES, type Element, type Move, type MoveKey } from "./taxonomy.ts";
-import { parseRange, printRange, segments, SPAN_ROLES, SPAN_TEXTS, wordCount, words } from "./spans.ts";
+import { isLoud, parseRange, printRange, rangesOf, segments, SPAN_ROLES, SPAN_TEXTS, wordCount, words } from "./spans.ts";
 import {
   ANATOMY,
   ANATOMY_KEYS,
@@ -922,8 +922,14 @@ check("six guidance drawings, none of them a kind or a role", GUIDANCE_KEYS.leng
   const promise = berachosYaakov.units.find((u) => u.id === "promise")!;
   check("a run of same-role words is one segment, whitespace included", segments(promise.en, promise.spans!.en).map((s) => `${s.text}:${s.roles.join("+")}`).join("|"), "Behold :|I:subject| :|am with you and will protect you wherever you go.:predicate");
   check("no spans, no cut", segments(promise.en, undefined).length, 1);
+  // Two ranges of one role that abut are two underlines: the seam belongs to neither.
+  check("abutting ranges of one role stay two segments", segments("a b c d", { premise: [{ from: 1, to: 2 }, { from: 3, to: 4 }] }).map((s) => `${s.text}:${s.roles.join("+")}`).join("|"), "a b:premise| :|c d:premise");
+  // Loudness: quiet by default, loud when the file says so, carried to the segment.
+  check("a span is quiet unless marked", segments("a b c", { subject: [{ from: 1, to: 1 }] }).map((s) => s.loud).join(), "false,false");
+  check("…and loud when marked", segments("a b c", { subject: { ranges: [{ from: 1, to: 1 }], showLoud: true }, predicate: [{ from: 2, to: 3 }] }).map((s) => `${s.text}:${s.loud}`).join("|"), "a:true| :false|b c:false");
+  check("Berachos 4a's spans are all quiet", berachosYaakov.units.every((u) => Object.values(u.spans?.he ?? {}).concat(Object.values(u.spans?.en ?? {})).every((s) => !isLoud(s))), true);
   check("Berachos 4a carries spans on its three statements and not on the difficulty", berachosYaakov.units.map((u) => (u.spans === undefined ? "-" : "s")).join(""), "ss-s");
-  check("…every range inside its text", berachosYaakov.units.every((u) => SPAN_TEXTS.every((t) => u.spans?.[t] === undefined || Object.values(u.spans[t]!).every((rs) => rs.every((r) => r.from >= 1 && r.to <= wordCount(u[t]!))))), true);
+  check("…every range inside its text", berachosYaakov.units.every((u) => SPAN_TEXTS.every((t) => u.spans?.[t] === undefined || Object.values(u.spans[t]!).every((span) => rangesOf(span).every((r) => r.from >= 1 && r.to <= wordCount(u[t]!))))), true);
 }
 
 // --- the file format ----------------------------------------------------------
@@ -1021,6 +1027,15 @@ check("…even inside a list, with its position", faultsOfInput(withSpans({ he: 
 check("an empty list is no role", faultsOfInput(withSpans({ he: { premise: [] } })).join(" | "), "$.units[1].spans.he.premise: a role needs at least one range");
 check("spans is an object", faultsOfInput(withSpans("1-2")).join(" | "), '$.units[1].spans: expected an object { he, en }, got "1-2"');
 check("a text's spans are an object", faultsOfInput(withSpans({ he: "1-2" })).join(" | "), '$.units[1].spans.he: expected an object { subject, predicate, … }, got "1-2"');
+// Loud spans: `{ words, showLoud: true }` reads to a LoudSpan and prints back as itself; `showLoud: false` is quiet and prints back bare.
+check("a loud span reads as one", JSON.stringify(parseSugya(withSpans({ he: { predicate: { words: "6-9", showLoud: true } } })).units[1]?.spans?.he?.predicate), '{"ranges":[{"from":6,"to":9}],"showLoud":true}');
+check("…and prints back with its flag, words first", JSON.stringify(toJson(parseSugya(withSpans({ he: { predicate: { showLoud: true, words: ["6-9", "11"] } } }))).units[1]?.spans?.he?.predicate), '{"words":["6-9","11"],"showLoud":true}');
+check("`showLoud: false` is quiet, and prints back bare", JSON.stringify(toJson(parseSugya(withSpans({ he: { subject: { words: "1-2", showLoud: false } } }))).units[1]?.spans?.he?.subject), '"1-2"');
+check("a loud span without words", faultsOfInput(withSpans({ he: { subject: { showLoud: true } } })).join(" | "), "$.units[1].spans.he.subject.words: required");
+check("a loud span's ranges are still bounded", faultsOfInput(withSpans({ he: { subject: { words: "1-40", showLoud: true } } })).join(" | "), "$.units[1].spans.he.subject.words: 1-40 runs past the end: the text has 21 words");
+check("a loud span with a stray key", faultsOfInput(withSpans({ he: { subject: { words: "1", loud: true } } })).join(" | "), "$.units[1].spans.he.subject.loud: unknown key");
+check("…and a near-miss gets the correction", faultsOfInput(withSpans({ he: { subject: { words: "1", showloud: true } } })).join(" | "), '$.units[1].spans.he.subject.showloud: unknown key (did you mean "showLoud"?)');
+check("showLoud is a boolean", faultsOfInput(withSpans({ he: { subject: { words: "1", showLoud: "yes" } } })).join(" | "), '$.units[1].spans.he.subject.showLoud: expected true or false, got "yes"');
 check("several faults are reported together", faultsOfInput({ ...minimal, title: 3, tractate: undefined, units: [{ ...minimal.units[0]!, en: undefined }, minimal.units[1]!] }).length, 3);
 check("a fault's message names the source", (() => { try { parseSugya({}, "gold.json"); return ""; } catch (e) { return (e as Error).message.split("\n")[0]; } })(), "gold.json: 8 faults");
 check("the printer puts a move on one line", stringify(yebamosDeafMute).includes('"move": { "element": "question", "subtype": "query", "marker": "מאי שנא … ומאי שנא", "attested": true }'), true);

@@ -21,7 +21,18 @@
       "short": "Mishnah: two hold a garment, each says I found…",
       "he": "שנים אוחזין בטלית… ויחלוקו",
       "en": "Mishnah: two hold a garment, each says I found it, each says it is all mine",
-      "move": { "element": "statement", "subtype": "firsthand", "attested": false }
+      "move": { "element": "statement", "subtype": "firsthand", "attested": false },
+      "anatomy": [
+        {
+          "kind": "compound-equal",
+          "note": "Read as Rav Pappa reads it: `רישא במציאה וסיפא במקח וממכר`, one predicate — they divide — of two subjects, the finders and the buyers, which is Ramchal's `נשוא אחד בשני נושאים` (Heb p33). On his first branch, `בהשואה אחת`, because the Gemara's own `וצריכא` shows that neither clause is implied by the other: had it taught only the find, or only the sale, the other would not follow. That is the test that separates equal footing from his known-and-novel branch, where one part is `שכבר נודע` and the Gemara would say `לא זו אף זו קתני`. The first answer, `חדא קתני`, read the two clauses as one case and was refuted by `זה וזה קתני`. The two commitments are indexed in the English; the Hebrew is an incipit and the clauses fall inside its `…`. `תינח מציאה, מקח וממכר מאי איכא למימר` later lands on the second alone."
+        }
+      ],
+      "spans": {
+        "en": {
+          "commitment": ["6-10", "11-16"]
+        }
+      }
     },
     {
       "id": "q-two-clauses",
@@ -49,7 +60,18 @@
       "short": "'Found' alone could mean 'saw'; 'all mine'…",
       "he": "אי תנא אני מצאתיה הוה אמינא ראיתיה",
       "en": "'Found' alone could mean 'saw'; 'all mine' rules that out",
-      "move": { "element": "resolution", "subtype": "settlement", "target": "q-metzasiha", "marker": "אי תנא … הוה אמינא", "attested": false }
+      "move": { "element": "resolution", "subtype": "settlement", "target": "q-metzasiha", "marker": "אי תנא … הוה אמינא", "attested": false },
+      "anatomy": [
+        {
+          "kind": "hypothetical",
+          "basis": "marked",
+          "note": "`אי תנא … הוה אמינא`: had the Mishnah taught only this, one would have read it so — only the dependence is asserted, and `q-rabbanai` attacks its consequent."
+        }
+      ],
+      "spans": {
+        "he": { "antecedent": "1-4", "consequent": "5-7" },
+        "en": { "antecedent": "1-2", "consequent": "3-5" }
+      }
     },
     {
       "id": "q-rabbanai",
@@ -265,7 +287,13 @@
       "short": "For rabbis and R. Yose alike: the shopkeeper's…",
       "he": "בין לרבנן ובין לרבי יוסי, התם גבי חנוני על פנקסו",
       "en": "For rabbis and R. Yose alike: the shopkeeper's ledger — both swear and collect, though a cheat is certain",
-      "move": { "element": "difficulty", "subtype": "objection", "target": "a-yose-1", "attested": false }
+      "move": { "element": "difficulty", "subtype": "objection", "target": "a-yose-1", "attested": false },
+      "anatomy": [
+        {
+          "kind": "compound-equal",
+          "note": "`בין לרבנן ובין לרבי יוסי`: one difficulty said of two views in one breath, the rabbis' and R. Yose's, and said of them alike — Ramchal's one predicate of several subjects `בהשואה אחת` (Heb p33). The rail can draw one target; the label says the difficulty reaches both sides. No spans: the two subjects share every word of the predicate, so there is nothing to cut."
+        }
+      ]
     },
     {
       "id": "a-chenvani",

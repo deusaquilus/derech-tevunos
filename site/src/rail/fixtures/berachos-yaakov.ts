@@ -27,7 +27,7 @@ export const berachosYaakov: Sugya = {
       provenance: "tradition",
       attested: true,
       anatomy: [
-        { kind: "subject-action", note: "The predicate is what one party does for another — protection — which is chapter 11's seventh distinction. It is a promise of action, so the settlement can later ask on what the action depends without touching the words." }, { kind: "categorical", basis: "marked", note: "`בכל אשר תלך`: protection everywhere, the whole class of places." },
+        { kind: "subject-action-voluntary", note: "The predicate is what one party does for another — protection — which is chapter 11's seventh distinction. It is a promise of action, so the settlement can later ask on what the action depends without touching the words. The voluntary branch, not the parent: Ramchal's `רצונית` is `מה שפועלים הבעלי חיים ברצונם`, against the natural `דמנקרא להו למעיא` (Heb p225). A promise is a willed act, and the settlement turns on exactly that — an act by will can be withheld when the one protected sins; an act by nature cannot." }, { kind: "categorical", basis: "marked", note: "`בכל אשר תלך`: protection everywhere, the whole class of places." },
       ],
       spans: {
         he: { subject: [{ from: 2, to: 2 }], predicate: [{ from: 3, to: 6 }] },
@@ -43,7 +43,8 @@ export const berachosYaakov: Sugya = {
       provenance: "tradition",
       attested: true,
       anatomy: [
-        { kind: "attribute-in-attached", note: "Fear is an accident inhering in Yaakov, the shape of Ramchal's own example `בהמה מסכנת – שיש בה מקרה הסכנה` (Heb p231). It says nothing about what he is, only about a condition he is in — which is why the settlement can leave both sentences standing." }, { kind: "particular" },
+        { kind: "attribute-in-attached", note: "Fear is an accident inhering in Yaakov, the shape of Ramchal's own example `בהמה מסכנת – שיש בה מקרה הסכנה` (Heb p231). It says nothing about what he is, only about a condition he is in — which is why the settlement can leave both sentences standing." },
+        { kind: "particular" },
       ],
       spans: {
         he: { subject: [{ from: 2, to: 2 }], predicate: [{ from: 1, to: 1 }, { from: 3, to: 3 }] },
@@ -75,7 +76,7 @@ export const berachosYaakov: Sugya = {
       attested: true,
       note: "A `ישוב`: the one who offers it believes it is true, so it fully discharges the difficulty.",
       anatomy: [
-        { kind: "subject-cause", note: "`שמא יגרם החטא` — perhaps sin will *cause* it to lapse. The settlement works by naming a cause that can intervene between the promise and its fulfilment, so the respect it distinguishes is chapter 11's tenth distinction." }, { kind: "differs-in-context", note: "The promise holds in the respect of merit; the fear is about sin having intervened. Not the same respect, so no clash." },
+        { kind: "subject-cause", note: "`שמא יגרם החטא` — perhaps sin will *cause* it to lapse. The settlement works by naming a cause that can intervene between the promise and its fulfilment, so the respect it distinguishes is chapter 11's tenth distinction. Kept as the parent badge: by Ramchal's definition (Heb p229) the lapse sin brings about would be `נפעל ממנו`, an effective cause like `חמרא וריחני פקחין`, not `המשך נמשך ממנו` like fruit from the tree — but the settlement turns on there being a cause that can intervene, not on which kind, and the parent is for exactly that case." }, { kind: "differs-in-context", note: "The promise holds in the respect of merit; the fear is about sin having intervened. Not the same respect, so no clash." },
         { kind: "qualified-possible", note: "`שמא`: said as possible, not as certain." },
       ],
       spans: {

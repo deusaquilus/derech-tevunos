@@ -64,7 +64,14 @@ The smallest complete file, exactly as shipped (`site/src/rail/sugyot/yebamos-de
       "he": "מאי שנא חרש וחרשת דתקינו להו רבנן נשואין, ומאי שנא דשוטה ושוטה דלא תקינו להו רבנן נשואין?",
       "en": "What is the difference between deaf-mutes, for whom the rabbis ordained that a marriage is valid, and the insane, for whom a marriage is invalid?",
       "move": { "element": "question", "subtype": "query", "marker": "מאי שנא … ומאי שנא", "attested": true },
-      "provenance": "asserted"
+      "provenance": "asserted",
+      "anatomy": [
+        {
+          "kind": "subject-difference",
+          "basis": "marked",
+          "note": "`מאי שנא … ומאי שנא` asks for a הבחנה in so many words: what tells these two apart? Chapter 11's twenty-third distinction is the absence of likeness, and here it is the whole content of the question."
+        }
+      ]
     },
     {
       "id": "answer",
@@ -74,8 +81,23 @@ The smallest complete file, exactly as shipped (`site/src/rail/sugyot/yebamos-de
       "move": { "element": "answer", "subtype": "answer", "target": "question", "attested": true },
       "provenance": "derivation",
       "anatomy": [
-        { "kind": "consequent", "note": "Since they can keep rabbinic ordinances, the rabbis validated their marriage: this, so that." }
-      ]
+        { "kind": "consequent", "note": "Since they can keep rabbinic ordinances, the rabbis validated their marriage: this, so that." },
+        {
+          "kind": "subject-quality",
+          "note": "The difference the question asked for is located in a faculty — whether a rabbinic ordinance can hold of them at all. The answer does not distinguish the two by what they are but by what they can do."
+        }
+      ],
+      "spans": {
+        "he": {
+          "antecedent": ["1-5", "11-16"],
+          "consequent": ["7-10", "18-21"]
+        },
+        "en": {
+          "antecedent": ["1-8", "14-17"],
+          "consequent": ["9-13", "19-22"]
+        }
+      },
+      "note": "Two consequent statements in one breath, one for each class, so the antecedent and the consequent each occur twice and take a list; the two dashes carry the dependence and belong to no role, as `לפיכך` does in Ramchal's own example (Heb p39). The spans are written because the form is a `consequent`, whose two clauses chapter 3 names (Heb p31) and whose three intentions chapter 6 counts (Heb p87–89), not because a difficulty lands on one part: none does, so the `commitment` spans are not written."
     }
   ]
 }
@@ -307,10 +329,21 @@ Some of Ramchal's constructs are not labels from a closed list but **pieces of t
 
 | key | type | what it is |
 |---|---|---|
-| `he`, `en` | role → ranges | Which text the ranges index. Each text counts its own words; a text the unit has not got is a fault. Either or both. |
-| a role | `"3"` · `"2-4"` · a list of these | The words in that role. One range is a string; a role that occurs more than once in the sentence — two premises, three commitments, a compound's several subjects, a predicate split around its subject — is a list. |
+| `he`, `en` | role → span | Which text the ranges index. Each text counts its own words; a text the unit has not got is a fault. Either or both. |
+| a role | `"3"` · `"2-4"` · a list of these | A **quiet** span — the default, and almost every span: the words in that role. One range is a string; a role that occurs more than once in the sentence — two premises, three commitments, a compound's several subjects, a predicate split around its subject — is a list. |
+| a role | `{ "words": "2-4", "showLoud": true }` | A **loud** span: the same ranges under `words`, and `showLoud: true`. Written **only** when the passage's logic turns on this span and a reader who missed it would misread the argument. Rare. `showLoud: false` is accepted and means quiet; the canonical form drops the object. |
+
+**Quiet and loud — read this before writing a single span.** Both are whispers: the span mechanism is built not to interrupt a reader who came for the sentence. The page draws a quiet span as a hairline dotted underline in a taupe that nearly blends into the paper — no hue, no icon, its name only when the pointer rests on it. A loud span is the same hairline at a trace of the role's hue, with the icon on hover. A reader has a checkbox in the legend, **Detailed spans**, beside *Ramchal's anatomy*; on, every span is drawn the loud way; off — the default — only the loud ones are. The distinction is the classifier's, and it is meant to be **very, very rare**: people know what an antecedent and a consequent are, and a sugya drawn with every clause underlined says nothing. Mark a span `showLoud` **only if it is extremely important to the logic of the sugya** — the clause the difficulty actually attacks, the premise the whole refutation stands or falls on, the commitment a challenge defeats while the rest stand — and even then ask whether the reader would miss the argument without it. This is a subjective judgment; make it best-effort and err heavily toward quiet. If in doubt, quiet. Everything else about a span — its role, its words, its validation — is the same either way; the popup a span opens is minimal (its name), and a click expands it to the full account.
+
+```json
+{
+  "he": { "antecedent": "1-7", "consequent": { "words": "8-9", "showLoud": true } }
+}
+```
 
 **The word rule.** Words are the maximal runs of non-whitespace, numbered from 1. Punctuation stays with the word it touches (`אמר,` is one word), a lone dash is a word (`חרש – תקינו` is three), a maqaf-joined pair (`אשר־תלך`) is one. Ranges are inclusive at both ends. The rule is blunt on purpose — it is the one every reader, human or agent, computes the same way — and the validator checks every range against the word count of the text it indexes, so a miscount is a fault with the count in it, not a silent wrong underline.
+
+**Particles and connectives.** A particle that *opens* a clause belongs to that clause: `אם` / `אי` / `כיון ד` / "If" / "Since" are inside the antecedent, as in every example here. A connective that *joins* the clauses — `לפיכך`, `הלכך`, the dash, "therefore", "so" — belongs to no role; where a consequent form's third commitment (the dependence) is written, that connective is the words that carry it. `מה … אף` in an analogy and `ואלא` opening a rebuttal likewise belong to no role. Settled 2026-09-20 after two independent classifiers had to guess.
 
 The seven roles, each with its own icon in the set (§7 places them):
 
@@ -324,7 +357,7 @@ The seven roles, each with its own icon in the set (§7 places them):
 | `conclusion` | תולדה | the statement the deduction arrives at, likewise | 7 | 94 |
 | `commitment` | סוף גזרתו | one of the things the sentence ultimately asserts, on which its truth turns — an exception has two (the rule; the exception), a consequent three (antecedent; consequent; the dependence); a challenge can defeat one and leave the rest standing | 6 | 76 |
 
-Spans describe the sentence alone and are **optional**. Write `subject` and `predicate` when the passage turns on the split — a converse, a variant, an ambiguous subject, one subject named two ways — not as a matter of course; `antecedent` and `consequent` only on a `hypothetical` or `consequent` form; `premise` and `conclusion` only when the deduction is inside the sentence (premises that are earlier units are already named by `target` and the deduction label); `commitment` where a difficulty is about to land on one of them, or where a form with several commitments is the point. Index the Hebrew when there is Hebrew — the analysis is of the original — and the English as well when the reader of the row should see it there. The paraphrase in words, *S has P in manner M*, stays in `ext.form.normalized` (§4.2): the spans are the pointer, that is the reading.
+Spans describe the sentence alone and are **optional**. Write `subject` and `predicate` when the passage turns on the split — a converse, a variant, an ambiguous subject, one subject named two ways — not as a matter of course; `antecedent` and `consequent` only on a `hypothetical` or `consequent` form; `premise` and `conclusion` only when the deduction is inside the sentence (premises that are earlier units are already named by `target` and the deduction label); `commitment` where a difficulty is about to land on one of them, or where a form with several commitments is the point. Index the Hebrew when there is Hebrew — the analysis is of the original — and the English as well when the reader of the row should see it there. The paraphrase in words, *S has P in manner M*, stays in `ext.form.normalized` (§4.2): the spans are the pointer, that is the reading. And every span you do write is quiet unless the argument turns on it; `showLoud` is the exception, not a setting.
 
 Three spans objects, against the texts shown: a simple statement in both languages; a hypothetical with its two clauses; an exception with its two commitments, which is what a challenge to the exception alone can be aimed at.
 
@@ -370,10 +403,10 @@ Three spans objects, against the texts shown: a simple statement in both languag
   "provenance": "tradition",
   "anatomy": [{ "kind": "exception", "basis": "marked", "note": "`חוץ מן`: the rule, and the weasel carved out of it (Parah 9:3)." }],
   "spans": {
-    "he": { "commitment": ["1-6", "7-9"] },
+    "he": { "commitment": { "words": ["1-6", "7-9"], "showLoud": true } },
     "en": { "commitment": ["1-8", "9-11"] }
   },
-  "note": "A difficulty against the weasel clause hits the second commitment and leaves the first standing (Ch 6, p80)."
+  "note": "A difficulty against the weasel clause hits the second commitment and leaves the first standing (Ch 6, p80). The Hebrew commitments are marked loud because that landing is the point of the passage; the English carries the same spans quietly."
 }
 ```
 
@@ -697,19 +730,21 @@ node -e 'import("./site/src/rail/format.ts").then(m => { m.parseSugya(JSON.parse
 
 ### 5.5 What the shipped passages use — the construct inventory
 
-The format was drawn up by going through each passage and listing every construct it relies on, so that nothing on any page lacks a home in the file. Counts are units unless stated.
+The format was drawn up by going through each passage and listing every construct it relies on, so that nothing on any page lacks a home in the file. Counts are units unless stated; measured 2026-09-20, after the pass that applied the fourteen new kinds and the span roles to all eleven passages (§2.5 and §11 record what that pass taught: spans where the passage turns on them, the two respects almost never, `compound` almost always `-equal`).
 
-| passage | units | party | speaker | he | short | target | marker | attested | note | anatomy | families | leaves used | hint |
-|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| `pesachim-liquids` — Pesachim 16a/18b | 4 | group | 4 | 4 | — | 3 | 1 | 3 true, 1 false | 2 | 4 labels on 4 | anatomy, relations, deductions | 4 | — |
-| `berachos-yaakov` — Berachos 4a | 4 | individual | 4 | 4 | — | 2 | 1 | 4 true | 1 | 5 on 4 | anatomy, relations | 3 | — |
-| `yebamos-chalitzah` — Yebamos 104b | 3 | talmud | 3 | 2 | — | 2 | 1 | 3 true | 1 | 4 on 3 | anatomy, relations | 3 | — |
-| `yebamos-deafmute` — Yebamos 112b | 2 | talmud | 2 | 2 | — | 1 | 1 | 2 true | — | 1 on 1 | anatomy | 2 | — |
-| `bava-metzia-yeush` — Bava Metzia 21b–22b | 57 | group | 19 | 57 | 57 | 56 | 25 | 57 false | 12 | 45 on 39 | anatomy, relations, deductions | 16 | — |
-| `bm-2a-ochazin` — Bava Metzia 2a–3a | 36 | talmud | 2 | 36 | 36 | 35 | 33 | 36 false | — | — | — | 7 | yes |
-| `bk-2a-toldos` — Bava Kamma 2a–3b | 77 | talmud | 2 | 77 | 77 | 76 | 63 | 77 false | — | — | — | 10 | yes |
-| `pes-2a-or` — Pesachim 2a–3a | 46 | group | 4 | 46 | 46 | 45 | 39 | 46 false | — | — | — | 9 | yes |
-| `git-2a-befanai` — Gittin 2a–3a | 31 | group | 3 | 31 | 31 | 30 | 24 | 31 false | — | — | — | 6 | yes |
+| passage | units | party | speaker | he | short | target | marker | attested | note | anatomy | families | spans (units: roles) | leaves used | hint |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| `pesachim-liquids` — Pesachim 16a/18b | 4 | group | 4 | 4 | — | 3 | 1 | 3 true, 1 false | 2 | 9 labels on 4 | anatomy, subjects, deductions, relations, grounds | 1: premise | 4 | — |
+| `berachos-yaakov` — Berachos 4a | 4 | individual | 4 | 4 | — | 2 | 1 | 4 true | 1 | 8 labels on 4 | subjects, anatomy, relations | 3: subject, predicate | 3 | — |
+| `yebamos-chalitzah` — Yebamos 104b | 3 | talmud | 3 | 2 | — | 2 | 1 | 3 true | 1 | 9 labels on 3 | subjects, anatomy, relations | — | 3 | — |
+| `yebamos-deafmute` — Yebamos 112b | 2 | talmud | 2 | 2 | — | 1 | 1 | 2 true | 1 | 3 labels on 2 | subjects, anatomy | 1: antecedent, consequent | 2 | — |
+| `bava-metzia-yeush` — Bava Metzia 21b–22b | 57 | group | 19 | 57 | 57 | 56 | 25 | 57 false | 14 | 57 labels on 44 | anatomy, subjects, relations, deductions, grounds | 6: predicate, commitment, premise, conclusion, antecedent, consequent · 2 loud | 16 | — |
+| `bk-83b-ayin` — Bava Kamma 83b | 15 | talmud | 3 | 15 | 15 | 14 | 13 | 2 true | 7 | 16 labels on 9 | anatomy, subjects, deductions, relations, reports, grounds | 1: commitment | 9 | — |
+| `sukkah-2b-heleni` — Sukkah 2a–2b | 9 | group | 6 | 9 | 9 | 8 | 7 | — | 5 | 11 labels on 8 | subjects, reports, deductions, grounds, relations | 1: premise, conclusion | 7 | — |
+| `bm-2a-ochazin` — Bava Metzia 2a–3a | 36 | talmud | 2 | 36 | 36 | 35 | 33 | 36 false | — | 3 labels on 3 | anatomy | 2: commitment, antecedent, consequent | 7 | yes |
+| `bk-2a-toldos` — Bava Kamma 2a–3b | 77 | talmud | 2 | 77 | 77 | 76 | 63 | 77 false | — | 4 labels on 4 | anatomy, relations | 3: commitment, antecedent, consequent · 2 loud | 10 | yes |
+| `pes-2a-or` — Pesachim 2a–3a | 46 | group | 4 | 46 | 46 | 45 | 39 | 46 false | — | 3 labels on 2 | anatomy, relations | 1: commitment | 9 | yes |
+| `git-2a-befanai` — Gittin 2a–3a | 31 | group | 3 | 31 | 31 | 30 | 24 | 31 false | — | 22 labels on 18 | anatomy, relations, deductions, grounds | 5: commitment, antecedent, consequent, premise, conclusion · 2 loud | 6 | yes |
 
 What each contributed: the four short Ramchal passages fix the core — a unit with `speaker`, `he`, `en`, a `move` with `target`, `marker` and `attested: true`, a `provenance`, and `anatomy` labels of all three kinds that appear on the page; two of them put two labels on one unit, which is why `anatomy` is a list; `yebamos-chalitzah` has a unit with no Hebrew, which is why `he` is optional; `pesachim-liquids` has the one Ramchal unit that is *not* attested and carries a `note` saying why; a speaker of *Genesis 28:15* shows `speaker` is free text. `berachos-yaakov` is the one passage that carries `spans` (2026-09-20): subject and predicate on its three statements in both languages, and on `ויירא יעקב מאד` a predicate split around its subject — which is why a role's value can be a list of ranges. Bava Metzia 21b–22b adds scale: `short` on every unit, sixteen of the nineteen leaves, `attested: false` throughout with the `marker` carrying the checkability instead, `basis: marked` on six anatomy labels, `provenance: tradition` on the challenges from mishnayos, and a five-paragraph `about`. The four research passages add the page furniture: `collection`, `hint`, a `speaker` of *Mishnah* on the opening unit, and units with no `provenance`.
 
@@ -727,7 +762,8 @@ Not enforced by the reader; how the shipped files are written, and how an agent'
 - **`attested`** is `true` only where Ramchal labels *this* sentence of *this* passage. Say `attested: false` explicitly on a passage he discusses when one unit's label is yours, and explain in `note`. On a passage he does not discuss, omit it or write `false` throughout.
 - **`provenance`** is `tradition` for a mishnah, baraita or verse, whether stated or brought as evidence; `derivation` for a resolution, an inference, or any reasoning; `asserted` for a rabbi's ruling on his own authority; `sense`, `axiom`, `endoxa` when a premise of that kind is itself the unit. It is about the unit's *own* authority; the provenance of the premises a unit leans on goes in `ext.warrant.premises[].provenance`.
 - **`short`** is worth writing by hand on any passage long enough to fold; it is what the reader sees on a band while the sentences under it are hidden.
-- **`spans`** are written where the passage turns on them, not on every sentence: the subject and predicate when a relation depends on which is which (a converse, a variant, one subject named two ways), the antecedent and consequent on a hypothetical or consequent form, the premises when a deduction is spelt out in one breath, the commitments where a difficulty is about to land on one part of an exception, a conditional or a consequent. Index the Hebrew when there is Hebrew — the analysis is of the original — and the English as well when the reader of the row should see it there. Count by the blunt rule of §2.5 and let the validator catch a miscount; it knows how many words the text has. Never copy the words into a field: the span is the pointer, and `ext.form.normalized` is the one place for a paraphrase.
+- **`spans`** are written where the passage turns on them, not on every sentence: the subject and predicate when a relation depends on which is which (a converse, a variant, one subject named two ways), the antecedent and consequent on a hypothetical or consequent form, the premises when a deduction is spelt out in one breath, the commitments where a difficulty is about to land on one part of an exception, a conditional or a consequent. Index the Hebrew when there is Hebrew — the analysis is of the original — and the English as well when the reader of the row should see it there. Count by the blunt rule of §2.5 and let the validator catch a miscount; it knows how many words the text has. Never copy the words into a field: the span is the pointer, and `ext.form.normalized` is the one place for a paraphrase. **Every span is quiet by default.** Write `showLoud: true` only on a span that is extremely important to the logic of the sugya — the clause the difficulty attacks, the premise the refutation stands on — and expect to write it on a small minority of spans in a passage, often none. Quiet spans are the faintest mark on the page until the reader switches on *Detailed spans*; loud ones are drawn in full always.
+- **The two ch. 8 respects and the two modalities are written only where the passage turns on them.** `inseparable-property`, `contingent-attribute`, `potential`, `actual`: not because the predicate attaches that way — almost every predicate does — but because a move in the passage dissolves a clash or breaks a chain *by* that respect or modality. Default: no label. §11, Aspects, has the test and the examples.
 - **`about`** should say where the text is from, what the passage shows, and every place a label is a stretch. Order it as Ramchal orders a presentation (§12, Order): the general before the particular, the known before the unknown.
 - **`note`** carries the reasoning: why this leaf and not its neighbour, which `test ·` line decided it, what was retracted.
 - **Ids** are mnemonic where the passage has natural names (`abaye`, `t1-ask`), ordinal where it does not (`"1"`, `"2"`). Never reuse one.
@@ -771,7 +807,7 @@ Composites (Ch 10, p214): `ascribed-proof` — an הגדה carrying an הוכח�
 
 ### B · Form — one normalized proposition
 
-Every utterance reduces to **subject** (נושא) + **predicate** (נשוא) + **manner of predication**. The subject and predicate are the words themselves → `spans`: `subject`, `predicate`, as ranges into `he` / `en`, never copied (§2.5). The paraphrase in words → `ext.form.normalized`.
+Every utterance reduces to **subject** (נושא) + **predicate** (נשוא) + **manner of predication**. The subject and predicate are the words themselves → `spans`: `subject`, `predicate`, as ranges into `he` / `en`, never copied (§2.5); quiet by default, `{ words, showLoud: true }` only where the argument turns on the span. The paraphrase in words → `ext.form.normalized`.
 
 Quantity of subject (p22–24) → `anatomy`: `categorical` כולל · `particular` פרטי (one individual) · `partial` קצתי (some of a class) · `unqualified` סתמי (no quantifier — **read as categorical**).
 
@@ -827,7 +863,7 @@ Phrasing arguments (`אם כן לימא קרא X` · `X מיבעי ליה` · `�
 
 `sevara` סברא: inclines when arguments balance; never establishes alone → icon `theory` in `anatomy`; keep `ext.warrant.kind: "sevara"`.
 
-Aspects (p148–150), the respect in which P is said of S: `aspect/proprium` מה שבסגולתו → `anatomy`, row-level, `inseparable-property` · `aspect/accident` מה שבמקריו → `anatomy`, row-level, `contingent-attribute` · `aspect/essence` מה שבעצמו and `aspect/relation` מה שביחסו אל זולתו → `ext.warrant.aspect`, until they have drawings. Modality (p154) → `anatomy`, row-level: `potential` בכח · `actual` בפועל. **Chaining requires equal aspect and equal modality.**
+Aspects (p148–150), the respect in which P is said of S: `aspect/proprium` מה שבסגולתו → `anatomy`, row-level, `inseparable-property` · `aspect/accident` מה שבמקריו → `anatomy`, row-level, `contingent-attribute` · `aspect/essence` מה שבעצמו and `aspect/relation` מה שביחסו אל זולתו → `ext.warrant.aspect`, until they have drawings. Modality (p154) → `anatomy`, row-level: `potential` בכח · `actual` בפועל. **Chaining requires equal aspect and equal modality**, and that is when to write them: only where the passage turns on the respect or the modality, never because a predicate happens to attach that way.
 
 Stylistic objections (p156–158) → `ext.warrant.kind` on a `difficulty/objection`: whole — `style/obvious` פשיטא (answered by סלקא דעתך); parts — `style/redundant` הא תו למה לי · `style/self-contradictory` הא גופא קשיא · `style/order-context` תנא היכא קאי · `style/order-combine` ליערבינהו וליתנינהו · `style/order-inconsistent` פתח בכד וסיים בחבית.
 
@@ -2663,7 +2699,7 @@ Two more from the book — a place test and a homonym test applied to real pairs
 - he · `להכיר השמות הנרדפים … וכן המאמרים הנרדפים, דהינו שמלותיהם שונות וענינם אחד. כי הנה יקרה לפעמים שיהיו שני מאמרים סותרים זה את זה או מוכיחים זה על זה, ולא ירגיש בהם השכל בתחילת התבוננותו`
 - means · The homonym's converse. Two statements name one subject or matter in different words, or in a different order of words, so that a real opposition or a real agreement is hidden by the wording. Where `homonym` dissolves an apparent clash (one word, two meanings), this one *uncovers* a relation the words concealed (two words, one thing). Ramchal's two examples are one of each: `קדשי מזבח אין להם פדיון` against `הקרבנות יש להם פדיון` — different names, one subject, so they oppose; `משקין בי מדבחיא דכן` beside `השמן והדם והיין והמים טהורים` — the genus and its species, so they say the same thing.
 - test · Would the two statements have been seen to relate at once if the same word stood in both? → `synonymous-terms`, beside the relation it uncovers (`diametrically-opposed`, `equivalent`…). The related chapter 11 badge is `kind-species` when the synonymy is genus for species.
-- file · `anatomy[].kind: "synonymous-terms"`, edge-level, on the unit whose move targets the other statement, beside the relation. Filed with the relations; its chapter is 10.
+- file · `anatomy[].kind: "synonymous-terms"`, edge-level, beside the relation it uncovers. Where two units simply name one thing in different words, it goes on the later one, whose move targets the earlier. In the corpus it has almost always been *asserted* by a third sentence — a resolution or an `אלא` that says the two words are one act, `האי נגיפה נגיחה היא`, `נגהי` for `לילי`, `״הכאה״–״הכאה״ קאמרינן` — and then it goes on that asserting unit, which has a target; the pair it joins may be earlier units or two words inside the unit itself. Filed with the relations; its chapter is 10.
 
 ```json
 [
@@ -3037,7 +3073,10 @@ A predicate is said of a subject *in some respect*. Terms that match as strings 
 - `aspect/relation` — מה שביחסו אל זולתו · holds only with respect to another subject · similar/dissimilar, agent/patient, father/son, north of; the relational categories: relation, time, situation, possession, position.
 
 - Rule · A claim in one respect neither yields nor blocks a conclusion in another. Pesachim 19b `עזרה רשות הרבים היא` holds for doubtful impurity; it does not make carrying four cubits there a Shabbos liability, and a claim that the עזרה is רשות היחיד for Shabbos does not contradict it. Sifri Naso 5:13 `כשבא איסור הקל על איסור הקל – אסר את אוסריו`: אשת איש is *lighter* than חמותו in the respect of having a release (divorce, death) and *heavier* in the respect of punishment (Yebamos 94b — strangulation vs burning reducible to excision), so an a fortiori between them fails (`fallacy-not-greater`). Specific texts index on whatever respect does the work — a legal domain, a purpose; the four are the general schema. Unknown respect → `null`.
-- file · two of the four are row-level `anatomy` kinds since 2026-09-20, under the book's own names: `aspect/proprium` is **`inseparable-property`** מה שבסגלתו (a short chain binding the property to its subject) and `aspect/accident` is **`contingent-attribute`** מה שבמקריו (two identical subjects, one with the property and one without). They sit with the statement's anatomy, not with the grounds, because they say how one sentence's predicate attaches — as `potential` and `actual` do. `aspect/essence` and `aspect/relation` have no drawing yet and stay pending in `ext.warrant.aspect`; do not write a kind for them, and do not use the chapter 11 `essence-definition` or `subject-relation` in their place — those say *which feature of the subject is discussed*, not *in what respect the predicate is said*. When two statements are shown to be in different respects, the edge kind `differs-in-context` carries the relation; the aspect names which respect each is in.
+- file · two of the four are row-level `anatomy` kinds since 2026-09-20, under the book's own names: `aspect/proprium` is **`inseparable-property`** מה שבסגלתו (a short chain binding the property to its subject) and `aspect/accident` is **`contingent-attribute`** מה שבמקריו (two identical subjects, one with the property and one without). They sit with the statement's anatomy, not with the grounds, because they say how one sentence's predicate attaches — as `potential` and `actual` do. **Write either only where the passage turns on the respect** — a chain that fails, or a clash that dissolves, *because* the predicate is said as a property or as an accident (Yebamos 104b: the disqualification moved from the essence, speech, to a property the mute lacks, understanding). A predicate that merely happens to be a proprium or an accident, with nothing in the argument resting on that, gets no badge; the same holds for `potential` and `actual`. `aspect/essence` and `aspect/relation` have no drawing yet and stay pending in `ext.warrant.aspect`; do not write a kind for them, and do not use the chapter 11 `essence-definition` or `subject-relation` in their place — those say *which feature of the subject is discussed*, not *in what respect the predicate is said*. When two statements are shown to be in different respects, the edge kind `differs-in-context` carries the relation; the aspect names which respect each is in.
+- **Be very judicious — the default is no label.** Nearly every predicate in Shas is, on inspection, either a property that always accompanies its subject or an accident that could be otherwise; if the classifier writes `inseparable-property` or `contingent-attribute` whenever that is *true*, it will write one on almost every statement and the badges will say nothing. Write one **only when the passage actually turns on the respect** — when a move in the passage *does something with it*. Concretely, either (a) a resolution or a deflection dissolves an apparent clash by moving the predicate from one respect to another (the disqualification is not in the essence but in a property; the ruling is about an accident the counter-case lacks), or (b) a proof, analogy or chain is shown to fail because its two statements are in different respects. If neither happens *in the text*, write nothing, however plainly the predicate is a proprium or an accident. Ask: *if I delete this label, does the reader lose anything about how the argument works?* If not, delete it. The same standard governs `potential` / `actual`.
+  - Written, rightly: Yebamos 104b — the baraita disqualifies a חרש's chalitzah; the שינוי moves the disqualification from the essence (speech, which the mute also lacks) to a property the mute has, understanding. The respect *is* the resolution. `inseparable-property` on the שינוי.
+  - Not written, rightly: Yebamos 112b — the deaf-mute's capacity to keep rabbinic ordinances is a proprium of the class, but the answer simply gives it as the reason; nothing in the passage turns on its being a proprium rather than an essence. Berachos 4a — Yaakov's fear is an accident of Yaakov, but the settlement dissolves the clash by merit versus sin, not by essence versus accident. Both labels were written by a first pass on 2026-09-20 and removed under this rule.
 
 ```json
 [
@@ -3174,7 +3213,7 @@ Two units per axis, from the book's examples and the calibration battery (`[cons
   { "id": "x2a", "he": "שני עורות יש לו לושט.", "en": "The oesophagus has two skins.", "move": { "element": "statement", "subtype": "firsthand" }, "provenance": "sense", "anatomy": [{ "kind": "subject-parts" }] },
   { "id": "x2b", "he": "המנורה — קנה, גביעים, כפתורים ופרחים.", "en": "The menorah: a shaft, cups, knobs and flowers.", "move": { "element": "statement", "subtype": "firsthand" }, "provenance": "tradition", "anatomy": [{ "kind": "compound" }, { "kind": "subject-parts" }] },
   { "id": "x3a", "he": "חיצון אדום, ופנימי לבן.", "en": "The outer is red and the inner white.", "move": { "element": "statement", "subtype": "firsthand" }, "provenance": "sense", "anatomy": [{ "kind": "subject-quality" }] },
-  { "id": "x3b", "he": "החלב — לבן, והדם — אדום.", "en": "Milk is white and blood is red.", "move": { "element": "statement", "subtype": "firsthand" }, "provenance": "sense", "anatomy": [{ "kind": "compound" }, { "kind": "subject-quality" }] },
+  { "id": "x3b", "he": "החלב — לבן, והדם — אדום.", "en": "Milk is white and blood is red.", "move": { "element": "statement", "subtype": "firsthand" }, "provenance": "sense", "anatomy": [{ "kind": "subject-quality", "note": "Two subjects with two different predicates: not Ramchal's compound, which is several predicates of one subject or one predicate of several (Heb p33). Two statements in one breath, each labelled for its quality." }] },
   { "id": "x4a", "he": "מקדש שש עשרה אמה לכל רוח.", "en": "It consecrates sixteen cubits in every direction.", "move": { "element": "statement", "subtype": "firsthand" }, "provenance": "tradition", "anatomy": [{ "kind": "subject-quantity" }] },
   { "id": "x4b", "he": "סוכה שאין בה עשרה טפחים — פסולה.", "en": "A sukkah less than ten handbreadths high is invalid.", "move": { "element": "statement", "subtype": "firsthand" }, "provenance": "tradition", "anatomy": [{ "kind": "subject-quantity" }] },
   { "id": "x5a", "he": "כלי חרס — אינו מטמא מגבו; כלי מתכת — מטמא מגבו.", "en": "An earthenware vessel does not contract impurity from its outside; a metal vessel does.", "move": { "element": "statement", "subtype": "firsthand" }, "provenance": "tradition", "anatomy": [{ "kind": "preclusive" }, { "kind": "subject-material" }, { "kind": "subject-difference" }] },
@@ -4108,8 +4147,8 @@ Pesachim 16a / 17b, the whole shape (shipped as `pesachim-liquids.json`): R. Ele
 3. **One unit, one move, one target.** Sentences holding two moves are split (§6, §16); the split is explained in `note` or `about`.
 4. **`provenance` filled wherever known** — `tradition` on every Mishnah, baraita and verse; `asserted` on a rabbi's own ruling; `derivation` on reasoning. The default is `asserted`, and a defaulted proof-text reads *doubt* instead of *accepted*.
 5. **`marker` copied exactly** from `markers.ts` where the phrase appears; `attested: true` only where Ramchal labels this passage; neither otherwise.
-6. **Every `anatomy.kind` is one of the hundred and twenty**; row kinds describe the unit, edge kinds describe its relation to its `target`; `basis: marked` only when the phrase is in the text; a `note` on any label that is not obvious. Write `variant` vs `variant-subjects` by which term changes; write `via-opposite`, `dilemma`, `ground-does-not-reach`, `theory` for the warrant kinds that have those icons; `inseparable-property` and `contingent-attribute` for the two respects that have them; a compound's branch (`compound-equal`, `compound-known-novel`, or an order) where it can be told, and `hyperbole` where the non-literal device is exaggeration; do not write a derived ground that `provenance` already implies, and write `ground-natural` / `ground-convention` only where the child cannot be told.
-7. **Every span indexes its own text.** Roles are the seven of §2.5; ranges are `"3"` or `"2-4"`, counted by whitespace tokens from 1 against the `he` or `en` they index; a role that occurs more than once is a list; no span on a text the unit has not got. Spans where the passage turns on them, not everywhere; never a copy of the words into a field.
+6. **Every `anatomy.kind` is one of the hundred and twenty**; row kinds describe the unit, edge kinds describe its relation to its `target`; `basis: marked` only when the phrase is in the text; a `note` on any label that is not obvious. Write `variant` vs `variant-subjects` by which term changes; write `via-opposite`, `dilemma`, `ground-does-not-reach`, `theory` for the warrant kinds that have those icons; `inseparable-property` and `contingent-attribute` **only** where a move in the passage turns on the respect (§11) — never because the predicate happens to be a proprium or an accident, or the badge is on every statement in Shas; a compound's branch (`compound-equal`, `compound-known-novel`, or an order) where it can be told, and `hyperbole` where the non-literal device is exaggeration; do not write a derived ground that `provenance` already implies, and write `ground-natural` / `ground-convention` only where the child cannot be told.
+7. **Every span indexes its own text.** Roles are the seven of §2.5; ranges are `"3"` or `"2-4"`, counted by whitespace tokens from 1 against the `he` or `en` they index; a role that occurs more than once is a list; no span on a text the unit has not got. Spans where the passage turns on them, not everywhere; never a copy of the words into a field. **`showLoud: true` only on the rare span the sugya's logic hangs on** — if more than a few spans in a passage are loud, most of them are not.
 8. **`ext` carries only what has no home** — `form.normalized`, `form.elucidationOf`, `relation`, `warrant`, `inference`, `move` under their guide names; not `axis`, `priority` or `move.composite`, which are `anatomy` kinds now; not `form.subject`, `form.predicate` or `form.parts`, which are `spans` now; not `warrant.modality`, which is `potential` / `actual`; `ext.move.targets` lists every target with the primary first; nothing in `ext` duplicates a present field.
 9. **`תיובתא` paired** with a `contradiction/direct` on the same target; `sevara` noted as weak; a rebuttal's `ext.warrant.kind` is `rebuttal/*` and what it leans on is a premise.
 10. **The reducer's verdict matches the source's.** Trace §13 by hand for the claim the passage is about; where the Talmud closes with `והלכתא`, `תיובתא`, or a last word standing, the file must draw the same status. Where it cannot (a placeholder effect, a tiebreak), `about` says so.

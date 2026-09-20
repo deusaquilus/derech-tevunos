@@ -10,6 +10,7 @@ import { RailLayer } from "./components/RailLayer.tsx";
 import { RevealRail } from "./components/RevealRail.tsx";
 import { StateOfPlay } from "./components/StateOfPlay.tsx";
 import { UnitRow } from "./components/UnitRow.tsx";
+import { useDetailedSpans } from "./hooks/useDetailedSpans.ts";
 import { SugyaHeader } from "./SugyaHeader.tsx";
 import { useSugyaController, type ControllerOptions } from "./useSugyaController.ts";
 
@@ -108,7 +109,11 @@ export const SugyaView = ({ sugya, hint, header, legendHost, options, footExtra 
     : undefined;
   // Only when a rail can appear: the switch changes nothing on a short passage.
   const legendFold = lanes > 1 ? { threads: foldPolicy.threads, onToggle: foldPolicy.setThreads } : undefined;
-  const legend = <LegendBar anatomy={legendAnatomy} fold={legendFold} />;
+  // Only when a sentence carries a span: the switch changes nothing otherwise.
+  const detailedSpans = useDetailedSpans();
+  const hasSpans = sugya.units.some((u) => u.spans !== undefined);
+  const legendSpans = hasSpans ? { on: detailedSpans.on, onToggle: detailedSpans.setOn } : undefined;
+  const legend = <LegendBar anatomy={legendAnatomy} fold={legendFold} spans={legendSpans} />;
 
   return (
     <article className={`sheet${long ? " sheet-long" : ""}`}>
@@ -205,6 +210,7 @@ export const SugyaView = ({ sugya, hint, header, legendHost, options, footExtra 
                       beadDrawn={hasBead(unit.id)}
                       hinted={hotBead === unit.id}
                       onEdgeHover={(on) => hoverEdge(on ? unit.id : undefined)}
+                      detailedSpans={detailedSpans.on}
                     />
                   </Fragment>
                 );

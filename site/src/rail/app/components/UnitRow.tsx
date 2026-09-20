@@ -71,6 +71,8 @@ export type UnitRowProps = {
   /** The pointer is on that bead, so the chip says where the explanation is. */
   readonly hinted?: boolean;
   readonly onEdgeHover?: (on: boolean) => void;
+  /** The legend's "Detailed spans": every span drawn the loud way, not only the loud ones. */
+  readonly detailedSpans?: boolean;
 };
 
 const BASIS_NOTE: Record<ReturnType<typeof labelBasis>, string | undefined> = {
@@ -112,6 +114,7 @@ export const UnitRow = ({
   beadDrawn = false,
   hinted = false,
   onEdgeHover,
+  detailedSpans = false,
 }: UnitRowProps): JSX.Element => {
   const leaf = describe(unit.move);
   const basis = labelBasis(unit);
@@ -287,9 +290,9 @@ export const UnitRow = ({
           </span>
         ) : null}
 
-        <SpannedText text={unit.en} spans={unit.spans?.en} className="row-text" />
+        <SpannedText text={unit.en} spans={unit.spans?.en} detailed={detailedSpans} className="row-text" />
         {unit.he === undefined ? null : (
-          <SpannedText text={unit.he} spans={unit.spans?.he} className="row-hebrew" lang="he" dir="rtl" />
+          <SpannedText text={unit.he} spans={unit.spans?.he} detailed={detailedSpans} className="row-hebrew" lang="he" dir="rtl" />
         )}
       </div>
 

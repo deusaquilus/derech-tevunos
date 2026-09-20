@@ -836,9 +836,20 @@ commitments (סוף גזרתו) a challenge can defeat one at a time — as 1-ba
 word ranges into `he` or `en` (`"2-4"`, or a list), never as copies of the
 text. `site/src/rail/spans.ts` holds the seven roles, the word rule
 (whitespace tokens; punctuation stays with its word) and the cut the row
-draws; `SpannedText.tsx` underlines the words in the role's hue and names the
-role on hover. The reader checks every range against its text's word count.
-`berachos-yaakov` is the one shipped passage that carries them. The design
+draws; `SpannedText.tsx` draws them in two weights, and both are whispers:
+a span is **quiet** by default — a hairline dotted mark in a taupe mixed from
+`--border` toward the paper, no hue, named on hover — and **loud** only when
+the file marks it `{ "words": …, "showLoud": true }`, which the guide tells
+the classifier to do only for the rare span the argument hangs on; loud is
+the same hairline at 22% of the role's hue, which is what quiet was before
+the two weights were both pulled down a step on 2026-09-20 (the author's
+rule: the mechanism must not interrupt the reader). No fill, no thicker
+line, no solid underline on hover. The legend's *Detailed spans* checkbox
+(beside *Ramchal's anatomy*, remembered like it) draws every span the loud
+way. The popup is minimal and a click expands it. The reader checks every
+range against its text's word count. After the 2026-09-20 reclassification
+pass, 24 units across ten passages carry spans and six spans on three units
+are loud. The design
 choice to record: these constructs are pieces of the sentence, not vocabulary
 words, so they are pointers into text the file already has and can neither
 bloat nor drift; the paraphrase *S has P in manner M* stays in

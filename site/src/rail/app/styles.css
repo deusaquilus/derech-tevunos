@@ -736,18 +736,35 @@
 }
 
 /* --- word-span roles: which words are the subject, the predicate, a premise…
-   A run of words in a role is underlined in the role's hue (set inline from
-   the palette) and explains itself on hover. The tooltip anchor is `display:
-   inline`, not the `.tip` default of inline-flex: an atomic inline box would
-   stop the phrase from breaking across lines, and a sentence must wrap as it
-   always did. Two roles on one word (a subject that is also a commitment)
-   thicken the line rather than draw two. */
+   Two weights, and both are whispers: the whole mechanism must not interrupt
+   a reader who came for the sentence. A QUIET span — the default and almost
+   every span — is a hairline dotted line in a taupe mixed from the rule
+   colour toward the paper, so it nearly blends into the sheet; it carries no
+   hue at all, and on hover it only darkens toward `--muted` while the popup
+   names it. A LOUD span — one the file marks `showLoud`, or every span when
+   the legend's "Detailed spans" is on — is the same hairline at a fraction of
+   the role's hue (`--span-hue`, set inline from the palette): what quiet was
+   before 2026-09-20, when the two weights were both pulled down a step. No
+   fill, no thicker line, no solid underline on hover: a reader who does not
+   know a span is there should read the sentence exactly as before, and one
+   who does should have to look for it. The tooltip anchor is
+   `display: inline`, not the `.tip` default of inline-flex: an atomic inline
+   box would stop the phrase from breaking across lines, and a sentence must
+   wrap as it always did. */
 .row-span {
   text-decoration: underline dotted;
-  text-decoration-thickness: 1.5px;
+  text-decoration-thickness: 1px;
   text-underline-offset: 3px;
-  border-radius: 2px;
-  transition: background-color 120ms ease;
+  cursor: default;
+  transition: text-decoration-color 120ms ease;
+}
+
+.row-span-loud {
+  text-decoration-color: color-mix(in srgb, var(--span-hue) 22%, transparent);
+}
+
+.row-span-quiet {
+  text-decoration-color: color-mix(in srgb, var(--border) 60%, var(--surface));
 }
 
 .row-span-tip {
@@ -760,14 +777,35 @@
   direction: ltr;
 }
 
-.row-span-tip:hover .row-span,
-.row-span-tip:focus-within .row-span {
-  background: color-mix(in srgb, currentColor 8%, transparent);
-  text-decoration-style: solid;
+.row-span-tip:hover .row-span-loud,
+.row-span-tip:focus-within .row-span-loud {
+  text-decoration-color: color-mix(in srgb, var(--span-hue) 55%, transparent);
 }
 
-.row-span-commitment {
-  text-decoration-thickness: 2px;
+.row-span-tip:hover .row-span-quiet,
+.row-span-tip:focus-within .row-span-quiet {
+  text-decoration-color: color-mix(in srgb, var(--muted) 45%, var(--surface));
+}
+
+/* The minimal popup: a name, a small icon for a loud span, and the invitation to click. */
+.row-span-tip-min {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  white-space: nowrap;
+}
+
+.row-span-tip-min-role {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-weight: 600;
+}
+
+.row-span-tip-more {
+  color: var(--muted);
+  font-size: 10.5px;
+  font-style: italic;
 }
 
 .row-span-tip-role {

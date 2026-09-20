@@ -39,7 +39,7 @@ Nothing outside these lists is valid outside `ext`. The reader refuses an unknow
 
 **`anatomy[].kind`**: one of the hundred and twenty in guide §3.3, each with `basis` `marked` or `inferred`. Optional. Leave it out rather than guess.
 
-**`spans`** (guide §2.5): which words of `he` / `en` are the `subject`, `predicate`, `antecedent`, `consequent`, `premise`, `conclusion` or a `commitment`, as word ranges — `"3"`, `"2-4"`, or a list — counted by whitespace tokens from 1. Optional; never a copy of the words. Write them where the passage turns on the split, not on every sentence.
+**`spans`** (guide §2.5): which words of `he` / `en` are the `subject`, `predicate`, `antecedent`, `consequent`, `premise`, `conclusion` or a `commitment`, as word ranges — `"3"`, `"2-4"`, or a list — counted by whitespace tokens from 1. Optional; never a copy of the words. Write them where the passage turns on the split, not on every sentence. A span is **quiet by default** (the page shows the faintest mark); write `{ "words": "2-4", "showLoud": true }` **only** for the rare span the sugya's logic hangs on — most passages have none.
 
 ## The smallest valid file
 
@@ -61,18 +61,34 @@ Nothing outside these lists is valid outside `ext`. The reader refuses an unknow
 
 Required: `format`, `version`, `id`, `title`, `tractate`, `folio`, `discussedAt`, `units`; per unit `id`, `en`, `move`; per move `element`, `subtype`. For a passage Ramchal does not discuss, `discussedAt` says so: `"Not discussed in Derech Tevunos; labelled from the markers of ch. 9"`.
 
-A unit with everything the page can show:
+A unit with everything the page can show — the answer from that file, verbatim (its `spans` are quiet, as spans almost always are):
 
 ```json
 {
   "id": "answer",
   "speaker": "The Gemara",
-  "he": "חרש וחרשת דקימא תקנתא דרבנן – תקינו להו רבנן נשואין …",
-  "en": "Since deaf-mutes can keep rabbinic ordinances, the rabbis validated their marriage; the insane cannot, so they did not.",
+  "he": "חרש וחרשת דקימא תקנתא דרבנן – תקינו להו רבנן נשואין, שוטה ושוטה דלא קימא תקנתא דרבנן – לא תקינו רבנן נשואין",
+  "en": "Since deaf-mutes are capable of fulfilling rabbinical ordinances, the rabbis validated their marriage. The insane are incapable, so the rabbis did not.",
   "move": { "element": "answer", "subtype": "answer", "target": "question", "attested": true },
   "provenance": "derivation",
-  "anatomy": [{ "kind": "consequent", "note": "Since they can keep rabbinic ordinances, the rabbis validated their marriage: this, so that." }],
-  "note": "Ramchal's own illustration of תשובה, ch. 9 p. 172."
+  "anatomy": [
+    { "kind": "consequent", "note": "Since they can keep rabbinic ordinances, the rabbis validated their marriage: this, so that." },
+    {
+      "kind": "subject-quality",
+      "note": "The difference the question asked for is located in a faculty — whether a rabbinic ordinance can hold of them at all. The answer does not distinguish the two by what they are but by what they can do."
+    }
+  ],
+  "spans": {
+    "he": {
+      "antecedent": ["1-5", "11-16"],
+      "consequent": ["7-10", "18-21"]
+    },
+    "en": {
+      "antecedent": ["1-8", "14-17"],
+      "consequent": ["9-13", "19-22"]
+    }
+  },
+  "note": "Two consequent statements in one breath, one for each class, so the antecedent and the consequent each occur twice and take a list; the two dashes carry the dependence and belong to no role, as `לפיכך` does in Ramchal's own example (Heb p39). The spans are written because the form is a `consequent`, whose two clauses chapter 3 names (Heb p31) and whose three intentions chapter 6 counts (Heb p87–89), not because a difficulty lands on one part: none does, so the `commitment` spans are not written."
 }
 ```
 
@@ -85,6 +101,7 @@ Whatever has no field yet (the normalized paraphrase, premises that are not word
 - Do not write status, standing, depth, folds or a verdict. All of them are derived from `units`.
 - `marker` is a signpost of the *move* (`תא שמע`, `אלא`, `מאי שנא … ומאי שנא`), not a phrase that happens to occur in the sentence. `attested: true` only where Ramchal himself labels this sentence of this passage.
 - Never invent a key or a value. If no leaf fits, take the nearest and say so in `note`.
+- `inseparable-property`, `contingent-attribute`, `potential`, `actual` are written **only when the passage turns on the respect or the modality** — a clash dissolved or a chain broken *by* it. Nearly every predicate in Shas is a proprium or an accident; that is never a reason to label it. Default: no label (guide §11, Aspects).
 - A non-Talmudic text works the same way with no markers: every label is inferred by the structural tests (§18 is a worked dialogue).
 
 ## Validating without the page

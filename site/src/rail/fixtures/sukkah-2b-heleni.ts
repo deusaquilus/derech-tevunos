@@ -143,6 +143,11 @@ export const sukkahHeleni: Sugya = {
         { kind: "might-have-thought", basis: "marked", note: "`כי תאמרו`: the clause is there to shut out a view one might have held — that they were all minors. Ramchal's answer to `פשיטא`, in its `מהו דתימא` form." },
         { kind: "subject-quantity", note: "Seven does the work: no claim is made about any particular son, only that a count that high cannot be all infants." },
       ],
+      spans: {
+        he: { premise: [{ from: 15, to: 16 }], conclusion: [{ from: 17, to: 25 }] },
+        en: { premise: [{ from: 21, to: 23 }], conclusion: [{ from: 24, to: 39 }] },
+      },
+      note: "The deduction is spelt out inside the one sentence, so its two roles are words of it (Heb p93: `המאמר הראשון שממנו ימשך השני נקרא הקדמה, והנמשך נקרא תולדה`): `שבעה הוו` is the premise and everything after it the conclusion. `כיון ד` is the connective and belongs to neither. The clause before the dash is the view being shut out, not a premise of the settlement.",
     },
     {
       id: "derabbanan",

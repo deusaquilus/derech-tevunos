@@ -29,8 +29,27 @@
         {
           "kind": "unqualified",
           "note": "`המביא` — whoever brings one. No quantity is stated, so by Ramchal's rule it carries the force of a categorical, which is what lets the whole sugya argue from single cases."
+        },
+        {
+          "kind": "compound-equal",
+          "basis": "marked",
+          "note": "`בפני … ובפני …`: two things the bearer must declare, written before him and signed before him, said in one breath and in parallel. Ramchal's first branch of the conjoined compound, `בהשואה אחת` (Heb p33): neither clause is offered as the case already known and neither as the news — his known-and-novel branch needs `לא זו אף זו` or `ואין צריך לומר`, and the mishnah ranks nothing. The two clauses are the two commitments, and the second half of the sugya is an argument over them: `מי קתני בפני נכתב לשמה`, `בפני נחתם ותו לא; בפני נכתב למה לי`, and the closing `מאן האי תנא` that requires both. That one of them would be redundant under Rava's reason is a charge of superfluity, not Ramchal's `שכבר נודע`."
         }
-      ]
+      ],
+      "spans": {
+        "he": {
+          "commitment": {
+            "words": ["7-8", "9-10"],
+            "showLoud": true
+          }
+        },
+        "en": {
+          "commitment": {
+            "words": ["13-15", "17-19"],
+            "showLoud": true
+          }
+        }
+      }
     },
     {
       "id": "q-taama",
@@ -79,10 +98,15 @@
       "provenance": "derivation",
       "anatomy": [
         {
-          "kind": "compound",
-          "note": "Three cases joined: two bearers, province to province inside the Land, one province to another abroad. Each is a case where one reason holds and the other does not."
+          "kind": "compound-equal",
+          "note": "Three cases joined: two bearers, province to province inside the Land, one province to another abroad. Each is a case where one reason holds and the other does not. One predicate — here the reasons part — of three subjects, which is Ramchal's `נשוא אחד בשני נושאים או יותר`, and on his first branch, `בהשואה אחת` (Heb p33): the Gemara's `אי נמי` lists a further case of the same standing, where the known-and-novel branch would need one case to be the expected one and another the point. The Hebrew carries only the first case, so the three commitments are indexed in the English alone."
         }
-      ]
+      ],
+      "spans": {
+        "en": {
+          "commitment": ["1-2", "3-8", "9-12"]
+        }
+      }
     },
     {
       "id": "q-rabbah-trei",
@@ -272,7 +296,18 @@
       "he": "בדין הוא דליתני הכי, אלא דאי מפשת ליה דיבורא אתי למגזייה",
       "en": "It should have; but a longer formula would be clipped",
       "move": { "element": "resolution", "subtype": "settlement", "target": "q-verabbah", "marker": "בדין הוא ד… אלא ד", "attested": false },
-      "provenance": "derivation"
+      "provenance": "derivation",
+      "anatomy": [
+        {
+          "kind": "hypothetical",
+          "basis": "marked",
+          "note": "`דאי … אתי ל…`: were the formula longer, he would clip it — only the dependence is asserted, and `q-hashta` denies exactly that dependence."
+        }
+      ],
+      "spans": {
+        "he": { "antecedent": "6-9", "consequent": "10-11" },
+        "en": { "antecedent": "5-7", "consequent": "8-10" }
+      }
     },
     {
       "id": "q-hashta",
@@ -319,7 +354,17 @@
           "kind": "via-opposite",
           "note": "`שמע מינה בעינן לשמה` — the conclusion is drawn from the other side's failure, not from anything said for this one. Ramchal allows the indirect route only where the two leave nothing between them (Eng p116–118); the sugya is treating Rabbah's reason and Rava's as the only two on offer, which is the assumption the rest of the page then tests."
         }
-      ]
+      ],
+      "spans": {
+        "he": {
+          "premise": ["1-7", "8-11"],
+          "conclusion": "14-15"
+        },
+        "en": {
+          "premise": ["1-7", "8"],
+          "conclusion": "10-15"
+        }
+      }
     },
     {
       "id": "q-verava",
@@ -334,7 +379,18 @@
       "he": "בדין הוא דליתני הכי, אלא דאם כן אתי לאיחלופי בקיום שטרות דעלמא",
       "en": "It should have; but it would be confused with ordinary ratification by one witness",
       "move": { "element": "resolution", "subtype": "settlement", "target": "q-verava", "marker": "בדין הוא ד… אלא ד", "attested": false },
-      "provenance": "derivation"
+      "provenance": "derivation",
+      "anatomy": [
+        {
+          "kind": "hypothetical",
+          "basis": "marked",
+          "note": "`דאם כן אתי לאיחלופי`: were it taught so, it would be confused with ordinary ratification — the dependence alone is asserted."
+        }
+      ],
+      "spans": {
+        "he": { "antecedent": "6-7", "consequent": "8-12" },
+        "en": { "consequent": "5-14" }
+      }
     },
     {
       "id": "q-mi-dami",

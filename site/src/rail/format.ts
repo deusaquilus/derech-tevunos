@@ -25,12 +25,15 @@
 
 import { ANATOMY_KEYS, BASES, PARTIES, type AnatomyKey, type Annotation, type Party } from "./anatomy.ts";
 import {
+  isLoud,
   parseRange,
   printRange,
   rangeFault,
+  rangesOf,
   SPAN_ROLES,
   SPAN_TEXTS,
   wordCount,
+  type RoleSpan,
   type RoleSpans,
   type SpanRole,
   type Spans,
@@ -74,7 +77,14 @@ export type AnnotationJson = {
  */
 export type RangesJson = string | readonly string[];
 
-export type RoleSpansJson = Readonly<Partial<Record<SpanRole, RangesJson>>>;
+/**
+ * A role's span on disk. Quiet — the default, and almost every span — is the
+ * bare ranges. Loud, the rare span the passage's logic turns on, is an object
+ * carrying `showLoud: true` beside its `words`.
+ */
+export type RoleSpanJson = RangesJson | { readonly words: RangesJson; readonly showLoud: boolean };
+
+export type RoleSpansJson = Readonly<Partial<Record<SpanRole, RoleSpanJson>>>;
 
 export type SpansJson = Readonly<Partial<Record<SpanText, RoleSpansJson>>>;
 
@@ -114,6 +124,7 @@ const SUGYA_FIELDS = ["$schema", "format", "version", "id", "title", "tractate",
 const UNIT_FIELDS = ["id", "speaker", "short", "he", "en", "move", "provenance", "anatomy", "spans", "note", "ext"] as const;
 const MOVE_FIELDS = ["element", "subtype", "target", "marker", "attested"] as const;
 const ANNOTATION_FIELDS = ["kind", "basis", "note"] as const;
+const LOUD_SPAN_FIELDS = ["words", "showLoud"] as const;
 
 // --- reading ------------------------------------------------------------------
 
@@ -287,7 +298,21 @@ const readRanges = (raw: unknown, count: number, path: string, faults: Faults): 
   return ranges.every((r): r is WordRange => r !== undefined) ? ranges : undefined;
 };
 
-/** The spans of one text: role → ranges, every role one of the seven. */
+/**
+ * One role's span: the bare ranges (quiet), or `{ words, showLoud }`. A
+ * `showLoud: false` is allowed and means quiet; the writer drops the object.
+ */
+const readRoleSpan = (raw: unknown, count: number, path: string, faults: Faults): RoleSpan | undefined => {
+  if (!isRecord(raw)) return readRanges(raw, count, path, faults);
+  unknownKeys(raw, LOUD_SPAN_FIELDS, path, faults);
+  if (raw["words"] === undefined) return fault(faults, `${path}.words: required`);
+  const ranges = readRanges(raw["words"], count, `${path}.words`, faults);
+  const loud = boolean(raw, "showLoud", path, faults);
+  if (ranges === undefined) return undefined;
+  return loud === true ? { ranges, showLoud: true } : ranges;
+};
+
+/** The spans of one text: role → span, every role one of the seven. */
 const readRoleSpans = (raw: unknown, text: string, path: string, faults: Faults): RoleSpans | undefined => {
   if (!isRecord(raw)) {
     faults.push(`${path}: expected an object { subject, predicate, … }, got ${show(raw)}`);
@@ -298,11 +323,11 @@ const readRoleSpans = (raw: unknown, text: string, path: string, faults: Faults)
   const entries = SPAN_ROLES.flatMap((role) => {
     const value = raw[role];
     if (value === undefined) return [];
-    const ranges = readRanges(value, count, `${path}.${role}`, faults);
-    return ranges === undefined ? [undefined] : [[role, ranges] as const];
+    const span = readRoleSpan(value, count, `${path}.${role}`, faults);
+    return span === undefined ? [undefined] : [[role, span] as const];
   });
   if (entries.some((e) => e === undefined)) return undefined;
-  return Object.fromEntries(entries.filter((e): e is readonly [SpanRole, readonly WordRange[]] => e !== undefined)) as RoleSpans;
+  return Object.fromEntries(entries.filter((e): e is readonly [SpanRole, RoleSpan] => e !== undefined)) as RoleSpans;
 };
 
 /**
@@ -461,12 +486,16 @@ const annotationJson = (a: Annotation): AnnotationJson => ({
 const rangesJson = (ranges: readonly WordRange[]): RangesJson =>
   ranges.length === 1 ? printRange(ranges[0]!) : ranges.map(printRange);
 
+/** A quiet span is its ranges; a loud one wears `showLoud: true` beside its `words`. */
+const roleSpanJson = (span: RoleSpan): RoleSpanJson =>
+  isLoud(span) ? { words: rangesJson(span.ranges), showLoud: true } : rangesJson(rangesOf(span));
+
 /** Roles in the order `SPAN_ROLES` gives them, texts in the order `he`, `en`, so a file is canonical. */
 const roleSpansJson = (spans: RoleSpans): RoleSpansJson =>
   Object.fromEntries(
     SPAN_ROLES.flatMap((role) => {
-      const ranges = spans[role];
-      return ranges === undefined ? [] : [[role, rangesJson(ranges)] as const];
+      const span = spans[role];
+      return span === undefined ? [] : [[role, roleSpanJson(span)] as const];
     }),
   ) as RoleSpansJson;
 

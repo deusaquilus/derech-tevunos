@@ -51,7 +51,18 @@
       "short": "The assumption: daybreak means actual day and…",
       "he": "קא סלקא דעתך דמאן דאמר נגהי — נגהי ממש",
       "en": "The assumption: daybreak means actual day and night means actual night",
-      "move": { "element": "statement", "subtype": "explanation", "target": "rav-yehuda", "marker": "קא סלקא דעתך", "attested": false }
+      "move": { "element": "statement", "subtype": "explanation", "target": "rav-yehuda", "marker": "קא סלקא דעתך", "attested": false },
+      "anatomy": [
+        {
+          "kind": "compound-equal",
+          "note": "The assumption has two level parts — `נגהי ממש`, and `לילי ממש` in the clause the incipit leaves off — one predicate, *means what it says*, of two words: Ramchal's conjoined compound on its first branch, `בהשואה אחת` (Heb p33). They are the two commitments, and the `אלא` at the end overturns only the first: everyone holds `אור` is night, so `לילי ממש` stands and `נגהי ממש` falls. The rail draws the rejection of the unit; the spans say which half was actually wrong. Indexed in the English, where both parts are present."
+        }
+      ],
+      "spans": {
+        "en": {
+          "commitment": ["3-6", "8-11"]
+        }
+      }
     },
     {
       "id": "m1",
@@ -325,7 +336,17 @@
       "short": "Rather: both agree 'or' is night; each used…",
       "he": "אלא: בין רב הונא ובין רב יהודה דכולי עלמא אור אורתא הוא",
       "en": "Rather: both agree 'or' is night; each used his own town's word",
-      "move": { "element": "contradiction", "subtype": "direct", "target": "ka-salka", "marker": "אלא", "attested": false }
+      "move": { "element": "contradiction", "subtype": "direct", "target": "ka-salka", "marker": "אלא", "attested": false },
+      "anatomy": [
+        {
+          "kind": "synonymous-terms",
+          "note": "`דכולי עלמא אור אורתא הוא … מר כי אתריה ומר כי אתריה`: Rav Huna's `נגהי` and Rav Yehuda's `לילי` are two towns' words for one thing, night, so the two answers that were drawn as opposed say the same. Ramchal's שמות נרדפים is this exactly — `שני מאמרים סותרים זה את זה … ולא ירגיש בהם השכל בתחילת התבוננותו, מפני היות … עניניהם מזכרים במלות שונות אף על פי שהם אחד באמת` (Heb p211) — and fifteen proof-texts were spent before the wording was seen through. The label sits here, on the sentence that uncovers the synonymy, rather than on Rav Yehuda's edge to Rav Huna, where it would presuppose the resolution."
+        },
+        {
+          "kind": "compound-equal",
+          "note": "`בין רב הונא ובין רב יהודה`: one predicate of two subjects, said of both alike — Ramchal's `נשוא אחד בשני נושאים` on its first branch, `בהשואה אחת` (Heb p33). That the two are level is the resolution: neither view is corrected in favour of the other."
+        }
+      ]
     },
     {
       "id": "q-tanna",

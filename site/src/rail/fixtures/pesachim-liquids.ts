@@ -69,11 +69,15 @@ export const pesachimLiquids: Sugya = {
       target: "ravpapa",
       provenance: "derivation",
       attested: true,
-      note: "Ramchal: `הנה כאן סתר שמועתו של רב פפא לחלוטין` — Rav Papa's statement is absolutely contradicted (Heb p177).",
+      note: "Ramchal: `הנה כאן סתר שמועתו של רב פפא לחלוטין` — Rav Papa's statement is absolutely contradicted (Heb p177). Its two premises are words of this sentence, so they carry `premise` spans (ch. 7, Heb p93: `המאמר הראשון שממנו ימשך השני נקרא הקדמה, והנמשך נקרא תולדה`): that R. Eleazar derived from the testimony, and that a received halachah yields no derivation — the rhetorical `מי גמרינן מנה`, the tollens' conditional (Heb p105). The conclusion, that it is no received halachah, is not said: it is the move, so there is no `conclusion` span. The Hebrew is an incipit whose `…` holds the derivation clause `תדע שהרי …`, so the first span covers the head of that premise, R. Eleazar's statement; the English carries it whole. `ואלא` / `But` are connectives and belong to no role.",
       anatomy: [
         { kind: "hypothetical-syllogism-tollens", note: "If the Temple liquids were a halachah from Sinai, nothing could be derived from them; R. Eleazar did derive from them; so they are not. The same shape as the proof it defends." },
         { kind: "ground-deduction", note: "The contradiction rests on no verse or testimony of its own, only on the deduction beside this badge: R. Eleazar's derivation is the premise, and a received law yields no derivations (Eng p116)." },
       ],
+      spans: {
+        he: { premise: [{ from: 2, to: 10 }, { from: 12, to: 19 }] },
+        en: { premise: [{ from: 2, to: 17 }, { from: 18, to: 30 }] },
+      },
     },
   ],
 };

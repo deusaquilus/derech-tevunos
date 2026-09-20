@@ -25,6 +25,7 @@
  */
 
 import type { Annotation, Party } from "../../anatomy.ts";
+import type { Spans } from "../../spans.ts";
 import type { Provenance, Sugya, Unit } from "../../sugya.ts";
 import type { Move } from "../../taxonomy.ts";
 
@@ -68,6 +69,10 @@ export type RowTags = {
   readonly marker?: string;
   readonly provenance?: Provenance;
   readonly anatomy?: readonly Annotation[];
+  /** Word-span roles into the row's `he` / `en` (`spans.ts`), where a passage has been labelled past the skeleton. */
+  readonly spans?: Spans;
+  /** Why a label or a span; the reasoning that the file keeps beside the row, as the Ramchal fixtures do. */
+  readonly note?: string;
 };
 
 export type Row = readonly [
@@ -112,6 +117,8 @@ export const skeleton = (meta: SkeletonMeta, rows: readonly Row[]): Sugya => ({
       attested: false,
       ...(tags?.provenance === undefined ? {} : { provenance: tags.provenance }),
       ...(tags?.anatomy === undefined ? {} : { anatomy: tags.anatomy }),
+      ...(tags?.spans === undefined ? {} : { spans: tags.spans }),
+      ...(tags?.note === undefined ? {} : { note: tags.note }),
     }),
   ),
 });

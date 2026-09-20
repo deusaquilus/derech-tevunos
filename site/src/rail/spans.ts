@@ -62,8 +62,29 @@ export type WordRange = {
   readonly to: number;
 };
 
-/** The spans of one text: for each role that occurs, its ranges in order. */
-export type RoleSpans = Readonly<Partial<Record<SpanRole, readonly WordRange[]>>>;
+/**
+ * A span the passage's logic turns on, marked so by the classifier. Almost
+ * every span is quiet: the page draws it as a hairline in a taupe that
+ * nearly blends into the paper and names it only when asked. A loud one is
+ * the same hairline at a trace of the role's hue — still a whisper. The
+ * judgment is the classifier's and it is meant to be rare — the antecedent
+ * of a hypothetical is not loud because it is an antecedent, only when the
+ * sugya's argument hangs on that clause and a reader would miss it.
+ */
+export type LoudSpan = {
+  readonly ranges: readonly WordRange[];
+  readonly showLoud: true;
+};
+
+/** One role's span in one text: its ranges, quiet; or the same ranges marked loud. */
+export type RoleSpan = readonly WordRange[] | LoudSpan;
+
+/** The spans of one text: for each role that occurs, its span. */
+export type RoleSpans = Readonly<Partial<Record<SpanRole, RoleSpan>>>;
+
+export const isLoud = (span: RoleSpan): span is LoudSpan => !Array.isArray(span);
+
+export const rangesOf = (span: RoleSpan): readonly WordRange[] => (isLoud(span) ? span.ranges : span);
 
 /** A unit's spans, by the text they index. */
 export type Spans = Readonly<Partial<Record<SpanText, RoleSpans>>>;
@@ -183,48 +204,74 @@ export const rangeFault = (r: WordRange, count: number): string | undefined =>
 
 // --- for the renderer -----------------------------------------------------------
 
-/** A stretch of the original text, verbatim, with the roles every word in it plays. Whitespace inside a run of same-role words keeps the roles, so an underline is continuous. */
+/**
+ * A stretch of the original text, verbatim, with the roles every word in it
+ * plays and whether any of them is loud. Whitespace inside a run of same-role
+ * words keeps the roles, so an underline is continuous — but only inside one
+ * range: two premises that abut are two underlines, not one.
+ */
 export type Segment = {
   readonly text: string;
   readonly roles: readonly SpanRole[];
+  readonly loud: boolean;
 };
 
-const rolesOfWord = (spans: RoleSpans, index: number): readonly SpanRole[] =>
-  SPAN_ROLES.filter((role) => (spans[role] ?? []).some((r) => r.from <= index && index <= r.to));
+/** Which range of which role covers a word: the role and the index of the range within it, so abutting ranges stay apart. */
+type Cover = { readonly role: SpanRole; readonly range: number };
 
-const sameRoles = (a: readonly SpanRole[], b: readonly SpanRole[]): boolean =>
-  a.length === b.length && a.every((role, i) => role === b[i]);
+const coversOf = (spans: RoleSpans, index: number): readonly Cover[] =>
+  SPAN_ROLES.flatMap((role) => {
+    const span = spans[role];
+    if (span === undefined) return [];
+    return rangesOf(span).flatMap((r, i) => (r.from <= index && index <= r.to ? [{ role, range: i }] : []));
+  });
+
+const sameCovers = (a: readonly Cover[], b: readonly Cover[]): boolean =>
+  a.length === b.length && a.every((c, i) => c.role === b[i]!.role && c.range === b[i]!.range);
+
+const loudAt = (spans: RoleSpans, covers: readonly Cover[]): boolean =>
+  covers.some((c) => {
+    const span = spans[c.role];
+    return span !== undefined && isLoud(span);
+  });
 
 /**
  * The text cut into segments by role, preserving every character. Tokens
- * alternate word / whitespace; a whitespace token between two words with the
- * same roles takes those roles, so “are obligated in kiddush” is one segment
- * and one underline. Leading and trailing whitespace belongs to no role.
+ * alternate word / whitespace; a whitespace token between two words covered by
+ * the very same ranges takes their roles, so “are obligated in kiddush” is one
+ * segment and one underline, while the seam between two abutting premises is
+ * a plain space. Leading and trailing whitespace belongs to no role.
  */
 export const segments = (text: string, spans: RoleSpans | undefined): readonly Segment[] => {
-  if (spans === undefined || Object.keys(spans).length === 0) return [{ text, roles: [] }];
+  if (spans === undefined || Object.keys(spans).length === 0) return [{ text, roles: [], loud: false }];
   const tokens = text.split(/(\s+)/).filter((t) => t.length > 0);
   const total = wordCount(text);
-  const NONE: readonly SpanRole[] = [];
-  const tagged = tokens.reduce<{ readonly index: number; readonly out: readonly Segment[] }>(
+  const NONE: readonly Cover[] = [];
+  type Tagged = { readonly text: string; readonly covers: readonly Cover[] };
+  const tagged = tokens.reduce<{ readonly index: number; readonly out: readonly Tagged[] }>(
     ({ index, out }, token) => {
       if (/^\s+$/.test(token)) {
-        const before = out[out.length - 1]?.roles ?? NONE;
+        const before = out[out.length - 1]?.covers ?? NONE;
         const nextIndex = index + 1;
-        const after = nextIndex <= total ? rolesOfWord(spans, nextIndex) : NONE;
-        const roles = before.length > 0 && sameRoles(before, after) ? before : NONE;
-        return { index, out: [...out, { text: token, roles }] };
+        const after = nextIndex <= total ? coversOf(spans, nextIndex) : NONE;
+        const covers = before.length > 0 && sameCovers(before, after) ? before : NONE;
+        return { index, out: [...out, { text: token, covers }] };
       }
       const wordIndex = index + 1;
-      return { index: wordIndex, out: [...out, { text: token, roles: rolesOfWord(spans, wordIndex) }] };
+      return { index: wordIndex, out: [...out, { text: token, covers: coversOf(spans, wordIndex) }] };
     },
     { index: 0, out: [] },
   ).out;
-  // Merge neighbours with the same roles so each underline is one element.
-  return tagged.reduce<readonly Segment[]>((acc, seg) => {
+  // Merge neighbours covered by the same ranges so each underline is one element.
+  const merged = tagged.reduce<readonly Tagged[]>((acc, seg) => {
     const last = acc[acc.length - 1];
-    return last !== undefined && sameRoles(last.roles, seg.roles)
-      ? [...acc.slice(0, -1), { text: last.text + seg.text, roles: last.roles }]
+    return last !== undefined && sameCovers(last.covers, seg.covers)
+      ? [...acc.slice(0, -1), { text: last.text + seg.text, covers: last.covers }]
       : [...acc, seg];
   }, []);
+  return merged.map((seg) => ({
+    text: seg.text,
+    roles: [...new Set(seg.covers.map((c) => c.role))],
+    loud: loudAt(spans, seg.covers),
+  }));
 };
