@@ -33,3 +33,32 @@ export const markupToHtml = (text: string): string => {
     bold !== undefined ? `<b>${bold}</b>` : `<i>${italic}</i>`,
   );
 };
+
+/**
+ * The one inline construct of a `note` — an anatomy label's or a span's:
+ * backticks quote a word of the text or a unit's id, `הואיל וחזותו מוכיח
+ * עליו`, `t12-dumya`. Nothing else; a note is a sentence of reasoning, not
+ * prose to be styled. The pieces are returned rather than an HTML string
+ * because the notes are rendered by React inside a tooltip, where a string
+ * would have to be trusted; the component draws a `quoted` piece as an
+ * isolated inline (`dir="auto"`), which is what a Hebrew word inside an
+ * English sentence needs. An unmatched backtick is text.
+ */
+export type NotePiece =
+  | { readonly kind: "text"; readonly text: string }
+  | { readonly kind: "quoted"; readonly text: string };
+
+const QUOTED = /`([^`]+)`/g;
+
+export const notePieces = (note: string): readonly NotePiece[] => {
+  const pieces: NotePiece[] = [];
+  let last = 0;
+  for (const m of note.matchAll(QUOTED)) {
+    const at = m.index;
+    if (at > last) pieces.push({ kind: "text", text: note.slice(last, at) });
+    pieces.push({ kind: "quoted", text: m[1]! });
+    last = at + m[0].length;
+  }
+  if (last < note.length) pieces.push({ kind: "text", text: note.slice(last) });
+  return pieces;
+};

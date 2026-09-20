@@ -143,8 +143,12 @@
         }
       ],
       "spans": {
-        "he": { "premise": "15-16", "conclusion": "17-25" },
-        "en": { "premise": "21-23", "conclusion": "24-39" }
+        "premise": [
+          { "he": "15-16", "en": "21-23", "note": "the fact the deduction starts from: there were seven" }
+        ],
+        "conclusion": [
+          { "he": "17-25", "en": "24-39", "note": "drawn from the number alone: at least one was old enough" }
+        ]
       },
       "note": "The deduction is spelt out inside the one sentence, so its two roles are words of it (Heb p93: `המאמר הראשון שממנו ימשך השני נקרא הקדמה, והנמשך נקרא תולדה`): `שבעה הוו` is the premise and everything after it the conclusion. `כיון ד` is the connective and belongs to neither. The clause before the dash is the view being shut out, not a premise of the settlement."
     },

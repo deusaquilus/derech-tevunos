@@ -290,9 +290,9 @@ export const UnitRow = ({
           </span>
         ) : null}
 
-        <SpannedText text={unit.en} spans={unit.spans?.en} detailed={detailedSpans} className="row-text" />
+        <SpannedText text={unit.en} spans={unit.spans} which="en" detailed={detailedSpans} className="row-text" />
         {unit.he === undefined ? null : (
-          <SpannedText text={unit.he} spans={unit.spans?.he} detailed={detailedSpans} className="row-hebrew" lang="he" dir="rtl" />
+          <SpannedText text={unit.he} spans={unit.spans} which="he" detailed={detailedSpans} className="row-hebrew" lang="he" dir="rtl" />
         )}
       </div>
 

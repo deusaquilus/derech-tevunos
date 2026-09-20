@@ -314,8 +314,13 @@ export const bavaMetziaYeush: Sugya = {
         { kind: "compound-equal", basis: "marked", note: "One predicate, `מותרות משום גזל`, of two subjects joined by `וכן` — Ramchal's `נשוא אחד בשני נושאים או יותר`, in its first branch, `בהשואה אחת` (Heb p33): nothing marks either clause as the news, and `t7-reisha-ans` answers each on its own footing. Inside the elision the first clause has its own `ואפילו בצד שדה קציעות`, a known-and-novel step within that one member; the join between the two members is level. Each member is a commitment of its own, which is what `רישא` / `סיפא` and `אפילו רישא נמי` then point at." },
       ],
       spans: {
-        he: { predicate: [{ from: 14, to: 16 }], commitment: [{ from: 3, to: 4 }, { from: 7, to: 12 }] },
-        en: { predicate: [{ from: 20, to: 24 }], commitment: [{ from: 4, to: 9 }, { from: 11, to: 19 }] },
+        predicate: [
+          { he: [{ from: 14, to: 16 }], en: [{ from: 20, to: 24 }] },
+        ],
+        commitment: [
+          { he: [{ from: 3, to: 4 }], en: [{ from: 4, to: 9 }], note: "the first member, figs drying on the path — `t7-reisha-ans` answers it on its own footing: valuable, so the owner keeps feeling for them" },
+          { he: [{ from: 7, to: 12 }], en: [{ from: 11, to: 19 }], note: "the second member, figs under an overhanging tree — answered separately: a fig tree is known to drop its fruit" },
+        ],
       },
     },
     {
@@ -401,7 +406,14 @@ export const bavaMetziaYeush: Sugya = {
         { kind: "compound-equal", note: "Three subjects, one predicate — Ramchal's `נשוא אחד בשני נושאים או יותר` (Heb p33) — and the branch is `בהשואה אחת`. The baraita joins them `וכן … וכן` (in the elided middle here; the English keeps its two `likewise`), with no `אף`, `אפילו` or `אין צריך לומר` to mark one as the news, and the Gemara reads it so: `t8-press` objects that two clauses would say one thing twice, and `t8-ans2` answers `תרי גווני גזלן`, two distinct kinds, not a known case and a novelty. Each clause is a commitment of its own, which is what `t8-pin` needs — the difficulty survives for the thief alone. Indexed in the English only: the Hebrew incipit elides two of the three subjects." },
       ],
       spans: {
-        en: { predicate: [{ from: 26, to: 42 }], commitment: [{ from: 4, to: 15 }, { from: 18, to: 19 }, { from: 22, to: 24 }] },
+        predicate: [
+          { en: [{ from: 26, to: 42 }] },
+        ],
+        commitment: [
+          { en: [{ from: 4, to: 15 }], note: "the thief — where `t8-pin` lands: the owner never saw him, so how did he despair? Read at `t8-ans2` as an armed bandit" },
+          { en: [{ from: 18, to: 19 }], note: "the robber — `t8-press` objects that, so read, this clause repeats the first" },
+          { en: [{ from: 22, to: 24 }], note: "the river — the owner saw it happen and despaired; never in dispute" },
+        ],
       },
     },
     {
@@ -709,8 +721,13 @@ export const bavaMetziaYeush: Sugya = {
         { kind: "comparative", basis: "marked" },
       ],
       spans: {
-        he: { premise: [{ from: 1, to: 6 }, { from: 8, to: 9 }], conclusion: [{ from: 11, to: 14 }] },
-        en: { premise: [{ from: 1, to: 11 }, { from: 14, to: 18 }], conclusion: [{ from: 20, to: 26 }] },
+        premise: [
+          { he: [{ from: 1, to: 6 }], en: [{ from: 1, to: 11 }], note: "the likeness the analogy rests on: `יותן` is to be read like `יתן`" },
+          { he: [{ from: 8, to: 9 }], en: [{ from: 14, to: 18 }], note: "the known case: `יתן` is with the owner's knowledge" },
+        ],
+        conclusion: [
+          { he: [{ from: 11, to: 14 }], en: [{ from: 20, to: 26 }], note: "carried to the unknown case: so `יותן` is with knowledge too" },
+        ],
       },
     },
 
@@ -731,8 +748,10 @@ export const bavaMetziaYeush: Sugya = {
         { kind: "exception", note: "Every lost item that is available to anyone — excluding this one, which is available to no one." },
       ],
       spans: {
-        he: { commitment: { ranges: [{ from: 18, to: 24 }, { from: 25, to: 33 }], showLoud: true } },
-        en: { commitment: { ranges: [{ from: 43, to: 53 }, { from: 54, to: 65 }], showLoud: true } },
+        commitment: [
+          { he: [{ from: 18, to: 24 }], en: [{ from: 43, to: 53 }], showLoud: true, note: "The rule the verse lays down: what is lost to its owner and findable by anyone must be returned. `t12-dumya` calls it `איסורא` and carries the exception's ruling back onto it — forbidden with or without a mark — which is what refutes Rava." },
+          { he: [{ from: 25, to: 33 }], en: [{ from: 54, to: 65 }], showLoud: true, note: "The case carved out of the rule: swept off by a river, lost to everyone, so permitted. `היתירא` in `t12-dumya`, the known case its analogy starts from — permitted whether or not it bears a mark." },
+        ],
       },
       note: "Two commitments, by Ramchal's count for the exception statement — `גזרותיו שתים`, the rule and the carved-out piece (ch. 6, Eng p80): what is lost to him and available to any man, and `יצאתה זו`, the river-swept item taken out of it. Both are marked because `t12-dumya` runs its analogy between exactly these two, `היתירא` being the exception and `איסורא` the rule. The verse itself sits in the elision and is not indexed.",
     },
@@ -752,8 +771,13 @@ export const bavaMetziaYeush: Sugya = {
         { kind: "ground-deduction", note: "The refutation brings no new source: the mishnah was already on the table, and what knocks Rava down is the analogy drawn from it. A disproof from syllogism (Eng p124–126), and the teal badge says which syllogism." },
       ],
       spans: {
-        he: { premise: [{ from: 1, to: 3 }, { from: 5, to: 15 }], conclusion: [{ from: 17, to: 27 }] },
-        en: { premise: [{ from: 2, to: 6 }, { from: 9, to: 19 }], conclusion: [{ from: 21, to: 38 }] },
+        premise: [
+          { he: [{ from: 1, to: 3 }], en: [{ from: 2, to: 6 }], note: "the likeness asserted: the prohibited case is to be judged like the permitted one" },
+          { he: [{ from: 5, to: 15 }], en: [{ from: 9, to: 19 }], note: "the known case: the permitted item is permitted with or without a mark" },
+        ],
+        conclusion: [
+          { he: [{ from: 17, to: 27 }], en: [{ from: 21, to: 38 }], note: "carried to the prohibited case: forbidden with or without a mark — the `תיובתא` of Rava" },
+        ],
       },
     },
     {
@@ -806,8 +830,17 @@ export const bavaMetziaYeush: Sugya = {
         { kind: "subject-action-natural", note: "The vermin's eating is action by nature — `מה שפועלים הנמצאים זה בזה בטבע`, Ramchal's `דמנקרא להו למעיא` (Heb p225) — and the branch, not the parent, is what the answer turns on: because the loss is to a natural and certain process rather than to anyone's choice, the owner can despair of every windfall date in advance, `מעיקרא`, and the despair is conscious after all." },
       ],
       spans: {
-        he: { antecedent: [{ from: 4, to: 9 }], consequent: [{ from: 10, to: 13 }], commitment: [{ from: 4, to: 9 }, { from: 10, to: 13 }, { from: 3, to: 3 }] },
-        en: { antecedent: [{ from: 6, to: 15 }], consequent: [{ from: 16, to: 23 }], commitment: [{ from: 6, to: 15 }, { from: 16, to: 23 }, { from: 5, to: 5 }] },
+        antecedent: [
+          { he: [{ from: 4, to: 9 }], en: [{ from: 6, to: 15 }], note: "the condition: vermin will eat the fallen fruit" },
+        ],
+        consequent: [
+          { he: [{ from: 10, to: 13 }], en: [{ from: 16, to: 23 }], note: "what follows from it: the owner despairs from the outset" },
+        ],
+        commitment: [
+          { he: [{ from: 4, to: 9 }], en: [{ from: 6, to: 15 }], note: "that the vermin eat — the first of the consequent's three commitments" },
+          { he: [{ from: 10, to: 13 }], en: [{ from: 16, to: 23 }], note: "that the owner despairs at once — the second, and where `acha-q2` lands: orphans cannot despair" },
+          { he: [{ from: 3, to: 3 }], en: [{ from: 5, to: 5 }], note: "the dependence of the one on the other, Ramchal's third commitment, carried by `כיון`" },
+        ],
       },
       note: "Three commitments, as Ramchal counts them for the consequent statement — `גזרותיו שלש: המצא הקודם והמצא הנמשך והיות מציאות הנמשך המשך מציאות הקודם` (ch. 6, Eng p88): the antecedent, the consequent, and the following of the one from the other, which `כיון` carries, as `לפיכך` does in his example. `acha-q2` lands on the second alone: for orphans the vermin still eat, but there is no one able to despair.",
     },

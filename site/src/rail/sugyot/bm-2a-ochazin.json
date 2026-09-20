@@ -29,9 +29,10 @@
         }
       ],
       "spans": {
-        "en": {
-          "commitment": ["6-10", "11-16"]
-        }
+        "commitment": [
+          { "en": "6-10", "note": "the finders' clause — Rav Pappa's `רישא במציאה`" },
+          { "en": "11-16", "note": "the buyers' clause — `סיפא במקח וממכר`; the `וצריכא` shows neither follows from the other" }
+        ]
       }
     },
     {
@@ -69,8 +70,12 @@
         }
       ],
       "spans": {
-        "he": { "antecedent": "1-4", "consequent": "5-7" },
-        "en": { "antecedent": "1-2", "consequent": "3-5" }
+        "antecedent": [
+          { "he": "1-4", "en": "1-2", "note": "the condition: had the Mishnah taught only 'I found it'" }
+        ],
+        "consequent": [
+          { "he": "5-7", "en": "3-5", "note": "what would have followed: 'found' could mean 'saw' — the reading `q-rabbanai` attacks" }
+        ]
       }
     },
     {

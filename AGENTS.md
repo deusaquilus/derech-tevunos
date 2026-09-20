@@ -833,13 +833,24 @@ parses the SVG.
 words are the subject, the predicate, a hypothetical's antecedent and
 consequent, a deduction's premises and conclusion, or the separate
 commitments (סוף גזרתו) a challenge can defeat one at a time — as 1-based
-word ranges into `he` or `en` (`"2-4"`, or a list), never as copies of the
-text. `site/src/rail/spans.ts` holds the seven roles, the word rule
+word ranges into `he` and `en` (`"2-4"`, or a list), never as copies of the
+text. A span is **one object located in both texts** — `{ "he": "2-4", "en":
+"3-6", "note": "…" }` — so its note and its loudness are written once, not
+once per text; the per-text shape (`spans.he.subject`) of the first cut was
+replaced the same day it shipped, 2026-09-20, when a `note` was added and
+would have had to be duplicated. The note says *why these words are that
+role* (a word or two when unimportant, a sentence or more when loud, never
+for a subject or predicate); the oracle holds every non-subject/predicate
+span in the corpus to carrying one. In a note, backticks quote a word of the
+text or a unit id; `markup.ts`'s `notePieces` splits them and `NoteText.tsx`
+draws a quotation as the same face on a faint chip, bidi-isolated, in both
+the span popup and the anatomy badge tooltip — not monospace, because most
+quotations are Hebrew. `site/src/rail/spans.ts` holds the seven roles, the word rule
 (whitespace tokens; punctuation stays with its word) and the cut the row
 draws; `SpannedText.tsx` draws them in two weights, and both are whispers:
 a span is **quiet** by default — a hairline dotted mark in a taupe mixed from
 `--border` toward the paper, no hue, named on hover — and **loud** only when
-the file marks it `{ "words": …, "showLoud": true }`, which the guide tells
+the file marks it `"showLoud": true`, which the guide tells
 the classifier to do only for the rare span the argument hangs on; loud is
 the same hairline at 22% of the role's hue, which is what quiet was before
 the two weights were both pulled down a step on 2026-09-20 (the author's
@@ -848,8 +859,9 @@ line, no solid underline on hover. The legend's *Detailed spans* checkbox
 (beside *Ramchal's anatomy*, remembered like it) draws every span the loud
 way. The popup is minimal and a click expands it. The reader checks every
 range against its text's word count. After the 2026-09-20 reclassification
-pass, 24 units across ten passages carry spans and six spans on three units
-are loud. The design
+pass, 24 units across ten passages carry spans and five spans on three units
+are loud — loudness is per span, and of Rav Pappa's two commitments only the
+one `אהייא?` interrogates is loud. The design
 choice to record: these constructs are pieces of the sentence, not vocabulary
 words, so they are pointers into text the file already has and can neither
 bloat nor drift; the paraphrase *S has P in manner M* stays in

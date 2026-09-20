@@ -30,8 +30,12 @@ export const berachosYaakov: Sugya = {
         { kind: "subject-action-voluntary", note: "The predicate is what one party does for another — protection — which is chapter 11's seventh distinction. It is a promise of action, so the settlement can later ask on what the action depends without touching the words. The voluntary branch, not the parent: Ramchal's `רצונית` is `מה שפועלים הבעלי חיים ברצונם`, against the natural `דמנקרא להו למעיא` (Heb p225). A promise is a willed act, and the settlement turns on exactly that — an act by will can be withheld when the one protected sins; an act by nature cannot." }, { kind: "categorical", basis: "marked", note: "`בכל אשר תלך`: protection everywhere, the whole class of places." },
       ],
       spans: {
-        he: { subject: [{ from: 2, to: 2 }], predicate: [{ from: 3, to: 6 }] },
-        en: { subject: [{ from: 2, to: 2 }], predicate: [{ from: 3, to: 12 }] },
+        subject: [
+          { he: [{ from: 2, to: 2 }], en: [{ from: 2, to: 2 }] },
+        ],
+        predicate: [
+          { he: [{ from: 3, to: 6 }], en: [{ from: 3, to: 12 }] },
+        ],
       },
     },
     {
@@ -47,8 +51,12 @@ export const berachosYaakov: Sugya = {
         { kind: "particular" },
       ],
       spans: {
-        he: { subject: [{ from: 2, to: 2 }], predicate: [{ from: 1, to: 1 }, { from: 3, to: 3 }] },
-        en: { subject: [{ from: 2, to: 2 }], predicate: [{ from: 3, to: 6 }] },
+        subject: [
+          { he: [{ from: 2, to: 2 }], en: [{ from: 2, to: 2 }] },
+        ],
+        predicate: [
+          { he: [{ from: 1, to: 1 }, { from: 3, to: 3 }], en: [{ from: 3, to: 6 }] },
+        ],
       },
     },
     {
@@ -80,8 +88,12 @@ export const berachosYaakov: Sugya = {
         { kind: "qualified-possible", note: "`שמא`: said as possible, not as certain." },
       ],
       spans: {
-        he: { subject: [{ from: 4, to: 4 }], predicate: [{ from: 3, to: 3 }] },
-        en: { subject: [{ from: 7, to: 7 }], predicate: [{ from: 8, to: 14 }] },
+        subject: [
+          { he: [{ from: 4, to: 4 }], en: [{ from: 7, to: 7 }] },
+        ],
+        predicate: [
+          { he: [{ from: 3, to: 3 }], en: [{ from: 8, to: 14 }] },
+        ],
       },
     },
   ],

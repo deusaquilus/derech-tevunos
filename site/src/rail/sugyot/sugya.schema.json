@@ -143,44 +143,32 @@
         { "$ref": "#/$defs/range" },
         { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/range" } }
       ],
-      "description": "One range, or a list when the role occurs more than once in the sentence (two premises, three commitments, a compound's several subjects)."
+      "description": "One range, or a list of them where the span is discontinuous in this text (a predicate split around its subject)."
     },
-    "roleSpan": {
-      "oneOf": [
-        { "$ref": "#/$defs/ranges" },
-        {
-          "type": "object",
-          "additionalProperties": false,
-          "required": ["words"],
-          "properties": {
-            "words": { "$ref": "#/$defs/ranges" },
-            "showLoud": { "type": "boolean", "description": "True only when the passage's logic turns on this span and a reader would miss it. Rare. The page draws a loud span in full by default and a quiet one as the faintest mark until 'Detailed spans' is switched on." }
-          }
-        }
-      ],
-      "description": "A quiet span is its ranges (the default, almost always). A loud span is { words, showLoud: true }."
-    },
-    "roleSpans": {
+    "span": {
       "type": "object",
-      "description": "Which words of one text play which role. Subject and predicate (ch. 3); antecedent and consequent of a hypothetical (ch. 3); premise and conclusion of a deduction spelt out in the sentence (ch. 7); the separate commitments — סוף גזרתו — a challenge can defeat one at a time (ch. 6).",
+      "description": "One span: a piece of the sentence playing one role, located in each text the classifier indexed — at least one of `he` / `en`. What is true of the span is written once here, not once per text.",
       "additionalProperties": false,
+      "anyOf": [{ "required": ["he"] }, { "required": ["en"] }],
       "properties": {
-        "subject": { "$ref": "#/$defs/roleSpan" },
-        "predicate": { "$ref": "#/$defs/roleSpan" },
-        "antecedent": { "$ref": "#/$defs/roleSpan" },
-        "consequent": { "$ref": "#/$defs/roleSpan" },
-        "premise": { "$ref": "#/$defs/roleSpan" },
-        "conclusion": { "$ref": "#/$defs/roleSpan" },
-        "commitment": { "$ref": "#/$defs/roleSpan" }
+        "he": { "$ref": "#/$defs/ranges", "description": "Where the span is in the Hebrew, as ranges into its words." },
+        "en": { "$ref": "#/$defs/ranges", "description": "Where the span is in the English, as ranges into its words." },
+        "showLoud": { "type": "boolean", "description": "True only when the passage's logic turns on this span and a reader would miss it. Rare; most passages have none. A loud span is drawn at a trace of its role's hue, a quiet one as a taupe hairline that nearly blends into the paper until 'Detailed spans' is switched on." },
+        "note": { "type": "string", "minLength": 1, "description": "Why these words are this role — not what the role is. A word or two where the span is unimportant (`the rule`, `the carved-out case`), or nothing; a sentence or more where it is loud. A subject or predicate never needs one." }
       }
     },
     "spans": {
       "type": "object",
-      "description": "Word-level roles, by the text they index. Each of `he` and `en` counts its own words; a text the unit does not have cannot be indexed. Ranges into the text, never copies of it.",
+      "description": "Word-level roles: which words of the sentence are its subject and predicate (ch. 3), the antecedent and consequent of a hypothetical (ch. 3), the premises and conclusion of a deduction spelt out in the sentence (ch. 7), and the separate commitments — סוף גזרתו — a challenge can defeat one at a time (ch. 6). By role, each a list of spans in sentence order; each span locates itself in `he` and `en` by ranges into the words, never by copying them.",
       "additionalProperties": false,
       "properties": {
-        "he": { "$ref": "#/$defs/roleSpans" },
-        "en": { "$ref": "#/$defs/roleSpans" }
+        "subject": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/span" } },
+        "predicate": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/span" } },
+        "antecedent": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/span" } },
+        "consequent": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/span" } },
+        "premise": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/span" } },
+        "conclusion": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/span" } },
+        "commitment": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/span" } }
       }
     },
     "unit": {

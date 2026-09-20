@@ -59,9 +59,10 @@
         }
       ],
       "spans": {
-        "en": {
-          "commitment": ["3-6", "8-11"]
-        }
+        "commitment": [
+          { "en": "3-6", "note": "`נגהי ממש` — the half the `אלא` overturns" },
+          { "en": "8-11", "note": "`לילי ממש` — stands: everyone holds `אור` is night" }
+        ]
       }
     },
     {

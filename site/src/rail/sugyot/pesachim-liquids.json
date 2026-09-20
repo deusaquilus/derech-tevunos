@@ -88,12 +88,14 @@
         }
       ],
       "spans": {
-        "he": {
-          "premise": ["2-10", "12-19"]
-        },
-        "en": {
-          "premise": ["2-17", "18-30"]
-        }
+        "premise": [
+          { "he": "2-10", "en": "2-17", "note": "the first premise: R. Eleazar drew a law from the testimony" },
+          {
+            "he": "12-19",
+            "en": "18-30",
+            "note": "the second, as a rhetorical question: a received law yields no derivation — so the two cannot both stand"
+          }
+        ]
       },
       "note": "Ramchal: `הנה כאן סתר שמועתו של רב פפא לחלוטין` — Rav Papa's statement is absolutely contradicted (Heb p177). Its two premises are words of this sentence, so they carry `premise` spans (ch. 7, Heb p93: `המאמר הראשון שממנו ימשך השני נקרא הקדמה, והנמשך נקרא תולדה`): that R. Eleazar derived from the testimony, and that a received halachah yields no derivation — the rhetorical `מי גמרינן מנה`, the tollens' conditional (Heb p105). The conclusion, that it is no received halachah, is not said: it is the move, so there is no `conclusion` span. The Hebrew is an incipit whose `…` holds the derivation clause `תדע שהרי …`, so the first span covers the head of that premise, R. Eleazar's statement; the English carries it whole. `ואלא` / `But` are connectives and belong to no role."
     }

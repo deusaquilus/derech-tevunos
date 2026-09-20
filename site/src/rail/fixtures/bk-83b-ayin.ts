@@ -164,8 +164,10 @@ export const bavaKammaAyin: Sugya = {
         { kind: "analogism", note: "The first of the two is the same juxtaposition the settlement above already used." },
       ],
       spans: {
-        he: { commitment: [{ from: 6, to: 10 }, { from: 12, to: 24 }] },
-        en: { commitment: [{ from: 8, to: 18 }, { from: 21, to: 45 }] },
+        commitment: [
+          { he: [{ from: 6, to: 10 }], en: [{ from: 8, to: 18 }], note: "the first reason: the juxtaposition to the striker of an animal, who pays" },
+          { he: [{ from: 12, to: 24 }], en: [{ from: 21, to: 45 }], note: "the second: `ינתן` means money — a ground of its own, so either can fall while the other stands" },
+        ],
       },
     },
     {

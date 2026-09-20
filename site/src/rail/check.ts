@@ -68,7 +68,8 @@ import {
   MIN_INDENT,
 } from "./layout.ts";
 import { ELEMENTS, hueElementOf, LEAVES, MOVE_KEYS, PARENT_OF, parentOf, SUBTYPES, type Element, type Move, type MoveKey } from "./taxonomy.ts";
-import { isLoud, parseRange, printRange, rangesOf, segments, SPAN_ROLES, SPAN_TEXTS, wordCount, words } from "./spans.ts";
+import { notePieces } from "./markup.ts";
+import { allSpans, isLoud, loudSegment, parseRange, printRange, rangesIn, rolesOf, segments, SPAN_ROLES, SPAN_TEXTS, wordCount, words } from "./spans.ts";
 import {
   ANATOMY,
   ANATOMY_KEYS,
@@ -87,7 +88,7 @@ import {
 import { BUSY_GLYPHS, GLYPHS, glyphAspect, GUIDANCE_GLYPHS, GUIDANCE_KEYS, ROLE_GLYPHS, TILE_GLYPH, WIDE_GLYPHS } from "./glyphs.ts";
 import { moveGlyph, PARENT_GLYPHS } from "./moveGlyphs.ts";
 import { bavaKammaAyin, FIXTURES, sukkahHeleni } from "./fixtures/index.ts";
-import { FORMAT, FORMAT_VERSION, parseSugya, stringify, SugyaFormatError, toJson } from "./format.ts";
+import { FORMAT, FORMAT_VERSION, parseSugya, SPAN_FIELDS, stringify, SugyaFormatError, toJson } from "./format.ts";
 import { renderSugya } from "./render.ts";
 import { SUGYOT, sugyaById } from "./sugyot/index.ts";
 
@@ -915,21 +916,39 @@ check("the subject's drawing is the chapter 11 bearer's", ROLE_GLYPHS.subject, G
 check("…and no other role shares a kind's picture", SPAN_ROLES.filter((r) => r !== "subject").every((r) => !ANATOMY_KEYS.some((k) => GLYPHS[k] === ROLE_GLYPHS[r])), true);
 check("six guidance drawings, none of them a kind or a role", GUIDANCE_KEYS.length === 6 && GUIDANCE_KEYS.every((k) => !(k in ANATOMY) && GUIDANCE_GLYPHS[k].length > 0), true);
 {
+  const tagged = (text: string, spans: Parameters<typeof segments>[1], which: "he" | "en" = "he"): string =>
+    segments(text, spans, which).map((s) => `${s.text}:${rolesOf(s).join("+")}`).join("|");
   const fear = berachosYaakov.units.find((u) => u.id === "fear")!;
-  const cut = segments(fear.he!, fear.spans!.he);
+  const cut = segments(fear.he!, fear.spans, "he");
   check("the cut keeps every character", cut.map((s) => s.text).join(""), fear.he);
-  check("…and tags each run with its roles", cut.map((s) => `${s.text}:${s.roles.join("+")}`).join("|"), "ויירא:predicate| :|יעקב:subject| :|מאד:predicate");
+  check("…and tags each run with its roles", tagged(fear.he!, fear.spans), "ויירא:predicate| :|יעקב:subject| :|מאד:predicate");
+  check("…a predicate split around its subject is one span, discontinuous in the Hebrew", fear.spans!.predicate!.length === 1 && rangesIn(fear.spans!.predicate![0]!, "he").length === 2 && rangesIn(fear.spans!.predicate![0]!, "en").length === 1, true);
   const promise = berachosYaakov.units.find((u) => u.id === "promise")!;
-  check("a run of same-role words is one segment, whitespace included", segments(promise.en, promise.spans!.en).map((s) => `${s.text}:${s.roles.join("+")}`).join("|"), "Behold :|I:subject| :|am with you and will protect you wherever you go.:predicate");
-  check("no spans, no cut", segments(promise.en, undefined).length, 1);
-  // Two ranges of one role that abut are two underlines: the seam belongs to neither.
-  check("abutting ranges of one role stay two segments", segments("a b c d", { premise: [{ from: 1, to: 2 }, { from: 3, to: 4 }] }).map((s) => `${s.text}:${s.roles.join("+")}`).join("|"), "a b:premise| :|c d:premise");
-  // Loudness: quiet by default, loud when the file says so, carried to the segment.
-  check("a span is quiet unless marked", segments("a b c", { subject: [{ from: 1, to: 1 }] }).map((s) => s.loud).join(), "false,false");
-  check("…and loud when marked", segments("a b c", { subject: { ranges: [{ from: 1, to: 1 }], showLoud: true }, predicate: [{ from: 2, to: 3 }] }).map((s) => `${s.text}:${s.loud}`).join("|"), "a:true| :false|b c:false");
-  check("Berachos 4a's spans are all quiet", berachosYaakov.units.every((u) => Object.values(u.spans?.he ?? {}).concat(Object.values(u.spans?.en ?? {})).every((s) => !isLoud(s))), true);
+  check("a run of same-role words is one segment, whitespace included", tagged(promise.en, promise.spans, "en"), "Behold :|I:subject| :|am with you and will protect you wherever you go.:predicate");
+  check("no spans, no cut", segments(promise.en, undefined, "en").length, 1);
+  check("…nor when the spans index only the other text", segments("a b", { subject: [{ he: [{ from: 1, to: 1 }] }] }, "en").length, 1);
+  // Two spans of one role that abut are two underlines: the seam belongs to neither.
+  check("abutting spans of one role stay two segments", tagged("a b c d", { premise: [{ he: [{ from: 1, to: 2 }] }, { he: [{ from: 3, to: 4 }] }] }), "a b:premise| :|c d:premise");
+  // A span nested in another: the whitespace keeps what both neighbours share, so the outer underline is continuous.
+  check("a commitment inside a predicate leaves the predicate continuous", tagged("a b c d", { predicate: [{ he: [{ from: 1, to: 4 }] }], commitment: [{ he: [{ from: 3, to: 4 }] }] }), "a b :predicate|c d:predicate+commitment");
+  // Loudness and the note are the span's, seen from either text.
+  check("a span is quiet unless marked", segments("a b c", { subject: [{ he: [{ from: 1, to: 1 }] }] }, "he").map(loudSegment).join(), "false,false");
+  check("…and loud when marked", segments("a b c", { subject: [{ he: [{ from: 1, to: 1 }], showLoud: true }], predicate: [{ he: [{ from: 2, to: 3 }] }] }, "he").map((s) => `${s.text}:${loudSegment(s)}`).join("|"), "a:true| :false|b c:false");
+  // A note's backticks quote a word of the text or a unit id; the tooltips draw them as quoted words, not as backticks.
+  check("a note's backticks are quotations", notePieces("the `וצריכא` shows neither follows").map((p) => `${p.kind}:${p.text}`).join("|"), "text:the |quoted:וצריכא|text: shows neither follows");
+  check("…several in one note, and a unit id is one", notePieces("`t12-dumya` calls it `איסורא`").map((p) => p.kind).join(), "quoted,text,quoted");
+  check("…an unmatched backtick is text", notePieces("a ` b").map((p) => `${p.kind}:${p.text}`).join("|"), "text:a ` b");
+  check("…and a note without any is one piece", notePieces("the rule").length, 1);
+  check("…the segment carries the span, so the popup has its note", segments("a b", { subject: [{ he: [{ from: 1, to: 1 }], en: [{ from: 2, to: 2 }], note: "why" }] }, "en")[1]?.covers[0]?.span.note, "why");
+  check("Berachos 4a's spans are all quiet and carry no notes: subjects and predicates need none", berachosYaakov.units.every((u) => u.spans === undefined || allSpans(u.spans).every((s) => !isLoud(s.span) && s.span.note === undefined)), true);
   check("Berachos 4a carries spans on its three statements and not on the difficulty", berachosYaakov.units.map((u) => (u.spans === undefined ? "-" : "s")).join(""), "ss-s");
-  check("…every range inside its text", berachosYaakov.units.every((u) => SPAN_TEXTS.every((t) => u.spans?.[t] === undefined || Object.values(u.spans[t]!).every((span) => rangesOf(span).every((r) => r.from >= 1 && r.to <= wordCount(u[t]!))))), true);
+  check("…every range inside its text, on both sides", berachosYaakov.units.every((u) => u.spans === undefined || allSpans(u.spans).every((s) => SPAN_TEXTS.every((t) => rangesIn(s.span, t).every((r) => r.from >= 1 && r.to <= wordCount(u[t]!))))), true);
+  // Across the corpus: every span is located somewhere; every span of a role other than subject or predicate explains itself.
+  const corpus = SUGYOT.flatMap((s) => s.units.flatMap((u) => (u.spans === undefined ? [] : allSpans(u.spans).map((x) => ({ passage: s.id, unit: u.id, ...x })))));
+  check("every span in the corpus is located in at least one text", corpus.every((x) => SPAN_TEXTS.some((t) => rangesIn(x.span, t).length > 0)), true);
+  check("…and every span but a subject or predicate says why it is that role", corpus.filter((x) => x.role !== "subject" && x.role !== "predicate" && x.span.note === undefined).map((x) => `${x.passage}/${x.unit}/${x.role}`).join(), "");
+  check("…and every loud span says so at length", corpus.filter((x) => isLoud(x.span)).every((x) => (x.span.note?.length ?? 0) >= 80), true);
+  check("five loud spans in the corpus, on three units", `${corpus.filter((x) => isLoud(x.span)).length} on ${new Set(corpus.filter((x) => isLoud(x.span)).map((x) => x.unit)).size}`, "5 on 3");
 }
 
 // --- the file format ----------------------------------------------------------
@@ -1013,29 +1032,36 @@ check("no units", faultsOfInput({ ...minimal, units: [] }).join(" | "), "$.units
 // words of Hebrew by the blunt rule (the two dashes count), twenty-two of English.
 check("the answer has twenty-one Hebrew words and twenty-two English", `${wordCount(minimal.units[1]!.he!)} ${wordCount(minimal.units[1]!.en)}`, "21 22");
 const withSpans = (spans: unknown): unknown => ({ ...minimal, units: [minimal.units[0]!, { ...minimal.units[1]!, spans }] });
-check("spans on both texts pass", faultsOfInput(withSpans({ he: { subject: "1-2", predicate: "6-9" }, en: { subject: "2", predicate: ["3-11", "13-16"] } })).length, 0);
-check("…and read back as ranges", JSON.stringify(parseSugya(withSpans({ he: { subject: "1-2" } })).units[1]?.spans), '{"he":{"subject":[{"from":1,"to":2}]}}');
-check("…and print back in the shortest form, roles in the fixed order", JSON.stringify(toJson(parseSugya(withSpans({ en: { predicate: ["3-4"], subject: "2" } }))).units[1]?.spans), '{"en":{"subject":"2","predicate":"3-4"}}');
-check("a role that is not one", faultsOfInput(withSpans({ he: { subjekt: "1" } })).join(" | "), '$.units[1].spans.he.subjekt: unknown key (did you mean "subject"?)');
-check("a text the unit has not got", faultsOfInput({ ...minimal, units: [minimal.units[0]!, { ...minimal.units[1]!, he: undefined, spans: { he: { subject: "1" } } }] }).join(" | "), '$.units[1].spans.he: the unit has no "he" to index');
-check("a text that is not one", faultsOfInput(withSpans({ fr: { subject: "1" } })).join(" | "), '$.units[1].spans.fr: unknown key (did you mean "he"?)');
-check("a range past the end", faultsOfInput(withSpans({ he: { subject: "1", predicate: "6-22" } })).join(" | "), "$.units[1].spans.he.predicate: 6-22 runs past the end: the text has 21 words");
-check("words start at one", faultsOfInput(withSpans({ he: { subject: "0-2" } })).join(" | "), "$.units[1].spans.he.subject: words are numbered from 1, got 0-2");
-check("a range runs forwards", faultsOfInput(withSpans({ he: { subject: "4-2" } })).join(" | "), "$.units[1].spans.he.subject: a range runs forwards, got 4-2");
-check("a range is a range", faultsOfInput(withSpans({ he: { subject: "one" } })).join(" | "), '$.units[1].spans.he.subject: expected a word range like "3" or "2-4", got "one"');
-check("…even inside a list, with its position", faultsOfInput(withSpans({ he: { commitment: ["1-2", "x"] } })).join(" | "), '$.units[1].spans.he.commitment[1]: expected a word range like "3" or "2-4", got "x"');
-check("an empty list is no role", faultsOfInput(withSpans({ he: { premise: [] } })).join(" | "), "$.units[1].spans.he.premise: a role needs at least one range");
-check("spans is an object", faultsOfInput(withSpans("1-2")).join(" | "), '$.units[1].spans: expected an object { he, en }, got "1-2"');
-check("a text's spans are an object", faultsOfInput(withSpans({ he: "1-2" })).join(" | "), '$.units[1].spans.he: expected an object { subject, predicate, … }, got "1-2"');
-// Loud spans: `{ words, showLoud: true }` reads to a LoudSpan and prints back as itself; `showLoud: false` is quiet and prints back bare.
-check("a loud span reads as one", JSON.stringify(parseSugya(withSpans({ he: { predicate: { words: "6-9", showLoud: true } } })).units[1]?.spans?.he?.predicate), '{"ranges":[{"from":6,"to":9}],"showLoud":true}');
-check("…and prints back with its flag, words first", JSON.stringify(toJson(parseSugya(withSpans({ he: { predicate: { showLoud: true, words: ["6-9", "11"] } } }))).units[1]?.spans?.he?.predicate), '{"words":["6-9","11"],"showLoud":true}');
-check("`showLoud: false` is quiet, and prints back bare", JSON.stringify(toJson(parseSugya(withSpans({ he: { subject: { words: "1-2", showLoud: false } } }))).units[1]?.spans?.he?.subject), '"1-2"');
-check("a loud span without words", faultsOfInput(withSpans({ he: { subject: { showLoud: true } } })).join(" | "), "$.units[1].spans.he.subject.words: required");
-check("a loud span's ranges are still bounded", faultsOfInput(withSpans({ he: { subject: { words: "1-40", showLoud: true } } })).join(" | "), "$.units[1].spans.he.subject.words: 1-40 runs past the end: the text has 21 words");
-check("a loud span with a stray key", faultsOfInput(withSpans({ he: { subject: { words: "1", loud: true } } })).join(" | "), "$.units[1].spans.he.subject.loud: unknown key");
-check("…and a near-miss gets the correction", faultsOfInput(withSpans({ he: { subject: { words: "1", showloud: true } } })).join(" | "), '$.units[1].spans.he.subject.showloud: unknown key (did you mean "showLoud"?)');
-check("showLoud is a boolean", faultsOfInput(withSpans({ he: { subject: { words: "1", showLoud: "yes" } } })).join(" | "), '$.units[1].spans.he.subject.showLoud: expected true or false, got "yes"');
+// The grammar: by role, a list of spans; each span located in `he` and/or `en`, with its own `showLoud` and `note`.
+check("spans located in both texts pass", faultsOfInput(withSpans({ subject: [{ he: "1-2", en: "2" }], predicate: [{ he: "6-9", en: ["3-11", "13-16"] }] })).length, 0);
+check("…and read back as ranges on one span", JSON.stringify(parseSugya(withSpans({ subject: [{ he: "1-2", en: "2" }] })).units[1]?.spans), '{"subject":[{"he":[{"from":1,"to":2}],"en":[{"from":2,"to":2}]}]}');
+check("…and print back in the shortest form, roles in the fixed order, keys in the fixed order", JSON.stringify(toJson(parseSugya(withSpans({ predicate: [{ note: "why", en: ["3-4"], he: "6-9" }], subject: [{ en: "2" }] }))).units[1]?.spans), '{"subject":[{"en":"2"}],"predicate":[{"he":"6-9","en":"3-4","note":"why"}]}');
+check("a span in one text only passes", faultsOfInput(withSpans({ commitment: [{ he: "1-5" }, { en: "9-13" }] })).length, 0);
+check("a role that is not one", faultsOfInput(withSpans({ subjekt: [{ he: "1" }] })).join(" | "), '$.units[1].spans.subjekt: unknown key (did you mean "subject"?)');
+check("a role is a list of spans", faultsOfInput(withSpans({ subject: { he: "1" } })).join(" | "), '$.units[1].spans.subject: expected a list of spans [{ he, en, … }], got {"he":"1"}');
+check("…a non-empty one", faultsOfInput(withSpans({ premise: [] })).join(" | "), "$.units[1].spans.premise: a role needs at least one span");
+check("a span is an object", faultsOfInput(withSpans({ subject: ["1-2"] })).join(" | "), '$.units[1].spans.subject[0]: expected a span { he, en, showLoud, note }, got "1-2"');
+check("…located somewhere", faultsOfInput(withSpans({ subject: [{ note: "lost" }] })).join(" | "), '$.units[1].spans.subject[0]: a span is located in at least one text, "he" or "en"');
+check("a text the unit has not got", faultsOfInput({ ...minimal, units: [minimal.units[0]!, { ...minimal.units[1]!, he: undefined, spans: { subject: [{ he: "1" }] } }] }).join(" | "), '$.units[1].spans.subject[0].he: the unit has no "he" to index');
+check("a text that is not one", faultsOfInput(withSpans({ subject: [{ fr: "1" }] })).join(" | "), '$.units[1].spans.subject[0].fr: unknown key (did you mean "he"?) | $.units[1].spans.subject[0]: a span is located in at least one text, "he" or "en"');
+check("a range past the end, in the text it indexes", faultsOfInput(withSpans({ predicate: [{ he: "6-22", en: "3-22" }] })).join(" | "), "$.units[1].spans.predicate[0].he: 6-22 runs past the end: the text has 21 words");
+check("words start at one", faultsOfInput(withSpans({ subject: [{ he: "0-2" }] })).join(" | "), "$.units[1].spans.subject[0].he: words are numbered from 1, got 0-2");
+check("a range runs forwards", faultsOfInput(withSpans({ subject: [{ he: "4-2" }] })).join(" | "), "$.units[1].spans.subject[0].he: a range runs forwards, got 4-2");
+check("a range is a range", faultsOfInput(withSpans({ subject: [{ he: "one" }] })).join(" | "), '$.units[1].spans.subject[0].he: expected a word range like "3" or "2-4", got "one"');
+check("…even inside a list, with its position", faultsOfInput(withSpans({ predicate: [{ he: ["1-2", "x"] }] })).join(" | "), '$.units[1].spans.predicate[0].he[1]: expected a word range like "3" or "2-4", got "x"');
+check("an empty list of ranges is not a location", faultsOfInput(withSpans({ premise: [{ he: [] }] })).join(" | "), "$.units[1].spans.premise[0].he: a span needs at least one range here, or leave the text out");
+check("spans is an object", faultsOfInput(withSpans("1-2")).join(" | "), '$.units[1].spans: expected an object { subject, predicate, … }, got "1-2"');
+// Loudness and the note are written once, on the span; `showLoud: false` is quiet and is dropped; an empty note is refused.
+check("a loud span reads as one", JSON.stringify(parseSugya(withSpans({ predicate: [{ he: "6-9", showLoud: true }] })).units[1]?.spans?.predicate), '[{"he":[{"from":6,"to":9}],"showLoud":true}]');
+check("…and prints back with its flag after its texts and before its note", JSON.stringify(toJson(parseSugya(withSpans({ predicate: [{ note: "the point", showLoud: true, en: "3", he: ["6-9", "11"] }] }))).units[1]?.spans?.predicate), '[{"he":["6-9","11"],"en":"3","showLoud":true,"note":"the point"}]');
+check("`showLoud: false` is quiet, and is dropped", JSON.stringify(toJson(parseSugya(withSpans({ subject: [{ he: "1-2", showLoud: false }] }))).units[1]?.spans?.subject), '[{"he":"1-2"}]');
+check("a note reads back", parseSugya(withSpans({ commitment: [{ he: "1-5", note: "the rule" }] })).units[1]?.spans?.commitment?.[0]?.note, "the rule");
+check("an empty note is refused", faultsOfInput(withSpans({ commitment: [{ he: "1-5", note: "  " }] })).join(" | "), "$.units[1].spans.commitment[0].note: must not be empty — say why these words are the role, or leave it out");
+check("a note is a string", faultsOfInput(withSpans({ commitment: [{ he: "1-5", note: 3 }] })).join(" | "), "$.units[1].spans.commitment[0].note: expected a string, got 3");
+check("a span with a stray key", faultsOfInput(withSpans({ subject: [{ he: "1", loud: true }] })).join(" | "), "$.units[1].spans.subject[0].loud: unknown key");
+check("…and a near-miss gets the correction", faultsOfInput(withSpans({ subject: [{ he: "1", showloud: true }] })).join(" | "), '$.units[1].spans.subject[0].showloud: unknown key (did you mean "showLoud"?)');
+check("…so does the old per-text shape", faultsOfInput(withSpans({ he: { subject: "1" } })).join(" | "), "$.units[1].spans.he: unknown key");
+check("showLoud is a boolean", faultsOfInput(withSpans({ subject: [{ he: "1", showLoud: "yes" }] })).join(" | "), '$.units[1].spans.subject[0].showLoud: expected true or false, got "yes"');
 check("several faults are reported together", faultsOfInput({ ...minimal, title: 3, tractate: undefined, units: [{ ...minimal.units[0]!, en: undefined }, minimal.units[1]!] }).length, 3);
 check("a fault's message names the source", (() => { try { parseSugya({}, "gold.json"); return ""; } catch (e) { return (e as Error).message.split("\n")[0]; } })(), "gold.json: 8 faults");
 check("the printer puts a move on one line", stringify(yebamosDeafMute).includes('"move": { "element": "question", "subtype": "query", "marker": "מאי שנא … ומאי שנא", "attested": true }'), true);
@@ -1057,8 +1083,8 @@ check("provenances", schema.$defs["provenance"]?.enum?.join(), PROVENANCES.join(
 check("elements", schema.$defs["move"]?.properties?.["element"]?.enum?.join(), ELEMENTS.join());
 check("the subtypes of every element", (schema.$defs["move"]?.allOf ?? []).map((c) => `${c.if.properties.element.const}: ${c.then.properties.subtype.enum.join()}`).join(" / "), ELEMENTS.map((e) => `${e}: ${SUBTYPES[e].join()}`).join(" / "));
 check("the anatomy labels, all one hundred and twenty, in the code's order", schema.$defs["annotation"]?.properties?.["kind"]?.enum?.join(), ANATOMY_KEYS.join());
-check("the span roles", Object.keys(schema.$defs["roleSpans"]?.properties ?? {}).join(), SPAN_ROLES.join());
-check("the texts a span can index", Object.keys(schema.$defs["spans"]?.properties ?? {}).join(), SPAN_TEXTS.join());
+check("the span roles", Object.keys(schema.$defs["spans"]?.properties ?? {}).join(), SPAN_ROLES.join());
+check("a span's keys, texts first", Object.keys(schema.$defs["span"]?.properties ?? {}).join(), SPAN_FIELDS.join());
 check("the range grammar agrees with the reader on what a range looks like", ["3", "2-4", "12-15"].every((r) => new RegExp(schema.$defs["range"]!.pattern!).test(r) && parseRange(r) !== undefined) && ["0", "2-", "a", "2–4"].every((r) => !new RegExp(schema.$defs["range"]!.pattern!).test(r)), true);
 check("every file names the schema beside it", SUGYOT.every((s) => (JSON.parse(readText(`${s.id}.json`)) as { $schema?: string }).$schema === "./sugya.schema.json"), true);
 

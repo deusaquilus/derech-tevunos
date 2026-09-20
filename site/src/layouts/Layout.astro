@@ -8,6 +8,15 @@ interface Props {
   description?: string;
   /** When true, emit robots noindex. Keep in sync with SITEMAP_EXCLUDE in astro.config.mjs. */
   noindex?: boolean;
+  /**
+   * Error document, not a page. `404.astro` is prerendered once, so
+   * `Astro.url` is always `/404`; emitting `og:url` or `rel=canonical`
+   * would make every miss the same graph object and a LinkedIn scrape
+   * of a missing path would cache "Not found" as the site card.
+   * Not coupled to `noindex`: `/byo` is noindex (empty at build time)
+   * and still a URL someone can paste.
+   */
+  errorDocument?: boolean;
   /** Real name of the page author. Set on every blog post. */
   author?: string;
   /**
@@ -34,6 +43,7 @@ const {
   description =
     "Ramchal's Derech Tevunos as a system for labelling dialectical text, and a visualization that draws a sugya as a waterfall of those labels.",
   noindex = false,
+  errorDocument = false,
   author,
   image,
   bare = false,
@@ -60,20 +70,26 @@ const canonicalUrl = new URL(canonicalPath, site).href;
     <meta name="description" content={description} />
     {author && <meta name="author" content={author} />}
     {noindex && <meta name="robots" content="noindex" />}
-    <link rel="canonical" href={canonicalUrl} />
+    {!errorDocument && <link rel="canonical" href={canonicalUrl} />}
     <link rel="alternate" type="application/rss+xml" title="Derech Tevunos" href="/rss.xml" />
 
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content={canonicalUrl} />
-    <meta property="og:title" content={title} />
-    <meta property="og:description" content={description} />
-    <meta property="og:image" content={ogImage} />
-    <meta property="og:site_name" content="Derech Tevunos" />
+    {
+      !errorDocument && (
+        <>
+          <meta property="og:type" content="website" />
+          <meta property="og:url" content={canonicalUrl} />
+          <meta property="og:title" content={title} />
+          <meta property="og:description" content={description} />
+          <meta property="og:image" content={ogImage} />
+          <meta property="og:site_name" content="Derech Tevunos" />
 
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content={title} />
-    <meta name="twitter:description" content={description} />
-    <meta name="twitter:image" content={ogImage} />
+          <meta name="twitter:card" content="summary_large_image" />
+          <meta name="twitter:title" content={title} />
+          <meta name="twitter:description" content={description} />
+          <meta name="twitter:image" content={ogImage} />
+        </>
+      )
+    }
 
     <title>{title}</title>
     <link rel="icon" type="image/png" sizes="32x32" href="/mark-32.png" />

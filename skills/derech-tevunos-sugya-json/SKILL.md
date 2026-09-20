@@ -39,7 +39,7 @@ Nothing outside these lists is valid outside `ext`. The reader refuses an unknow
 
 **`anatomy[].kind`**: one of the hundred and twenty in guide §3.3, each with `basis` `marked` or `inferred`. Optional. Leave it out rather than guess.
 
-**`spans`** (guide §2.5): which words of `he` / `en` are the `subject`, `predicate`, `antecedent`, `consequent`, `premise`, `conclusion` or a `commitment`, as word ranges — `"3"`, `"2-4"`, or a list — counted by whitespace tokens from 1. Optional; never a copy of the words. Write them where the passage turns on the split, not on every sentence. A span is **quiet by default** (the page shows the faintest mark); write `{ "words": "2-4", "showLoud": true }` **only** for the rare span the sugya's logic hangs on — most passages have none.
+**`spans`** (guide §2.5): which words are the `subject`, `predicate`, `antecedent`, `consequent`, `premise`, `conclusion` or a `commitment`. By role, a list of spans; each span is one object located in the texts by word ranges — `{ "he": "2-4", "en": "3-6" }`, ranges `"3"`, `"2-4"` or a list, counted by whitespace tokens from 1. Optional; never a copy of the words. Write them where the passage turns on the split, not on every sentence. Every span but a subject or predicate carries a `note` saying **why these words are that role** — a word or two if unimportant, a sentence or more if it matters. A span is **quiet by default** (the page shows a hairline that nearly blends into the paper); add `"showLoud": true` **only** to the rare span the sugya's logic hangs on — most passages have none.
 
 ## The smallest valid file
 
@@ -61,7 +61,7 @@ Nothing outside these lists is valid outside `ext`. The reader refuses an unknow
 
 Required: `format`, `version`, `id`, `title`, `tractate`, `folio`, `discussedAt`, `units`; per unit `id`, `en`, `move`; per move `element`, `subtype`. For a passage Ramchal does not discuss, `discussedAt` says so: `"Not discussed in Derech Tevunos; labelled from the markers of ch. 9"`.
 
-A unit with everything the page can show — the answer from that file, verbatim (its `spans` are quiet, as spans almost always are):
+A unit with everything the page can show — the answer from that file, verbatim (its `spans` are quiet, as spans almost always are, and each says in a few words why it is that role):
 
 ```json
 {
@@ -79,14 +79,14 @@ A unit with everything the page can show — the answer from that file, verbatim
     }
   ],
   "spans": {
-    "he": {
-      "antecedent": ["1-5", "11-16"],
-      "consequent": ["7-10", "18-21"]
-    },
-    "en": {
-      "antecedent": ["1-8", "14-17"],
-      "consequent": ["9-13", "19-22"]
-    }
+    "antecedent": [
+      { "he": "1-5", "en": "1-8", "note": "the deaf-mute's condition: a rabbinic ordinance can hold of them" },
+      { "he": "11-16", "en": "14-17", "note": "the insane's condition: it cannot" }
+    ],
+    "consequent": [
+      { "he": "7-10", "en": "9-13", "note": "what followed for the one: the rabbis validated the marriage" },
+      { "he": "18-21", "en": "19-22", "note": "what followed for the other: they did not" }
+    ]
   },
   "note": "Two consequent statements in one breath, one for each class, so the antecedent and the consequent each occur twice and take a list; the two dashes carry the dependence and belong to no role, as `לפיכך` does in Ramchal's own example (Heb p39). The spans are written because the form is a `consequent`, whose two clauses chapter 3 names (Heb p31) and whose three intentions chapter 6 counts (Heb p87–89), not because a difficulty lands on one part: none does, so the `commitment` spans are not written."
 }

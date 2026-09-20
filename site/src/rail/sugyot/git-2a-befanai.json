@@ -37,18 +37,20 @@
         }
       ],
       "spans": {
-        "he": {
-          "commitment": {
-            "words": ["7-8", "9-10"],
-            "showLoud": true
+        "commitment": [
+          {
+            "he": "7-8",
+            "en": "13-15",
+            "showLoud": true,
+            "note": "'Written before me' — the clause Rabbah's reason needs (abroad they are not versed in לשמה) and Rava's does not. `a-nichtav` argues from its presence: had ratification been the point, 'signed' alone would have done."
+          },
+          {
+            "he": "9-10",
+            "en": "17-19",
+            "showLoud": true,
+            "note": "'Signed before me' — the clause Rava's reason needs (no witnesses available to ratify). The sugya's second half is an argument over why each clause is there, and `a-bedin-2` and `a-bedin-3` explain the one that each reason does not need."
           }
-        },
-        "en": {
-          "commitment": {
-            "words": ["13-15", "17-19"],
-            "showLoud": true
-          }
-        }
+        ]
       }
     },
     {
@@ -103,9 +105,11 @@
         }
       ],
       "spans": {
-        "en": {
-          "commitment": ["1-2", "3-8", "9-12"]
-        }
+        "commitment": [
+          { "en": "1-2", "note": "two bearers: Rava's reason lapses — two can ratify — while Rabbah's holds" },
+          { "en": "3-8", "note": "province to province inside the Land: Rabbah's lapses — they know לשמה — while Rava's holds" },
+          { "en": "9-12", "note": "one province abroad: Rabbah's holds while Rava's lapses" }
+        ]
       }
     },
     {
@@ -305,8 +309,12 @@
         }
       ],
       "spans": {
-        "he": { "antecedent": "6-9", "consequent": "10-11" },
-        "en": { "antecedent": "5-7", "consequent": "8-10" }
+        "antecedent": [
+          { "he": "6-9", "en": "5-7", "note": "the condition: a longer formula" }
+        ],
+        "consequent": [
+          { "he": "10-11", "en": "8-10", "note": "what would follow: he clips it — the dependence `q-hashta` denies" }
+        ]
       }
     },
     {
@@ -356,14 +364,13 @@
         }
       ],
       "spans": {
-        "he": {
-          "premise": ["1-7", "8-11"],
-          "conclusion": "14-15"
-        },
-        "en": {
-          "premise": ["1-7", "8"],
-          "conclusion": "10-15"
-        }
+        "premise": [
+          { "he": "1-7", "en": "1-7", "note": "the counterfactual: 'signed' alone would have served Rava's reason" },
+          { "he": "8-11", "en": "8", "note": "yet 'written' is taught" }
+        ],
+        "conclusion": [
+          { "he": "14-15", "en": "10-15", "note": "so the requirement is לשמה, Rabbah's reason — reached from the other side's failure" }
+        ]
       }
     },
     {
@@ -388,8 +395,12 @@
         }
       ],
       "spans": {
-        "he": { "antecedent": "6-7", "consequent": "8-12" },
-        "en": { "consequent": "5-14" }
+        "antecedent": [
+          { "he": "6-7", "note": "the condition: had it been taught so" }
+        ],
+        "consequent": [
+          { "he": "8-12", "en": "5-14", "note": "what would follow: confusion with the ordinary ratification of a document" }
+        ]
       }
     },
     {

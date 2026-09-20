@@ -159,12 +159,14 @@
         { "kind": "analogism", "note": "The first of the two is the same juxtaposition the settlement above already used." }
       ],
       "spans": {
-        "he": {
-          "commitment": ["6-10", "12-24"]
-        },
-        "en": {
-          "commitment": ["8-18", "21-45"]
-        }
+        "commitment": [
+          { "he": "6-10", "en": "8-18", "note": "the first reason: the juxtaposition to the striker of an animal, who pays" },
+          {
+            "he": "12-24",
+            "en": "21-45",
+            "note": "the second: `ינתן` means money — a ground of its own, so either can fall while the other stands"
+          }
+        ]
       }
     },
     {

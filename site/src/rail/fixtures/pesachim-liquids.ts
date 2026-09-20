@@ -75,8 +75,10 @@ export const pesachimLiquids: Sugya = {
         { kind: "ground-deduction", note: "The contradiction rests on no verse or testimony of its own, only on the deduction beside this badge: R. Eleazar's derivation is the premise, and a received law yields no derivations (Eng p116)." },
       ],
       spans: {
-        he: { premise: [{ from: 2, to: 10 }, { from: 12, to: 19 }] },
-        en: { premise: [{ from: 2, to: 17 }, { from: 18, to: 30 }] },
+        premise: [
+          { he: [{ from: 2, to: 10 }], en: [{ from: 2, to: 17 }], note: "the first premise: R. Eleazar drew a law from the testimony" },
+          { he: [{ from: 12, to: 19 }], en: [{ from: 18, to: 30 }], note: "the second, as a rhetorical question: a received law yields no derivation — so the two cannot both stand" },
+        ],
       },
     },
   ],

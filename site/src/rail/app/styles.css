@@ -787,12 +787,20 @@
   text-decoration-color: color-mix(in srgb, var(--muted) 45%, var(--surface));
 }
 
-/* The minimal popup: a name, a small icon for a loud span, and the invitation to click. */
+/* The minimal popup: for each covering span its role's name, a small icon if
+   it is loud, and its note — the reason these words are that role — where the
+   file wrote one; then the invitation to click. A note wraps; the names do not. */
 .row-span-tip-min {
   display: flex;
-  align-items: center;
-  gap: 8px;
-  white-space: nowrap;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+}
+
+.row-span-tip-min-cover {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
 }
 
 .row-span-tip-min-role {
@@ -800,6 +808,15 @@
   align-items: center;
   gap: 5px;
   font-weight: 600;
+  white-space: nowrap;
+}
+
+.row-span-tip-note {
+  display: block;
+  color: var(--fg);
+  font-weight: 400;
+  line-height: 1.4;
+  white-space: normal;
 }
 
 .row-span-tip-more {
@@ -1230,6 +1247,19 @@
 .badge-tip-note {
   color: var(--muted);
   font-style: italic;
+}
+
+/* A word a note quotes in backticks — a word of the text, or a unit's id.
+   Not monospace: most of them are Hebrew, and a monospace Hebrew face beside
+   the sentence's own reads as a glitch. The same face on a faint chip, upright
+   inside an italic note, and bidi-isolated by the component's `dir="auto"`. */
+.note-quoted {
+  font-family: inherit;
+  font-style: normal;
+  color: var(--fg);
+  background: color-mix(in srgb, var(--fg) 7%, transparent);
+  border-radius: 3px;
+  padding: 0 3px;
 }
 
 .badge-tip-where {

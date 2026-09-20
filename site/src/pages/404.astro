@@ -2,7 +2,12 @@
 import Layout from '../layouts/Layout.astro';
 ---
 
-<Layout title="Not found — Derech Tevunos" description="No page at this address." noindex={true}>
+<Layout
+  title="Not found — Derech Tevunos"
+  description="No page at this address."
+  noindex
+  errorDocument
+>
   <section class="page">
     <div class="inner">
       <img

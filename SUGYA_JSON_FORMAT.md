@@ -81,14 +81,14 @@ The smallest complete file, exactly as shipped:
         }
       ],
       "spans": {
-        "he": {
-          "antecedent": ["1-5", "11-16"],
-          "consequent": ["7-10", "18-21"]
-        },
-        "en": {
-          "antecedent": ["1-8", "14-17"],
-          "consequent": ["9-13", "19-22"]
-        }
+        "antecedent": [
+          { "he": "1-5", "en": "1-8", "note": "the deaf-mute's condition: a rabbinic ordinance can hold of them" },
+          { "he": "11-16", "en": "14-17", "note": "the insane's condition: it cannot" }
+        ],
+        "consequent": [
+          { "he": "7-10", "en": "9-13", "note": "what followed for the one: the rabbis validated the marriage" },
+          { "he": "18-21", "en": "19-22", "note": "what followed for the other: they did not" }
+        ]
       },
       "note": "Two consequent statements in one breath, one for each class, so the antecedent and the consequent each occur twice and take a list; the two dashes carry the dependence and belong to no role, as `לפיכך` does in Ramchal's own example (Heb p39). The spans are written because the form is a `consequent`, whose two clauses chapter 3 names (Heb p31) and whose three intentions chapter 6 counts (Heb p87–89), not because a difficulty lands on one part: none does, so the `commitment` spans are not written."
     }
@@ -139,22 +139,23 @@ eleven passages with the fourteen new kinds and the seven span roles, and the
 rows below are what survived review (`compound` became `compound-equal` in
 four places, `synonymous-terms` landed on four resolutions that assert two
 words mean one thing, `inseparable-property` stayed on exactly one unit — the
-one whose argument turns on the respect — and spans went on 24 units, six of
-them loud).
+one whose argument turns on the respect — and spans went on 24 units: 62
+spans, every one but the subjects and predicates carrying a note saying why
+it is that role, five of them loud).
 
-| passage | units | party | speaker | he | short | target | marker | attested | note | anatomy | anatomy families | spans (units: roles) | leaves used | hint |
+| passage | units | party | speaker | he | short | target | marker | attested | note | anatomy | anatomy families | spans (units, spans: roles · noted · loud) | leaves used | hint |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| `pesachim-liquids` — Pesachim 16a/18b | 4 | group | 4 | 4 | — | 3 | 1 | 3 true, 1 false | 2 | 9 labels on 4 | anatomy, subjects, deductions, relations, grounds | 1: premise | 4 | — |
-| `berachos-yaakov` — Berachos 4a | 4 | individual | 4 | 4 | — | 2 | 1 | 4 true | 1 | 8 labels on 4 | subjects, anatomy, relations | 3: subject, predicate | 3 | — |
+| `pesachim-liquids` — Pesachim 16a/18b | 4 | group | 4 | 4 | — | 3 | 1 | 3 true, 1 false | 2 | 9 labels on 4 | anatomy, subjects, deductions, relations, grounds | 1 units, 2 spans: premise · 2 noted | 4 | — |
+| `berachos-yaakov` — Berachos 4a | 4 | individual | 4 | 4 | — | 2 | 1 | 4 true | 1 | 8 labels on 4 | subjects, anatomy, relations | 3 units, 6 spans: subject, predicate | 3 | — |
 | `yebamos-chalitzah` — Yebamos 104b | 3 | talmud | 3 | 2 | — | 2 | 1 | 3 true | 1 | 9 labels on 3 | subjects, anatomy, relations | — | 3 | — |
-| `yebamos-deafmute` — Yebamos 112b | 2 | talmud | 2 | 2 | — | 1 | 1 | 2 true | 1 | 3 labels on 2 | subjects, anatomy | 1: antecedent, consequent | 2 | — |
-| `bava-metzia-yeush` — Bava Metzia 21b–22b | 57 | group | 19 | 57 | 57 | 56 | 25 | 57 false | 14 | 57 labels on 44 | anatomy, subjects, relations, deductions, grounds | 6: predicate, commitment, premise, conclusion, antecedent, consequent · 2 loud | 16 | — |
-| `bk-83b-ayin` — Bava Kamma 83b | 15 | talmud | 3 | 15 | 15 | 14 | 13 | 2 true | 7 | 16 labels on 9 | anatomy, subjects, deductions, relations, reports, grounds | 1: commitment | 9 | — |
-| `sukkah-2b-heleni` — Sukkah 2a–2b | 9 | group | 6 | 9 | 9 | 8 | 7 | — | 5 | 11 labels on 8 | subjects, reports, deductions, grounds, relations | 1: premise, conclusion | 7 | — |
-| `bm-2a-ochazin` — Bava Metzia 2a–3a | 36 | talmud | 2 | 36 | 36 | 35 | 33 | 36 false | — | 3 labels on 3 | anatomy | 2: commitment, antecedent, consequent | 7 | yes |
-| `bk-2a-toldos` — Bava Kamma 2a–3b | 77 | talmud | 2 | 77 | 77 | 76 | 63 | 77 false | — | 4 labels on 4 | anatomy, relations | 3: commitment, antecedent, consequent · 2 loud | 10 | yes |
-| `pes-2a-or` — Pesachim 2a–3a | 46 | group | 4 | 46 | 46 | 45 | 39 | 46 false | — | 3 labels on 2 | anatomy, relations | 1: commitment | 9 | yes |
-| `git-2a-befanai` — Gittin 2a–3a | 31 | group | 3 | 31 | 31 | 30 | 24 | 31 false | — | 22 labels on 18 | anatomy, relations, deductions, grounds | 5: commitment, antecedent, consequent, premise, conclusion · 2 loud | 6 | yes |
+| `yebamos-deafmute` — Yebamos 112b | 2 | talmud | 2 | 2 | — | 1 | 1 | 2 true | 1 | 3 labels on 2 | subjects, anatomy | 1 units, 4 spans: antecedent, consequent · 4 noted | 2 | — |
+| `bava-metzia-yeush` — Bava Metzia 21b–22b | 57 | group | 19 | 57 | 57 | 56 | 25 | 57 false | 14 | 57 labels on 44 | anatomy, subjects, relations, deductions, grounds | 6 units, 20 spans: predicate, commitment, premise, conclusion, antecedent, consequent · 18 noted · 2 loud | 16 | — |
+| `bk-83b-ayin` — Bava Kamma 83b | 15 | talmud | 3 | 15 | 15 | 14 | 13 | 2 true | 7 | 16 labels on 9 | anatomy, subjects, deductions, relations, reports, grounds | 1 units, 2 spans: commitment · 2 noted | 9 | — |
+| `sukkah-2b-heleni` — Sukkah 2a–2b | 9 | group | 6 | 9 | 9 | 8 | 7 | — | 5 | 11 labels on 8 | subjects, reports, deductions, grounds, relations | 1 units, 2 spans: premise, conclusion · 2 noted | 7 | — |
+| `bm-2a-ochazin` — Bava Metzia 2a–3a | 36 | talmud | 2 | 36 | 36 | 35 | 33 | 36 false | — | 3 labels on 3 | anatomy | 2 units, 4 spans: commitment, antecedent, consequent · 4 noted | 7 | yes |
+| `bk-2a-toldos` — Bava Kamma 2a–3b | 77 | talmud | 2 | 77 | 77 | 76 | 63 | 77 false | — | 4 labels on 4 | anatomy, relations | 3 units, 8 spans: commitment, antecedent, consequent · 8 noted · 1 loud | 10 | yes |
+| `pes-2a-or` — Pesachim 2a–3a | 46 | group | 4 | 46 | 46 | 45 | 39 | 46 false | — | 3 labels on 2 | anatomy, relations | 1 units, 2 spans: commitment · 2 noted | 9 | yes |
+| `git-2a-befanai` — Gittin 2a–3a | 31 | group | 3 | 31 | 31 | 30 | 24 | 31 false | — | 22 labels on 18 | anatomy, relations, deductions, grounds | 5 units, 12 spans: commitment, antecedent, consequent, premise, conclusion · 12 noted · 2 loud | 6 | yes |
 
 What each passage contributed to the format:
 
@@ -255,7 +256,7 @@ two-letter move codes — the files hold the expanded moves.
 | `move` | move | **yes** | Ch. 9: what the sentence does. See §4.3. | Icon, colour, label, gloss, edge style, indent, folding, rails, analysis. |
 | `provenance` | `sense` · `axiom` · `endoxa` · `tradition` · `derivation` · `asserted` | no | Ch. 8: where the sentence's authority comes from. The first four enter the debate already accepted; `derivation` and `asserted` start in doubt and must earn acceptance. Absent: `asserted`. | The unit's starting status, hence its verdict. On a proof, contradiction or difficulty that acts on something, the first four also draw a magenta ground badge (`ground-sense`, `ground-axiom`, `ground-common-sense`, `ground-tradition`) unless the unit already carries an explicit ch. 8 label. `derivation` and `asserted` do not auto-map. |
 | `anatomy` | annotation[] | no | The anatomy layer, any number of labels. See §4.4. | The anatomy layer's chips, beads and tooltips; off by default. |
-| `spans` | spans | no | Which words of `he` and of `en` play which role — subject, predicate, antecedent, consequent, premise, conclusion, commitment — as word ranges into the text; a span is quiet unless marked `showLoud`. See §4.5. | A quiet span is a hairline dotted mark in a taupe that nearly blends into the paper, named on hover; a loud one, or every one when *Detailed spans* is on, is the same hairline at a trace of the role's hue. Neither interrupts the reader. A click expands the popup. |
+| `spans` | spans | no | Which words play which role — subject, predicate, antecedent, consequent, premise, conclusion, commitment — each span one object located in `he` and `en` by word ranges, with its own `note` (why these words are that role) and `showLoud`. See §4.5. | A quiet span is a hairline dotted mark in a taupe that nearly blends into the paper, named on hover; a loud one, or every one when *Detailed spans* is on, is the same hairline at a trace of the role's hue. Neither interrupts the reader. A click expands the popup. |
 | `note` | string | no | Why the label; a doubt; where the taxonomy was stretched; a cross-reference (*returns fifty sentences later as the verse that refutes Rava*). | Nothing — documentation, and material for the checks. |
 | `ext` | object | no | See §7. | Nothing. |
 
@@ -351,22 +352,34 @@ otherwise derive from `provenance`.
 Some of Ramchal's constructs are not labels from a closed list but **parts of
 the sentence's own text**: the subject of *women are obligated in kiddush* is
 *women*, which is no vocabulary word. So they are recorded as **spans** — a
-range of word positions into a text the file already has — and never as a
-copy of the words. A span is two small integers; it adds nothing that can go
-stale and cannot bloat a file.
+piece of the sentence located by word positions into the texts the file
+already has — and never as a copy of the words. A span is a few small
+integers; it adds nothing that can go stale and cannot bloat a file.
+
+One span, two projections. The antecedent of a sentence is one thing said in
+Hebrew and in English, so a span is **one object** with a `he` range and an
+`en` range, and what is true of the span — why it is that role, whether the
+argument turns on it — is written **once**, on the object:
 
 ```json
 "spans": {
-  "he": { "subject": "1", "predicate": "2-6" },
-  "en": { "subject": "1", "predicate": "2-12" }
+  "antecedent": [
+    { "he": "1-5", "en": "1-8", "note": "the deaf-mute's condition: a rabbinic ordinance can hold of them" },
+    { "he": "11-16", "en": "14-17", "note": "the insane's condition: it cannot" }
+  ],
+  "consequent": [
+    { "he": "7-10", "en": "9-13", "note": "what followed for the one: the rabbis validated the marriage" },
+    { "he": "18-21", "en": "19-22", "note": "what followed for the other: they did not" }
+  ]
 }
 ```
 
 | key | type | what it is |
 |---|---|---|
-| `he`, `en` | role → span | Which text the ranges index. Each text counts its own words; a text the unit does not have is a fault. Either or both. |
-| a role | `"3"` · `"2-4"` · a list of these | A **quiet** span, the default: the words in that role. One range is a string; a role that occurs more than once in the sentence — two premises, three commitments, a compound's several subjects, a predicate split around its subject — is a list. |
-| a role | `{ "words": "2-4", "showLoud": true }` | A **loud** span: the same ranges under `words`, marked as one the passage's logic turns on. Rare, and the classifier's judgment. `showLoud: false` reads as quiet and prints back bare. |
+| a role | list of spans | Which words play the role, one span per occurrence in sentence order: two premises, three commitments, a compound's several subjects are two, three, several spans. Always a list, even of one. The seven roles are the table below. |
+| `he`, `en` | `"3"` · `"2-4"` · a list of these | Where the span is in that text, as word ranges into it. At least one of the two; either alone where only that text is indexed. A span that is discontinuous in one text — a predicate split around its subject — takes a list of ranges there. Each text counts its own words; a text the unit does not have is a fault. |
+| `showLoud` | `true` | A **loud** span, one the passage's logic turns on. Rare, and the classifier's judgment; most passages have none. `false` reads as quiet and is dropped. |
+| `note` | string | **Why these words are that role** — not what the role is, which the popup already says. Read exactly like an anatomy label's `note`: a word or two where the span is unimportant (`the rule`, `the carved-out case`), or nothing at all; a sentence or more where the span is loud, saying what lands on it. A `subject` or `predicate` never needs one — they are obvious. Never empty. |
 
 **Quiet and loud.** Both are whispers; the span mechanism must not
 interrupt a reader who came for the sentence. The page draws a quiet span as
@@ -374,11 +387,13 @@ a hairline dotted underline in a taupe that nearly blends into the paper — no
 hue, no icon, its name only when the pointer rests on it — and a loud span as
 the same hairline at a trace of the role's hue. The legend has a checkbox,
 *Detailed spans*, beside *Ramchal's anatomy*: on, every span is drawn the
-loud way; off, the default, only the loud ones are. The popup a span opens is minimal — the role's name, a
-small icon for a loud one — and a click expands it to the full account. The
-default is quiet on purpose: a reader knows what an antecedent is, and a
-sentence with every clause underlined says nothing. `showLoud` is for the
-span the argument hangs on, and a passage often has none.
+loud way; off, the default, only the loud ones are. The popup a span opens is
+minimal — the role's name, a small icon for a loud one, and the `note` where
+there is one, because the reason is the one thing a reader cannot work out
+alone — and a click expands it to the full account. The default is quiet on
+purpose: a reader knows what an antecedent is, and a sentence with every
+clause underlined says nothing. `showLoud` is for the span the argument hangs
+on, and a passage often has none.
 
 **Words** are the maximal runs of non-whitespace in the text, numbered from 1;
 punctuation stays with the word it touches, a lone dash counts as a word, and
@@ -532,12 +547,14 @@ prefixed with the JSON path it sits at. It refuses, in this order of discovery:
 4. Values outside a vocabulary, with the allowed values listed (or counted,
    for the hundred and twenty labels) and a suggestion when one is close.
 5. A `subtype` that is not a leaf of its `element`.
-6. A span that cannot index its text: a role that is not one of the seven; a
-   text (`he`, `en`) the unit has not got; a range that is not `"3"` or
-   `"2-4"`; a range that starts at 0, runs backwards, or runs past the
-   text's last word — the fault says how many words the text has; a loud
-   span without `words`, with a key other than `words` and `showLoud`, or
-   with a `showLoud` that is not a boolean.
+6. A span that cannot stand: a role that is not one of the seven; a role
+   that is not a list of spans, or an empty one; a span that is not an
+   object, or is located in neither `he` nor `en`; a text the unit has not
+   got; a range that is not `"3"` or `"2-4"`; a range that starts at 0, runs
+   backwards, or runs past the text's last word — the fault says how many
+   words the text has; a key other than `he`, `en`, `showLoud`, `note` (the
+   old per-text shape, `"spans": { "he": … }`, fails here); a `showLoud` that
+   is not a boolean; an empty `note`.
 7. Then the structural rules, from the analysis itself: duplicate unit ids; a
    `target` that names no unit; a `target` that names a *later* unit; an
    edge-level label on a unit whose move acts on nothing; no units at all.
@@ -705,7 +722,11 @@ Not enforced by the reader; how the shipped files are written.
   the row should see it there. Count words by the blunt rule (§4.5) and let
   the reader catch a miscount: it knows how many words the text has. Leave
   every span quiet unless the argument hangs on it; `showLoud: true` is for
-  that span alone, and most passages have none.
+  that span alone, and most passages have none. Give every span but a
+  subject or predicate a `note` saying why these words are that role — a
+  word or two when the span is unimportant (`the rule`, `the carved-out
+  case`), a sentence or more when it is loud, saying what lands on it — or,
+  when there is genuinely nothing to say, none.
 - **`about`** should say where the text is from, what the passage shows, and
   every place a label is a stretch.
 

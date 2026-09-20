@@ -262,14 +262,21 @@
         }
       ],
       "spans": {
-        "he": {
-          "predicate": "14-16",
-          "commitment": ["3-4", "7-12"]
-        },
-        "en": {
-          "predicate": "20-24",
-          "commitment": ["4-9", "11-19"]
-        }
+        "predicate": [
+          { "he": "14-16", "en": "20-24" }
+        ],
+        "commitment": [
+          {
+            "he": "3-4",
+            "en": "4-9",
+            "note": "the first member, figs drying on the path — `t7-reisha-ans` answers it on its own footing: valuable, so the owner keeps feeling for them"
+          },
+          {
+            "he": "7-12",
+            "en": "11-19",
+            "note": "the second member, figs under an overhanging tree — answered separately: a fig tree is known to drop its fruit"
+          }
+        ]
       }
     },
     {
@@ -345,10 +352,17 @@
         }
       ],
       "spans": {
-        "en": {
-          "predicate": "26-42",
-          "commitment": ["4-15", "18-19", "22-24"]
-        }
+        "predicate": [
+          { "en": "26-42" }
+        ],
+        "commitment": [
+          {
+            "en": "4-15",
+            "note": "the thief — where `t8-pin` lands: the owner never saw him, so how did he despair? Read at `t8-ans2` as an armed bandit"
+          },
+          { "en": "18-19", "note": "the robber — `t8-press` objects that, so read, this clause repeats the first" },
+          { "en": "22-24", "note": "the river — the owner saw it happen and despaired; never in dispute" }
+        ]
       }
     },
     {
@@ -626,14 +640,13 @@
         { "kind": "comparative", "basis": "marked" }
       ],
       "spans": {
-        "he": {
-          "premise": ["1-6", "8-9"],
-          "conclusion": "11-14"
-        },
-        "en": {
-          "premise": ["1-11", "14-18"],
-          "conclusion": "20-26"
-        }
+        "premise": [
+          { "he": "1-6", "en": "1-11", "note": "the likeness the analogy rests on: `יותן` is to be read like `יתן`" },
+          { "he": "8-9", "en": "14-18", "note": "the known case: `יתן` is with the owner's knowledge" }
+        ],
+        "conclusion": [
+          { "he": "11-14", "en": "20-26", "note": "carried to the unknown case: so `יותן` is with knowledge too" }
+        ]
       }
     },
     {
@@ -649,18 +662,20 @@
         { "kind": "exception", "note": "Every lost item that is available to anyone — excluding this one, which is available to no one." }
       ],
       "spans": {
-        "he": {
-          "commitment": {
-            "words": ["18-24", "25-33"],
-            "showLoud": true
+        "commitment": [
+          {
+            "he": "18-24",
+            "en": "43-53",
+            "showLoud": true,
+            "note": "The rule the verse lays down: what is lost to its owner and findable by anyone must be returned. `t12-dumya` calls it `איסורא` and carries the exception's ruling back onto it — forbidden with or without a mark — which is what refutes Rava."
+          },
+          {
+            "he": "25-33",
+            "en": "54-65",
+            "showLoud": true,
+            "note": "The case carved out of the rule: swept off by a river, lost to everyone, so permitted. `היתירא` in `t12-dumya`, the known case its analogy starts from — permitted whether or not it bears a mark."
           }
-        },
-        "en": {
-          "commitment": {
-            "words": ["43-53", "54-65"],
-            "showLoud": true
-          }
-        }
+        ]
       },
       "note": "Two commitments, by Ramchal's count for the exception statement — `גזרותיו שתים`, the rule and the carved-out piece (ch. 6, Eng p80): what is lost to him and available to any man, and `יצאתה זו`, the river-swept item taken out of it. Both are marked because `t12-dumya` runs its analogy between exactly these two, `היתירא` being the exception and `איסורא` the rule. The verse itself sits in the elision and is not indexed."
     },
@@ -684,14 +699,17 @@
         }
       ],
       "spans": {
-        "he": {
-          "premise": ["1-3", "5-15"],
-          "conclusion": "17-27"
-        },
-        "en": {
-          "premise": ["2-6", "9-19"],
-          "conclusion": "21-38"
-        }
+        "premise": [
+          { "he": "1-3", "en": "2-6", "note": "the likeness asserted: the prohibited case is to be judged like the permitted one" },
+          { "he": "5-15", "en": "9-19", "note": "the known case: the permitted item is permitted with or without a mark" }
+        ],
+        "conclusion": [
+          {
+            "he": "17-27",
+            "en": "21-38",
+            "note": "carried to the prohibited case: forbidden with or without a mark — the `תיובתא` of Rava"
+          }
+        ]
       },
       "note": "`סתירה` rather than `דחיה`: the Gemara stamps it `תיובתא` and never reopens it, which is Ramchal's own test at Heb p177 for a contradiction that lands absolutely."
     },
@@ -741,16 +759,21 @@
         }
       ],
       "spans": {
-        "he": {
-          "antecedent": "4-9",
-          "consequent": "10-13",
-          "commitment": ["4-9", "10-13", "3"]
-        },
-        "en": {
-          "antecedent": "6-15",
-          "consequent": "16-23",
-          "commitment": ["6-15", "16-23", "5"]
-        }
+        "antecedent": [
+          { "he": "4-9", "en": "6-15", "note": "the condition: vermin will eat the fallen fruit" }
+        ],
+        "consequent": [
+          { "he": "10-13", "en": "16-23", "note": "what follows from it: the owner despairs from the outset" }
+        ],
+        "commitment": [
+          { "he": "4-9", "en": "6-15", "note": "that the vermin eat — the first of the consequent's three commitments" },
+          {
+            "he": "10-13",
+            "en": "16-23",
+            "note": "that the owner despairs at once — the second, and where `acha-q2` lands: orphans cannot despair"
+          },
+          { "he": "3", "en": "5", "note": "the dependence of the one on the other, Ramchal's third commitment, carried by `כיון`" }
+        ]
       },
       "note": "Three commitments, as Ramchal counts them for the consequent statement — `גזרותיו שלש: המצא הקודם והמצא הנמשך והיות מציאות הנמשך המשך מציאות הקודם` (ch. 6, Eng p88): the antecedent, the consequent, and the following of the one from the other, which `כיון` carries, as `לפיכך` does in his example. `acha-q2` lands on the second alone: for orphans the vermin still eat, but there is no one able to despair."
     },

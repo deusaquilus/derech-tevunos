@@ -101,18 +101,15 @@
         }
       ],
       "spans": {
-        "he": {
-          "commitment": {
-            "words": ["4-7", "8-12"],
-            "showLoud": true
+        "commitment": [
+          { "he": "4-7", "en": "3-7", "note": "some derivatives are like their primaries — never questioned" },
+          {
+            "he": "8-12",
+            "en": "9-11",
+            "showLoud": true,
+            "note": "Some are not — the half the sugya's whole second movement interrogates. `אהייא?` asks which derivative this can be, and the Gemara tries six categories for it before settling on the pebbles; the first half is never questioned."
           }
-        },
-        "en": {
-          "commitment": {
-            "words": ["3-7", "9-11"],
-            "showLoud": true
-          }
-        }
+        ]
       }
     },
     {
@@ -184,12 +181,12 @@
         }
       ],
       "spans": {
-        "he": {
-          "commitment": ["1", "2", "3", "4"]
-        },
-        "en": {
-          "commitment": ["1", "2", "3", "4"]
-        }
+        "commitment": [
+          { "he": "1", "en": "1", "note": "pushing — `q-negifa` objects that it is written itself" },
+          { "he": "2", "en": "2", "note": "biting — `q-neshicha` makes it a derivative of tooth" },
+          { "he": "3", "en": "3", "note": "crouching — with kicking, `q-revitza` makes it a derivative of foot" },
+          { "he": "4", "en": "4", "note": "kicking — picked off together with crouching" }
+        ]
       }
     },
     {
@@ -417,8 +414,12 @@
         }
       ],
       "spans": {
-        "he": { "antecedent": "1-4", "consequent": "5-10" },
-        "en": { "antecedent": "1-4", "consequent": "5-11" }
+        "antecedent": [
+          { "he": "1-4", "en": "1-4", "note": "the condition: had there been no extra verse" }
+        ],
+        "consequent": [
+          { "he": "5-10", "en": "5-11", "note": "what one would have said: either one, not both" }
+        ]
       }
     },
     {

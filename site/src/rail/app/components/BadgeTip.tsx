@@ -3,6 +3,7 @@ import type { JSX } from "react";
 import { FAMILIES, type Badge } from "../../anatomy.ts";
 import type { LabelBasis } from "../../sugya.ts";
 import { Glyph } from "./Glyph.tsx";
+import { NoteText } from "./NoteText.tsx";
 
 /** Where the badge sits, which decides what its tooltip says it is about. */
 export type BadgeWhere = "row" | "speaker" | "edge" | "strip";
@@ -80,7 +81,11 @@ export const BadgeTip = (props: BadgeTipProps): JSX.Element => {
         )}
       </span>
       <span>{info.definition}</span>
-      {note === undefined ? null : <span className="badge-tip-note">{note}</span>}
+      {note === undefined ? null : (
+        <span className="badge-tip-note">
+          <NoteText note={note} />
+        </span>
+      )}
       <span className="badge-tip-where">{about(props)}</span>
       <span className="badge-tip-foot">
         {family.name} · {family.chapter} · {info.page} · {BASIS_WORDING[basis]}

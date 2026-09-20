@@ -144,8 +144,12 @@ export const sukkahHeleni: Sugya = {
         { kind: "subject-quantity", note: "Seven does the work: no claim is made about any particular son, only that a count that high cannot be all infants." },
       ],
       spans: {
-        he: { premise: [{ from: 15, to: 16 }], conclusion: [{ from: 17, to: 25 }] },
-        en: { premise: [{ from: 21, to: 23 }], conclusion: [{ from: 24, to: 39 }] },
+        premise: [
+          { he: [{ from: 15, to: 16 }], en: [{ from: 21, to: 23 }], note: "the fact the deduction starts from: there were seven" },
+        ],
+        conclusion: [
+          { he: [{ from: 17, to: 25 }], en: [{ from: 24, to: 39 }], note: "drawn from the number alone: at least one was old enough" },
+        ],
       },
       note: "The deduction is spelt out inside the one sentence, so its two roles are words of it (Heb p93: `המאמר הראשון שממנו ימשך השני נקרא הקדמה, והנמשך נקרא תולדה`): `שבעה הוו` is the premise and everything after it the conclusion. `כיון ד` is the connective and belongs to neither. The clause before the dash is the view being shut out, not a premise of the settlement.",
     },

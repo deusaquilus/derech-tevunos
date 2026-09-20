@@ -43,8 +43,14 @@ export const yebamosDeafMute: Sugya = {
         { kind: "subject-quality", note: "The difference the question asked for is located in a faculty — whether a rabbinic ordinance can hold of them at all. The answer does not distinguish the two by what they are but by what they can do." },
       ],
       spans: {
-        he: { antecedent: [{ from: 1, to: 5 }, { from: 11, to: 16 }], consequent: [{ from: 7, to: 10 }, { from: 18, to: 21 }] },
-        en: { antecedent: [{ from: 1, to: 8 }, { from: 14, to: 17 }], consequent: [{ from: 9, to: 13 }, { from: 19, to: 22 }] },
+        antecedent: [
+          { he: [{ from: 1, to: 5 }], en: [{ from: 1, to: 8 }], note: "the deaf-mute's condition: a rabbinic ordinance can hold of them" },
+          { he: [{ from: 11, to: 16 }], en: [{ from: 14, to: 17 }], note: "the insane's condition: it cannot" },
+        ],
+        consequent: [
+          { he: [{ from: 7, to: 10 }], en: [{ from: 9, to: 13 }], note: "what followed for the one: the rabbis validated the marriage" },
+          { he: [{ from: 18, to: 21 }], en: [{ from: 19, to: 22 }], note: "what followed for the other: they did not" },
+        ],
       },
       note: "Two consequent statements in one breath, one for each class, so the antecedent and the consequent each occur twice and take a list; the two dashes carry the dependence and belong to no role, as `לפיכך` does in Ramchal's own example (Heb p39). The spans are written because the form is a `consequent`, whose two clauses chapter 3 names (Heb p31) and whose three intentions chapter 6 counts (Heb p87–89), not because a difficulty lands on one part: none does, so the `commitment` spans are not written.",
     },

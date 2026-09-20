@@ -6,7 +6,7 @@ import { useCallback, useEffect, useState } from "react";
  * underline at a trace of the role's hue, and every other span is a hairline
  * in a taupe that nearly blends into the paper: no hue, no icon, its name on
  * hover. On, every span is drawn the loud way — which is still a whisper. The
- * distinction is the classifier's, made in the file (`spans.ts`, `LoudSpan`);
+ * distinction is the classifier's, made in the file (`spans.ts`, `Span.showLoud`);
  * the switch only decides whether the reader sees the quiet ones as anything
  * more than a hint.
  *
