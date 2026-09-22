@@ -362,6 +362,64 @@ canonical fallback in `Layout.astro`, the RSS fallback, and `robots.txt` all
 emit that host. `derechtevunos.com` is a registrar/Vercel **redirect** onto
 it, not a second site and not a string that belongs in the repo.
 
+### Share cards: the 404 document is not a graph object, and LinkedIn's cache is not ours — measured 2026-09-22
+
+Pasting `https://derech-tevunos.com` into LinkedIn produced a card titled
+"Not found — Derech Tevunos" whose click went to `/404`. It was asked about
+twice, on 2026-09-20 and 2026-09-22, and the second time was **after** the
+code fix had shipped, so the mechanism is worth stating exactly.
+
+`404.astro` is prerendered once, at build time, so inside it `Astro.url` is
+always `/404`. Until `7bb0b26` (deployed 2026-09-20 17:18) `Layout.astro`
+emitted `og:url` and `rel=canonical` for every page, which baked
+`og:url = https://derech-tevunos.com/404`, `og:title = Not found — Derech
+Tevunos` and `og:image = /social-card.png` into `404.html`. Open Graph
+crawlers treat `og:url` as the object's identity: whatever URL a crawler
+fetched, if the response was that document the card it stored was *the
+object `/404`*, linked to `/404`, and filed under the URL that was pasted.
+That is why the click went to `/404` and not to the URL in the post.
+`Layout.astro`'s `errorDocument` prop now suppresses the canonical and every
+`og:*` / `twitter:*` tag on the error document; the human `<title>`,
+description and `noindex` stay. Do not put them back, and do not "improve" the
+404 with a branded share card — a miss is not a shareable object.
+
+Why the fix did not appear to work: **LinkedIn caches a scraped card for
+about seven days, keyed by URL, and a deploy cannot touch that cache.** The
+card seen on 2026-09-22 carried the social-card image, which only the
+*pre-fix* 404 document referenced (the current one has no `og:image` and
+never mentions the file), so it was the old scrape being replayed, not a new
+one. The only ways the entry changes are the TTL expiring or a forced
+re-scrape through [Post Inspector](https://www.linkedin.com/post-inspector/)
+on the exact URL. A `?v=2` cache-buster does **not** work here: the homepage's
+`og:url` is `https://derech-tevunos.com/` without the query, and the crawler
+resolves to that object, which is the cached one.
+
+What was measured against the live deployment before concluding that, all
+returning the homepage with HTTP 200 and the correct tags: `GET /` over
+HTTP/1.0, HTTP/1.1 and HTTP/2; LinkedIn's `LinkedInBot/1.0 … Apache-HttpClient`
+user agent and no user agent; `Accept: */*` and `text/html`; gzip and
+identity encodings; a `Range` request (206); `Host` with a port, in upper
+case, and with a trailing dot; TLS 1.2; `/`, `/?`, `/index.html` and a
+tracking query. Every alias — `http://`, `www.`, `derechtevunos.com` and its
+`www.` — is a Vercel **308** (`Content-Type: text/plain`, body
+"Redirecting...", plus a `Refresh` header) onto `https://derech-tevunos.com/`;
+a crawler that does not follow 308 gets no metadata at all, not a 404 card.
+A request with no TLS SNI gets Vercel's own 403, not the site. Nothing on the
+current deployment can hand a crawler the 404 document for `/`; the first bad
+scrape happened against a state that no longer exists — the 2026-09-16
+evening window in which the Vercel dashboard was being configured live
+(`b9c7d78 "Retry deploy"` is an empty commit made to re-trigger it) is the
+candidate, and it cannot be re-observed. If Post Inspector *still* reports
+"Not found" after a re-scrape, the next fact to get is the Vercel request log
+filtered to the `LinkedInBot` user agent: it shows the path and status the
+crawler actually received, which is the one thing `curl` from here cannot.
+
+Two things a crawler probes that are worth knowing: `/favicon.ico` is not
+shipped (the icons are `/mark-*.png`), so it returns the 404 document as 6 KB
+of HTML; and `/404.html`, requested by that name, is a **200** because the
+file exists — that is normal static hosting and the reason `noindex` stays on
+the error document.
+
 ## The mascot is the palette source — settled 2026-09-16
 
 Sampled from the PNGs rather than eyeballed:
@@ -1022,3 +1080,8 @@ caption.
 - Point `astro.config.mjs`, `Layout.astro`, `rss.xml.ts`, or `robots.txt` at
   `derechtevunos.com`. That name is a redirect onto `derech-tevunos.com`, not
   the host the site emits.
+- Put `og:*`, `twitter:*` or `rel=canonical` back on the 404 document, or try
+  to cure a stale LinkedIn card with another deploy or a `?v=` query string.
+  The card is LinkedIn's seven-day cache of an old scrape, keyed by URL and
+  resolved through `og:url`; only Post Inspector on the exact URL refreshes
+  it. See "Share cards" under Vercel publishing.

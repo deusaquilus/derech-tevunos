@@ -53,6 +53,12 @@ const site = Astro.site ?? new URL('https://derech-tevunos.com');
 // new URL() ignores the base when `image` is already absolute, so a
 // site-relative path and a full URL both work.
 const ogImage = new URL(image ?? '/social-card.png', site).href;
+// The default card's size and type are declared so a crawler can lay the
+// card out without fetching the image first; LinkedIn's shareability
+// guidance lists all three. Measured 2026-09-22 from the PNG header:
+// 1200×630. A blog banner arrives as a bare path with no dimensions, so
+// those pages declare none rather than a wrong pair.
+const defaultCard = image === undefined;
 // Slash-free canonical. This tag, the sitemap serialize hook
 // (astro.config.mjs) and `trailingSlash: false` (vercel.json) are three places
 // that must always agree. Do not "fix" this back to a trailing slash — see
@@ -81,6 +87,15 @@ const canonicalUrl = new URL(canonicalPath, site).href;
           <meta property="og:title" content={title} />
           <meta property="og:description" content={description} />
           <meta property="og:image" content={ogImage} />
+          {
+            defaultCard && (
+              <>
+                <meta property="og:image:type" content="image/png" />
+                <meta property="og:image:width" content="1200" />
+                <meta property="og:image:height" content="630" />
+              </>
+            )
+          }
           <meta property="og:site_name" content="Derech Tevunos" />
 
           <meta name="twitter:card" content="summary_large_image" />
